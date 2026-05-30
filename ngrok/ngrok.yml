@@ -1,0 +1,9 @@
+version: "3"
+agent:
+  authtoken: TU_AUTHTOKEN_AQUI  # Cópialo de: https://dashboard.ngrok.com/get-started/your-authtoken
+
+tunnels:
+  gpa-lms:
+    proto: http
+    addr: 80           # Cambia al puerto donde corre tu LMS (ej: 8000, 8069, 3000)
+    domain: gpa-academy-lms.ngrok.app
