@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dr. Mario Estudiante - El Camino a la Bata Blanca</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrap">
+    <div id="hud">
+      <div class="hud-left">
+        <span id="hud-lives">❤️❤️❤️</span>
+      </div>
+      <div class="hud-mid">
+        <span id="hud-level">Aula de Anatomía</span>
+      </div>
+      <div class="hud-right">
+        <span>🩺 <span id="hud-score">0</span></span>
+        <span>⏱️ <span id="hud-time">300</span></span>
+      </div>
+    </div>
+    <canvas id="game" width="800" height="480"></canvas>
+
+    <div id="overlay">
+      <div id="overlay-panel">
+        <h1>🩺 Dr. Mario Estudiante</h1>
+        <p class="subtitle">El Camino a la Bata Blanca</p>
+        <p class="desc">Ayuda al estudiante de medicina a cruzar el aula, sobrevivir las guardias del hospital
+        y aprobar el examen final para convertirse en doctor/a.</p>
+        <button id="btn-start">▶ Empezar a estudiar</button>
+        <div class="controls-info">
+          <p><b>Controles:</b> ← → o A/D moverse · ↑ / W / Espacio saltar · P pausar</p>
+          <p>Salta sobre los gérmenes 🦠 para eliminarlos. Recoge ☕ para el modo Cafeína.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="touch-controls">
+      <div class="touch-side">
+        <button id="btn-left" class="touch-btn">◀</button>
+        <button id="btn-right" class="touch-btn">▶</button>
+      </div>
+      <button id="btn-jump" class="touch-btn jump">⤒</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
