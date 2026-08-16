@@ -35,7 +35,7 @@ export function Navbar() {
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-jarvis-cyan/15 text-jarvis-cyan ring-1 ring-jarvis-cyan/30">
             <Stethoscope size={18} strokeWidth={2.25} />
           </span>
-          <span className="text-lg font-bold tracking-tight text-white">
+          <span className="font-display text-[1.05rem] font-semibold tracking-tight text-white">
             GPA <span className="text-gradient-cyan">Academy</span>
           </span>
         </a>
@@ -45,7 +45,7 @@ export function Navbar() {
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-white/70 transition-colors hover:text-jarvis-cyanSoft"
+              className="font-mono text-[12.5px] uppercase tracking-wide text-white/60 transition-colors hover:text-jarvis-cyanSoft"
             >
               {link.label}
             </a>
@@ -82,7 +82,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-lg px-3 py-3 text-base font-medium text-white/80 transition-colors hover:bg-white/5 hover:text-jarvis-cyanSoft"
+                  className="rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-wide text-white/80 transition-colors hover:bg-white/5 hover:text-jarvis-cyanSoft"
                 >
                   {link.label}
                 </a>

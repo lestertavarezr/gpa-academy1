@@ -9,10 +9,10 @@ export function Footer() {
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 md:grid-cols-4">
         <div>
           <a href="#top" className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-jarvis-cyan/15 text-jarvis-cyan ring-1 ring-jarvis-cyan/30">
-              <Stethoscope size={18} strokeWidth={2.25} />
+            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-jarvis-cyan/25 bg-jarvis-cyan/10 text-jarvis-cyan">
+              <Stethoscope size={16} strokeWidth={1.8} />
             </span>
-            <span className="text-lg font-bold tracking-tight text-white">
+            <span className="font-display text-[1.05rem] font-semibold tracking-tight text-white">
               GPA <span className="text-gradient-cyan">Academy</span>
             </span>
           </a>
@@ -37,7 +37,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wide text-white/70">
+          <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-white/50">
             Programas
           </h4>
           <ul className="mt-4 space-y-3">
@@ -55,7 +55,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wide text-white/70">
+          <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-white/50">
             Institución
           </h4>
           <ul className="mt-4 space-y-3 text-sm text-white/45">
@@ -78,7 +78,7 @@ export function Footer() {
         </div>
 
         <div>
-          <h4 className="text-sm font-semibold uppercase tracking-wide text-white/70">
+          <h4 className="font-mono text-[11px] font-medium uppercase tracking-[0.14em] text-white/50">
             Contacto
           </h4>
           <ul className="mt-4 space-y-3 text-sm text-white/45">

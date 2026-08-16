@@ -17,15 +17,15 @@ export function UrgencyBanner() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6 }}
-        className="glass-card relative mx-auto flex max-w-5xl flex-col items-center gap-6 border-jarvis-gold/25 p-8 text-center md:flex-row md:justify-between md:text-left"
+        className="bracket-frame glass-card relative mx-auto flex max-w-5xl flex-col items-center gap-6 border-jarvis-gold/20 p-8 text-center md:flex-row md:justify-between md:text-left"
       >
         <div className="flex items-center gap-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-jarvis-gold/15 text-jarvis-goldSoft ring-1 ring-jarvis-gold/30">
-            <AlarmClock size={26} className="animate-pulse-slow" />
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-jarvis-gold/25 bg-jarvis-gold/10 text-jarvis-goldSoft">
+            <AlarmClock size={24} className="animate-pulse-slow" strokeWidth={1.6} />
           </span>
           <div>
             <p className="badge-gold w-fit">Cupos limitados</p>
-            <h3 className="mt-2 text-xl font-bold text-white md:text-2xl">
+            <h3 className="mt-2 font-display text-xl font-semibold text-white md:text-2xl">
               El {diplomado.name} inicia el {diplomado.startDate}
             </h3>
             <p className="mt-1 flex items-center justify-center gap-1.5 text-sm text-white/60 md:justify-start">

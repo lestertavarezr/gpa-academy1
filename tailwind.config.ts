@@ -21,11 +21,24 @@ const config: Config = {
       },
       fontFamily: {
         sans: [
-          "var(--font-sans)",
+          "var(--font-body)",
           "ui-sans-serif",
           "system-ui",
           "-apple-system",
           "sans-serif",
+        ],
+        display: [
+          "var(--font-display)",
+          "ui-sans-serif",
+          "system-ui",
+          "sans-serif",
+        ],
+        mono: [
+          "var(--font-mono)",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "monospace",
         ],
       },
       backgroundImage: {
@@ -46,11 +59,19 @@ const config: Config = {
       animation: {
         float: "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        scan: "scan 3.2s ease-in-out infinite",
       },
       keyframes: {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-12px)" },
+        },
+        scan: {
+          "0%, 100%": { top: "0%", opacity: "0" },
+          "10%": { opacity: "1" },
+          "50%": { top: "97%", opacity: "1" },
+          "90%": { opacity: "1" },
+          "100%": { opacity: "0" },
         },
       },
       backdropBlur: {

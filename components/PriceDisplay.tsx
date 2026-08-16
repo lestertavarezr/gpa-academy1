@@ -51,10 +51,16 @@ export function PriceDisplay({
 
   return (
     <div>
-      <div className={`font-bold text-white ${sizeClasses}`}>{main}</div>
-      {sub && <div className="mt-0.5 text-sm text-white/50">({sub})</div>}
+      <div className={`tabular-nums font-mono font-medium text-white ${sizeClasses}`}>
+        {main}
+      </div>
+      {sub && (
+        <div className="tabular-nums mt-1 font-mono text-xs text-white/45">
+          ({sub})
+        </div>
+      )}
       {installments && (
-        <div className="mt-1 text-sm font-medium text-jarvis-cyanSoft">
+        <div className="tabular-nums mt-1.5 font-mono text-xs font-medium text-jarvis-cyanSoft">
           {installments}
         </div>
       )}

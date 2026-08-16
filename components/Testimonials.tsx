@@ -52,18 +52,22 @@ export function Testimonials() {
             transition={{ duration: 0.6, delay: i * 0.1 }}
             className="glass-card flex flex-col p-7"
           >
-            <Quote className="text-jarvis-cyan/40" size={28} />
-            <p className="mt-4 flex-1 text-sm leading-relaxed text-white/70">
-              “{t.quote}”
+            <Quote className="text-jarvis-cyan/35" size={22} strokeWidth={1.5} />
+            <p className="mt-4 flex-1 text-[15px] leading-relaxed text-white/70">
+              {t.quote}
             </p>
-            <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
-              <span className="flex h-11 w-11 items-center justify-center rounded-full bg-jarvis-cyan/15 text-sm font-bold text-jarvis-cyanSoft ring-1 ring-jarvis-cyan/25">
+            <div className="mt-6 flex items-center gap-3 border-t border-white/[0.08] pt-5">
+              <span className="flex h-10 w-10 items-center justify-center rounded-md border border-jarvis-cyan/20 bg-jarvis-cyan/5 font-mono text-xs font-medium text-jarvis-cyanSoft">
                 {t.initials}
               </span>
               <div>
-                <p className="text-sm font-semibold text-white">{t.name}</p>
+                <p className="font-display text-sm font-semibold text-white">
+                  {t.name}
+                </p>
                 <p className="text-xs text-white/45">{t.role}</p>
-                <p className="text-xs text-jarvis-cyanSoft/80">{t.program}</p>
+                <p className="font-mono text-[11px] uppercase tracking-wide text-jarvis-cyanSoft/70">
+                  {t.program}
+                </p>
               </div>
             </div>
           </motion.div>

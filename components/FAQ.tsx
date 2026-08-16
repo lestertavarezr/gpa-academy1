@@ -51,7 +51,9 @@ function FAQItem({
         className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left"
         aria-expanded={isOpen}
       >
-        <span className="font-semibold text-white">{question}</span>
+        <span className="font-display text-[15px] font-medium text-white">
+          {question}
+        </span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.25 }}

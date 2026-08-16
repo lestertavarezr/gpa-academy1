@@ -31,7 +31,7 @@ export function EnrollmentForm({ program }: { program: ProgramContent }) {
     >
       {/* Captura de datos */}
       <div className="p-7 md:p-9">
-        <span className="section-label">Paso 1</span>
+        <span className="step-tag">Paso 1</span>
         <h4 className="mt-3 text-xl font-bold text-white">
           Completa tus datos
         </h4>
@@ -104,7 +104,7 @@ export function EnrollmentForm({ program }: { program: ProgramContent }) {
 
       {/* Pago — misma sección visual, sin salto */}
       <div className="border-t border-white/10 bg-white/[0.02] p-7 md:border-l md:border-t-0 md:p-9">
-        <span className="section-label">Paso 2</span>
+        <span className="step-tag">Paso 2</span>
         <h4 className="mt-3 text-xl font-bold text-white">
           Confirma tu inscripción con el pago
         </h4>

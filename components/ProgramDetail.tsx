@@ -48,12 +48,17 @@ export function ProgramDetail({
           className="grid grid-cols-1 gap-10 lg:grid-cols-[1.6fr_1fr] lg:items-end"
         >
           <div>
-            {program.aval && (
-              <span className="badge-gold mb-4">
-                <ShieldCheck size={14} /> Avalado por {program.aval}
+            <div className="mb-4 flex flex-wrap items-center gap-3">
+              <span className="index-tag">
+                Programa {String(index + 1).padStart(2, "0")} / 04
               </span>
-            )}
-            <h2 className="text-3xl font-bold tracking-tight text-white md:text-4xl">
+              {program.aval && (
+                <span className="badge-gold">
+                  <ShieldCheck size={14} /> Avalado por {program.aval}
+                </span>
+              )}
+            </div>
+            <h2 className="text-balance font-display text-3xl font-semibold tracking-tight text-white md:text-4xl">
               {program.name}
             </h2>
             <p className="mt-4 max-w-2xl text-lg text-white/60">
@@ -98,7 +103,7 @@ export function ProgramDetail({
             variants={fadeUp}
             className="glass-card p-7"
           >
-            <h3 className="text-lg font-bold text-white">
+            <h3 className="font-display text-lg font-semibold text-white">
               ¿Te identificas con esto?
             </h3>
             <ul className="mt-5 space-y-4">
@@ -123,7 +128,7 @@ export function ProgramDetail({
             variants={fadeUp}
             className="glass-card p-7"
           >
-            <h3 className="text-lg font-bold text-white">
+            <h3 className="font-display text-lg font-semibold text-white">
               Lo que vas a lograr
             </h3>
             <ul className="mt-5 space-y-4">
@@ -154,7 +159,7 @@ export function ProgramDetail({
           className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2"
         >
           <div className="glass-card p-7">
-            <h3 className="text-lg font-bold text-white">Qué incluye</h3>
+            <h3 className="font-display text-lg font-semibold text-white">Qué incluye</h3>
             <ul className="mt-5 space-y-3">
               {program.includes.map((item) => (
                 <li
@@ -176,7 +181,7 @@ export function ProgramDetail({
           </div>
 
           <div className="glass-card border-jarvis-gold/20 p-7">
-            <h3 className="flex items-center gap-2 text-lg font-bold text-white">
+            <h3 className="flex items-center gap-2 font-display text-lg font-semibold text-white">
               <Gift size={20} className="text-jarvis-goldSoft" />
               Bonos por inscripción anticipada
             </h3>
