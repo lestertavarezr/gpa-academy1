@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Clock, Users } from "lucide-react";
+import { ArrowUpRight, Clock, CreditCard, Users } from "lucide-react";
 import type { ProgramContent } from "@/data/programs";
 import { PriceDisplay } from "./PriceDisplay";
 import { ProgramVisual } from "./ProgramVisual";
@@ -14,8 +14,7 @@ export function ProgramCard({
   index: number;
 }) {
   return (
-    <motion.a
-      href={`#programa-${program.slug}`}
+    <motion.div
       initial={{ opacity: 0, y: 28 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
@@ -56,14 +55,26 @@ export function ProgramCard({
           <PriceDisplay price={program.price} size="sm" />
         </div>
 
-        <div className="mt-6 flex items-center gap-1.5 text-sm font-semibold text-white/70 transition-colors group-hover:text-jarvis-cyanSoft">
-          Ver programa
-          <ArrowUpRight
-            size={15}
-            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-          />
+        <div className="mt-6 flex flex-col gap-3">
+          <a
+            href={`#inscripcion-${program.slug}`}
+            className="btn-primary w-full !px-5 !py-3 !text-[12.5px]"
+          >
+            <CreditCard size={14} />
+            Pagar ahora
+          </a>
+          <a
+            href={`#programa-${program.slug}`}
+            className="flex items-center justify-center gap-1.5 text-sm font-semibold text-white/60 transition-colors hover:text-jarvis-cyanSoft"
+          >
+            Ver programa
+            <ArrowUpRight
+              size={15}
+              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            />
+          </a>
         </div>
       </div>
-    </motion.a>
+    </motion.div>
   );
 }
