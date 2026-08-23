@@ -8,9 +8,14 @@ export default function HomePage() {
         Setup inicial del monorepo: bot-engine en testnet de Binance, backend NestJS y este
         frontend.
       </p>
-      <Link href="/dashboard" className="text-blue-400 underline">
-        Ver dashboard de mercado →
-      </Link>
+      <div className="flex gap-4">
+        <Link href="/dashboard" className="text-blue-400 underline">
+          Ver dashboard de mercado →
+        </Link>
+        <Link href="/market-analysis" className="text-blue-400 underline">
+          Ver análisis de mercado →
+        </Link>
+      </div>
     </main>
   );
 }

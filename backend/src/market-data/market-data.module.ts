@@ -7,5 +7,6 @@ import { MarketDataService } from './market-data.service';
   imports: [HttpModule],
   controllers: [MarketDataController],
   providers: [MarketDataService],
+  exports: [MarketDataService],
 })
 export class MarketDataModule {}

@@ -13,7 +13,7 @@ export class MarketDataService {
     private readonly configService: ConfigService,
   ) {}
 
-  async getBtcUsdt() {
+  async getMarketData(symbol: string) {
     const botEngineUrl = this.configService.get<string>(
       'BOT_ENGINE_URL',
       'http://localhost:8000',
@@ -21,7 +21,7 @@ export class MarketDataService {
 
     try {
       const { data } = await firstValueFrom(
-        this.httpService.get(`${botEngineUrl}/market/btc-usdt`),
+        this.httpService.get(`${botEngineUrl}/market/${symbol}`),
       );
       return data;
     } catch (error) {

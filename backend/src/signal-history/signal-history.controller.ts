@@ -1,18 +1,18 @@
 import { BadRequestException, Controller, Get, Param } from '@nestjs/common';
 import { isSupportedSymbol, SUPPORTED_SYMBOLS } from '../common/symbols';
-import { MarketDataService } from './market-data.service';
+import { SignalHistoryService } from './signal-history.service';
 
-@Controller('market-data')
-export class MarketDataController {
-  constructor(private readonly marketDataService: MarketDataService) {}
+@Controller('signal-history')
+export class SignalHistoryController {
+  constructor(private readonly signalHistoryService: SignalHistoryService) {}
 
   @Get(':symbol')
-  getMarketData(@Param('symbol') symbol: string) {
+  getHistory(@Param('symbol') symbol: string) {
     if (!isSupportedSymbol(symbol)) {
       throw new BadRequestException(
         `Simbolo '${symbol}' no soportado. Disponibles: ${SUPPORTED_SYMBOLS.join(', ')}`,
       );
     }
-    return this.marketDataService.getMarketData(symbol.toUpperCase());
+    return this.signalHistoryService.getHistory(symbol.toUpperCase());
   }
 }

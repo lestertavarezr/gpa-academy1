@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { getBtcUsdtMarketData } from '@/lib/api';
+import { getMarketData } from '@/lib/api';
 
 function formatNumber(value: number | null | undefined, digits = 2) {
   return value === null || value === undefined ? 'N/D' : value.toFixed(digits);
@@ -19,7 +19,7 @@ export default async function DashboardPage() {
   let error: string | null = null;
 
   try {
-    data = await getBtcUsdtMarketData();
+    data = await getMarketData('BTC-USDT');
   } catch (err) {
     error = err instanceof Error ? err.message : 'Error desconocido';
   }

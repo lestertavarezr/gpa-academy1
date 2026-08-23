@@ -14,6 +14,8 @@ venv/
 .next/
 dist/
 build/
+next-env.d.ts
+*.tsbuildinfo
 
 # Logs
 *.log
