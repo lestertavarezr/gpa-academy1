@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import List, Optional
 
 import pandas as pd
 
@@ -12,7 +13,13 @@ from app.indicators import (
     compute_sma_series,
 )
 from app.market_data import fetch_ohlcv_df
-from app.signals.schemas import DISCLAIMER, IndicatorSnapshot, PricePoint, SignalResponse
+from app.signals.schemas import (
+    DISCLAIMER,
+    IndicatorSnapshot,
+    PricePoint,
+    SignalResponse,
+    SignalSnapshot,
+)
 from app.signals.scoring import (
     IndicatorInputs,
     classify_bias,
@@ -24,11 +31,19 @@ RSI_WINDOW_DAYS = 90
 PRICE_HISTORY_POINTS = 120
 
 
-def build_signal(ccxt_symbol: str) -> SignalResponse:
-    df, ticker = fetch_ohlcv_df(ccxt_symbol)
+def compute_snapshot(df: pd.DataFrame, price: Optional[float] = None) -> SignalSnapshot:
+    """Calcula score + indicadores usando UNICAMENTE las filas presentes en `df`.
+
+    Esta funcion es pura (no hace I/O) y es el punto de reuso critico entre el
+    endpoint en vivo (build_signal) y el backtester: el backtester le pasa un
+    df ya recortado hasta el dia evaluado (df.iloc[:i+1]), por lo que esta
+    funcion nunca puede "ver" datos posteriores a ese punto aunque quisiera —
+    no tiene acceso a ellos porque nunca se los pasaron.
+    """
     closes = df["close"]
     volumes = df["volume"]
-    price = ticker.get("last")
+    if price is None:
+        price = float(closes.iloc[-1])
 
     rsi_14 = compute_rsi(closes.tail(RSI_WINDOW_DAYS))
     sma_20 = compute_sma(closes, 20)
@@ -85,21 +100,29 @@ def build_signal(ccxt_symbol: str) -> SignalResponse:
         relative_volume_30d=_round_or_none(relative_volume),
     )
 
-    price_history = _build_price_history(df, closes)
+    return SignalSnapshot(score=score, bias=bias, indicators=indicators, contributions=contributions)
+
+
+def build_signal(ccxt_symbol: str) -> SignalResponse:
+    df, ticker = fetch_ohlcv_df(ccxt_symbol)
+    price = ticker.get("last")
+
+    snapshot = compute_snapshot(df, price=price)
+    price_history = _build_price_history(df, df["close"])
 
     return SignalResponse(
         symbol=ccxt_symbol,
-        score=score,
-        bias=bias,
-        indicators=indicators,
-        contributions=contributions,
+        score=snapshot.score,
+        bias=snapshot.bias,
+        indicators=snapshot.indicators,
+        contributions=snapshot.contributions,
         price_history=price_history,
         disclaimer=DISCLAIMER,
         generated_at=datetime.now(timezone.utc).isoformat(),
     )
 
 
-def _build_price_history(df, closes) -> list[PricePoint]:
+def _build_price_history(df: pd.DataFrame, closes: pd.Series) -> List[PricePoint]:
     sma_20_series = compute_sma_series(closes, 20)
     sma_50_series = compute_sma_series(closes, 50)
     sma_200_series = compute_sma_series(closes, 200)

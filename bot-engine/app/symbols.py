@@ -22,3 +22,15 @@ def resolve_symbol(path_symbol: str) -> str:
         )
 
     return ccxt_symbol
+
+
+def validate_ccxt_symbol(ccxt_symbol: str) -> str:
+    """Valida un simbolo ya en formato ccxt (ej. 'BTC/USDT'), tal como llega en el body JSON de /backtest."""
+    normalized = ccxt_symbol.upper()
+    if normalized not in SUPPORTED_SYMBOLS.values():
+        supported = ", ".join(SUPPORTED_SYMBOLS.values())
+        raise HTTPException(
+            status_code=400,
+            detail=f"Simbolo '{ccxt_symbol}' no soportado. Disponibles: {supported}",
+        )
+    return normalized

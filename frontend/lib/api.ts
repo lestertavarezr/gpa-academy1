@@ -1,6 +1,9 @@
 export const SUPPORTED_SYMBOLS = ['BTC-USDT', 'ETH-USDT', 'SOL-USDT'] as const;
 export type SupportedSymbol = (typeof SUPPORTED_SYMBOLS)[number];
 
+export const SUPPORTED_CCXT_SYMBOLS = ['BTC/USDT', 'ETH/USDT', 'SOL/USDT'] as const;
+export type SupportedCcxtSymbol = (typeof SUPPORTED_CCXT_SYMBOLS)[number];
+
 export interface MarketDataResponse {
   symbol: string;
   price: number | null;
@@ -83,6 +86,71 @@ export async function getMarketSignal(symbol: SupportedSymbol): Promise<SignalRe
 
   if (!response.ok) {
     throw new Error('No se pudo generar el analisis de mercado');
+  }
+
+  return response.json();
+}
+
+export interface BacktestRequestPayload {
+  symbol: SupportedCcxtSymbol;
+  start_date: string;
+  end_date: string;
+  buy_score_threshold: number;
+  sell_score_threshold: number;
+  initial_capital: number;
+}
+
+export interface TradeRecord {
+  entry_date: string;
+  entry_price: number;
+  exit_date: string | null;
+  exit_price: number | null;
+  pnl_pct: number | null;
+}
+
+export interface BacktestEquityPoint {
+  timestamp: number;
+  strategy_equity: number;
+  buy_hold_equity: number;
+}
+
+export interface BacktestMetrics {
+  strategy_total_return_pct: number;
+  buy_hold_total_return_pct: number;
+  max_drawdown_pct: number;
+  win_rate_pct: number | null;
+  sharpe_ratio: number | null;
+  total_trades: number;
+}
+
+export interface BacktestResponse {
+  symbol: string;
+  start_date: string;
+  end_date: string;
+  initial_capital: number;
+  buy_score_threshold: number;
+  sell_score_threshold: number;
+  commission_rate: number;
+  slippage_rate: number;
+  metrics: BacktestMetrics;
+  equity_curve: BacktestEquityPoint[];
+  trades: TradeRecord[];
+  underperformed_buy_hold: boolean;
+  disclaimer: string;
+  generated_at: string;
+}
+
+export async function runBacktest(payload: BacktestRequestPayload): Promise<BacktestResponse> {
+  const response = await fetch(`${getBackendUrl()}/backtest`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.message ?? 'No se pudo ejecutar el backtest');
   }
 
   return response.json();

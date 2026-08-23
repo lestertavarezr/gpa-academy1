@@ -34,6 +34,20 @@ class IndicatorSnapshot(BaseModel):
     relative_volume_30d: Optional[float]
 
 
+class SignalSnapshot(BaseModel):
+    """Resultado puro del calculo de indicadores + score para un DataFrame dado.
+
+    No incluye symbol/timestamp/price_history: eso es responsabilidad de quien
+    la use (endpoint en vivo o backtester), para poder reutilizar el mismo
+    calculo en ambos contextos sin duplicar logica.
+    """
+
+    score: int
+    bias: Literal["bullish", "bearish", "neutral"]
+    indicators: IndicatorSnapshot
+    contributions: List[Contribution]
+
+
 class PricePoint(BaseModel):
     timestamp: int
     close: float

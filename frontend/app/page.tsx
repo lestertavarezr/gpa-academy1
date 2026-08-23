@@ -15,6 +15,9 @@ export default function HomePage() {
         <Link href="/market-analysis" className="text-blue-400 underline">
           Ver análisis de mercado →
         </Link>
+        <Link href="/backtesting" className="text-blue-400 underline">
+          Ver backtesting →
+        </Link>
       </div>
     </main>
   );

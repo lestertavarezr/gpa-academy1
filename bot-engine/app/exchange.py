@@ -18,3 +18,14 @@ def get_exchange() -> ccxt.binance:
     )
     exchange.set_sandbox_mode(True)
     return exchange
+
+
+def get_public_exchange() -> ccxt.binance:
+    """Cliente de Binance MAINNET, sin API keys, exclusivo para historia de precios.
+
+    Se usa unicamente para backtesting (velas historicas de 2+ anios), ya que
+    testnet no conserva historia profunda. Este cliente nunca recibe
+    credenciales y en el codigo solo se invoca fetch_ohlcv sobre el: no tiene
+    capacidad de autenticarse ni de crear ordenes, ni aunque se lo pidieran.
+    """
+    return ccxt.binance({"enableRateLimit": True})
