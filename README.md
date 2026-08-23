@@ -26,7 +26,8 @@ Flujo de datos: `frontend → backend (NestJS) → bot-engine (FastAPI) → Bina
 
 - Node.js 18+
 - Python 3.10+
-- Docker (para Postgres y Redis locales) o instalaciones nativas de ambos
+- Docker — para Postgres/Redis en desarrollo local, o para los 5 servicios
+  completos si vas a correrlo en un servidor varios días (ver más abajo)
 - Redis tambien se usa como broker de Celery (paper trading), ver Fase 4 abajo
 - Una cuenta de [Binance Spot Testnet](https://testnet.binance.vision/) con
   API key/secret de prueba (opcional para los endpoints públicos de precio,
@@ -98,6 +99,7 @@ npm run start:dev
 ```
 
 Verificar:
+- `http://localhost:3001/health` (usado también por el `HEALTHCHECK` de Docker)
 - `http://localhost:3001/market-data/BTC-USDT`
 - `http://localhost:3001/signals/BTC-USDT` (cachea 1-5 min en Redis y guarda
   la señal en Postgres en cada cálculo fresco)
@@ -151,6 +153,77 @@ npm run dev
 - `http://localhost:3000/register` y `http://localhost:3000/login` (Fase
   4.5): alta de cuenta con setup de 2FA obligatorio (QR + código de la app
   de autenticación) e inicio de sesión con email + contraseña + código
+
+Las secciones 0-3 de arriba son para **desarrollo local**: cada proceso
+corre en una terminal con `--reload`/`start:dev`/`npm run dev`, no
+sobreviven un reinicio ni se recuperan solos de un crash. Para dejar el
+paper trading corriendo varios días sin supervisión, seguí la sección
+siguiente en su lugar.
+
+## Correr todo en un servidor/VPS con Docker Compose (para dejarlo corriendo varios días)
+
+Esto dockeriza los 5 servicios (Postgres, Redis, bot-engine, el worker de
+Celery, backend y frontend) con `restart: unless-stopped` — si un proceso
+crashea, Docker lo reinicia solo. Es lo que conviene usar para la prueba de
+paper trading de varios días que hablamos, en vez de terminales sueltas.
+
+### Setup (una sola vez)
+
+```bash
+git clone <este repo> && cd gpa-academy1
+cp .env.example .env
+```
+
+Editar `.env` y completar:
+- `BINANCE_TESTNET_API_KEY` / `BINANCE_TESTNET_API_SECRET` (de
+  [testnet.binance.vision](https://testnet.binance.vision/))
+- `JWT_SECRET` y `NEXTAUTH_SECRET` — generar dos valores distintos, ej.
+  `openssl rand -base64 32` cada uno. **`docker compose up` falla a
+  propósito si quedan vacíos**, para no arrancar con secretos por defecto.
+- `PUBLIC_BACKEND_URL` / `PUBLIC_FRONTEND_URL` — si el servidor tiene una IP
+  pública fija (ej. `203.0.113.10`), poné `http://203.0.113.10:3001` y
+  `http://203.0.113.10:3000`. Esta URL queda **inlineada en el build del
+  frontend** (Next.js la necesita en build time, no en runtime): si la
+  cambiás después, hay que reconstruir la imagen del frontend
+  (`docker compose build frontend`).
+
+### Levantar todo
+
+```bash
+docker compose up -d --build
+docker compose ps          # las 5 deberian terminar "healthy" o "running"
+```
+
+### Crear tu cuenta y el primer bot
+
+Con todo arriba, entrá a `http://<tu-servidor>:3000/register`, completá el
+setup de 2FA, logueate, y creá uno o dos bots desde `/paper-bots`. A partir
+de ahí el worker de Celery los va a evaluar solo, sin que hagas nada más.
+
+### Qué revisar cada tanto durante la prueba de varios días
+
+- `docker compose ps` — que los 5 servicios sigan arriba (si alguno
+  reinició muchas veces, `docker compose logs <servicio>` para ver por qué).
+- `docker compose logs -f celery-worker` — ahí se ve cada evaluación y cada
+  operación simulada que ejecuta un bot.
+- En `/paper-bots`: P&L de cada bot, y que ninguno haya quedado en
+  `stopped_kill_switch` sin que lo hayas notado (si pasó, revisá su log de
+  operaciones para entender la caída de drawdown).
+- `GET /signal-history/{symbol}` en el backend: a medida que pasen las 24h+,
+  las señales van quedando marcadas `correct`/`incorrect` — es un buen
+  indicador temprano de si el motor de señales le está acertando o no en
+  este período.
+
+### Actualizar código sin perder los datos
+
+```bash
+git pull
+docker compose up -d --build   # reconstruye solo lo que cambio, Postgres/Redis no se tocan
+```
+
+El volumen `tradinghub_postgres_data` persiste entre reinicios y rebuilds;
+solo se pierde con `docker compose down -v` (evitar ese `-v` a menos que
+quieras arrancar de cero).
 
 ## Variables de entorno
 

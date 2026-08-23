@@ -6,12 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-yet';
 import { AuthModule } from './auth/auth.module';
 import { BacktestingModule } from './backtesting/backtesting.module';
+import { HealthController } from './health.controller';
 import { MarketDataModule } from './market-data/market-data.module';
 import { PaperBotsModule } from './paper-bots/paper-bots.module';
 import { SignalHistoryModule } from './signal-history/signal-history.module';
 import { SignalsModule } from './signals/signals.module';
 
 @Module({
+  controllers: [HealthController],
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     ScheduleModule.forRoot(),
