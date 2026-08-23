@@ -155,3 +155,110 @@ export async function runBacktest(payload: BacktestRequestPayload): Promise<Back
 
   return response.json();
 }
+
+export type PaperBotStatus = 'active' | 'paused' | 'stopped_kill_switch';
+
+export interface CreatePaperBotPayload {
+  symbol: SupportedCcxtSymbol;
+  buy_score_threshold: number;
+  sell_score_threshold: number;
+  initial_capital: number;
+  kill_switch_pct: number;
+  evaluation_interval_minutes: number;
+}
+
+export interface PaperBot {
+  id: number;
+  user_id: string;
+  symbol: string;
+  buy_score_threshold: number;
+  sell_score_threshold: number;
+  initial_capital: number;
+  cash: number;
+  units_held: number;
+  current_equity: number;
+  pnl_pct: number;
+  kill_switch_pct: number;
+  evaluation_interval_minutes: number;
+  status: PaperBotStatus;
+  created_at: string;
+  last_evaluated_at: string | null;
+  disclaimer: string;
+}
+
+export interface PaperTrade {
+  id: number;
+  side: 'buy' | 'sell';
+  timestamp: string;
+  price: number;
+  quantity: number;
+  commission: number;
+  pnl_pct: number | null;
+  equity_after: number;
+}
+
+export interface PaperBotEvent {
+  id: number;
+  event_type: string;
+  message: string;
+  created_at: string;
+}
+
+export interface PaperBotEquityPoint {
+  timestamp: string;
+  equity: number;
+  price: number;
+}
+
+export interface PaperBotDetail extends PaperBot {
+  trades: PaperTrade[];
+  events: PaperBotEvent[];
+  equity_curve: PaperBotEquityPoint[];
+}
+
+async function handleJsonResponse<T>(response: Response, fallbackError: string): Promise<T> {
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.message ?? fallbackError);
+  }
+  return response.json();
+}
+
+export async function createPaperBot(payload: CreatePaperBotPayload): Promise<PaperBot> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    cache: 'no-store',
+  });
+  return handleJsonResponse(response, 'No se pudo crear el bot');
+}
+
+export async function listPaperBots(): Promise<PaperBot[]> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots`, { cache: 'no-store' });
+  return handleJsonResponse(response, 'No se pudieron obtener los bots');
+}
+
+export async function getPaperBot(id: number): Promise<PaperBotDetail> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots/${id}`, { cache: 'no-store' });
+  return handleJsonResponse(response, 'No se pudo obtener el bot');
+}
+
+export async function pausePaperBot(id: number): Promise<PaperBot> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots/${id}/pause`, {
+    method: 'PATCH',
+    cache: 'no-store',
+  });
+  return handleJsonResponse(response, 'No se pudo pausar el bot');
+}
+
+export async function deletePaperBot(id: number): Promise<void> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots/${id}`, {
+    method: 'DELETE',
+    cache: 'no-store',
+  });
+  if (!response.ok) {
+    const body = await response.json().catch(() => null);
+    throw new Error(body?.message ?? 'No se pudo eliminar el bot');
+  }
+}

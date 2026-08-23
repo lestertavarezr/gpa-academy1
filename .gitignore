@@ -21,6 +21,10 @@ next-env.d.ts
 *.log
 npm-debug.log*
 
+# Celery beat (paper trading scheduler) local state
+celerybeat-schedule*
+dump.rdb
+
 # OS / editor
 .DS_Store
 .vscode/

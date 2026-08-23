@@ -18,6 +18,9 @@ export default function HomePage() {
         <Link href="/backtesting" className="text-blue-400 underline">
           Ver backtesting →
         </Link>
+        <Link href="/paper-bots" className="text-blue-400 underline">
+          Ver mis bots →
+        </Link>
       </div>
     </main>
   );
