@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { redisStore } from 'cache-manager-redis-yet';
+import { AuthModule } from './auth/auth.module';
 import { BacktestingModule } from './backtesting/backtesting.module';
 import { MarketDataModule } from './market-data/market-data.module';
 import { PaperBotsModule } from './paper-bots/paper-bots.module';
@@ -41,6 +42,7 @@ import { SignalsModule } from './signals/signals.module';
     SignalsModule,
     BacktestingModule,
     PaperBotsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

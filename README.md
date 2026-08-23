@@ -1,10 +1,11 @@
-# TradingHub SaaS — Fase 1 + Fase 2 + Fase 3 + Fase 4
+# TradingHub SaaS — Fase 1 + Fase 2 + Fase 3 + Fase 4 + Fase 4.5
 
 Setup del monorepo: conexión a Binance **TESTNET**, cálculo de indicadores
 técnicos, un motor de señales de mercado (score interpretable 0-100), un
-motor de backtesting y bots de **paper trading** (simulados, con precios en
-vivo), para BTC/USDT, ETH/USDT y SOL/USDT, expuestos al frontend con cache
-en Redis y con histórico en PostgreSQL.
+motor de backtesting, bots de **paper trading** (simulados, con precios en
+vivo) y autenticación con **2FA obligatorio**, para BTC/USDT, ETH/USDT y
+SOL/USDT, expuestos al frontend con cache en Redis y con histórico en
+PostgreSQL.
 
 **Todo es de solo lectura.** No se ejecutan órdenes de compra/venta y todo
 corre contra el entorno de pruebas de Binance, nunca contra una cuenta real.
@@ -111,6 +112,12 @@ Verificar:
 - `http://localhost:3001/paper-bots` (listar bots), `GET /paper-bots/:id`
   (detalle con trades + equity), `PATCH /paper-bots/:id/pause`,
   `DELETE /paper-bots/:id`
+- `POST http://localhost:3001/auth/register`, `POST /auth/2fa/verify-setup`,
+  `POST /auth/login` (ver sección de autenticación abajo)
+
+**`/paper-bots/*` requiere autenticación** (`Authorization: Bearer <jwt>`,
+obtenido de `/auth/login`); el resto de los endpoints sigue público en esta
+fase.
 
 En modo desarrollo la conexión a Postgres usa `synchronize: true` (TypeORM
 crea las tablas automáticamente); antes de producción esto debe reemplazarse
@@ -139,7 +146,11 @@ npm run dev
 - `http://localhost:3000/paper-bots` — Mis Bots / Paper Trading (Fase 4):
   crear bots (activo, umbrales, capital virtual, kill switch), lista con
   badge "MODO SIMULADO" siempre visible, P&L y estado, gráfico de evolución
-  del portfolio virtual y log de operaciones por bot
+  del portfolio virtual y log de operaciones por bot. **Requiere sesión
+  iniciada** — redirige a `/login` si no hay una.
+- `http://localhost:3000/register` y `http://localhost:3000/login` (Fase
+  4.5): alta de cuenta con setup de 2FA obligatorio (QR + código de la app
+  de autenticación) e inicio de sesión con email + contraseña + código
 
 ## Variables de entorno
 
@@ -155,7 +166,11 @@ npm run dev
 | backend     | `REDIS_URL`                    | Conexión a Redis (cache de señales)                  |
 | backend     | `SIGNAL_CACHE_TTL_SECONDS`     | TTL del cache de señales, 1-5 min recomendado        |
 | backend     | `DATABASE_URL`                 | Conexión a Postgres (histórico de señales)           |
+| backend     | `JWT_SECRET`                   | Secreto para firmar el JWT propio del backend        |
+| backend     | `JWT_EXPIRES_IN`               | Vigencia del JWT (default `2h`)                      |
 | frontend    | `NEXT_PUBLIC_BACKEND_URL`      | URL del backend NestJS                               |
+| frontend    | `NEXTAUTH_SECRET`              | Secreto de NextAuth (independiente del `JWT_SECRET`) |
+| frontend    | `NEXTAUTH_URL`                 | URL pública del frontend (`http://localhost:3000`)   |
 
 Ninguna API key se expone al frontend ni se hardcodea en el código: viven
 únicamente en el `.env` del bot-engine, el único servicio que habla con
@@ -238,9 +253,9 @@ desde ese pico, el bot pasa a `stopped_kill_switch`, deja de operar
 automáticamente, y queda un `PaperBotEvent` registrado (la notificación de
 esta fase es solo un registro en base de datos, sin email todavía).
 
-**Sin autenticación real todavía**: no existe login en esta fase. Los bots
-tienen un `user_id` fijo (`"default-user"`) como placeholder, para que el
-esquema no haya que migrarlo cuando llegue un sistema de usuarios real.
+Cada bot pertenece a un usuario real (ver Fase 4.5 abajo): el bot-engine no
+valida JWT, pero filtra siempre por `user_id` en cada consulta — pedir el
+bot de otra persona devuelve 404 (nunca 403, para no confirmar que existe).
 
 **Ninguna API key de trading real existe en este código.** El bot-engine solo
 usa el cliente de Binance testnet (mismas credenciales de solo-lectura de
@@ -249,6 +264,41 @@ permita crear órdenes reales ni conectar una cuenta real de exchange — eso
 es explícitamente Fase 5. Cada respuesta de `/paper-bots` incluye un
 `disclaimer` recordando que es modo simulado, y el frontend muestra un badge
 "MODO SIMULADO — Sin dinero real" de forma permanente en cada bot.
+
+## Autenticación con 2FA obligatorio (Fase 4.5)
+
+Se insertó esta fase antes de la Fase 5 (ejecución real) porque conectar
+dinero real sobre una API sin autenticación habría expuesto ese dinero a
+cualquiera con la URL. El 2FA es obligatorio: no existe una cuenta "a medio
+configurar" que pueda loguearse sin TOTP.
+
+**Cómo se conectan los tres servicios**: NestJS (`backend/src/auth/`) es la
+única fuente de verdad de usuarios (tabla `users` en Postgres — email,
+`passwordHash` con bcrypt, `totpSecret`, `twoFactorEnabled`) y emite su
+propio JWT (`passport-jwt`) al loguearse. NextAuth.js, en el frontend, no
+valida nada por sí mismo: su Credentials provider llama a `POST /auth/login`
+y, si el backend acepta, envuelve ese JWT dentro de la sesión de NextAuth
+(evitando así tener que descifrar el JWE interno de NextAuth desde Nest). El
+frontend reenvía ese JWT como `Authorization: Bearer` en cada llamada a
+`/paper-bots`; NestJS lo valida con su propio `JwtAuthGuard` y extrae el
+`userId`, que reenvía al bot-engine vía el header interno `X-User-Id` (el
+bot-engine confía en que solo el backend le habla — no debería quedar
+expuesto directo a internet).
+
+Flujo de una cuenta nueva:
+1. `POST /auth/register` (email + password) → crea el usuario **sin
+   habilitar** y devuelve un QR (`qrCodeDataUrl`) + el secreto en texto
+   (`manualEntryCode`) para cargar en Google Authenticator/Authy.
+2. `POST /auth/2fa/verify-setup` (userId + código de 6 dígitos) → recién acá
+   `twoFactorEnabled` pasa a `true`. Sin este paso, el login siempre falla.
+3. `POST /auth/login` (email + password + código) → valida los tres datos y
+   devuelve el JWT. Cualquier fallo (usuario inexistente, 2FA sin terminar,
+   password o código incorrectos) responde el mismo mensaje genérico, para
+   no filtrar por enumeración cuál de los tres falló.
+
+**Límite conocido, no escondido**: no hay códigos de respaldo. Si alguien
+pierde su app de autenticación, pierde el acceso a la cuenta — quedaría para
+una fase de hardening posterior.
 
 ## Notas de seguridad y alcance de esta fase
 
@@ -265,12 +315,16 @@ es explícitamente Fase 5. Cada respuesta de `/paper-bots` incluye un
   de esto constituye asesoría financiera ni garantía de resultados.
 - Los archivos `.env` están en `.gitignore`; usar los `*.env.example` como
   plantilla.
+- `/paper-bots/*` exige JWT válido; el resto de los endpoints (`/market`,
+  `/signals`, `/backtest`) sigue público porque no maneja estado mutable por
+  usuario — evaluar si conviene protegerlos también antes de exponer esto
+  fuera de un entorno privado.
 
 ## Próximas fases (fuera de alcance aquí)
 
-Autenticación con 2FA (con usuarios reales reemplazando el placeholder
-`default-user`), ejecución de órdenes reales, reporte visual de precisión
-histórica de señales y de backtests pasados, y diseño visual definitivo se
-abordarán en fases posteriores. La recomendación operativa es correr los
-bots de paper trading por varios días/semanas de datos reales antes de
-considerar ejecución real.
+Ejecución de órdenes reales (Fase 5, con límites de tamaño de orden y
+controles de riesgo todavía por definir), códigos de respaldo para 2FA,
+reporte visual de precisión histórica de señales y de backtests pasados, y
+diseño visual definitivo se abordarán en fases posteriores. La recomendación
+operativa es correr los bots de paper trading por varios días/semanas de
+datos reales antes de considerar ejecución real.

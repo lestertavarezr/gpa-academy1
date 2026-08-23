@@ -22,6 +22,14 @@ export default function HomePage() {
           Ver mis bots →
         </Link>
       </div>
+      <div className="flex gap-4 text-sm">
+        <Link href="/login" className="text-slate-400 underline">
+          Iniciar sesión
+        </Link>
+        <Link href="/register" className="text-slate-400 underline">
+          Crear cuenta
+        </Link>
+      </div>
     </main>
   );
 }

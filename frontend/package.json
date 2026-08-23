@@ -16,6 +16,7 @@
     "tailwind-merge": "^2.5.3",
     "class-variance-authority": "^0.7.0",
     "lucide-react": "^0.446.0",
+    "next-auth": "^4.24.8",
     "recharts": "^2.12.7"
   },
   "devDependencies": {

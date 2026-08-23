@@ -33,8 +33,10 @@ class PaperBot(Base):
     __tablename__ = "paper_bots"
 
     id = Column(Integer, primary_key=True)
-    # Placeholder hasta que exista autenticacion real (no hay auth en esta fase).
-    user_id = Column(String, nullable=False, default="default-user", index=True)
+    # Id del usuario dueño del bot (viene del JWT validado por el backend,
+    # reenviado aca via el header X-User-Id). Este servicio no valida JWT:
+    # confia en que solo el backend le habla.
+    user_id = Column(String, nullable=False, index=True)
     symbol = Column(String, nullable=False)  # formato ccxt, ej. "BTC/USDT"
 
     buy_score_threshold = Column(Integer, nullable=False)

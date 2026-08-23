@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import { Providers } from './providers';
 
 export const metadata: Metadata = {
   title: 'TradingHub SaaS',
@@ -13,7 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-      <body className="min-h-screen bg-slate-950 text-slate-100">{children}</body>
+      <body className="min-h-screen bg-slate-950 text-slate-100">
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }

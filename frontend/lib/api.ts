@@ -224,41 +224,79 @@ async function handleJsonResponse<T>(response: Response, fallbackError: string):
   return response.json();
 }
 
-export async function createPaperBot(payload: CreatePaperBotPayload): Promise<PaperBot> {
+function authHeaders(token: string): Record<string, string> {
+  return { Authorization: `Bearer ${token}` };
+}
+
+export async function createPaperBot(payload: CreatePaperBotPayload, token: string): Promise<PaperBot> {
   const response = await fetch(`${getBackendUrl()}/paper-bots`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders(token) },
     body: JSON.stringify(payload),
     cache: 'no-store',
   });
   return handleJsonResponse(response, 'No se pudo crear el bot');
 }
 
-export async function listPaperBots(): Promise<PaperBot[]> {
-  const response = await fetch(`${getBackendUrl()}/paper-bots`, { cache: 'no-store' });
+export async function listPaperBots(token: string): Promise<PaperBot[]> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots`, {
+    headers: authHeaders(token),
+    cache: 'no-store',
+  });
   return handleJsonResponse(response, 'No se pudieron obtener los bots');
 }
 
-export async function getPaperBot(id: number): Promise<PaperBotDetail> {
-  const response = await fetch(`${getBackendUrl()}/paper-bots/${id}`, { cache: 'no-store' });
+export async function getPaperBot(id: number, token: string): Promise<PaperBotDetail> {
+  const response = await fetch(`${getBackendUrl()}/paper-bots/${id}`, {
+    headers: authHeaders(token),
+    cache: 'no-store',
+  });
   return handleJsonResponse(response, 'No se pudo obtener el bot');
 }
 
-export async function pausePaperBot(id: number): Promise<PaperBot> {
+export async function pausePaperBot(id: number, token: string): Promise<PaperBot> {
   const response = await fetch(`${getBackendUrl()}/paper-bots/${id}/pause`, {
     method: 'PATCH',
+    headers: authHeaders(token),
     cache: 'no-store',
   });
   return handleJsonResponse(response, 'No se pudo pausar el bot');
 }
 
-export async function deletePaperBot(id: number): Promise<void> {
+export async function deletePaperBot(id: number, token: string): Promise<void> {
   const response = await fetch(`${getBackendUrl()}/paper-bots/${id}`, {
     method: 'DELETE',
+    headers: authHeaders(token),
     cache: 'no-store',
   });
   if (!response.ok) {
     const body = await response.json().catch(() => null);
     throw new Error(body?.message ?? 'No se pudo eliminar el bot');
   }
+}
+
+export interface RegisterResponse {
+  userId: number;
+  qrCodeDataUrl: string;
+  manualEntryCode: string;
+}
+
+export async function registerUser(email: string, password: string): Promise<RegisterResponse> {
+  const response = await fetch(`${getBackendUrl()}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+    cache: 'no-store',
+  });
+  return handleJsonResponse(response, 'No se pudo registrar la cuenta');
+}
+
+export async function verify2faSetup(userId: number, code: string): Promise<{ success: true }> {
+  const response = await fetch(`${getBackendUrl()}/auth/2fa/verify-setup`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId, code }),
+    cache: 'no-store',
+  });
+  return handleJsonResponse(response, 'No se pudo verificar el codigo');
 }

@@ -12,15 +12,10 @@ from app.paper_trading.schemas import (
     PaperTradeResponse,
 )
 
-# Placeholder hasta que exista autenticacion real (Fase 4 es paper trading,
-# no auth). Se deja como columna desde ya para no tener que migrar el
-# esquema cuando llegue el sistema de usuarios.
-DEFAULT_USER_ID = "default-user"
 
-
-def create_bot(db: Session, request: CreatePaperBotRequest) -> PaperBotResponse:
+def create_bot(db: Session, request: CreatePaperBotRequest, user_id: str) -> PaperBotResponse:
     bot = PaperBot(
-        user_id=DEFAULT_USER_ID,
+        user_id=user_id,
         symbol=request.symbol,
         buy_score_threshold=request.buy_score_threshold,
         sell_score_threshold=request.sell_score_threshold,
@@ -47,7 +42,7 @@ def create_bot(db: Session, request: CreatePaperBotRequest) -> PaperBotResponse:
     return _to_summary(db, bot)
 
 
-def list_bots(db: Session, user_id: str = DEFAULT_USER_ID) -> List[PaperBotResponse]:
+def list_bots(db: Session, user_id: str) -> List[PaperBotResponse]:
     bots = (
         db.query(PaperBot)
         .filter(PaperBot.user_id == user_id)
@@ -57,12 +52,14 @@ def list_bots(db: Session, user_id: str = DEFAULT_USER_ID) -> List[PaperBotRespo
     return [_to_summary(db, bot) for bot in bots]
 
 
-def get_bot(db: Session, bot_id: int) -> Optional[PaperBot]:
-    return db.query(PaperBot).filter(PaperBot.id == bot_id).first()
+def get_bot(db: Session, bot_id: int, user_id: str) -> Optional[PaperBot]:
+    """Filtra SIEMPRE por user_id: un bot de otro usuario debe comportarse
+    igual que un bot inexistente (404), nunca revelar que existe con un 403."""
+    return db.query(PaperBot).filter(PaperBot.id == bot_id, PaperBot.user_id == user_id).first()
 
 
-def get_bot_detail(db: Session, bot_id: int) -> Optional[PaperBotDetailResponse]:
-    bot = get_bot(db, bot_id)
+def get_bot_detail(db: Session, bot_id: int, user_id: str) -> Optional[PaperBotDetailResponse]:
+    bot = get_bot(db, bot_id, user_id)
     if bot is None:
         return None
 
@@ -117,8 +114,8 @@ def get_bot_detail(db: Session, bot_id: int) -> Optional[PaperBotDetailResponse]
     )
 
 
-def pause_bot(db: Session, bot_id: int) -> Optional[PaperBotResponse]:
-    bot = get_bot(db, bot_id)
+def pause_bot(db: Session, bot_id: int, user_id: str) -> Optional[PaperBotResponse]:
+    bot = get_bot(db, bot_id, user_id)
     if bot is None:
         return None
 
@@ -129,8 +126,8 @@ def pause_bot(db: Session, bot_id: int) -> Optional[PaperBotResponse]:
     return _to_summary(db, bot)
 
 
-def delete_bot(db: Session, bot_id: int) -> bool:
-    bot = get_bot(db, bot_id)
+def delete_bot(db: Session, bot_id: int, user_id: str) -> bool:
+    bot = get_bot(db, bot_id, user_id)
     if bot is None:
         return False
 
