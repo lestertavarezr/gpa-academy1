@@ -19,8 +19,21 @@ echo "==> Instalando @askjo/camofox-browser..."
 npm install @askjo/camofox-browser
 
 echo ""
-echo "✓ Instalado. Para iniciar el servidor (puerto 9377 por defecto):"
-echo "    npx @askjo/camofox-browser"
+echo "==> Descargando el binario del navegador Camoufox (~300MB, solo la primera vez)..."
+npx camoufox-js fetch
+
 echo ""
-echo "  Documentación interactiva una vez iniciado: http://localhost:9377/docs"
-echo "  Esquema OpenAPI: http://localhost:9377/openapi.json"
+echo "==> Exponiendo el bin camofox-browser-mcp en el PATH (npm link)..."
+(cd node_modules/@askjo/camofox-browser && npm link)
+
+echo ""
+echo "✓ Instalado."
+echo ""
+echo "1) Iniciar el servidor REST (déjalo corriendo en background, puerto 9377):"
+echo "     npx @askjo/camofox-browser"
+echo "     Docs interactivas: http://localhost:9377/docs"
+echo "     Salud del servidor: http://localhost:9377/health"
+echo ""
+echo "2) Registrar el MCP server en Claude Code (una sola vez):"
+echo "     claude mcp add camofox-browser -s user -- camofox-browser-mcp"
+echo "   Verificar: claude mcp list  (o /mcp dentro de una sesión de Claude Code)"

@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@askjo/camofox-browser": "^1.14.0"
+  }
+}
