@@ -1,3 +1,5 @@
+// lms.js va primero: restaura el progreso del alumno antes de que se lea.
+import { LMS } from "./lms.js";
 import Phaser from "phaser";
 import "./style.css";
 import roomUrl from "./assets/quirofano-isometrico.webp";
@@ -9,6 +11,9 @@ import { DISTRACTORS } from "./distractors.js";
 import { EVENTS } from "./events.js";
 import { Progress, MEDALS } from "./progress.js";
 import { createMayo } from "./mayo.js";
+import { CONFIG } from "./config.js";
+import { Report } from "./report.js";
+import { aiAvailable, mountCoach } from "./ai.js";
 const Ut = Phaser,
   Dt = [
     { id: "ficha", label: "Expediente", short: "ID", x: 225, y: 170 },
@@ -1783,6 +1788,7 @@ function Se() {
     T = lt("#module-selector");
   (T.replaceChildren(),
     Xt.forEach((u, c) => {
+      if (CONFIG.module && c + 1 !== CONFIG.module) return;
       const l = Mt.filter(
           (s, e) => s.module === c + 1 && Number(p[e]) > 0,
         ).length,
@@ -1831,7 +1837,7 @@ function Se() {
     }),
     ht(
       "#campaign-progress",
-      `${Mt.filter((u, c) => Number(p[c]) > 0).length} de ${Mt.length} misiones completadas`,
+      `${RequiredMissions().filter((c) => Number(p[c]) > 0).length} de ${RequiredMissions().length} misiones completadas`,
     ),
     Hub());
 }
@@ -1934,7 +1940,8 @@ function Ji(o) {
     p = o.safe;
   Q.awaiting ||
     !Q.inspected ||
-    ((Q.decisions[T] = p),
+    (Log(T, ft()[T].title, o.text || "Tiempo agotado", p),
+    (Q.decisions[T] = p),
     (Q.awaiting = !0),
     p ? (Q.score += 20) : Q.mistakes++,
     Streak(p),
@@ -1974,6 +1981,12 @@ function Fe(p, T) {
   if (!t || !["field", "hold"].includes(T)) return;
   ((Q.assignments[p] = T), (Q.selectedSupply = null));
   const u = t.target === T;
+  Log(
+    `material:${p}`,
+    `${t.title}: ${t.detail}`,
+    T === "field" ? "Campo verificado" : "Retener y sustituir",
+    u,
+  );
   (u ? (Q.score += p === "ready" ? 12 : 13) : Q.mistakes++,
     Streak(u),
     (Q.feedback = {
@@ -1998,7 +2011,8 @@ function ji(o) {
   const p = o.safe;
   Q.awaiting ||
     !Q.inspected ||
-    ((Q.decisions.communication = p),
+    (Log("communication", ft().dialogue, o.text || "Tiempo agotado", p),
+    (Q.decisions.communication = p),
     (Q.awaiting = !0),
     p ? (Q.score += 20) : Q.mistakes++,
     Streak(p),
@@ -2073,7 +2087,8 @@ function Oe(p, T) {
   Q.phase !== "pause" ||
     Q.awaiting ||
     _t()[0] !== p ||
-    (Streak(T),
+    (Log(`pause:${p}`, qi(p).title, T ? qi(p).fix : qi(p).unsafe, T),
+    Streak(T),
     T
       ? (Q.recovered.push(p),
         (Q.awaiting = !0),
@@ -2092,6 +2107,8 @@ function Oe(p, T) {
 }
 function De(p) {
   if (!(Q.phase !== "pause" || _t().length || Q.awaiting)) {
+    const H = Hi[ft().module - 1];
+    Log("closure", H.prompt, p ? H.good : H.bad, p);
     if (p) {
       ((Q.score += 15),
         (Q.pauseVerified = !0),
@@ -2275,6 +2292,7 @@ function ts() {
     p.type === "handoff" &&
       (T = Q.challengeOrder.join(",") === "finding,action,pending"),
     (Q.challengeCorrect = T),
+    Log("challenge", p.title, ChallengeAnswer(p), T),
     (Q.awaiting = !0),
     T ? (Q.score += 25) : Q.mistakes++,
     Streak(T),
@@ -2646,7 +2664,8 @@ function ns() {
   const e = document.createElement("div");
   ((e.className = "debrief-buttons"),
     Tt(e, "Repetir misión", () => $t(Q.missionIndex), "button button-quiet"),
-    Q.missionIndex < Mt.length - 1
+    Q.missionIndex < Mt.length - 1 &&
+    (!CONFIG.module || Mt[Q.missionIndex + 1].module === CONFIG.module)
       ? Tt(
           e,
           "Siguiente misión →",
@@ -2771,6 +2790,7 @@ function It() {
       Q.phase === "event" && !Q.awaiting,
     ),
     GuardHud(),
+    Coach(),
     Qi());
 }
 // Constantes del paciente: cada incidencia abierta tensa la escena y la
@@ -2834,6 +2854,12 @@ function evs() {
 }
 function EvPick(o) {
   if (Q.phase !== "event" || Q.awaiting) return;
+  Log(
+    `event:${Q.eventId}`,
+    CurrentEvent().title,
+    o.text || "Tiempo agotado",
+    o.safe,
+  );
   ((Q.eventOk = o.safe),
     (Q.awaiting = !0),
     o.safe ? Progress.countEvent() : Q.mistakes++,
@@ -2982,7 +3008,8 @@ function MissionDone(f) {
       f.stars === 3 && Progress.unlock("guardia3")),
     Q.missionIndex === Progress.dailyMission(Mt.length) &&
       !Progress.dailyDone() &&
-      Progress.markDaily());
+      Progress.markDaily(),
+    SyncLMS());
 }
 const medalQueue = [];
 let medalBusy = !1;
@@ -3033,7 +3060,7 @@ function RenderMedals() {
 
 // Panel de inicio: racha, medallas, modo y caso del día.
 function SetMode(m) {
-  ((Mode = m), Pi("gpa-guardia-quirofano-mode", m), Hub());
+  ((Mode = m), Pi("gpa-guardia-quirofano-mode", m), LMS.saveProgress(), Hub());
 }
 function Hub() {
   const streak = Progress.streak(),
@@ -3098,6 +3125,160 @@ lt("#open-mayo").addEventListener("click", () => {
     window.scrollTo({ top: 0 }),
     mayo.start());
 });
+
+// ---------------------------------------------------------------------------
+// Fase 3: LMS (SCORM), informe para el docente, cirujano con IA y teclado.
+
+function Log(kind, question, answer, correct) {
+  Report.log({
+    mission: Q.missionIndex,
+    module: ft().module,
+    missionTitle: ft().title,
+    kind,
+    question,
+    answer,
+    correct,
+    mode: Q.mode,
+  });
+}
+function ChallengeAnswer(p) {
+  switch (p.type) {
+    case "match":
+      return p.rows
+        .map((r, i) => `${r[0]} → ${Q.challengeSelections[i] || "—"}`)
+        .join("; ");
+    case "diagnose":
+      return p.rows
+        .map(
+          (r, i) =>
+            `${r[0]}: ${Q.challengeSelections[i] === "ready" ? "verificado" : Q.challengeSelections[i] === "pending" ? "pendiente" : "—"}`,
+        )
+        .join("; ");
+    case "tray":
+      return Q.challengePick.map((i) => p.choices[i][0]).join(", ") || "—";
+    case "handoff":
+      return (
+        Q.challengeOrder
+          .map(
+            (k) =>
+              ({
+                finding: "hallazgo",
+                action: "verificación",
+                pending: "pendiente",
+              })[k],
+          )
+          .join(" → ") || "—"
+      );
+  }
+  return "";
+}
+// Misiones que cuentan para la nota: las del módulo del paquete o todas.
+function RequiredMissions() {
+  return Mt.map((m, i) => i).filter(
+    (i) => !CONFIG.module || Mt[i].module === CONFIG.module,
+  );
+}
+function SyncLMS() {
+  if (!LMS.connected) return;
+  const best = Te(),
+    req = RequiredMissions();
+  (LMS.report({
+    score: req.reduce((a, i) => a + (Number(best[i]) || 0), 0) / req.length,
+    done: req.filter((i) => Number(best[i]) > 0).length,
+    required: req.length,
+    passingScore: CONFIG.passingScore,
+  }),
+    LMS.saveProgress());
+}
+Progress.onMedal(() => LMS.saveProgress());
+
+// Cirujano con IA: aparece tras elegir la comunicación, si está disponible.
+function Coach() {
+  const slot = lt("#coach-slot"),
+    show = Q && Q.phase === "talk" && Q.awaiting;
+  if (!show) {
+    ((slot.hidden = !0), slot.replaceChildren(), (slot.dataset.key = ""));
+    return;
+  }
+  const key = String(Q.missionIndex);
+  if (slot.dataset.key === key) return;
+  slot.dataset.key = key;
+  aiAvailable().then((ok) => {
+    if (!ok || slot.dataset.key !== key || Q.phase !== "talk") return;
+    const m = ft();
+    ((slot.hidden = !1),
+      mountCoach(slot, {
+        mission: m.title,
+        intro: m.intro,
+        findings: `${m.identity.finding} ${m.equipment.finding}`,
+        question: m.dialogue,
+        reference: m.communication.find((c) => c.safe)?.text,
+        learning: m.learning,
+      }));
+  });
+}
+
+// Informe del alumno para el docente.
+function ExportReport() {
+  const dlg = lt("#report-dialog"),
+    name = lt("#report-name");
+  ((name.value = LMS.learnerName || ye("gpa-guardia-quirofano-name") || ""),
+    dlg.showModal(),
+    name.focus());
+}
+lt("#export-report").addEventListener("click", ExportReport);
+lt("#report-cancel").addEventListener("click", () =>
+  lt("#report-dialog").close(),
+);
+lt("#report-form").addEventListener("submit", (ev) => {
+  ev.preventDefault();
+  const name = lt("#report-name").value.trim();
+  if (!name) return lt("#report-name").focus();
+  Pi("gpa-guardia-quirofano-name", name);
+  const raw = ye("gpa-guardia-quirofano-progress-v1") || {},
+    stars = ye(StarsKey);
+  (Report.download(
+    Report.build({
+      name,
+      missions: Mt,
+      best: Te(),
+      stars: Array.isArray(stars) ? stars : [],
+      progress: { ...raw, streak: Progress.streak() },
+    }),
+  ),
+    lt("#report-dialog").close());
+});
+
+// Teclado: 1-9 eligen la opción correspondiente del panel.
+document.addEventListener("keydown", (ev) => {
+  if (
+    ev.ctrlKey ||
+    ev.metaKey ||
+    ev.altKey ||
+    /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName) ||
+    lt("#game-view").hidden
+  )
+    return;
+  const n = Number(ev.key);
+  if (!n) return;
+  const buttons = [
+    ...document.querySelectorAll("#decision-options button.option"),
+  ];
+  buttons[n - 1] && (ev.preventDefault(), buttons[n - 1].click());
+});
+
+// Paquete por módulo: solo se muestran y exigen las misiones de ese módulo.
+CONFIG.module &&
+  ((Ot = CONFIG.module),
+  (zt = Mt.findIndex((m) => m.module === CONFIG.module)),
+  (lt("#daily-case").hidden = !0));
+LMS.connected &&
+  ((lt("#lms-chip").hidden = !1),
+  ht("#lms-chip", `LMS · ${LMS.learnerName || "Alumno"}`),
+  ht(
+    ".app-footer span:last-child",
+    `Conectado a la LMS (SCORM ${LMS.version})`,
+  ));
 ye("gpa-guardia-quirofano-sound") === !1 &&
   ((Qt = !1),
   Sound.setEnabled(!1),
@@ -3146,6 +3327,8 @@ Ce();
 // PWA: instalable y jugable sin conexión (solo en el build de producción).
 import.meta.env.PROD &&
   "serviceWorker" in navigator &&
+  !LMS.connected &&
+  window.top === window &&
   window.addEventListener("load", () =>
     navigator.serviceWorker.register("./sw.js").catch(() => {}),
   );

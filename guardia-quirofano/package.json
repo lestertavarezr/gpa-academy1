@@ -1,19 +1,21 @@
 {
   "name": "guardia-quirofano",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.3.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 4174",
-    "package:windows": "vite build && node scripts/package-windows.mjs"
+    "package:windows": "vite build && node scripts/package-windows.mjs",
+    "package:scorm": "vite build && node scripts/package-scorm.mjs"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.128.0",
     "phaser": "4.2.1"
   },
   "devDependencies": {
-    "vite": "^7.1.0",
-    "prettier": "^3.6.0"
+    "prettier": "^3.6.0",
+    "vite": "^7.1.0"
   }
 }

@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071a25" />
+    <meta name="robots" content="noindex" />
+    <title>Panel docente · Guardia de Quirófano</title>
+    <link rel="icon" type="image/svg+xml" href="./icons/icon.svg" />
+    <script type="module" src="/src/docente.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">G<span>+</span></span><span><strong>GPA Academy</strong><small>Guardia de Quirófano</small></span></div>
+        <div class="header-actions"><span class="program-label">PANEL DOCENTE</span><a class="button button-quiet t-back" href="./">Ir al juego</a></div>
+      </header>
+      <main class="t-main">
+        <section class="t-intro">
+          <div>
+            <p class="chapter-label">SEGUIMIENTO DE LA CLASE</p>
+            <h1>Panel docente</h1>
+            <p class="t-lede">Carga los informes que exportan tus alumnos desde el juego («📤 Informe para el docente»). Todo se procesa en este navegador: los archivos no se suben a ningún servidor.</p>
+          </div>
+          <label id="drop" class="t-drop" tabindex="0">
+            <input id="files" type="file" accept=".json,application/json" multiple hidden />
+            <strong>Arrastra aquí los informes .json</strong>
+            <span>o toca para elegirlos (puedes seleccionar varios)</span>
+          </label>
+          <div class="t-actions">
+            <button id="demo" class="button button-quiet" type="button">Ver con datos de ejemplo</button>
+            <button id="csv" class="button button-quiet" type="button" hidden>Descargar CSV</button>
+            <button id="clear" class="button button-quiet" type="button" hidden>Quitar datos</button>
+          </div>
+          <p id="status" class="t-status" role="status"></p>
+        </section>
+
+        <section id="dashboard" hidden>
+          <p id="demo-banner" class="t-demo" hidden>DATOS DE EJEMPLO · alumnos ficticios para ver cómo funciona el panel</p>
+          <div id="tiles" class="t-tiles"></div>
+
+          <h2 class="t-h2">Alumnos</h2>
+          <div class="t-scroll"><table id="students" class="t-table"></table></div>
+
+          <h2 class="t-h2">Nota por misión</h2>
+          <p class="t-help">Mejor puntuación de cada alumno en cada misión (0-100). Las celdas vacías son misiones sin jugar.</p>
+          <div class="t-scroll"><table id="heat" class="t-heat"></table></div>
+
+          <div class="t-cols">
+            <div>
+              <h2 class="t-h2">Decisiones más falladas</h2>
+              <p class="t-help">Puntos de decisión con más errores de la clase y la respuesta incorrecta más elegida. Buen punto de partida para la próxima clase.</p>
+              <ol id="fails" class="t-rank"></ol>
+            </div>
+            <div>
+              <h2 class="t-h2">Instrumental más confundido</h2>
+              <p class="t-help">Errores en la Mesa de Mayo: pieza pedida y con cuál se confundió más.</p>
+              <ol id="mayo" class="t-rank"></ol>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="app-footer"><span>GPA ACADEMY · PANEL DOCENTE</span><span>Los informes los genera el alumno y pueden editarse: la nota oficial es la de la LMS (SCORM).</span></footer>
+    </div>
+  </body>
+</html>

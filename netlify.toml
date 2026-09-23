@@ -2,6 +2,7 @@
   base = "guardia-quirofano"
   command = "npm ci && npm run build"
   publish = "dist"
+  functions = "netlify/functions"
 
 [[headers]]
   for = "/sw.js"

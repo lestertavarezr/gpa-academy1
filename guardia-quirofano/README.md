@@ -83,3 +83,27 @@ Una vez publicado, es una PWA: se puede instalar desde Chrome o Edge
 - **Medallas (18)**, **racha de días** y **caso del día** (la misma misión
   para todos en la misma fecha), en el panel de inicio y en la vitrina de
   medallas.
+
+## Fase 3 (en preparación): LMS, panel docente y cirujano con IA
+
+Nada de esto se ha instalado todavía en la LMS de GPA Academy.
+
+- **SCORM 1.2 / 2004** (`src/lms.js`): dentro de una LMS se envían la nota
+  (media de las misiones requeridas), el estado, cada decisión como
+  interacción y el progreso del alumno (`cmi.suspend_data`), que se restaura
+  en cualquier equipo. `npm run package:scorm` genera en `release/scorm/` un
+  paquete del curso completo y uno por módulo (`?modulo=N`). Nota mínima:
+  `VITE_PASSING_SCORE` (70 por defecto).
+- **Informe para el docente**: el alumno descarga un JSON desde la portada y el
+  docente lo carga en `docente.html` (tabla de alumnos, nota por misión,
+  decisiones más falladas con la respuesta incorrecta más elegida e
+  instrumental más confundido, exportación CSV). Todo se procesa en el
+  navegador. Los informes pueden editarse: la nota oficial es la de la LMS.
+- **Cirujano con IA** (`netlify/functions/cirujano.mjs`, `src/ai.js`): tras
+  elegir la comunicación, el alumno puede escribirla con sus palabras y recibe
+  la reacción del cirujano y cuatro criterios. Es formativo y no puntúa. Usa la
+  API de Claude desde el servidor; se activa al definir `ANTHROPIC_API_KEY` en
+  Netlify (`CLAUDE_MODEL` y `ALLOWED_ORIGINS` son opcionales). Para usarlo
+  desde un paquete SCORM, compila con `VITE_AI_ENDPOINT=https://<sitio>/api/cirujano`
+  y añade el origen de la LMS a `ALLOWED_ORIGINS`.
+- **Teclado**: las teclas 1-9 eligen la opción correspondiente.

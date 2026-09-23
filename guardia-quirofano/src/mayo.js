@@ -5,6 +5,8 @@
 import { INSTRUMENTS, instrumentSvg } from "./instruments.js";
 import { Sound } from "./audio.js";
 import { Progress } from "./progress.js";
+import { Report } from "./report.js";
+import { LMS } from "./lms.js";
 
 const TOTAL = 15;
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -172,6 +174,7 @@ export function createMayo({ root, onExit }) {
     );
     S.score += gained;
     S.correct++;
+    Report.logMayo({ asked: S.current.id, picked: id, ok: !0 });
     S.times.push(took);
     card.classList.add("delivered");
     const fb = $("#mayo-feedback", root);
@@ -188,6 +191,11 @@ export function createMayo({ root, onExit }) {
     S.busy = !0;
     S.lives--;
     S.combo = 0;
+    Report.logMayo({
+      asked: S.current.id,
+      picked: card?.dataset.id || null,
+      ok: !1,
+    });
     S.errors.push({
       asked: S.current,
       picked: card?.dataset.id || null,
@@ -214,6 +222,7 @@ export function createMayo({ root, onExit }) {
     const record = Progress.saveMayo(S.score);
     Progress.recordPlay();
     Progress.unlock("mayo");
+    LMS.saveProgress();
     S.correct === TOTAL && !S.errors.length && Progress.unlock("mayo-perfecta");
     S.correct >= 10 && avg < 2500 && Progress.unlock("mano-rapida");
     Sound.play("complete");

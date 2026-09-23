@@ -7,5 +7,8 @@ export default defineConfig({
     chunkSizeWarningLimit: 1600,
     // Los SVG del personaje se sirven como archivo (el cargador de Phaser los rasteriza).
     assetsInlineLimit: (file) => (file.endsWith(".svg") ? false : undefined),
+    rollupOptions: {
+      input: { main: "index.html", docente: "docente.html" },
+    },
   },
 });

@@ -2140,3 +2140,148 @@ h3 {
     animation: none;
   }
 }
+
+/* ---------- Fase 3 ---------- */
+.lms-chip {
+  border: 1px solid #6d5ad6;
+  border-radius: 99px;
+  background: #1e1c4a;
+  color: #dcd8ff;
+  padding: 6px 11px;
+  font-size: 11px;
+  font-weight: 700;
+}
+.report-dialog {
+  width: min(480px, calc(100vw - 32px));
+}
+.report-dialog h2 {
+  margin: 0 0 8px;
+  font:
+    800 22px Outfit,
+    sans-serif;
+}
+.report-dialog p {
+  color: #a9ccd2;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.report-dialog label {
+  display: block;
+  margin: 12px 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.report-dialog input,
+.coach textarea {
+  width: 100%;
+  border: 1px solid #365b69;
+  border-radius: 10px;
+  background: #071a25;
+  color: #eaf8f6;
+  padding: 10px 12px;
+  font: inherit;
+  margin-bottom: 12px;
+}
+.coach {
+  margin-top: 12px;
+  border: 1px solid #4b7da3;
+  border-radius: 14px;
+  background: #0f2638;
+  padding: 12px;
+}
+.coach-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 4px 10px;
+  align-items: baseline;
+}
+.coach-head small {
+  color: #8fc4ff;
+  font-size: 10px;
+  font-weight: 700;
+}
+.coach-help {
+  margin: 6px 0 10px;
+  color: #a9ccd2;
+  font-size: 12px;
+}
+.coach-form textarea {
+  resize: vertical;
+  margin-bottom: 8px;
+}
+.coach-form .button {
+  min-height: 40px;
+}
+.coach-out:empty {
+  display: none;
+}
+.coach-out {
+  margin-top: 10px;
+}
+.coach-reply {
+  display: flex;
+  gap: 10px;
+  margin: 0 0 10px;
+  align-items: flex-start;
+}
+.coach-avatar {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #1e5a8f;
+  border: 2px solid #8fc4ff;
+  font:
+    800 12px Outfit,
+    sans-serif;
+}
+.coach-reply p {
+  margin: 0;
+  border-radius: 12px;
+  background: #16344c;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.coach-criteria {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.coach-criteria li {
+  border-left: 3px solid #57f29a;
+  border-radius: 6px;
+  background: #0b2230;
+  padding: 6px 9px;
+  font-size: 12px;
+}
+.coach-criteria li.miss {
+  border-color: #ffb454;
+}
+.coach-criteria b,
+.coach-criteria span {
+  display: block;
+}
+.coach-criteria span {
+  color: #a9ccd2;
+}
+.coach-tip {
+  margin: 8px 0 0;
+  color: #ffe2a3;
+  font-size: 12px;
+}
+.coach-note,
+.coach-wait {
+  margin: 6px 0 0;
+  color: #7f9ea6;
+  font-size: 10.5px;
+}
+.coach-error {
+  color: #ffb3ba;
+  font-size: 12px;
+}

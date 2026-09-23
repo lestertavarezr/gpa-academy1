@@ -1,0 +1,253 @@
+/* Panel docente: reutiliza la base de style.css. */
+.t-main {
+  padding: 32px 0 50px;
+}
+.t-back {
+  min-height: 38px;
+  text-decoration: none;
+}
+.t-intro {
+  display: grid;
+  gap: 14px;
+  max-width: 820px;
+  margin-bottom: 26px;
+}
+.t-intro h1 {
+  margin: 4px 0 8px;
+  font:
+    800 clamp(38px, 5vw, 58px)/1 Outfit,
+    sans-serif;
+  letter-spacing: -0.04em;
+}
+.t-lede {
+  color: #aec7ce;
+  line-height: 1.55;
+  margin: 0;
+}
+.t-drop {
+  display: grid;
+  gap: 4px;
+  place-items: center;
+  text-align: center;
+  border: 2px dashed #4b7d86;
+  border-radius: 16px;
+  background: #0e2a39;
+  padding: 28px 16px;
+  cursor: pointer;
+}
+.t-drop:hover,
+.t-drop.over,
+.t-drop:focus-visible {
+  border-color: #78e5d3;
+  background: #123845;
+  outline: none;
+}
+.t-drop span {
+  color: #97bbc2;
+  font-size: 13px;
+}
+.t-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.t-actions .button {
+  min-height: 40px;
+}
+.t-status {
+  min-height: 18px;
+  margin: 0;
+  color: #8ff0c4;
+  font-size: 13px;
+}
+.t-demo {
+  border: 1px solid #ffb454;
+  border-radius: 10px;
+  background: #24170b;
+  color: #ffd9a8;
+  padding: 9px 13px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+.t-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.t-tile {
+  display: grid;
+  gap: 2px;
+  border: 1px solid #2e5160;
+  border-radius: 14px;
+  background: #0e2a39;
+  padding: 14px 16px;
+}
+.t-tile small {
+  color: #8cb4bd;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.t-tile strong {
+  color: #fff;
+  font:
+    800 32px Outfit,
+    sans-serif;
+}
+.t-tile span {
+  color: #97bbc2;
+  font-size: 12px;
+}
+.t-h2 {
+  margin: 28px 0 6px;
+  font:
+    800 22px Outfit,
+    sans-serif;
+}
+.t-help {
+  margin: 0 0 10px;
+  color: #97bbc2;
+  font-size: 13px;
+}
+.t-scroll {
+  overflow-x: auto;
+  border: 1px solid #2e5160;
+  border-radius: 12px;
+}
+.t-table,
+.t-heat {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.t-table th,
+.t-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid #1f3d4a;
+  text-align: left;
+  white-space: nowrap;
+}
+.t-table thead th {
+  color: #8cb4bd;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: #0b2230;
+}
+.t-table td {
+  font-variant-numeric: tabular-nums;
+  color: #dcefee;
+}
+.t-heat th,
+.t-heat td {
+  padding: 0;
+  border: 2px solid #071a25;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+.t-heat thead th {
+  padding: 6px 2px;
+  color: #8cb4bd;
+  font-size: 10px;
+  background: #0b2230;
+}
+.t-heat tbody th {
+  padding: 6px 10px;
+  text-align: left;
+  white-space: nowrap;
+  font-weight: 600;
+  background: #0b2230;
+}
+.t-heat td {
+  min-width: 38px;
+  height: 32px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 4px;
+}
+/* Rampa secuencial de un solo tono (más claro = mejor nota). */
+.t-heat .h0 {
+  background: #0c2531;
+  color: #58767f;
+  font-weight: 400;
+}
+.t-heat .h1 {
+  background: #12343d;
+  color: #b9d4d6;
+}
+.t-heat .h2 {
+  background: #185a5e;
+  color: #e4f6f3;
+}
+.t-heat .h3 {
+  background: #1f807a;
+  color: #ffffff;
+}
+.t-heat .h4 {
+  background: #3fae9c;
+  color: #062a2a;
+}
+.t-heat .h5 {
+  background: #7fe3cc;
+  color: #062a2a;
+}
+.t-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
+}
+.t-rank {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.t-rank li {
+  border: 1px solid #2e5160;
+  border-radius: 12px;
+  background: #0e2a39;
+  padding: 11px 13px;
+}
+.t-rank-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+.t-rank-value {
+  flex: none;
+  color: #ffd9a8;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.t-bar {
+  height: 6px;
+  margin: 7px 0;
+  border-radius: 6px;
+  background: #1f3d4a;
+}
+.t-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: #ffb454;
+}
+.t-rank p {
+  margin: 0;
+  color: #a9ccd2;
+  font-size: 12px;
+  line-height: 1.4;
+}
+.t-empty {
+  color: #97bbc2;
+  font-size: 13px;
+}
+@media (max-width: 820px) {
+  .t-cols {
+    grid-template-columns: 1fr;
+  }
+}
