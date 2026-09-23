@@ -1,0 +1,2481 @@
+import Phaser from "phaser";
+import "./style.css";
+import roomUrl from "./assets/quirofano-isometrico.png";
+const Ut = Phaser,
+  Dt = [
+    { id: "ficha", label: "Expediente", short: "ID", x: 225, y: 170 },
+    { id: "material", label: "Material", short: "ST", x: 170, y: 480 },
+    { id: "monitor", label: "Monitor", short: "MN", x: 395, y: 210 },
+    { id: "aspiracion", label: "Aspiración", short: "AS", x: 365, y: 350 },
+    { id: "conteo", label: "Conteo", short: "CT", x: 830, y: 470 },
+    { id: "equipo", label: "Equipo", short: "EQ", x: 895, y: 135 },
+  ],
+  Xt = [
+    {
+      title: "Asepsia y antisepsia",
+      source:
+        "https://docs.google.com/presentation/d/1R3OiFMMAcn1b48pNN0hSF5Zl3BG5otEm/edit",
+    },
+    {
+      title: "Heridas y suturas",
+      source:
+        "https://docs.google.com/presentation/d/1QYgmxPW_l_WVZKvqTqpE-XfBEi-BY6be/edit",
+    },
+    {
+      title: "Equipamiento y tecnología",
+      source:
+        "https://docs.google.com/presentation/d/1dnm1bLhjN8_K8cOgAck5maAHd9NMvLWG/edit",
+    },
+    {
+      title: "Instrumental por especialidad",
+      source:
+        "https://docs.google.com/presentation/d/1rLXtS1Z1Z8GmAWYpfNcxEgvXZaFanfs9/edit",
+    },
+    {
+      title: "Repaso integrador",
+      source:
+        "https://docs.google.com/presentation/d/1CG2CWXggNEVN8YfUsW3QReK6B_jtcxt8/edit",
+    },
+  ],
+  Mt = [
+    {
+      module: 1,
+      source: Xt[0].source,
+      learning:
+        "Verificar identidad, funcionamiento y esterilidad antes de preparar el campo.",
+      title: "La primera apertura",
+      label: "MISIÓN 01 · APERTURA",
+      guided: !0,
+      intro:
+        "Son las 07:20. El equipo se prepara para su primera intervención. Antes de avanzar, verifica tres puntos que pueden cambiar el desarrollo de la pausa de seguridad.",
+      identity: {
+        station: "ficha",
+        title: "Empieza por el expediente",
+        finding:
+          "Hay una pulsera colocada, pero nadie ha cotejado los identificadores y el procedimiento con el expediente.",
+        options: [
+          {
+            text: "Cotejar identificadores y procedimiento con el expediente y el equipo.",
+            safe: !0,
+          },
+          {
+            text: "Usar la pizarra como única confirmación para ahorrar tiempo.",
+            safe: !1,
+          },
+        ],
+        good: "Confirmaste los datos antes de avanzar. El equipo parte de la misma información.",
+        bad: "La pizarra no sustituye una verificación activa. Esta incertidumbre aparecerá en la pausa.",
+      },
+      equipment: {
+        station: "aspiracion",
+        title: "Comprueba el equipo",
+        finding:
+          "La conexión del aspirador está suelta y aún no se ha comprobado su funcionamiento.",
+        options: [
+          {
+            text: "Asegurar la conexión, probar el equipo y comunicar que está disponible.",
+            safe: !0,
+          },
+          {
+            text: "Esperar hasta que el equipo necesite aspiración.",
+            safe: !1,
+          },
+        ],
+        good: "Detectaste la falla antes de que interrumpiera el trabajo.",
+        bad: "El funcionamiento sigue sin confirmar. La pausa tendrá que detenerse para resolverlo.",
+      },
+      supplies: [
+        {
+          id: "ready",
+          title: "Paquete A",
+          detail: "Envoltorio íntegro; indicador y registro verificables.",
+          target: "field",
+        },
+        {
+          id: "suspect",
+          title: "Paquete B",
+          detail: "Envoltorio con humedad visible.",
+          target: "hold",
+        },
+      ],
+      dialogue:
+        "«Estamos por comenzar. ¿Hay alguna situación que el equipo deba conocer antes de la pausa?»",
+      communication: [
+        {
+          text: "«Identidad, material y aspiración: estos son los resultados de la verificación y lo que falta resolver».",
+          safe: !0,
+        },
+        {
+          text: "«Creo que está todo bien; si surge algo, avisamos».",
+          safe: !1,
+        },
+        { text: "No intervenir para no retrasar al equipo.", safe: !1 },
+      ],
+      pauseIntro:
+        "El equipo se reúne para la pausa antes de la incisión. Lo que decidiste antes determina qué debe revisarse ahora.",
+    },
+  ];
+function yt(p, T, t, u, c, l, a, s, e, i) {
+  const r = Mt.length + 1,
+    n = (o) => ({
+      station: o[0],
+      title: o[1],
+      finding: o[2],
+      options: [
+        { text: o[3], safe: !0 },
+        { text: o[4], safe: !1 },
+      ],
+      good: o[5],
+      bad: o[6],
+    });
+  Mt.push({
+    module: p,
+    source: Xt[p - 1].source,
+    title: T,
+    label: `MÓDULO ${p} · MISIÓN ${String(r).padStart(2, "0")}`,
+    guided: !1,
+    intro: t,
+    identity: n(u),
+    equipment: n(c),
+    supplies: [
+      { id: "ready", title: l[0], detail: l[1], target: "field" },
+      { id: "suspect", title: a[0], detail: a[1], target: "hold" },
+    ],
+    dialogue: s,
+    communication: [
+      { text: e[0], safe: !0 },
+      { text: e[1], safe: !1 },
+      { text: "Guardar silencio y avanzar sin aclararlo.", safe: !1 },
+    ],
+    pauseIntro:
+      "El equipo se reúne para la pausa. Tus decisiones previas determinan qué se debe aclarar antes de continuar.",
+    learning: i,
+  });
+}
+yt(
+  1,
+  "Campo bajo vigilancia",
+  "La sala ya está montada. Una persona circulante se acerca a la mesa estéril y el equipo tiene prisa.",
+  [
+    "ficha",
+    "Estado del campo",
+    "No consta si un material no estéril tocó el borde del campo.",
+    "Aclarar el contacto y sustituir lo comprometido.",
+    "Asumir que sigue estéril porque se ve limpio.",
+    "El evento quedó aclarado.",
+    "La apariencia no demuestra esterilidad.",
+  ],
+  [
+    "conteo",
+    "Conteo inicial",
+    "Instrumentista y circulante aún no confirmaron el conteo inicial.",
+    "Realizar y registrar juntos el conteo antes de avanzar.",
+    "Dejar el conteo para el cierre.",
+    "Hay una referencia compartida.",
+    "Falta una referencia fiable.",
+  ],
+  ["Campo íntegro", "Empaque seco y trazable."],
+  ["Campo rasgado", "El empaque presenta una rotura."],
+  "«¿Hubo contacto con el campo?»",
+  [
+    "«Aclaremos el contacto y repongamos lo comprometido».",
+    "«No se nota contaminación; sigamos».",
+  ],
+  "La pérdida de esterilidad se trata como contaminación, aunque el material parezca limpio.",
+);
+yt(
+  1,
+  "Preparación de la piel",
+  "Antes del drapeado, se revisa la preparación cutánea y el material que entrará al campo.",
+  [
+    "ficha",
+    "Confirma la preparación",
+    "La preparación cutánea figura pendiente de confirmación.",
+    "Confirmar con el responsable que se completó según protocolo.",
+    "Suponer que ya se realizó.",
+    "La preparación quedó verificada.",
+    "Una etapa crítica sigue sin confirmar.",
+  ],
+  [
+    "equipo",
+    "Límite estéril",
+    "Una persona sin bata ni guantes estériles intenta ajustar un campo.",
+    "Detener el contacto y pedir al personal estéril que haga el ajuste.",
+    "Permitirlo para no retrasar.",
+    "Se mantuvo el límite estéril.",
+    "El contacto compromete el campo.",
+  ],
+  ["Campo seco", "Empaque intacto y verificable."],
+  ["Campo desplazado", "Un borde tocó una superficie no estéril."],
+  "«¿Está todo listo para el drapeado?»",
+  [
+    "«Confirmemos la preparación y sustituyamos el campo comprometido».",
+    "«Sí, ya se ve preparado».",
+  ],
+  "El montaje del campo depende de la preparación y de barreras estériles intactas.",
+);
+yt(
+  1,
+  "Conteo antes del cierre",
+  "El cirujano anuncia el cierre de cavidad. Queda un registro de textiles sin conciliar.",
+  [
+    "conteo",
+    "Reconcilia el conteo",
+    "Las gasas registradas no coinciden con el recuento.",
+    "Detener el avance y repetir el conteo con instrumentista y circulante.",
+    "Esperar al final para revisarlo.",
+    "La discrepancia se abordó a tiempo.",
+    "La diferencia sigue abierta.",
+  ],
+  [
+    "equipo",
+    "Aviso al cirujano",
+    "El cirujano aún no conoce la discrepancia.",
+    "Comunicarla antes de cerrar la cavidad.",
+    "Asumir que otra persona ya avisó.",
+    "Todo el equipo conoce el estado.",
+    "Falta una comunicación crítica.",
+  ],
+  ["Textiles registrados", "Gasas radiopacas contabilizadas."],
+  ["Textiles sueltos", "Gasas adicionales sin registrar."],
+  "«¿Podemos confirmar el conteo?»",
+  [
+    "«Hay una discrepancia; detengamos el cierre y conciliemos».",
+    "«Se resolverá después».",
+  ],
+  "El conteo de textiles e instrumental se concilia y comunica antes del cierre.",
+);
+yt(
+  2,
+  "La herida contaminada",
+  "Aparece un derrame gastrointestinal importante, sin pus franco, durante un procedimiento.",
+  [
+    "ficha",
+    "Clasifica el hallazgo",
+    "El parte aún dice «herida limpia».",
+    "Solicitar al equipo revisar y documentar la clasificación tras el derrame.",
+    "Mantener «limpia» porque así se planificó.",
+    "El registro refleja el hallazgo.",
+    "La clasificación inicial ya no describe el caso.",
+  ],
+  [
+    "aspiracion",
+    "Visibilidad del campo",
+    "La aspiración no se ha comprobado tras el derrame.",
+    "Comprobarla con el equipo antes de continuar.",
+    "Asumir que funciona porque está conectada.",
+    "La aspiración está disponible.",
+    "La conexión no equivale a prueba funcional.",
+  ],
+  ["Cobertura verificada", "Apósito estéril íntegro según el plan."],
+  ["Cobertura abierta", "Envase abierto; esterilidad no verificable."],
+  "«¿Qué cambió con el derrame?»",
+  [
+    "«Revisemos clasificación y material con el equipo».",
+    "«El plan inicial sigue igual».",
+  ],
+  "Un derrame importante puede cambiar la clasificación de la herida y el plan del equipo.",
+);
+yt(
+  2,
+  "Bordes que se separan",
+  "En una herida reciente se observa separación parcial de bordes. Tu papel es detectarla y comunicarla.",
+  [
+    "ficha",
+    "Registra la observación",
+    "La separación no aparece en la evolución.",
+    "Documentar el hallazgo y avisar al profesional responsable.",
+    "Cubrir la herida y esperar a la próxima ronda.",
+    "El hallazgo entra en la evaluación clínica.",
+    "La dehiscencia queda sin comunicar.",
+  ],
+  [
+    "monitor",
+    "Vigilancia de signos",
+    "El monitor tiene las alarmas silenciadas.",
+    "Pedir al responsable que verifique parámetros y alarmas.",
+    "Confiar en una lectura aislada.",
+    "La vigilancia quedó confirmada.",
+    "Una lectura aislada puede omitir cambios.",
+  ],
+  ["Apósito estéril", "Empaque íntegro para la cobertura indicada."],
+  ["Apósito vencido", "La fecha de uso permitida ya pasó."],
+  "«¿Hay algún cambio que debamos valorar?»",
+  [
+    "«Observé separación de bordes; solicito valoración».",
+    "«Se ve casi normal».",
+  ],
+  "La dehiscencia requiere valoración del equipo; la simulación no prescribe tratamientos autónomos.",
+);
+yt(
+  2,
+  "Sutura para el plano",
+  "El equipo solicita una sutura para cierre de fascia y debe confirmarse la indicación.",
+  [
+    "ficha",
+    "Lee la indicación",
+    "El pedido no consigna material ni calibre.",
+    "Aclarar material y calibre con el cirujano antes de abrir.",
+    "Elegir el hilo que parece más grueso.",
+    "La selección se basa en una indicación.",
+    "El grosor aparente no la sustituye.",
+  ],
+  [
+    "equipo",
+    "Confirma la aguja",
+    "Hay agujas de punta distinta sin confirmar cuál se requiere.",
+    "Confirmar el tipo según tejido y técnica con el cirujano.",
+    "Entregar la primera disponible.",
+    "El equipo aclaró la aguja.",
+    "La elección puede no corresponder al tejido.",
+  ],
+  ["Sutura indicada", "Material y calibre confirmados; empaque íntegro."],
+  ["Sutura distinta", "No coincide con la indicación."],
+  "«¿Qué sutura y aguja quedó confirmada?»",
+  [
+    "«Repito material, calibre y aguja antes de abrirlos».",
+    "«Cualquiera servirá».",
+  ],
+  "La selección de sutura y aguja se confirma por tejido y técnica.",
+);
+yt(
+  2,
+  "Drenaje al cierre",
+  "Se ha indicado un drenaje cerrado. Antes del cierre se comprueba material y funcionamiento.",
+  [
+    "ficha",
+    "Verifica la indicación",
+    "El drenaje solicitado verbalmente no coincide con el registro.",
+    "Aclarar el tipo con el cirujano y actualizar el registro.",
+    "Preparar el primero del armario.",
+    "La indicación quedó unificada.",
+    "La discrepancia sigue abierta.",
+  ],
+  [
+    "aspiracion",
+    "Comprueba el sistema",
+    "El reservorio no ha sido revisado.",
+    "Comprobar integridad y funcionamiento según protocolo.",
+    "Colocarlo y revisar después.",
+    "El sistema se comprobó antes de usarlo.",
+    "Su funcionamiento sigue incierto.",
+  ],
+  ["Drenaje confirmado", "Modelo indicado y empaque íntegro."],
+  ["Drenaje dudoso", "Empaque perforado."],
+  "«¿Qué drenaje quedó indicado?»",
+  ["«Confirmamos modelo y funcionamiento».", "«Lo revisaremos luego»."],
+  "Los drenajes requieren indicación clara, empaque verificado y prueba del sistema.",
+);
+yt(
+  3,
+  "Electrocirugía segura",
+  "La unidad electroquirúrgica está preparada, pero faltan comprobaciones de seguridad.",
+  [
+    "ficha",
+    "Revisa el plan",
+    "Se prevé uso monopolar y la placa de retorno no figura como confirmada.",
+    "Pedir confirmación de colocación y condición de la placa.",
+    "Suponer que está bajo los campos.",
+    "El circuito previsto quedó confirmado.",
+    "La ausencia de confirmación sigue abierta.",
+  ],
+  [
+    "equipo",
+    "Inspecciona conexiones",
+    "Un cable está parcialmente desconectado.",
+    "Corregir la conexión con el responsable y probar la unidad.",
+    "Ajustarlo solo si falla durante la cirugía.",
+    "La falla se atendió antes del uso.",
+    "La conexión dudosa permanece.",
+  ],
+  ["Lápiz verificado", "Cable y empaque íntegros; compatible."],
+  ["Lápiz dañado", "Aislamiento del cable deteriorado."],
+  "«¿Qué falta antes de activar?»",
+  [
+    "«Confirmamos placa, cables y prueba funcional».",
+    "«La unidad enciende; está lista».",
+  ],
+  "En uso monopolar se comprueban placa de retorno, cables y configuración.",
+);
+yt(
+  3,
+  "Torre laparoscópica",
+  "El procedimiento requiere imagen, luz e insuflación. La torre enciende, pero falta probarla.",
+  [
+    "ficha",
+    "Valida el procedimiento",
+    "El parte indica laparoscopia y la sala figura preparada para cirugía abierta.",
+    "Aclarar la discrepancia y confirmar componentes necesarios.",
+    "Esperar a que pidan lo que falte.",
+    "La sala se alineó con el procedimiento.",
+    "Puede faltar tecnología esencial.",
+  ],
+  [
+    "monitor",
+    "Prueba la imagen",
+    "La señal de cámara es intermitente.",
+    "Revisar conexiones y hacer prueba de imagen con el equipo.",
+    "Ignorarla porque a ratos se ve bien.",
+    "La imagen quedó comprobada.",
+    "La intermitencia sigue presente.",
+  ],
+  ["Óptica verificada", "Compatible, procesada y con empaque íntegro."],
+  ["Cable de luz dudoso", "Conector dañado."],
+  "«¿La torre está realmente lista?»",
+  [
+    "«Confirmamos imagen, luz, insuflación y material».",
+    "«Todo enciende, así que sí».",
+  ],
+  "La torre integra varios sistemas y cada uno requiere verificación.",
+);
+yt(
+  3,
+  "Aspiración e irrigación",
+  "La intervención necesita un campo visible; el circuito de aspiración e irrigación aún no se prueba.",
+  [
+    "ficha",
+    "Plan de fluidos",
+    "La solución indicada no coincide con el recipiente colocado.",
+    "Aclarar la solución y confirmar el recipiente correcto.",
+    "Utilizar el disponible sin consultar.",
+    "El insumo coincide con la indicación.",
+    "La discrepancia sigue abierta.",
+  ],
+  [
+    "aspiracion",
+    "Comprueba succión",
+    "La succión es débil en la prueba.",
+    "Revisar conexiones, recipiente y presión con el responsable.",
+    "Aumentar presión sin revisar el sistema.",
+    "La causa se investigó.",
+    "La falla puede persistir.",
+  ],
+  ["Tubo verificado", "Circuito estéril e íntegro."],
+  ["Tubo abierto", "Conexión abierta; esterilidad no verificable."],
+  "«¿Qué falta para mantener el campo visible?»",
+  [
+    "«Confirmamos solución y funcionamiento».",
+    "«Subamos la presión y sigamos».",
+  ],
+  "Circuito, solución y esterilidad se comprueban antes de usar la bomba.",
+);
+yt(
+  3,
+  "Posición e imagen",
+  "Una cirugía ortopédica requiere posicionamiento e imagen con arco en C.",
+  [
+    "ficha",
+    "Confirma el lado",
+    "El pedido de imagen no consigna lado y difiere del parte.",
+    "Aclarar el lado con el equipo antes de preparar.",
+    "Preparar ambos lados y decidir luego.",
+    "El lado quedó confirmado.",
+    "La discrepancia sigue activa.",
+  ],
+  [
+    "equipo",
+    "Protección para imagen",
+    "No se comprobó protección radiológica ni cobertura del arco.",
+    "Coordinar protección y cobertura estéril con responsables.",
+    "Confiar en que el operador lo resolverá al entrar.",
+    "La entrada se planificó con seguridad.",
+    "La coordinación queda pendiente.",
+  ],
+  ["Cobertura íntegra", "Funda estéril compatible con el arco."],
+  ["Funda rasgada", "Rotura visible."],
+  "«¿Qué falta para traer el arco?»",
+  ["«Confirmamos lado, protección y cobertura».", "«Que entre y luego vemos»."],
+  "Lado, posición y protección radiológica se coordinan antes de la imagen.",
+);
+yt(
+  4,
+  "Bandeja de cirugía general",
+  "Se prepara una bandeja general. Faltan piezas y una pinza no coincide con la lista.",
+  [
+    "ficha",
+    "Verifica el set",
+    "La lista requiere corte, hemostasia, disección y retracción; el registro está incompleto.",
+    "Cotejar bandeja y lista aprobada; resolver faltantes.",
+    "Confiar en que aparecerán durante la cirugía.",
+    "El set se cotejó.",
+    "El faltante puede interrumpir la intervención.",
+  ],
+  [
+    "conteo",
+    "Conteo instrumental",
+    "El número de pinzas no coincide con la hoja.",
+    "Recontar con circulante y documentar.",
+    "Ajustar mentalmente el número.",
+    "El conteo quedó conciliado.",
+    "La discrepancia permanece.",
+  ],
+  ["Set completo", "Piezas y conteo verificados."],
+  ["Set incompleto", "Falta una pinza Kelly."],
+  "«¿La bandeja está completa?»",
+  [
+    "«Verificamos funciones, piezas y conteo».",
+    "«Buscaremos faltantes después».",
+  ],
+  "La mesa se organiza por función y se coteja con el set previsto.",
+);
+yt(
+  4,
+  "Exposición en ortopedia",
+  "El equipo solicita un separador para trabajar cerca de hueso.",
+  [
+    "ficha",
+    "Aclara la necesidad",
+    "El pedido solo dice «separador».",
+    "Preguntar qué región y exposición necesita el cirujano.",
+    "Elegir el más grande.",
+    "La solicitud quedó precisa.",
+    "El tamaño no determina su uso.",
+  ],
+  [
+    "equipo",
+    "Anticipa el cambio",
+    "Se anuncia cambio de plano sin ajustar el separador.",
+    "Confirmar nueva exposición y coordinar el relevo.",
+    "Retirar el separador sin avisar.",
+    "El cambio se coordinó.",
+    "La retirada puede dejar sin visión.",
+  ],
+  ["Hohmann verificado", "Instrumento requerido, estéril e íntegro."],
+  ["Retractor dudoso", "Extremo activo dañado."],
+  "«¿Qué exposición queda confirmada?»",
+  ["«Confirmo función y aviso antes del cambio».", "«Tomé el más grande»."],
+  "Cada separador tiene una función y la exposición se coordina con el cirujano.",
+);
+yt(
+  4,
+  "Microinstrumental neuroquirúrgico",
+  "El campo requiere manipulación fina y un instrumento tiene la punta deteriorada.",
+  [
+    "ficha",
+    "Verifica la técnica",
+    "Se requiere microdisección, pero el set registrado es general.",
+    "Aclarar el set de microinstrumental antes de preparar.",
+    "Usar instrumentos generales hasta que pidan otros.",
+    "El set coincide con la técnica.",
+    "Falta equipo de precisión.",
+  ],
+  [
+    "monitor",
+    "Confirma la visualización",
+    "No se probó la imagen del microscopio.",
+    "Coordinar prueba de visualización.",
+    "Asumir que funcionará porque enciende.",
+    "La visualización se comprobó.",
+    "El encendido no confirma la imagen.",
+  ],
+  ["Frazier íntegro", "Cánula fina procesada e inspeccionada."],
+  ["Microinstrumento dañado", "Punta deformada."],
+  "«¿El equipo fino está apto?»",
+  [
+    "«Confirmamos set, óptica e instrumentos».",
+    "«El microscopio enciende; sigamos».",
+  ],
+  "Microinstrumental y visualización requieren inspección específica.",
+);
+yt(
+  4,
+  "Set de otorrinolaringología",
+  "Se requiere instrumental para cirugía nasal endoscópica; la bandeja disponible es de amigdalectomía.",
+  [
+    "ficha",
+    "Comprueba el procedimiento",
+    "El set no corresponde al parte operatorio.",
+    "Aclarar procedimiento y solicitar set apropiado.",
+    "Abrir la bandeja disponible.",
+    "El set se alineó con el abordaje.",
+    "La bandeja no corresponde.",
+  ],
+  [
+    "equipo",
+    "Confirma pinza fina",
+    "Se pide una pinza nasal y hay dos modelos similares.",
+    "Repetir nombre y uso antes de entregarla.",
+    "Entregar cualquiera de las dos.",
+    "La entrega fue precisa.",
+    "Similitud visual no garantiza función.",
+  ],
+  ["Pinza adecuada", "Modelo solicitado, estéril e íntegro."],
+  ["Pinza errónea", "Modelo distinto al requerido."],
+  "«¿El set corresponde al abordaje?»",
+  ["«Confirmamos procedimiento, set y pinza».", "«Las pinzas se parecen»."],
+  "En cada especialidad importan el set correcto y la confirmación verbal.",
+);
+yt(
+  5,
+  "Clasificación final",
+  "El parte inicial dice «herida limpia». Ahora hay perforación y contenido intestinal.",
+  [
+    "ficha",
+    "Actualiza la clasificación",
+    "La perforación no consta en la clasificación final.",
+    "Comunicarla para que el equipo revise y documente la clase.",
+    "Conservar «limpia» por el parte inicial.",
+    "Se considera el hallazgo real.",
+    "El parte inicial ya no corresponde.",
+  ],
+  [
+    "equipo",
+    "Plan de cierre",
+    "El cierre no se revisó tras el hallazgo.",
+    "Pedir al cirujano confirmar el plan de cierre.",
+    "Asumir cierre primario rutinario.",
+    "La decisión queda en el equipo.",
+    "No debe asumirse el cierre.",
+  ],
+  ["Cobertura verificada", "Apósito estéril según indicación."],
+  ["Cobertura usada", "Empaque abierto; trazabilidad dudosa."],
+  "«¿Clasificación y cierre siguen iguales?»",
+  ["«Revisemos clase y cierre con el cirujano».", "«El parte inicial basta»."],
+  "La perforación cambia la evaluación; el equipo define el cierre.",
+);
+yt(
+  5,
+  "Evaluación TIME",
+  "Una herida presenta exudado abundante y bordes que no avanzan.",
+  [
+    "ficha",
+    "Registra T-I-M-E",
+    "Se describe exudado, pero no tejido ni bordes.",
+    "Documentar tejido, inflamación, humedad y bordes para valoración.",
+    "Registrar solo el exudado.",
+    "La evaluación incluye los cuatro componentes.",
+    "La observación queda parcial.",
+  ],
+  [
+    "equipo",
+    "Comparte el cambio",
+    "El responsable no conoce el aumento de exudado.",
+    "Comunicarlo y solicitar revisión del plan.",
+    "Cambiar el apósito sin informar.",
+    "El equipo dispone de datos actuales.",
+    "El cambio queda sin valoración.",
+  ],
+  ["Apósito indicado", "Tipo y absorción confirmados."],
+  ["Apósito inadecuado", "Baja absorción sin orden confirmada."],
+  "«¿Qué cambió en humedad y bordes?»",
+  ["«Documento TIME y comunico el cambio».", "«Solo cambié la cobertura»."],
+  "TIME ordena observar tejido, infección/inflamación, humedad y bordes.",
+);
+yt(
+  5,
+  "Sutura en revisión",
+  "Antes del cierre, se confirma una sutura de larga duración para fascia de alta tensión.",
+  [
+    "ficha",
+    "Confirma la prescripción",
+    "Hay suturas absorbibles de distinta duración.",
+    "Confirmar material, duración y calibre requeridos.",
+    "Tomar cualquier absorbible.",
+    "La elección responde a la indicación.",
+    "«Absorbible» no define resistencia.",
+  ],
+  [
+    "equipo",
+    "Lee el empaque",
+    "Un producto tiene nombre parecido al solicitado.",
+    "Leer material, calibre y aguja antes de abrir.",
+    "Guiarse por el color del empaque.",
+    "Se confirmó el producto exacto.",
+    "El color no sustituye la etiqueta.",
+  ],
+  ["PDS confirmado", "Material y calibre indicados; empaque íntegro."],
+  ["Sutura distinta", "Material diferente al confirmado."],
+  "«¿Qué material exacto necesitamos?»",
+  [
+    "«Repito material, calibre y aguja».",
+    "«Todas las absorbibles son equivalentes».",
+  ],
+  "Comparar suturas por absorción, estructura y resistencia, según indicación clínica.",
+);
+yt(
+  5,
+  "Entrega integral",
+  "Una herida con drenaje y apósito requiere entrega al siguiente equipo.",
+  [
+    "ficha",
+    "Conciliación final",
+    "El informe omite clase de herida, drenaje y estado del apósito.",
+    "Completar la entrega y confirmar los datos con el equipo.",
+    "Entregar solo el nombre del procedimiento.",
+    "La continuidad dispone de datos relevantes.",
+    "La entrega queda incompleta.",
+  ],
+  [
+    "aspiracion",
+    "Estado del drenaje",
+    "El reservorio cerrado no está identificado ni comprobado.",
+    "Confirmar tipo, identificación y funcionamiento.",
+    "Dejarlo para la próxima guardia.",
+    "El drenaje se entrega con estado conocido.",
+    "La próxima guardia recibe una incertidumbre.",
+  ],
+  ["Apósito confirmado", "Cobertura indicada, íntegra y documentada."],
+  ["Apósito dudoso", "Etiqueta ilegible."],
+  "«¿Qué debe saber la siguiente guardia?»",
+  [
+    "«Comunico herida, drenaje, cobertura y pendientes».",
+    "«Terminó sin novedades».",
+  ],
+  "Una entrega segura resume hallazgos, material y acciones pendientes.",
+);
+Mt.forEach((p, T) => {
+  p.label = `MÓDULO ${p.module} · MISIÓN ${String(T + 1).padStart(2, "0")}`;
+});
+const bi = {
+    4: {
+      type: "match",
+      title: "Clasifica lo que cambió",
+      prompt:
+        "Relaciona cada hallazgo con su clase de herida. El equipo tratante confirma la clasificación final.",
+      choices: [
+        "Limpia",
+        "Limpia-contaminada",
+        "Contaminada",
+        "Sucia/infectada",
+      ],
+      rows: [
+        [
+          "Entrada controlada a un tracto sin derrame importante",
+          "Limpia-contaminada",
+        ],
+        ["Derrame gastrointestinal importante sin pus franco", "Contaminada"],
+        ["Perforación con infección establecida", "Sucia/infectada"],
+      ],
+    },
+    5: {
+      type: "match",
+      title: "Reconoce la complicación",
+      prompt:
+        "Relaciona cada observación con el término que se debe comunicar al profesional responsable.",
+      choices: ["Dehiscencia", "Hematoma", "Seroma", "Infección"],
+      rows: [
+        ["Separación de los bordes de la herida", "Dehiscencia"],
+        ["Acumulación de sangre bajo la piel", "Hematoma"],
+        ["Acumulación de líquido seroso", "Seroma"],
+      ],
+    },
+    6: {
+      type: "match",
+      title: "Lee la sutura y la aguja",
+      prompt:
+        "Asocia cada característica con la categoría correcta antes de abrir material.",
+      choices: [
+        "Monofilamento",
+        "Multifilamento",
+        "Aguja cilíndrica",
+        "Aguja cortante inversa",
+      ],
+      rows: [
+        ["Un solo filamento y menor capilaridad", "Monofilamento"],
+        ["Varios filamentos trenzados", "Multifilamento"],
+        ["Punta redonda para tejidos delicados", "Aguja cilíndrica"],
+      ],
+    },
+    7: {
+      type: "match",
+      title: "Distingue drenajes y cobertura",
+      prompt: "Clasifica los elementos mencionados en la solicitud del equipo.",
+      choices: [
+        "Pasivo abierto",
+        "Activo cerrado",
+        "Apósito",
+        "Instrumento de corte",
+      ],
+      rows: [
+        ["Penrose", "Pasivo abierto"],
+        ["Jackson-Pratt", "Activo cerrado"],
+        ["Cobertura de espuma", "Apósito"],
+      ],
+    },
+    8: {
+      type: "diagnose",
+      title: "Panel de electrocirugía",
+      prompt:
+        "Marca cada componente como verificado o pendiente según la evidencia visible.",
+      rows: [
+        ["Placa de retorno", "No consta colocación confirmada", "pending"],
+        ["Cable del lápiz", "Conexión parcialmente suelta", "pending"],
+        ["Generador", "Autoprueba completada y documentada", "ready"],
+      ],
+    },
+    9: {
+      type: "diagnose",
+      title: "Panel de torre laparoscópica",
+      prompt:
+        "No basta con que la torre encienda. Interpreta el estado de cada componente.",
+      rows: [
+        ["Cámara y monitor", "Señal de imagen intermitente", "pending"],
+        ["Fuente de luz", "Prueba funcional completada", "ready"],
+        ["Insuflador", "Alarmas aún sin comprobar", "pending"],
+      ],
+    },
+    10: {
+      type: "diagnose",
+      title: "Panel de aspiración e irrigación",
+      prompt:
+        "Lee los resultados de prueba del circuito y marca lo que exige revisión.",
+      rows: [
+        ["Aspiración", "Succión débil durante la prueba", "pending"],
+        [
+          "Solución de irrigación",
+          "Etiqueta coincide con la indicación",
+          "ready",
+        ],
+        ["Tubería estéril", "Conexión abierta y sin trazabilidad", "pending"],
+      ],
+    },
+    11: {
+      type: "diagnose",
+      title: "Panel de imagen y posición",
+      prompt:
+        "Antes de introducir el arco en C, identifica qué está listo y qué falta.",
+      rows: [
+        ["Lado operatorio", "Pedido de imagen y parte no coinciden", "pending"],
+        [
+          "Protección radiológica",
+          "Personal sin confirmación de protección",
+          "pending",
+        ],
+        ["Mesa y frenos", "Estabilidad comprobada", "ready"],
+      ],
+    },
+    12: {
+      type: "tray",
+      title: "Arma la bandeja general",
+      prompt:
+        "Selecciona exactamente tres instrumentos de la solicitud: corte, hemostasia y sutura.",
+      choices: [
+        ["Mango de bisturí n.º 3", !0],
+        ["Pinza Kelly", !0],
+        ["Portaagujas Mayo-Hegar", !0],
+        ["Cánula Fukushima", !1],
+        ["Pinza Takahashi", !1],
+        ["Separador Hohmann", !1],
+      ],
+    },
+    13: {
+      type: "tray",
+      title: "Arma el set ortopédico",
+      prompt:
+        "Selecciona los tres elementos pedidos para exposición, corte y aspiración.",
+      choices: [
+        ["Separador Hohmann", !0],
+        ["Tijera Mayo curva", !0],
+        ["Aspirador Yankauer", !0],
+        ["Pinza Takahashi", !1],
+        ["Portaagujas Castroviejo", !1],
+        ["Pinza Randall", !1],
+      ],
+    },
+    14: {
+      type: "tray",
+      title: "Arma el set microquirúrgico",
+      prompt:
+        "Selecciona tres instrumentos de trabajo fino para este caso neuroquirúrgico.",
+      choices: [
+        ["Cánula Frazier", !0],
+        ["Portaagujas Castroviejo", !0],
+        ["Tijera de Yasargil", !0],
+        ["Aspirador Poole", !1],
+        ["Separador Hohmann", !1],
+        ["Separador Balfour", !1],
+      ],
+    },
+    15: {
+      type: "tray",
+      title: "Arma el set nasal",
+      prompt:
+        "Selecciona tres instrumentos de la bandeja de cirugía nasal endoscópica.",
+      choices: [
+        ["Pinza de bayoneta", !0],
+        ["Pinza Blakesley", !0],
+        ["Pinza Takahashi", !0],
+        ["Separador Hohmann", !1],
+        ["Separador Balfour", !1],
+        ["Pinza Randall", !1],
+      ],
+    },
+    16: {
+      type: "handoff",
+      title: "Reconstruye la entrega",
+      prompt:
+        "Toca las tarjetas en el orden: hallazgo → verificación/acuerdo → pendiente.",
+      cards: [
+        [
+          "pending",
+          "Preparar la cobertura según el plan que confirme el cirujano",
+        ],
+        ["finding", "Se encontró perforación con contenido intestinal"],
+        ["action", "El equipo revisó la clase de herida y el cierre"],
+      ],
+    },
+    17: {
+      type: "handoff",
+      title: "Reconstruye la entrega TIME",
+      prompt:
+        "Ordena el resumen: hallazgo → valoración/comunicación → pendiente.",
+      cards: [
+        ["action", "Se documentaron tejido, inflamación, humedad y bordes"],
+        ["pending", "El responsable revisará el plan de cobertura"],
+        ["finding", "Aumentó el exudado y los bordes no avanzan"],
+      ],
+    },
+    18: {
+      type: "handoff",
+      title: "Reconstruye la entrega de sutura",
+      prompt: "Ordena el mensaje: necesidad → confirmación → siguiente paso.",
+      cards: [
+        ["action", "Se confirmó material, calibre y aguja con el cirujano"],
+        ["finding", "Se solicita sutura de larga duración para fascia"],
+        ["pending", "Abrir solo el empaque que coincida con la indicación"],
+      ],
+    },
+    19: {
+      type: "handoff",
+      title: "Entrega al siguiente turno",
+      prompt: "Ordena el mensaje: estado actual → comprobación → pendiente.",
+      cards: [
+        ["pending", "El siguiente equipo vigilará y documentará lo indicado"],
+        ["finding", "La herida tiene drenaje cerrado y apósito"],
+        [
+          "action",
+          "Se confirmó tipo, identificación y funcionamiento del drenaje",
+        ],
+      ],
+    },
+  },
+  Ai = [
+    {
+      steps: ["Inspeccionar", "Auditar campo", "Comunicar", "Pausa", "Informe"],
+      accent: "asepsia",
+      lead: "Busca rupturas de la barrera estéril y confirma el conteo.",
+    },
+    {
+      steps: ["Valorar", "Clasificar", "Consultar", "Confirmar", "Informe"],
+      accent: "heridas",
+      lead: "Interpreta hallazgos de heridas, suturas y drenajes.",
+    },
+    {
+      steps: ["Inspeccionar", "Diagnosticar", "Coordinar", "Probar", "Informe"],
+      accent: "equipos",
+      lead: "Comprueba cada componente de los equipos antes de su uso.",
+    },
+    {
+      steps: ["Reconocer", "Armar bandeja", "Entregar", "Conteo", "Informe"],
+      accent: "instrumental",
+      lead: "Elige el instrumental que corresponde a la especialidad.",
+    },
+    {
+      steps: ["Revisar", "Sintetizar", "Entregar", "Cerrar", "Informe"],
+      accent: "repaso",
+      lead: "Integra hallazgos, acuerdos y pendientes en una entrega clara.",
+    },
+  ],
+  lt = (p) => document.querySelector(p),
+  kt = "gpa-guardia-quirofano-save-v4",
+  Mi = "gpa-guardia-quirofano-best-v4";
+let zt = 0,
+  Ot = 1,
+  Q = null,
+  Et = null,
+  Qt = !0,
+  At = null,
+  qt = 0;
+const Ri = {
+  ficha: { x: 265, y: 345, icon: "ID", label: "LEYENDO EXPEDIENTE" },
+  material: { x: 240, y: 540, icon: "ST", label: "REVISANDO MATERIAL" },
+  monitor: { x: 475, y: 365, icon: "MN", label: "COMPROBANDO MONITOR" },
+  aspiracion: { x: 380, y: 440, icon: "AS", label: "PROBANDO ASPIRACIÓN" },
+  conteo: { x: 790, y: 505, icon: "CT", label: "CONTANDO ELEMENTOS" },
+  equipo: { x: 845, y: 345, icon: "EQ", label: "HABLANDO CON EQUIPO" },
+};
+function ye(p) {
+  try {
+    return JSON.parse(localStorage.getItem(p));
+  } catch {
+    return null;
+  }
+}
+function Pi(p, T) {
+  try {
+    localStorage.setItem(p, JSON.stringify(T));
+  } catch {}
+}
+function Wi(p) {
+  try {
+    localStorage.removeItem(p);
+  } catch {}
+}
+function xe(p) {
+  return (
+    p &&
+    Number.isInteger(p.missionIndex) &&
+    p.missionIndex >= 0 &&
+    p.missionIndex < Mt.length &&
+    ["observe", "material", "talk", "pause"].includes(p.phase) &&
+    p.decisions &&
+    p.assignments &&
+    p.challengeSelections &&
+    Array.isArray(p.challengeOrder) &&
+    Array.isArray(p.challengePick) &&
+    Array.isArray(p.recovered)
+  );
+}
+function St() {
+  Q && (Q.phase === "debrief" ? Wi(kt) : Pi(kt, Q));
+}
+function Yi(p) {
+  return {
+    missionIndex: p,
+    phase: "observe",
+    substep: "identity",
+    inspected: !1,
+    decisions: { identity: null, equipment: null, communication: null },
+    assignments: {},
+    selectedSupply: null,
+    challengeSelections: {},
+    challengeOrder: [],
+    challengePick: [],
+    challengeCorrect: null,
+    recovered: [],
+    score: 0,
+    mistakes: 0,
+    hints: 0,
+    feedback: null,
+    awaiting: !1,
+    pauseVerified: !1,
+  };
+}
+function ft() {
+  return Mt[Q.missionIndex];
+}
+function Ht() {
+  return bi[Q.missionIndex];
+}
+function Ct() {
+  return Ai[ft().module - 1];
+}
+const Hi = [
+  {
+    prompt: "Confirma campo, material y conteo con el equipo antes de seguir.",
+    good: "Confirmar en voz alta integridad del campo, material y conteo con los responsables.",
+    bad: "Continuar porque la mesa parece ordenada.",
+  },
+  {
+    prompt:
+      "Confirma que el hallazgo se documentó y que el equipo acordó el siguiente paso.",
+    good: "Repetir el hallazgo, la valoración solicitada y el plan confirmado por el responsable.",
+    bad: "Elegir el manejo por cuenta propia sin comunicar el cambio.",
+  },
+  {
+    prompt:
+      "Verifica los componentes de la tecnología y comunica las fallas antes de usarla.",
+    good: "Repasar prueba funcional, componentes pendientes y responsable de resolverlos.",
+    bad: "Dar por listo el equipo solo porque está encendido.",
+  },
+  {
+    prompt: "Antes de entregar el set, confirma piezas, integridad y conteo.",
+    good: "Conciliar la bandeja con la lista y confirmar la entrega al equipo.",
+    bad: "Entregar la bandeja sin revisar piezas ni conteo.",
+  },
+  {
+    prompt:
+      "Cierra el caso con una entrega que deje claros los hallazgos y pendientes.",
+    good: "Compartir hallazgo, verificación realizada y pendiente con el siguiente equipo.",
+    bad: "Decir solamente que el procedimiento terminó.",
+  },
+];
+function ht(p, T) {
+  lt(p).textContent = T;
+}
+function Vt(p = "good") {
+  if (Qt)
+    try {
+      (At ?? (At = new (window.AudioContext || window.webkitAudioContext)()),
+        At.state === "suspended" && At.resume());
+      const T = At.createOscillator(),
+        t = At.createGain();
+      ((T.type = p === "bad" ? "triangle" : "sine"),
+        T.frequency.setValueAtTime(p === "bad" ? 210 : 480, At.currentTime),
+        p !== "bad" &&
+          T.frequency.exponentialRampToValueAtTime(760, At.currentTime + 0.13),
+        t.gain.setValueAtTime(1e-4, At.currentTime),
+        t.gain.exponentialRampToValueAtTime(0.05, At.currentTime + 0.018),
+        t.gain.exponentialRampToValueAtTime(1e-4, At.currentTime + 0.22),
+        T.connect(t).connect(At.destination),
+        T.start(),
+        T.stop(At.currentTime + 0.23));
+    } catch {}
+}
+function Jt() {
+  return Q
+    ? Q.phase === "observe"
+      ? ft()[Q.substep].station
+      : Q.phase === "material"
+        ? "material"
+        : Q.phase === "talk"
+          ? "equipo"
+          : null
+    : null;
+}
+class Xi extends Ut.Scene {
+  constructor() {
+    (super("RoomScene"), (this.points = new Map()));
+  }
+  preload() {
+    this.load.image("room", roomUrl);
+  }
+  create() {
+    (this.add.image(600, 337.5, "room").setDisplaySize(1200, 675),
+      this.add.rectangle(600, 337.5, 1200, 675, 400426, 0.1),
+      Dt.forEach((u) => this.makePoint(u)),
+      this.makeActor(),
+      (this.stageCard = this.add
+        .container(600, 338)
+        .setDepth(30)
+        .setVisible(!1)));
+    const T = this.add
+        .rectangle(0, 0, 560, 146, 535353, 0.96)
+        .setStrokeStyle(2, 8576979, 0.9),
+      t = this.add
+        .text(0, -28, "PAUSA DE SEGURIDAD", {
+          fontFamily: "Arial",
+          fontSize: "14px",
+          fontStyle: "bold",
+          color: "#8df1de",
+        })
+        .setOrigin(0.5);
+    ((this.cardText = this.add
+      .text(0, 15, "EL EQUIPO SE DETIENE", {
+        fontFamily: "Arial",
+        fontSize: "26px",
+        fontStyle: "bold",
+        color: "#f5fffc",
+      })
+      .setOrigin(0.5)),
+      this.stageCard.add([T, t, this.cardText]),
+      this.game.events.on("state-change", this.sync, this),
+      this.events.once(Ut.Scenes.Events.SHUTDOWN, () =>
+        this.game.events.off("state-change", this.sync, this),
+      ),
+      Q && this.sync(Q),
+      this.cameras.main.fadeIn(420, 5, 25, 35));
+  }
+  makePoint(T) {
+    const t = this.add
+        .circle(0, 0, 51, 8321503, 0.19)
+        .setStrokeStyle(1, 13697013, 0.45),
+      u = this.add
+        .circle(0, 0, 33, 667968, 0.94)
+        .setStrokeStyle(2, 12976117, 0.9),
+      c = this.add.circle(0, 0, 24, 948098, 0.98),
+      l = this.add
+        .text(0, 0, T.short, {
+          fontFamily: "Arial",
+          fontSize: "15px",
+          fontStyle: "bold",
+          color: "#ffffff",
+        })
+        .setOrigin(0.5),
+      a = this.add
+        .rectangle(
+          0,
+          52,
+          Math.max(114, T.label.length * 9 + 24),
+          27,
+          601403,
+          0.95,
+        )
+        .setStrokeStyle(1, 10349792, 0.6),
+      s = this.add
+        .text(0, 52, T.label.toUpperCase(), {
+          fontFamily: "Arial",
+          fontSize: "11px",
+          fontStyle: "bold",
+          color: "#f1fffc",
+        })
+        .setOrigin(0.5),
+      e = this.add.container(T.x, T.y, [t, u, c, l, a, s]).setDepth(15),
+      i = this.add
+        .zone(T.x, T.y + 15, 140, 115)
+        .setInteractive({ useHandCursor: !0 })
+        .setDepth(16);
+    (i.on("pointerover", () =>
+      this.tweens.add({ targets: e, scale: 1.1, duration: 140 }),
+    ),
+      i.on("pointerout", () =>
+        this.tweens.add({ targets: e, scale: 1, duration: 140 }),
+      ),
+      i.on("pointerdown", () => this.game.events.emit("station-select", T.id)),
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        this.tweens.add({
+          targets: t,
+          scale: 1.18,
+          alpha: 0.24,
+          duration: 1500,
+          yoyo: !0,
+          repeat: -1,
+          delay: Math.random() * 800,
+        }),
+      this.points.set(T.id, {
+        group: e,
+        halo: t,
+        disc: u,
+        core: c,
+        hit: i,
+        name: s,
+      }));
+  }
+  makeActor() {
+    const T = this.add.ellipse(0, -1, 62, 17, 203559, 0.55);
+    ((this.leftLeg = this.add
+      .rectangle(-12, -29, 13, 35, 739413)
+      .setOrigin(0.5, 0)),
+      (this.rightLeg = this.add
+        .rectangle(12, -29, 13, 35, 739413)
+        .setOrigin(0.5, 0)));
+    const t = this.add.ellipse(-12, 5, 22, 9, 600631),
+      u = this.add.ellipse(12, 5, 22, 9, 600631);
+    ((this.leftArm = this.add
+      .rectangle(-25, -67, 12, 36, 5157805)
+      .setOrigin(0.5, 0)),
+      (this.rightArm = this.add
+        .rectangle(25, -67, 12, 36, 5157805)
+        .setOrigin(0.5, 0)));
+    const c = this.add
+        .rectangle(0, -59, 43, 48, 4565673)
+        .setStrokeStyle(2, 11072229),
+      l = this.add.rectangle(0, -88, 13, 11, 12093296),
+      a = this.add.circle(0, -103, 22, 13476234).setStrokeStyle(2, 5323833),
+      s = this.add
+        .rectangle(0, -98, 34, 13, 15267827)
+        .setStrokeStyle(1, 10209735),
+      e = this.add
+        .ellipse(0, -120, 48, 19, 1013893)
+        .setStrokeStyle(2, 11072229),
+      i = this.add
+        .text(0, -61, "GPA", {
+          fontFamily: "Arial",
+          fontSize: "8px",
+          fontStyle: "bold",
+          color: "#eafff9",
+        })
+        .setOrigin(0.5);
+    ((this.actor = this.add
+      .container(600, 560, [
+        T,
+        this.leftLeg,
+        this.rightLeg,
+        t,
+        u,
+        this.leftArm,
+        this.rightArm,
+        c,
+        l,
+        a,
+        s,
+        e,
+        i,
+      ])
+      .setDepth(23)
+      .setScale(1.12)
+      .setVisible(!1)),
+      (this.propBack = this.add
+        .rectangle(0, 0, 35, 42, 15529715)
+        .setStrokeStyle(2, 1398631)));
+    const r = this.add.rectangle(0, -10, 22, 3, 6129811),
+      n = this.add.rectangle(0, -3, 22, 3, 6129811),
+      o = this.add.rectangle(0, 4, 22, 3, 6129811);
+    ((this.propCode = this.add
+      .text(0, 13, "ID", {
+        fontFamily: "Arial",
+        fontSize: "9px",
+        fontStyle: "bold",
+        color: "#134e60",
+      })
+      .setOrigin(0.5)),
+      (this.propScan = this.add.rectangle(0, -15, 26, 3, 5427887)),
+      (this.prop = this.add
+        .container(38, -80, [
+          this.propBack,
+          r,
+          n,
+          o,
+          this.propCode,
+          this.propScan,
+        ])
+        .setVisible(!1)),
+      this.actor.add(this.prop));
+    const f = this.add
+        .rectangle(0, 0, 186, 58, 601920, 0.98)
+        .setStrokeStyle(2, 10417375),
+      d = this.add.circle(-68, 0, 18, 2785154);
+    ((this.actionIcon = this.add
+      .text(-68, 0, "ID", {
+        fontFamily: "Arial",
+        fontSize: "12px",
+        fontStyle: "bold",
+        color: "#ffffff",
+      })
+      .setOrigin(0.5)),
+      (this.actionTitle = this.add
+        .text(-44, -9, "LEYENDO EXPEDIENTE", {
+          fontFamily: "Arial",
+          fontSize: "11px",
+          fontStyle: "bold",
+          color: "#f2fffb",
+          wordWrap: { width: 125 },
+        })
+        .setOrigin(0, 0.5)));
+    const h = this.add.rectangle(-45, 18, 126, 4, 3234149).setOrigin(0, 0.5);
+    ((this.scanBar = this.add
+      .rectangle(-45, 18, 126, 4, 8582357)
+      .setOrigin(0, 0.5)),
+      (this.actionBubble = this.add
+        .container(0, -168, [
+          f,
+          d,
+          this.actionIcon,
+          this.actionTitle,
+          h,
+          this.scanBar,
+        ])
+        .setVisible(!1)),
+      this.actor.add(this.actionBubble));
+  }
+  stopActorMotion() {
+    var T, t, u, c, l, a;
+    for (const s of [
+      this.moveTween,
+      this.walkTweenA,
+      this.walkTweenB,
+      this.actionTween,
+      this.scanTween,
+      this.propTween,
+    ])
+      s == null || s.stop();
+    ((T = this.actionTimer) == null || T.remove(!1),
+      (t = this.countTimer) == null || t.remove(!1),
+      (this.moveTween =
+        this.walkTweenA =
+        this.walkTweenB =
+        this.actionTween =
+        this.scanTween =
+        this.propTween =
+        this.actionTimer =
+        this.countTimer =
+          null),
+      (u = this.leftLeg) == null || u.setAngle(0),
+      (c = this.rightLeg) == null || c.setAngle(0),
+      (l = this.leftArm) == null || l.setAngle(0),
+      (a = this.rightArm) == null || a.setAngle(0),
+      this.pendingVisit && (this.pendingVisit(!1), (this.pendingVisit = null)));
+  }
+  resetActor() {
+    this.actor &&
+      (this.stopActorMotion(),
+      this.actor.setPosition(600, 560).setAlpha(1).setVisible(!1),
+      this.actionBubble.setVisible(!1),
+      this.prop.setVisible(!1));
+  }
+  visitStation(T) {
+    const t = Ri[T];
+    if (!t || !this.actor) return Promise.resolve(!1);
+    this.stopActorMotion();
+    const u = !this.actor.visible;
+    (this.actor.setVisible(!0).setAlpha(u ? 0 : 1),
+      this.actionBubble.setVisible(!1),
+      this.prop.setVisible(!1));
+    const c = Ut.Math.Distance.Between(this.actor.x, this.actor.y, t.x, t.y),
+      l = Math.min(1150, Math.max(530, c * 1.7));
+    return (
+      (this.walkTweenA = this.tweens.add({
+        targets: [this.leftLeg, this.rightArm],
+        angle: 18,
+        duration: 170,
+        yoyo: !0,
+        repeat: -1,
+      })),
+      (this.walkTweenB = this.tweens.add({
+        targets: [this.rightLeg, this.leftArm],
+        angle: -18,
+        duration: 170,
+        yoyo: !0,
+        repeat: -1,
+      })),
+      new Promise((a) => {
+        ((this.pendingVisit = a),
+          (this.moveTween = this.tweens.add({
+            targets: this.actor,
+            x: t.x,
+            y: t.y,
+            alpha: 1,
+            duration: l,
+            ease: "Sine.easeInOut",
+            onComplete: () => {
+              var s, e;
+              if (
+                ((s = this.walkTweenA) == null || s.stop(),
+                (e = this.walkTweenB) == null || e.stop(),
+                this.leftLeg.setAngle(0),
+                this.rightLeg.setAngle(0),
+                this.leftArm.setAngle(0),
+                this.rightArm.setAngle(0),
+                this.actionIcon.setText(t.icon),
+                this.actionTitle.setText(t.label),
+                this.actionBubble.setVisible(!0),
+                this.propCode.setText(
+                  T === "equipo" ? "···" : T === "conteo" ? "01" : t.icon,
+                ),
+                this.propBack.setFillStyle(
+                  T === "monitor"
+                    ? 1195081
+                    : T === "material"
+                      ? 12167041
+                      : T === "equipo"
+                        ? 11923169
+                        : 15529715,
+                ),
+                this.propCode.setColor(T === "monitor" ? "#a4ffe8" : "#134e60"),
+                this.prop.setVisible(!0),
+                (this.propScan.y = -15),
+                (this.propTween = this.tweens.add({
+                  targets: this.propScan,
+                  y: 6,
+                  duration: T === "ficha" ? 580 : 780,
+                  yoyo: !0,
+                  repeat: -1,
+                  ease: "Sine.easeInOut",
+                })),
+                T === "conteo")
+              ) {
+                let i = 1;
+                this.countTimer = this.time.addEvent({
+                  delay: 310,
+                  loop: !0,
+                  callback: () => {
+                    ((i = (i % 5) + 1),
+                      this.propCode.setText(String(i).padStart(2, "0")));
+                  },
+                });
+              }
+              (this.scanBar.setScale(0.04, 1),
+                (this.scanTween = this.tweens.add({
+                  targets: this.scanBar,
+                  scaleX: 1,
+                  duration: 850,
+                  ease: "Sine.easeInOut",
+                  repeat: -1,
+                })),
+                (this.actionTween = this.tweens.add({
+                  targets: this.rightArm,
+                  angle: T === "equipo" ? -38 : -24,
+                  duration: 300,
+                  yoyo: !0,
+                  repeat: -1,
+                })),
+                (this.actionTimer = this.time.delayedCall(950, () => {
+                  const i = this.pendingVisit;
+                  ((this.pendingVisit = null), i == null || i(!0));
+                })));
+            },
+          })));
+      })
+    );
+  }
+  sync(T) {
+    var c, l, a, s;
+    if (!this.points.size) return;
+    const t = Jt(),
+      u = ["pause", "debrief"].includes(T.phase);
+    for (const e of Dt) {
+      const i = this.points.get(e.id),
+        r = t === e.id && !u;
+      (i.group.setAlpha(u ? 0.43 : r ? 1 : 0.62),
+        i.disc.setStrokeStyle(r ? 4 : 2, r ? 16777215 : 12976117),
+        i.core.setFillStyle(r ? 2670518 : 948098),
+        i.halo.setAlpha(r ? 0.42 : 0.12),
+        (i.hit.input.enabled = !u));
+    }
+    (this.stageCard.setVisible(u),
+      this.cardText.setText(
+        T.phase === "debrief"
+          ? "MISIÓN COMPLETADA"
+          : T.recovered.length
+            ? "INCIDENCIA RESUELTA"
+            : "REVISAR ANTES DE AVANZAR",
+      ),
+      u &&
+        (c = this.actionBubble) != null &&
+        c.visible &&
+        (this.actionBubble.setVisible(!1),
+        this.prop.setVisible(!1),
+        (l = this.actionTween) == null || l.stop(),
+        (a = this.scanTween) == null || a.stop(),
+        (s = this.propTween) == null || s.stop()));
+  }
+}
+function Ki() {
+  Et ||
+    ((Et = new Ut.Game({
+      type: Ut.AUTO,
+      parent: "phaser-stage",
+      width: 1200,
+      height: 675,
+      backgroundColor: "#071b27",
+      render: { antialias: !0 },
+      scale: { mode: Ut.Scale.FIT, autoCenter: Ut.Scale.CENTER_BOTH },
+      scene: [Xi],
+    })),
+    Et.events.on("station-select", Li));
+}
+function Qi() {
+  Et && Et.events.emit("state-change", Q);
+}
+function Te() {
+  const p = ye(Mi);
+  return Array.isArray(p) ? p : [];
+}
+function Se() {
+  const p = Te(),
+    T = lt("#module-selector");
+  (T.replaceChildren(),
+    Xt.forEach((u, c) => {
+      const l = Mt.filter(
+          (s, e) => s.module === c + 1 && Number(p[e]) > 0,
+        ).length,
+        a = Tt(
+          T,
+          `M${c + 1} · ${u.title}  ${l}/4`,
+          () => {
+            ((Ot = c + 1), (zt = Mt.findIndex((s) => s.module === Ot)), Se());
+          },
+          "module-tab",
+        );
+      (a.classList.toggle("is-selected", Ot === c + 1),
+        a.setAttribute("aria-pressed", String(Ot === c + 1)));
+    }),
+    ht("#module-heading", `MÓDULO ${Ot} · ${Xt[Ot - 1].title.toUpperCase()}`),
+    ht("#welcome-lede", Ai[Ot - 1].lead));
+  const t = lt("#mission-selector");
+  (t.replaceChildren(),
+    Mt.forEach((u, c) => {
+      if (u.module !== Ot) return;
+      const l = document.createElement("button");
+      ((l.type = "button"),
+        (l.className = `mission-choice${zt === c ? " is-selected" : ""}`),
+        l.setAttribute("aria-pressed", String(zt === c)));
+      const a = document.createElement("span");
+      ((a.className = "mission-num"),
+        (a.textContent = String(c + 1).padStart(2, "0")));
+      const s = document.createElement("span"),
+        e = document.createElement("strong");
+      e.textContent = u.title;
+      const i = document.createElement("small");
+      ((i.textContent = p[c]
+        ? `Mejor puntuación: ${p[c]}/100`
+        : u.guided
+          ? "Misión guiada · empieza aquí"
+          : "Pendiente de jugar"),
+        s.append(e, i));
+      const r = document.createElement("span");
+      (r.setAttribute("aria-hidden", "true"),
+        (r.textContent = p[c] ? "✓" : "↗"),
+        l.append(a, s, r),
+        l.addEventListener("click", () => Zi(c)),
+        t.append(l));
+    }),
+    ht(
+      "#campaign-progress",
+      `${Mt.filter((u, c) => Number(p[c]) > 0).length} de ${Mt.length} misiones completadas`,
+    ));
+}
+function Zi(p) {
+  ((zt = p), (Ot = Mt[p].module), Se());
+}
+function Ce() {
+  var T, t, u;
+  (qt++,
+    (u =
+      (t =
+        (T = Et == null ? void 0 : Et.scene) == null
+          ? void 0
+          : T.getScene("RoomScene")) == null
+        ? void 0
+        : t.stopActorMotion) == null || u.call(t),
+    (lt("#welcome").hidden = !1),
+    (lt("#game-view").hidden = !0));
+  const p = ye(kt);
+  ((lt("#resume-mission").hidden = !xe(p)),
+    xe(p) &&
+      (lt("#resume-mission").textContent =
+        `Continuar misión ${String(p.missionIndex + 1).padStart(2, "0")}`),
+    Se(),
+    window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+function $t(p, T = !1) {
+  var u, c;
+  (qt++, (lt("#actor-status").hidden = !0));
+  const t = ye(kt);
+  ((Q = T && xe(t) ? { ...t, feedback: null } : Yi(p)),
+    (zt = Q.missionIndex),
+    (Ot = ft().module),
+    (lt("#welcome").hidden = !0),
+    (lt("#game-view").hidden = !1),
+    Ki(),
+    (c =
+      (u = Et.scene.getScene("RoomScene")) == null ? void 0 : u.resetActor) ==
+      null || c.call(u),
+    Et.scale.refresh(),
+    St(),
+    It(),
+    window.scrollTo({ top: 0, behavior: "smooth" }));
+}
+async function Li(p) {
+  var a;
+  if (
+    !Q ||
+    ["pause", "debrief"].includes(Q.phase) ||
+    !Dt.some((s) => s.id === p)
+  )
+    return;
+  const T = ++qt,
+    t = Q.phase,
+    u = Q.missionIndex,
+    c = Dt.find((s) => s.id === p).label;
+  ((lt("#actor-status").hidden = !1),
+    ht("#actor-status", `Asistente en movimiento hacia ${c.toLowerCase()}…`),
+    (Q.feedback = {
+      kind: "tip",
+      text: `El asistente se desplaza a ${c.toLowerCase()}…`,
+    }),
+    Zt());
+  const l =
+    (a = Et == null ? void 0 : Et.scene) == null
+      ? void 0
+      : a.getScene("RoomScene");
+  (l != null && l.visitStation && (await l.visitStation(p)),
+    !(
+      T !== qt ||
+      Q.phase !== t ||
+      Q.missionIndex !== u ||
+      lt("#game-view").hidden
+    ) &&
+      (ht("#actor-status", `Asistente: ${Ri[p].label.toLowerCase()}.`),
+      p === Jt()
+        ? t === "material"
+          ? ((Q.feedback = {
+              kind: "good",
+              text: "Material localizado. Continúa con el reto en el panel inferior.",
+            }),
+            lt("#workbench").scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            }),
+            Zt())
+          : ((Q.inspected = !0), (Q.feedback = null), Vt("select"), St(), It())
+        : ((Q.feedback = {
+            kind: "tip",
+            text: `Has visitado ${c.toLowerCase()}. Para avanzar en este paso, visita ${Dt.find((s) => s.id === Jt()).label.toLowerCase()}.`,
+          }),
+          Zt())));
+}
+function Ji(p) {
+  const T = Q.substep;
+  Q.awaiting ||
+    !Q.inspected ||
+    ((Q.decisions[T] = p),
+    (Q.awaiting = !0),
+    p ? (Q.score += 20) : Q.mistakes++,
+    (Q.feedback = {
+      kind: p ? "good" : "bad",
+      text: p ? ft()[T].good : ft()[T].bad,
+    }),
+    Vt(p ? "good" : "bad"),
+    St(),
+    It());
+}
+function jt() {
+  ((Q.awaiting = !1),
+    (Q.feedback = null),
+    (Q.inspected = !1),
+    Q.phase === "observe"
+      ? Q.substep === "identity"
+        ? (Q.substep = "equipment")
+        : (Q.phase = "material")
+      : Q.phase === "material"
+        ? (Q.phase = "talk")
+        : Q.phase === "talk"
+          ? (Q.phase = "pause")
+          : Q.phase === "pause" && Q.pauseVerified && (Q.phase = "debrief"),
+    St(),
+    It());
+}
+function $i() {
+  return ft().supplies.every((p) => !!Q.assignments[p.id]);
+}
+function Fe(p, T) {
+  if (Q.phase !== "material" || Q.awaiting || Q.assignments[p]) return;
+  const t = ft().supplies.find((c) => c.id === p);
+  if (!t || !["field", "hold"].includes(T)) return;
+  ((Q.assignments[p] = T), (Q.selectedSupply = null));
+  const u = t.target === T;
+  (u ? (Q.score += p === "ready" ? 12 : 13) : Q.mistakes++,
+    (Q.feedback = {
+      kind: u ? "good" : "bad",
+      text: u
+        ? `${t.title}: destino adecuado.`
+        : `${t.title}: este destino deja una incidencia para la pausa.`,
+    }),
+    $i() &&
+      ((Q.awaiting = !0),
+      (Q.feedback = {
+        kind: ft().supplies.every((c) => Q.assignments[c.id] === c.target)
+          ? "good"
+          : "bad",
+        text: "Material organizado. Las decisiones que aún necesitan revisión aparecerán durante la pausa.",
+      })),
+    Vt(u ? "good" : "bad"),
+    St(),
+    It());
+}
+function ji(p) {
+  Q.awaiting ||
+    !Q.inspected ||
+    ((Q.decisions.communication = p),
+    (Q.awaiting = !0),
+    p ? (Q.score += 20) : Q.mistakes++,
+    (Q.feedback = {
+      kind: p ? "good" : "bad",
+      text: p
+        ? "Compartiste hallazgos concretos y las verificaciones pendientes."
+        : "El equipo no recibió un estado preciso. La pausa tendrá que recuperar esa información.",
+    }),
+    Vt(p ? "good" : "bad"),
+    St(),
+    It());
+}
+const ki = ["identity", "material", "equipment", "communication"];
+function _t() {
+  const p = [];
+  return (
+    Q.decisions.identity === !1 &&
+      !Q.recovered.includes("identity") &&
+      p.push("identity"),
+    (ft().module === 1
+      ? ft().supplies.some((t) => Q.assignments[t.id] !== t.target)
+      : Q.challengeCorrect === !1) &&
+      !Q.recovered.includes("material") &&
+      p.push("material"),
+    Q.decisions.equipment === !1 &&
+      !Q.recovered.includes("equipment") &&
+      p.push("equipment"),
+    Q.decisions.communication === !1 &&
+      !Q.recovered.includes("communication") &&
+      p.push("communication"),
+    ki.filter((t) => p.includes(t))
+  );
+}
+function qi(p) {
+  return {
+    identity: {
+      title: ft().identity.title,
+      text: ft().identity.bad,
+      fix: ft().identity.options[0].text,
+      unsafe: ft().identity.options[1].text,
+    },
+    material:
+      ft().module === 1
+        ? {
+            title: "Campo por verificar",
+            text: "Un elemento quedó en el destino equivocado.",
+            fix: "Retirar el material no apto y obtener uno verificado.",
+            unsafe: "Mantenerlo en el campo sin resolver la discrepancia.",
+          }
+        : {
+            title: `Revisar: ${Ht().title}`,
+            text: "El reto del módulo dejó una discrepancia. Revísala con el equipo antes de avanzar.",
+            fix: "Revisar el resultado, consultar la presentación del módulo y corregirlo con el equipo.",
+            unsafe: "Dar la respuesta por válida sin verificarla.",
+          },
+    equipment: {
+      title: ft().equipment.title,
+      text: ft().equipment.bad,
+      fix: ft().equipment.options[0].text,
+      unsafe: ft().equipment.options[1].text,
+    },
+    communication: {
+      title: "Información incompleta al equipo",
+      text: "La pausa revela que no todos conocen las verificaciones pendientes.",
+      fix: "Comunicar hallazgos concretos y confirmar que el equipo los comprendió.",
+      unsafe: "Evitar la aclaración para no interrumpir.",
+    },
+  }[p];
+}
+function Oe(p, T) {
+  Q.phase !== "pause" ||
+    Q.awaiting ||
+    _t()[0] !== p ||
+    (T
+      ? (Q.recovered.push(p),
+        (Q.awaiting = !0),
+        (Q.feedback = {
+          kind: "good",
+          text: "Incidencia aclarada con el equipo. Ya puedes continuar.",
+        }))
+      : (Q.mistakes++,
+        (Q.feedback = {
+          kind: "bad",
+          text: "La incidencia sigue abierta. Elige una acción que permita verificarla antes de seguir.",
+        })),
+    Vt(T ? "good" : "bad"),
+    St(),
+    It());
+}
+function De(p) {
+  if (!(Q.phase !== "pause" || _t().length || Q.awaiting)) {
+    if (p) {
+      ((Q.score += 15),
+        (Q.pauseVerified = !0),
+        (Q.awaiting = !0),
+        (Q.feedback = {
+          kind: "good",
+          text: `${Ct().steps[3]} completado: el equipo confirmó el resultado y lo pendiente.`,
+        }));
+      const T = Te();
+      ((T[Q.missionIndex] = Math.max(Number(T[Q.missionIndex]) || 0, Q.score)),
+        Pi(Mi, T));
+    } else
+      (Q.mistakes++,
+        (Q.feedback = {
+          kind: "bad",
+          text: "Esta fase requiere una confirmación compartida, no una suposición aislada.",
+        }));
+    (Vt(p ? "good" : "bad"), St(), It());
+  }
+}
+function Tt(p, T, t, u = "option") {
+  const c = document.createElement("button");
+  return (
+    (c.type = "button"),
+    (c.className = u),
+    (c.textContent = T),
+    c.addEventListener("click", t),
+    p.append(c),
+    c
+  );
+}
+function Zt() {
+  const p = lt("#feedback");
+  if (!Q.feedback) {
+    p.hidden = !0;
+    return;
+  }
+  ((p.hidden = !1),
+    (p.className = `feedback ${Q.feedback.kind}`),
+    (p.textContent = Q.feedback.text));
+}
+function te(p, T) {
+  const t = lt("#evidence");
+  ((t.hidden = !1), t.replaceChildren());
+  const u = document.createElement("strong");
+  u.textContent = p;
+  const c = document.createElement("span");
+  ((c.textContent = T), t.append(u, c));
+}
+function Ee(p) {
+  const T = lt("#dialogue");
+  ((T.hidden = !1), (T.textContent = p));
+}
+function _i() {
+  const p = ft()[Q.substep];
+  (ht(
+    "#panel-kicker",
+    ft().guided ? "TU GUÍA · INSPECCIÓN" : "MISIÓN · INSPECCIÓN",
+  ),
+    ht("#panel-counter", Q.substep === "identity" ? "01 / 05" : "02 / 05"),
+    ht("#panel-avatar", Q.substep === "identity" ? "ID" : "EQ"),
+    ht(
+      "#panel-title",
+      Q.inspected
+        ? p.title
+        : `Toca ${Dt.find((T) => T.id === p.station).label}`,
+    ),
+    ht(
+      "#panel-description",
+      Q.inspected
+        ? p.finding
+        : `Toca «${Dt.find((T) => T.id === p.station).label}» en la sala o en los botones debajo de la imagen.`,
+    ),
+    ht("#panel-phase", `FASE 1 · ${Ct().steps[0].toUpperCase()}`),
+    Q.inspected
+      ? (te(
+          "TU DECISIÓN",
+          "¿Qué debe hacerse antes de que el equipo continúe?",
+        ),
+        Q.awaiting ||
+          p.options.forEach((T) =>
+            Tt(lt("#decision-options"), T.text, () => Ji(T.safe)),
+          ))
+      : Q.substep === "identity" && Ee(ft().intro),
+    Q.awaiting &&
+      Tt(lt("#decision-options"), "Continuar →", jt, "next-button"));
+}
+function Fi() {
+  const p = lt("#workbench");
+  if (((p.hidden = Q.phase !== "material"), p.hidden)) return;
+  const T = lt("#supply-cards");
+  (T.replaceChildren(),
+    ft().supplies.forEach((u) => {
+      const c = Q.assignments[u.id],
+        l = document.createElement("button");
+      ((l.type = "button"),
+        (l.className = `supply-card${Q.selectedSupply === u.id ? " selected" : ""}${c ? " placed" : ""}`),
+        (l.draggable = !c && !Q.awaiting),
+        (l.disabled = !!c || Q.awaiting),
+        (l.dataset.supply = u.id));
+      const a = document.createElement("strong");
+      a.textContent = u.title;
+      const s = document.createElement("span");
+      s.textContent = u.detail;
+      const e = document.createElement("small");
+      ((e.textContent = c
+        ? c === "field"
+          ? "→ Campo"
+          : "→ Retener"
+        : "Toca para elegir"),
+        l.append(a, s, e),
+        l.addEventListener("click", () => {
+          ((Q.selectedSupply = u.id), Fi());
+        }),
+        l.addEventListener("dragstart", (i) => {
+          (i.dataTransfer.setData("text/plain", u.id),
+            (i.dataTransfer.effectAllowed = "move"));
+        }),
+        T.append(l));
+    }));
+  const t = lt("#supply-targets");
+  (t.replaceChildren(),
+    [
+      ["field", "Campo verificado", "Material aceptado para la preparación"],
+      ["hold", "Retener y sustituir", "Material dudoso fuera del campo"],
+    ].forEach(([u, c, l]) => {
+      const a = document.createElement("button");
+      ((a.type = "button"),
+        (a.className = "supply-target"),
+        (a.dataset.target = u));
+      const s = document.createElement("strong");
+      s.textContent = c;
+      const e = document.createElement("span");
+      e.textContent = l;
+      const i = document.createElement("em");
+      ((i.textContent = String(
+        Object.values(Q.assignments).filter((r) => r === u).length,
+      )),
+        a.append(s, e, i),
+        a.addEventListener("click", () => {
+          Q.selectedSupply && Fe(Q.selectedSupply, u);
+        }),
+        a.addEventListener("dragover", (r) => {
+          (r.preventDefault(), a.classList.add("drag-over"));
+        }),
+        a.addEventListener("dragleave", () => a.classList.remove("drag-over")),
+        a.addEventListener("drop", (r) => {
+          (r.preventDefault(),
+            a.classList.remove("drag-over"),
+            Fe(r.dataTransfer.getData("text/plain"), u));
+        }),
+        t.append(a));
+    }));
+}
+function Kt(p, T, t, u) {
+  const c = Tt(p, T, u, "challenge-choice");
+  return (
+    c.classList.toggle("selected", !!t),
+    c.setAttribute("aria-pressed", String(!!t)),
+    (c.disabled = Q.awaiting),
+    c
+  );
+}
+function ts() {
+  if (Q.awaiting || Q.phase !== "material") return;
+  const p = Ht();
+  let T = !1;
+  (p.type === "match" &&
+    (T = p.rows.every((t, u) => Q.challengeSelections[u] === t[1])),
+    p.type === "diagnose" &&
+      (T = p.rows.every((t, u) => Q.challengeSelections[u] === t[2])),
+    p.type === "tray" &&
+      (T = p.choices.every(([t, u], c) => Q.challengePick.includes(c) === u)),
+    p.type === "handoff" &&
+      (T = Q.challengeOrder.join(",") === "finding,action,pending"),
+    (Q.challengeCorrect = T),
+    (Q.awaiting = !0),
+    T ? (Q.score += 25) : Q.mistakes++,
+    (Q.feedback = {
+      kind: T ? "good" : "bad",
+      text: T
+        ? "Reto completado. La decisión se incorpora al informe."
+        : "Hay una discrepancia en este reto. Se revisará con el equipo antes de cerrar el caso.",
+    }),
+    Vt(T ? "good" : "bad"),
+    St(),
+    It());
+}
+function Gt() {
+  const p = Ht(),
+    T = lt("#challenge-board");
+  (T.replaceChildren(), (T.hidden = !1));
+  const t = document.createElement("p");
+  if (
+    ((t.className = "challenge-prompt"),
+    (t.textContent = p.prompt),
+    T.append(t),
+    p.type === "match")
+  ) {
+    const l = document.createElement("div");
+    ((l.className = "match-rows"),
+      p.rows.forEach(([a], s) => {
+        const e = document.createElement("div");
+        e.className = "match-row";
+        const i = document.createElement("strong");
+        ((i.textContent = a), e.append(i));
+        const r = document.createElement("div");
+        ((r.className = "match-options"),
+          p.choices.forEach((n) =>
+            Kt(r, n, Q.challengeSelections[s] === n, () => {
+              ((Q.challengeSelections[s] = n), St(), Gt());
+            }),
+          ),
+          e.append(r),
+          l.append(e));
+      }),
+      T.append(l));
+  }
+  if (p.type === "diagnose") {
+    const l = document.createElement("div");
+    ((l.className = "diagnostic-panel"),
+      p.rows.forEach(([a, s], e) => {
+        const i = document.createElement("div");
+        i.className = "diagnostic-row";
+        const r = document.createElement("span");
+        ((r.className = `diagnostic-light ${Q.challengeSelections[e] || "unknown"}`),
+          r.setAttribute("aria-hidden", "true"));
+        const n = document.createElement("div"),
+          o = document.createElement("strong");
+        o.textContent = a;
+        const f = document.createElement("small");
+        ((f.textContent = s), n.append(o, f), i.append(r, n));
+        const d = document.createElement("div");
+        ((d.className = "diagnostic-actions"),
+          Kt(d, "✓ Verificado", Q.challengeSelections[e] === "ready", () => {
+            ((Q.challengeSelections[e] = "ready"), St(), Gt());
+          }),
+          Kt(d, "! Pendiente", Q.challengeSelections[e] === "pending", () => {
+            ((Q.challengeSelections[e] = "pending"), St(), Gt());
+          }),
+          i.append(d),
+          l.append(i));
+      }),
+      T.append(l));
+  }
+  if (p.type === "tray") {
+    const l = document.createElement("div");
+    ((l.className = "instrument-grid"),
+      p.choices.forEach(([s], e) => {
+        const i = Kt(l, s, Q.challengePick.includes(e), () => {
+          (Q.challengePick.includes(e)
+            ? (Q.challengePick = Q.challengePick.filter((n) => n !== e))
+            : Q.challengePick.length < 3 && Q.challengePick.push(e),
+            St(),
+            Gt());
+        });
+        i.dataset.instrument = e;
+        const r = document.createElement("small");
+        ((r.textContent = `INSTRUMENTO ${String(e + 1).padStart(2, "0")}`),
+          i.prepend(r));
+      }),
+      T.append(l));
+    const a = document.createElement("p");
+    ((a.className = "challenge-count"),
+      (a.textContent = `${Q.challengePick.length} de 3 instrumentos seleccionados`),
+      T.append(a));
+  }
+  if (p.type === "handoff") {
+    const l = document.createElement("div");
+    ((l.className = "handoff-slots"),
+      ["1 · HALLAZGO", "2 · VERIFICACIÓN", "3 · PENDIENTE"].forEach((s, e) => {
+        const i = document.createElement("div");
+        i.className = "handoff-slot";
+        const r = document.createElement("small");
+        r.textContent = s;
+        const n = p.cards.find((f) => f[0] === Q.challengeOrder[e]),
+          o = document.createElement("strong");
+        ((o.textContent = n ? n[1] : "Toca una tarjeta para colocarla aquí"),
+          i.append(r, o),
+          l.append(i));
+      }),
+      T.append(l));
+    const a = document.createElement("div");
+    ((a.className = "handoff-cards"),
+      p.cards.forEach(([s, e]) => {
+        const i = Kt(a, e, Q.challengeOrder.includes(s), () => {
+          !Q.challengeOrder.includes(s) &&
+            Q.challengeOrder.length < 3 &&
+            (Q.challengeOrder.push(s), St(), Gt());
+        });
+        i.disabled = Q.challengeOrder.includes(s);
+      }),
+      T.append(a),
+      Tt(
+        T,
+        "↶ Reiniciar orden",
+        () => {
+          ((Q.challengeOrder = []), St(), Gt());
+        },
+        "challenge-reset",
+      ));
+  }
+  const u =
+      p.type === "match" || p.type === "diagnose"
+        ? Object.keys(Q.challengeSelections).length
+        : p.type === "tray"
+          ? Q.challengePick.length
+          : Q.challengeOrder.length,
+    c = p.type === "tray" || p.type === "handoff" ? 3 : p.rows.length;
+  if (Q.awaiting) {
+    const l = document.createElement("p");
+    ((l.className = `challenge-result ${Q.challengeCorrect ? "good" : "bad"}`),
+      (l.textContent = Q.challengeCorrect
+        ? "Reto superado en la primera pasada."
+        : "Resultado pendiente de revisión en la pausa."),
+      T.append(l));
+  } else {
+    const l = Tt(T, "Confirmar reto →", ts, "next-button challenge-submit");
+    l.disabled = u < c;
+  }
+}
+function es() {
+  const p = ft().module === 1;
+  (ht(
+    "#panel-kicker",
+    p ? "AUDITORÍA DE ESTERILIDAD" : `RETO DEL MÓDULO ${ft().module}`,
+  ),
+    ht("#panel-counter", "03 / 05"),
+    ht(
+      "#panel-avatar",
+      p ? "ST" : ["", "ST", "H", "EQ", "IN", "R"][ft().module],
+    ),
+    ht("#panel-title", p ? "Audita el material" : Ht().title),
+    ht(
+      "#panel-description",
+      p
+        ? "Envía el material apto al campo y retén el que no cumple las condiciones. Arrastra o toca."
+        : Ht().prompt,
+    ),
+    ht("#panel-phase", `FASE 2 · ${Ct().steps[1].toUpperCase()}`),
+    te(
+      "TU RETO",
+      p
+        ? "Solo entra al campo el material indicado y con condición verificable."
+        : Ct().lead,
+    ),
+    Q.awaiting &&
+      Tt(
+        lt("#decision-options"),
+        "Continuar con el equipo →",
+        jt,
+        "next-button",
+      ),
+    (lt("#workbench").hidden = !1),
+    (lt("#supply-grid").hidden = !p),
+    (lt("#challenge-board").hidden = p),
+    ht("#challenge-kicker", `INTERACCIÓN · ${Ct().steps[1].toUpperCase()}`),
+    ht("#workbench-title", p ? "Decide qué entra al campo" : Ht().title),
+    ht(
+      "#challenge-instruction",
+      p
+        ? "Arrastra o toca cada elemento y luego un destino"
+        : "Resuelve el reto y confirma tu respuesta",
+    ),
+    p ? Fi() : Gt());
+}
+function is() {
+  (ht(
+    "#panel-kicker",
+    ft().guided ? "TU GUÍA · COMUNICACIÓN" : "MISIÓN · COMUNICACIÓN",
+  ),
+    ht("#panel-counter", "04 / 05"),
+    ht("#panel-avatar", "EQ"),
+    ht("#panel-title", Q.inspected ? "Comunica al equipo" : "Toca Equipo"),
+    ht(
+      "#panel-description",
+      Q.inspected
+        ? "El equipo espera una comunicación clara de lo que se verificó y lo que queda pendiente."
+        : "Acércate al equipo tocando el marcador «Equipo» o el botón debajo de la sala.",
+    ),
+    ht("#panel-phase", `FASE 3 · ${Ct().steps[2].toUpperCase()}`),
+    Q.inspected &&
+      (Ee(ft().dialogue),
+      Q.awaiting ||
+        ft().communication.forEach((p) =>
+          Tt(lt("#decision-options"), p.text, () => ji(p.safe)),
+        )),
+    Q.awaiting &&
+      Tt(
+        lt("#decision-options"),
+        `Ir a ${Ct().steps[3].toLowerCase()} →`,
+        jt,
+        "next-button",
+      ));
+}
+function ss() {
+  (ht("#panel-kicker", Ct().steps[3].toUpperCase()),
+    ht("#panel-counter", "05 / 05"),
+    ht("#panel-avatar", "!"),
+    ht("#panel-phase", `FASE 4 · ${Ct().steps[3].toUpperCase()}`));
+  const p = _t()[0];
+  if (p) {
+    const T = qi(p);
+    (ht("#panel-title", T.title),
+      ht("#panel-description", T.text),
+      Ee(
+        ft().module === 1
+          ? ft().pauseIntro
+          : `El equipo detiene el avance para revisar el reto de ${Xt[ft().module - 1].title.toLowerCase()}.`,
+      ),
+      te(
+        "CONSECUENCIA DE TUS DECISIONES",
+        `Quedan ${_t().length} verificación(es) abiertas. Resuelve esta antes de continuar.`,
+      ),
+      Q.awaiting
+        ? Tt(lt("#decision-options"), "Seguir la pausa →", jt, "next-button")
+        : (Tt(lt("#decision-options"), T.fix, () => Oe(p, !0)),
+          Tt(lt("#decision-options"), T.unsafe, () => Oe(p, !1))));
+  } else {
+    const T = Hi[ft().module - 1];
+    (ht("#panel-title", Ct().steps[3]),
+      ht("#panel-description", T.prompt),
+      te(
+        "CIERRE DEL MÓDULO",
+        "Selecciona la acción que confirma el trabajo con el equipo.",
+      ),
+      Q.awaiting
+        ? Tt(
+            lt("#decision-options"),
+            "Ver informe de misión →",
+            jt,
+            "next-button",
+          )
+        : (Tt(lt("#decision-options"), T.good, () => De(!0)),
+          Tt(lt("#decision-options"), T.bad, () => De(!1))));
+  }
+}
+function ns() {
+  (ht("#panel-kicker", "INFORME FINAL"),
+    ht("#panel-counter", "MISIÓN COMPLETA"),
+    ht("#panel-avatar", "✓"),
+    ht("#panel-title", `${Ct().steps[1]} completado`),
+    ht(
+      "#panel-description",
+      "Terminaste la misión. El informe muestra qué resolviste en la primera pasada y qué recuperó el equipo durante la pausa.",
+    ),
+    ht("#panel-phase", "FASE 5 · APRENDER"));
+  const p = lt("#decision-options"),
+    T = document.createElement("div");
+  ((T.className = "debrief-score"),
+    (T.innerHTML = `${Q.score}<small> / 100 puntos</small>`),
+    p.append(T));
+  const t = Te(),
+    u =
+      ft().module === 1
+        ? ft().supplies.every((i) => Q.assignments[i.id] === i.target)
+        : Q.challengeCorrect === !0,
+    c = [
+      [
+        "Expediente",
+        Q.decisions.identity,
+        "Confirmación activa antes de avanzar.",
+        "La discrepancia se aclaró en la pausa; hazlo al inicio.",
+      ],
+      [
+        Ct().steps[1],
+        u,
+        "Reto del módulo resuelto en la primera pasada.",
+        "El resultado se revisó con el equipo; repite el reto para practicar.",
+      ],
+      [
+        "Equipo",
+        Q.decisions.equipment,
+        "Comprobaste el equipo antes de necesitarlo.",
+        "La comprobación quedó pendiente; intégrala a la preparación.",
+      ],
+      [
+        "Comunicación",
+        Q.decisions.communication,
+        "Compartiste hallazgos y pendientes.",
+        "El equipo necesitó una aclaración; comunica datos concretos.",
+      ],
+    ],
+    l = document.createElement("div");
+  ((l.className = "report-rows"),
+    c.forEach(([i, r, n, o]) => {
+      const f = document.createElement("div"),
+        d = document.createElement("span"),
+        h = document.createElement("b");
+      h.textContent = i;
+      const v = document.createElement("small");
+      ((v.textContent = r ? n : o), d.append(h, v));
+      const m = document.createElement("strong");
+      ((m.textContent = r ? "Primera pasada" : "Recuperado en la pausa"),
+        (m.className = r ? "pass" : "recover"),
+        f.append(d, m),
+        l.append(f));
+    }),
+    p.append(l));
+  const a = document.createElement("p");
+  ((a.className = "debrief-note"),
+    (a.textContent = `Aprendizaje clave: ${ft().learning}`),
+    p.append(a));
+  const s = document.createElement("p");
+  ((s.className = "debrief-note"),
+    (s.textContent = Q.mistakes
+      ? `Revisa ${Q.mistakes} decisión(es) para mejorar. Mejor puntuación: ${t[Q.missionIndex] || Q.score}.`
+      : `Excelente primera pasada. Mejor puntuación: ${t[Q.missionIndex] || Q.score}.`),
+    p.append(s));
+  const e = document.createElement("div");
+  ((e.className = "debrief-buttons"),
+    Tt(e, "Repetir misión", () => $t(Q.missionIndex), "button button-quiet"),
+    Q.missionIndex < Mt.length - 1
+      ? Tt(
+          e,
+          "Siguiente misión →",
+          () => $t(Q.missionIndex + 1),
+          "button button-primary",
+        )
+      : Tt(e, "Ver campaña completa →", Ce, "button button-primary"),
+    p.append(e));
+}
+function rs() {
+  const p = lt("#station-shortcuts");
+  if ((p.replaceChildren(), ["pause", "debrief"].includes(Q.phase))) {
+    p.hidden = !0;
+    return;
+  }
+  p.hidden = !1;
+  const T = Jt();
+  Dt.forEach((t) => {
+    const u = document.createElement("button");
+    ((u.type = "button"),
+      (u.textContent = t.label),
+      (u.className = `shortcut${t.id === T ? " active" : ""}`),
+      u.setAttribute("aria-label", `Ir a ${t.label}`),
+      u.addEventListener("click", () => {
+        (lt("#phaser-stage").scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+        }),
+          Li(t.id));
+      }),
+      p.append(u));
+  });
+}
+function as() {
+  const p = lt("#hint-button");
+  ((p.hidden = Q.phase === "debrief"), !p.hidden && (p.textContent = "Pista"));
+}
+function It() {
+  if (!Q) return;
+  const T = { observe: 0, material: 1, talk: 2, pause: 3, debrief: 4 }[Q.phase];
+  ((lt("#game-view").dataset.module = String(ft().module)),
+    ht("#mission-eyebrow", ft().label),
+    ht("#mission-heading-title", ft().title),
+    ht("#mission-intro", ft().intro),
+    ht(
+      "#scene-module",
+      `MÓDULO ${ft().module} · ${Xt[ft().module - 1].title.toUpperCase()}`,
+    ),
+    (lt("#mission-source").href = ft().source),
+    ht("#scene-number", String(Q.missionIndex + 1).padStart(2, "0")),
+    ht("#score", String(Q.score)),
+    ht(
+      "#mission-status",
+      Q.phase === "debrief" ? "MISIÓN COMPLETADA" : `PASO ${T + 1} DE 5`,
+    ),
+    (lt("#stat-progress-fill").style.width =
+      `${((T + (Q.phase === "observe" && Q.substep === "equipment" ? 0.5 : 0)) / 4) * 100}%`),
+    document.querySelectorAll("[data-step]").forEach((t) => {
+      const u = Number(t.dataset.step);
+      (t.classList.toggle("current", u === T),
+        t.classList.toggle("completed", u < T),
+        (t.querySelector("b").textContent = Ct().steps[u]));
+    }),
+    ht(
+      "#stage-instruction",
+      Q.phase === "observe"
+        ? Q.inspected
+          ? "REVISIÓN COMPLETA · ELIGE UNA ACCIÓN"
+          : `TOCA ${Dt.find((t) => t.id === Jt()).label.toUpperCase()} PARA INSPECCIONAR`
+        : Q.phase === "material"
+          ? `RETO: ${Ct().steps[1].toUpperCase()} EN EL PANEL INFERIOR`
+          : Q.phase === "talk"
+            ? Q.inspected
+              ? "EQUIPO CONTACTADO · ELIGE QUÉ COMUNICAR"
+              : "TOCA EQUIPO PARA COMUNICAR"
+            : Q.phase === "pause"
+              ? `FASE: ${Ct().steps[3].toUpperCase()}`
+              : "REVISA TU INFORME Y ELIGE OTRA MISIÓN",
+    ),
+    (lt("#dialogue").hidden = !0),
+    (lt("#evidence").hidden = !0),
+    lt("#decision-options").replaceChildren(),
+    (lt("#workbench").hidden = !0),
+    Q.phase === "observe" && _i(),
+    Q.phase === "material" && es(),
+    Q.phase === "talk" && is(),
+    Q.phase === "pause" && ss(),
+    Q.phase === "debrief" && ns(),
+    Zt(),
+    rs(),
+    as(),
+    Qi());
+}
+lt("#start-mission").addEventListener("click", () => $t(zt));
+lt("#resume-mission").addEventListener("click", () => $t(zt, !0));
+lt("#back-to-menu").addEventListener("click", Ce);
+lt("#restart-mission").addEventListener("click", () => $t(Q.missionIndex));
+lt("#sound-toggle").addEventListener("click", () => {
+  ((Qt = !Qt),
+    (lt("#sound-toggle").textContent = Qt ? "♫" : "×"),
+    lt("#sound-toggle").setAttribute(
+      "aria-label",
+      Qt ? "Desactivar sonido" : "Activar sonido",
+    ));
+});
+lt("#hint-button").addEventListener("click", () => {
+  if (!Q || Q.phase === "debrief") return;
+  Q.hints++;
+  const p = {
+      1: "Comprueba integridad, esterilidad y destino de cada elemento.",
+      2: "Relaciona cada hallazgo con la categoría descrita en el módulo.",
+      3: "Una luz encendida no prueba todos los componentes: lee la evidencia de cada uno.",
+      4: "Elige exactamente las tres piezas que cumplen la solicitud de la especialidad.",
+      5: "Construye la entrega como hallazgo, verificación y pendiente.",
+    },
+    T = {
+      observe:
+        Q.substep === "identity"
+          ? "Busca una confirmación activa del expediente antes de continuar."
+          : "Un equipo encendido o disponible todavía necesita una comprobación.",
+      material: p[ft().module],
+      talk: "Comunica lo confirmado y también lo que permanece pendiente.",
+      pause: "Toda incidencia abierta se aclara antes de completar esta fase.",
+    };
+  ((Q.feedback = { kind: "tip", text: T[Q.phase] }), St(), Zt());
+});
+Ce();

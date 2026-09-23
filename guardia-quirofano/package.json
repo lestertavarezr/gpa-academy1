@@ -1,0 +1,18 @@
+{
+  "name": "guardia-quirofano",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4174"
+  },
+  "dependencies": {
+    "phaser": "4.2.1"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0",
+    "prettier": "^3.6.0"
+  }
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#071a25" />
+    <meta name="description" content="Guardia de Quirófano: simulación educativa de preparación, comunicación y decisiones de seguridad." />
+    <title>Guardia de Quirófano · GPA Academy</title>
+    <script type="module" src="/src/main.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand"><span class="brand-mark" aria-hidden="true">G<span>+</span></span><span><strong>GPA Academy</strong><small>Simulaciones de aprendizaje</small></span></div>
+        <div class="header-actions"><span class="program-label">ASISTENCIA QUIRÚRGICA</span><button type="button" id="sound-toggle" class="sound-button" aria-label="Desactivar sonido">♫</button></div>
+      </header>
+
+      <main>
+        <section id="welcome" class="welcome" aria-labelledby="welcome-title">
+          <div class="welcome-copy">
+            <span class="eyebrow"><span class="eyebrow-dot"></span> 20 MISIONES · 5 MÓDULOS</span>
+            <p class="chapter-label">ELIGE UN MÓDULO Y UN CASO</p>
+            <h1 id="welcome-title">Guardia de<br><em>Quirófano</em></h1>
+            <p id="welcome-lede" class="welcome-lede">Elige un módulo. Cada uno propone una actividad distinta, basada en los casos del programa.</p>
+            <div id="module-selector" class="module-selector" role="group" aria-label="Elige un módulo"></div>
+            <p id="module-heading" class="module-heading"></p>
+            <div id="mission-selector" class="mission-selector" role="group" aria-label="Elige una misión"></div>
+            <p id="campaign-progress" class="campaign-progress"></p>
+            <div class="welcome-actions"><button id="start-mission" class="button button-primary" type="button">Entrar a la sala <span aria-hidden="true">→</span></button><button id="resume-mission" class="button button-quiet" type="button" hidden>Continuar partida</button></div>
+            <p class="welcome-note">Sin cronómetro. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.</p>
+          </div>
+          <div class="welcome-art" role="img" aria-label="Ilustración de una sala quirúrgica vacía"><div class="art-chip"><span class="eyebrow-dot"></span> SALA LISTA PARA EXPLORAR</div><div class="art-reticle">+</div><div class="art-bottom"><span>OBSERVA · ACTÚA · COMUNICA</span><span>GPA / SIM-20</span></div></div>
+        </section>
+
+        <section id="game-view" class="game-view" hidden aria-label="Simulación Guardia de Quirófano">
+          <div class="mission-heading"><div><p class="chapter-label" id="mission-eyebrow">MÓDULO 1 · MISIÓN 01</p><h1 id="mission-heading-title">La primera apertura</h1><p id="mission-intro" class="mission-intro"></p><a id="mission-source" class="mission-source" target="_blank" rel="noreferrer">Ver presentación del módulo ↗</a></div><div class="top-buttons"><button id="back-to-menu" type="button">← Elegir misión</button><button id="restart-mission" type="button">Reiniciar</button></div></div>
+          <div class="stepper" role="list" aria-label="Etapas de la misión"><span role="listitem" data-step="0">1 <b>Observar</b></span><span role="listitem" data-step="1">2 <b>Preparar</b></span><span role="listitem" data-step="2">3 <b>Comunicar</b></span><span role="listitem" data-step="3">4 <b>Pausa</b></span><span role="listitem" data-step="4">5 <b>Informe</b></span></div>
+          <div class="mission-stats"><span id="mission-status">PASO GUIADO 1 DE 5</span><div class="stat-progress"><span id="stat-progress-fill"></span></div><span><strong id="score">0</strong> PTS</span></div>
+          <div class="game-grid">
+            <div class="scene-column"><div class="scene-frame"><div id="phaser-stage" role="img" aria-label="Sala quirúrgica interactiva"></div><div class="scene-id"><span class="eyebrow-dot"></span> SALA <b id="scene-number">01</b> · TURNO EN CURSO</div><div id="scene-module" class="scene-module">MÓDULO 1 · ASEPSIA</div><div id="stage-instruction" class="stage-instruction">Toca Expediente para comenzar</div></div><div id="actor-status" class="actor-status" role="status" hidden></div><div id="station-shortcuts" class="station-shortcuts" role="group" aria-label="Estaciones del quirófano"></div></div>
+            <aside class="story-panel" aria-live="polite"><div class="story-panel-head"><span id="panel-kicker">TU GUÍA · PASO 1</span><span id="panel-counter">01 / 05</span></div><div class="story-panel-body"><div class="panel-avatar" id="panel-avatar" aria-hidden="true">G</div><h2 id="panel-title">Antes de comenzar...</h2><p id="panel-description">Te acompañaré durante esta primera misión. Toca la estación indicada y observa qué necesita el equipo.</p><div id="dialogue" class="dialogue" hidden></div><div id="evidence" class="evidence" hidden></div><div id="decision-options" class="decision-options"></div><div id="feedback" class="feedback" role="status" hidden></div></div><div class="story-panel-footer"><span id="panel-phase">FASE 1 · OBSERVAR</span><button id="hint-button" type="button">Pista</button></div></aside>
+          </div>
+          <section id="workbench" class="workbench" hidden aria-labelledby="workbench-title"><div class="workbench-head"><div><p id="challenge-kicker" class="chapter-label">INTERACCIÓN · AUDITORÍA</p><h2 id="workbench-title">Asigna cada elemento a su destino</h2></div><span id="challenge-instruction">Arrastra o toca un elemento y luego un destino</span></div><div id="supply-grid" class="workbench-grid"><div><h3>ELEMENTOS</h3><div id="supply-cards" class="supply-cards"></div></div><div><h3>DESTINOS</h3><div id="supply-targets" class="supply-targets"></div></div></div><div id="challenge-board" class="challenge-board" hidden></div></section>
+          <p class="safety-note">Caso ficticio para aprendizaje. No sustituye capacitación supervisada ni protocolos locales. <a href="https://www.who.int/publications/i/item/9789241598590" target="_blank" rel="noreferrer">Lista OMS ↗</a></p>
+        </section>
+      </main>
+      <footer class="app-footer"><span>GPA ACADEMY · DEMO EDUCATIVA</span><span>Prototipo local · No conectado a la LMS</span></footer>
+    </div>
+  </body>
+</html>
