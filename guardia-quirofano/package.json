@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview --port 4174"
+    "preview": "vite preview --port 4174",
+    "package:windows": "vite build && node scripts/package-windows.mjs"
   },
   "dependencies": {
     "phaser": "4.2.1"

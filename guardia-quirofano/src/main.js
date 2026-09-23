@@ -1,6 +1,11 @@
 import Phaser from "phaser";
 import "./style.css";
-import roomUrl from "./assets/quirofano-isometrico.png";
+import roomUrl from "./assets/quirofano-isometrico.webp";
+import actorBodyUrl from "./assets/actor/body.svg";
+import actorArmUrl from "./assets/actor/arm.svg";
+import actorLegUrl from "./assets/actor/leg.svg";
+import { Sound } from "./audio.js";
+import { DISTRACTORS } from "./distractors.js";
 const Ut = Phaser,
   Dt = [
     { id: "ficha", label: "Expediente", short: "ID", x: 225, y: 170 },
@@ -726,6 +731,37 @@ yt(
 Mt.forEach((p, T) => {
   p.label = `MÓDULO ${p.module} · MISIÓN ${String(T + 1).padStart(2, "0")}`;
 });
+// Tercera opción creíble en cada decisión; la comunicación sustituye el
+// distractor genérico («guardar silencio») por uno específico del caso.
+Mt.forEach((p, T) => {
+  const extra = DISTRACTORS[T];
+  for (const key of ["identity", "equipment"])
+    p[key].options.push({
+      text: extra[key].text,
+      safe: !1,
+      why: extra[key].why,
+    });
+  p.communication = [
+    p.communication[0],
+    { text: extra.communication.text, safe: !1, why: extra.communication.why },
+    p.communication[1],
+  ];
+});
+// Orden aleatorio estable por partida: se guarda en el estado para que las
+// opciones no salten al volver a pintar el panel.
+function shuffled(key, items) {
+  Q.shuffle ??= {};
+  let order = Q.shuffle[key];
+  if (!Array.isArray(order) || order.length !== items.length) {
+    order = items.map((_, i) => i);
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [order[i], order[j]] = [order[j], order[i]];
+    }
+    Q.shuffle[key] = order;
+  }
+  return order.map((i) => items[i]);
+}
 const bi = {
     4: {
       type: "match",
@@ -1049,6 +1085,9 @@ function Yi(p) {
     feedback: null,
     awaiting: !1,
     pauseVerified: !1,
+    shuffle: {},
+    streak: 0,
+    bestStreak: 0,
   };
 }
 function ft() {
@@ -1094,23 +1133,50 @@ function ht(p, T) {
   lt(p).textContent = T;
 }
 function Vt(p = "good") {
-  if (Qt)
-    try {
-      (At ?? (At = new (window.AudioContext || window.webkitAudioContext)()),
-        At.state === "suspended" && At.resume());
-      const T = At.createOscillator(),
-        t = At.createGain();
-      ((T.type = p === "bad" ? "triangle" : "sine"),
-        T.frequency.setValueAtTime(p === "bad" ? 210 : 480, At.currentTime),
-        p !== "bad" &&
-          T.frequency.exponentialRampToValueAtTime(760, At.currentTime + 0.13),
-        t.gain.setValueAtTime(1e-4, At.currentTime),
-        t.gain.exponentialRampToValueAtTime(0.05, At.currentTime + 0.018),
-        t.gain.exponentialRampToValueAtTime(1e-4, At.currentTime + 0.22),
-        T.connect(t).connect(At.destination),
-        T.start(),
-        T.stop(At.currentTime + 0.23));
-    } catch {}
+  Sound.play(p);
+}
+// Racha de aciertos consecutivos: da un pequeño bonus visible, no altera el
+// máximo de 100 puntos (ver Final).
+function Streak(ok) {
+  if (!ok) {
+    Q.streak = 0;
+    return;
+  }
+  Q.streak = (Q.streak || 0) + 1;
+  Q.bestStreak = Math.max(Q.bestStreak || 0, Q.streak);
+  Q.streak >= 3 && (Vt("streak"), Toast(`🔥 Racha x${Q.streak}`));
+}
+// Puntuación final: pistas restan (una vez por paso), la mejor racha suma
+// un pequeño bonus; siempre entre 0 y 100.
+function Final() {
+  const hints = Math.min(15, (Q.hints || 0) * 3),
+    bonus = Math.min(5, Math.max(0, (Q.bestStreak || 0) - 2));
+  return {
+    base: Q.score,
+    hints,
+    bonus,
+    // El bonus compensa errores, nunca las pistas: el techo baja con cada una.
+    total: Math.max(0, Math.min(100 - hints, Q.score - hints + bonus)),
+    stars: !Q.mistakes && !Q.hints ? 3 : Q.mistakes <= 1 ? 2 : 1,
+  };
+}
+function Rank(total) {
+  return total >= 95
+    ? "Instrumentista de élite"
+    : total >= 80
+      ? "Instrumentista segura"
+      : total >= 60
+        ? "En formación avanzada"
+        : "Residente en práctica";
+}
+const StarsKey = "gpa-guardia-quirofano-stars-v1";
+function Toast(text) {
+  const el = document.createElement("div");
+  ((el.className = "combo-toast"),
+    (el.textContent = text),
+    el.setAttribute("aria-hidden", "true"),
+    lt(".scene-frame").append(el),
+    setTimeout(() => el.remove(), 1600));
 }
 function Jt() {
   return Q
@@ -1128,11 +1194,16 @@ class Xi extends Ut.Scene {
     (super("RoomScene"), (this.points = new Map()));
   }
   preload() {
-    this.load.image("room", roomUrl);
+    (this.load.image("room", roomUrl),
+      this.load.svg("actor-body", actorBodyUrl, { scale: 2 }),
+      this.load.svg("actor-arm", actorArmUrl, { scale: 2 }),
+      this.load.svg("actor-leg", actorLegUrl, { scale: 2 }));
   }
   create() {
     (this.add.image(600, 337.5, "room").setDisplaySize(1200, 675),
       this.add.rectangle(600, 337.5, 1200, 675, 400426, 0.1),
+      this.makeAmbience(),
+      this.makeVitals(),
       Dt.forEach((u) => this.makePoint(u)),
       this.makeActor(),
       (this.stageCard = this.add
@@ -1231,60 +1302,173 @@ class Xi extends Ut.Scene {
         name: s,
       }));
   }
-  makeActor() {
-    const T = this.add.ellipse(0, -1, 62, 17, 203559, 0.55);
-    ((this.leftLeg = this.add
-      .rectangle(-12, -29, 13, 35, 739413)
-      .setOrigin(0.5, 0)),
-      (this.rightLeg = this.add
-        .rectangle(12, -29, 13, 35, 739413)
-        .setOrigin(0.5, 0)));
-    const t = this.add.ellipse(-12, 5, 22, 9, 600631),
-      u = this.add.ellipse(12, 5, 22, 9, 600631);
-    ((this.leftArm = this.add
-      .rectangle(-25, -67, 12, 36, 5157805)
-      .setOrigin(0.5, 0)),
-      (this.rightArm = this.add
-        .rectangle(25, -67, 12, 36, 5157805)
-        .setOrigin(0.5, 0)));
-    const c = this.add
-        .rectangle(0, -59, 43, 48, 4565673)
-        .setStrokeStyle(2, 11072229),
-      l = this.add.rectangle(0, -88, 13, 11, 12093296),
-      a = this.add.circle(0, -103, 22, 13476234).setStrokeStyle(2, 5323833),
-      s = this.add
-        .rectangle(0, -98, 34, 13, 15267827)
-        .setStrokeStyle(1, 10209735),
-      e = this.add
-        .ellipse(0, -120, 48, 19, 1013893)
-        .setStrokeStyle(2, 11072229),
-      i = this.add
-        .text(0, -61, "GPA", {
-          fontFamily: "Arial",
-          fontSize: "8px",
-          fontStyle: "bold",
-          color: "#eafff9",
+  makeAmbience() {
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const glow = this.textures.createCanvas("lamp-glow", 256, 256),
+      g = glow.getContext(),
+      rg = g.createRadialGradient(128, 128, 0, 128, 128, 128);
+    (rg.addColorStop(0, "rgba(255,250,225,0.55)"),
+      rg.addColorStop(0.35, "rgba(220,245,255,0.18)"),
+      rg.addColorStop(1, "rgba(200,240,255,0)"),
+      (g.fillStyle = rg),
+      g.fillRect(0, 0, 256, 256),
+      glow.refresh());
+    const mote = this.textures.createCanvas("mote", 8, 8),
+      m = mote.getContext(),
+      mg = m.createRadialGradient(4, 4, 0, 4, 4, 4);
+    (mg.addColorStop(0, "rgba(255,255,255,1)"),
+      mg.addColorStop(1, "rgba(255,255,255,0)"),
+      (m.fillStyle = mg),
+      m.fillRect(0, 0, 8, 8),
+      mote.refresh());
+    // Lámparas quirúrgicas de la ilustración (coordenadas del lienzo 1200×675).
+    [
+      [475, 95, 1.25],
+      [676, 124, 1.1],
+    ].forEach(([x, y, sc], i) => {
+      const halo = this.add
+        .image(x, y, "lamp-glow")
+        .setScale(sc)
+        .setBlendMode(Ut.BlendModes.ADD)
+        .setAlpha(0.75)
+        .setDepth(5);
+      reduced ||
+        this.tweens.add({
+          targets: halo,
+          alpha: 0.55,
+          scale: sc * 0.94,
+          duration: 2600 + i * 500,
+          yoyo: !0,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        });
+    });
+    reduced ||
+      this.add
+        .particles(575, 300, "mote", {
+          x: { min: -170, max: 170 },
+          y: { min: -170, max: 120 },
+          lifespan: 5200,
+          speedX: { min: -5, max: 5 },
+          speedY: { min: -7, max: 3 },
+          scale: { start: 0.5, end: 0.15 },
+          alpha: { start: 0.45, end: 0 },
+          frequency: 260,
+          blendMode: "ADD",
         })
-        .setOrigin(0.5);
-    ((this.actor = this.add
-      .container(600, 560, [
-        T,
-        this.leftLeg,
-        this.rightLeg,
-        t,
-        u,
-        this.leftArm,
-        this.rightArm,
-        c,
-        l,
-        a,
-        s,
-        e,
-        i,
-      ])
-      .setDepth(23)
-      .setScale(1.12)
-      .setVisible(!1)),
+        .setDepth(6);
+  }
+  makeVitals() {
+    const x = 1088,
+      y = 132,
+      panel = this.add
+        .rectangle(0, 0, 196, 104, 0x061820, 0.92)
+        .setStrokeStyle(2, 0x2b6f78, 0.9),
+      title = this.add.text(-88, -46, "PACIENTE · MONITOR", {
+        fontFamily: "Arial",
+        fontSize: "10px",
+        fontStyle: "bold",
+        color: "#7fb9bd",
+      });
+    ((this.hrText = this.add
+      .text(-88, 30, "FC 72", {
+        fontFamily: "Arial",
+        fontSize: "19px",
+        fontStyle: "bold",
+        color: "#57f29a",
+      })
+      .setOrigin(0, 0.5)),
+      (this.spo2Text = this.add
+        .text(88, 30, "SpO₂ 98%", {
+          fontFamily: "Arial",
+          fontSize: "15px",
+          fontStyle: "bold",
+          color: "#6fd8ff",
+        })
+        .setOrigin(1, 0.5)),
+      (this.heartDot = this.add.circle(-6, 30, 5, 0xff5a6a).setAlpha(0.25)),
+      (this.ecg = this.add.graphics()),
+      (this.ecgSamples = new Array(88).fill(0)),
+      (this.ecgPhase = 1),
+      (this.nextBeat = 0),
+      (this.vitalsAlert = !1),
+      (this.vitals = this.add
+        .container(x, y, [
+          panel,
+          title,
+          this.ecg,
+          this.hrText,
+          this.spo2Text,
+          this.heartDot,
+        ])
+        .setDepth(12)));
+  }
+  update(time, delta) {
+    if (!this.ecg) return;
+    const hr = Sound.heartRate;
+    // Plantilla PQRST simplificada; se avanza un paso por muestra.
+    const beat = [0, 1.5, 2, 0, -2, 15, -6, 0, 0, 1, 3, 4, 3, 1];
+    for (
+      this.ecgAcc = (this.ecgAcc || 0) + delta;
+      this.ecgAcc >= 22;
+      this.ecgAcc -= 22
+    )
+      (this.ecgSamples.shift(),
+        this.ecgSamples.push(
+          this.ecgPhase < beat.length
+            ? beat[this.ecgPhase++]
+            : Math.random() * 0.6 - 0.3,
+        ));
+    time >= this.nextBeat &&
+      ((this.nextBeat = time + 60000 / hr),
+      (this.ecgPhase = 0),
+      Sound.beep(),
+      this.heartDot.setAlpha(1),
+      this.tweens.add({ targets: this.heartDot, alpha: 0.25, duration: 260 }));
+    const g = this.ecg;
+    (g.clear(),
+      g.lineStyle(2, this.vitalsAlert ? 0xffc857 : 0x57f29a, 1),
+      g.beginPath());
+    this.ecgSamples.forEach((v, i) => {
+      const px = -88 + i * 2,
+        py = -4 - v * 1.1;
+      i ? g.lineTo(px, py) : g.moveTo(px, py);
+    });
+    g.strokePath();
+  }
+  makeActor() {
+    const shadow = this.add.ellipse(0, 3, 64, 16, 0x031b27, 0.45),
+      part = (key, x, y, ox, oy) =>
+        this.add.image(x, y, key).setOrigin(ox, oy).setScale(0.5);
+    ((this.leftLeg = part("actor-leg", -8, -36, 0.5, 0)),
+      (this.rightLeg = part("actor-leg", 8, -36, 0.5, 0)),
+      (this.torso = part("actor-body", 0, -30, 0.5, 1)),
+      (this.leftArm = part("actor-arm", -25, -77, 0.5, 0.06)),
+      (this.rightArm = part("actor-arm", 25, -77, 0.5, 0.06).setFlipX(!0)),
+      (this.figure = this.add
+        .container(0, 0, [
+          this.leftLeg,
+          this.rightLeg,
+          this.torso,
+          this.leftArm,
+          this.rightArm,
+        ])
+        .setScale(1.1)),
+      (this.actor = this.add
+        .container(600, 560, [shadow, this.figure])
+        .setDepth(23)
+        .setVisible(!1)),
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+        this.tweens.add({
+          targets: this.torso,
+          scaleY: 0.508,
+          duration: 1500,
+          yoyo: !0,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        }),
       (this.propBack = this.add
         .rectangle(0, 0, 35, 42, 15529715)
         .setStrokeStyle(2, 1398631)));
@@ -1301,7 +1485,7 @@ class Xi extends Ut.Scene {
       .setOrigin(0.5)),
       (this.propScan = this.add.rectangle(0, -15, 26, 3, 5427887)),
       (this.prop = this.add
-        .container(38, -80, [
+        .container(40, -58, [
           this.propBack,
           r,
           n,
@@ -1309,6 +1493,7 @@ class Xi extends Ut.Scene {
           this.propCode,
           this.propScan,
         ])
+        .setScale(0.85)
         .setVisible(!1)),
       this.actor.add(this.prop));
     const f = this.add
@@ -1337,7 +1522,7 @@ class Xi extends Ut.Scene {
       .rectangle(-45, 18, 126, 4, 8582357)
       .setOrigin(0, 0.5)),
       (this.actionBubble = this.add
-        .container(0, -168, [
+        .container(0, -190, [
           f,
           d,
           this.actionIcon,
@@ -1354,11 +1539,13 @@ class Xi extends Ut.Scene {
       this.moveTween,
       this.walkTweenA,
       this.walkTweenB,
+      this.bobTween,
       this.actionTween,
       this.scanTween,
       this.propTween,
     ])
       s == null || s.stop();
+    ((this.bobTween = null), this.figure && (this.figure.y = 0));
     ((T = this.actionTimer) == null || T.remove(!1),
       (t = this.countTimer) == null || t.remove(!1),
       (this.moveTween =
@@ -1393,20 +1580,32 @@ class Xi extends Ut.Scene {
       this.prop.setVisible(!1));
     const c = Ut.Math.Distance.Between(this.actor.x, this.actor.y, t.x, t.y),
       l = Math.min(1150, Math.max(530, c * 1.7));
+    Math.abs(t.x - this.actor.x) > 8 &&
+      this.figure.setScale(t.x < this.actor.x ? -1.1 : 1.1, 1.1);
     return (
       (this.walkTweenA = this.tweens.add({
         targets: [this.leftLeg, this.rightArm],
-        angle: 18,
-        duration: 170,
+        angle: 16,
+        duration: 190,
         yoyo: !0,
         repeat: -1,
+        ease: "Sine.easeInOut",
       })),
       (this.walkTweenB = this.tweens.add({
         targets: [this.rightLeg, this.leftArm],
-        angle: -18,
-        duration: 170,
+        angle: -16,
+        duration: 190,
         yoyo: !0,
         repeat: -1,
+        ease: "Sine.easeInOut",
+      })),
+      (this.bobTween = this.tweens.add({
+        targets: this.figure,
+        y: -3,
+        duration: 190,
+        yoyo: !0,
+        repeat: -1,
+        ease: "Sine.easeInOut",
       })),
       new Promise((a) => {
         ((this.pendingVisit = a),
@@ -1422,6 +1621,9 @@ class Xi extends Ut.Scene {
               if (
                 ((s = this.walkTweenA) == null || s.stop(),
                 (e = this.walkTweenB) == null || e.stop(),
+                this.bobTween && (this.bobTween.stop(), (this.bobTween = null)),
+                (this.figure.y = 0),
+                this.figure.setScale(1.1, 1.1),
                 this.leftLeg.setAngle(0),
                 this.rightLeg.setAngle(0),
                 this.leftArm.setAngle(0),
@@ -1491,6 +1693,13 @@ class Xi extends Ut.Scene {
   sync(T) {
     var c, l, a, s;
     if (!this.points.size) return;
+    const V = Vitals();
+    this.hrText &&
+      (this.hrText.setText(`FC ${V.hr}`),
+      this.hrText.setColor(V.alert ? "#ffc857" : "#57f29a"),
+      this.spo2Text.setText(`SpO₂ ${V.spo2}%`),
+      V.alert && !this.vitalsAlert && Sound.play("alarm"),
+      (this.vitalsAlert = V.alert));
     const t = Jt(),
       u = ["pause", "debrief"].includes(T.phase);
     for (const e of Dt) {
@@ -1577,8 +1786,10 @@ function Se() {
         e = document.createElement("strong");
       e.textContent = u.title;
       const i = document.createElement("small");
+      const st = ye(StarsKey),
+        sc = Array.isArray(st) ? Number(st[c]) || 0 : 0;
       ((i.textContent = p[c]
-        ? `Mejor puntuación: ${p[c]}/100`
+        ? `${"★".repeat(sc)}${"☆".repeat(3 - sc)}  Mejor: ${p[c]}/100`
         : u.guided
           ? "Misión guiada · empieza aquí"
           : "Pendiente de jugar"),
@@ -1609,7 +1820,8 @@ function Ce() {
         ? void 0
         : t.stopActorMotion) == null || u.call(t),
     (lt("#welcome").hidden = !1),
-    (lt("#game-view").hidden = !0));
+    (lt("#game-view").hidden = !0),
+    Sound.stopAmbient());
   const p = ye(kt);
   ((lt("#resume-mission").hidden = !xe(p)),
     xe(p) &&
@@ -1627,6 +1839,7 @@ function $t(p, T = !1) {
     (Ot = ft().module),
     (lt("#welcome").hidden = !0),
     (lt("#game-view").hidden = !1),
+    Sound.startAmbient(),
     Ki(),
     (c =
       (u = Et.scene.getScene("RoomScene")) == null ? void 0 : u.resetActor) ==
@@ -1685,16 +1898,18 @@ async function Li(p) {
           }),
           Zt())));
 }
-function Ji(p) {
-  const T = Q.substep;
+function Ji(o) {
+  const T = Q.substep,
+    p = o.safe;
   Q.awaiting ||
     !Q.inspected ||
     ((Q.decisions[T] = p),
     (Q.awaiting = !0),
     p ? (Q.score += 20) : Q.mistakes++,
+    Streak(p),
     (Q.feedback = {
       kind: p ? "good" : "bad",
-      text: p ? ft()[T].good : ft()[T].bad,
+      text: p ? ft()[T].good : o.why ? `${o.why} ${ft()[T].bad}` : ft()[T].bad,
     }),
     Vt(p ? "good" : "bad"),
     St(),
@@ -1726,6 +1941,7 @@ function Fe(p, T) {
   ((Q.assignments[p] = T), (Q.selectedSupply = null));
   const u = t.target === T;
   (u ? (Q.score += p === "ready" ? 12 : 13) : Q.mistakes++,
+    Streak(u),
     (Q.feedback = {
       kind: u ? "good" : "bad",
       text: u
@@ -1744,17 +1960,19 @@ function Fe(p, T) {
     St(),
     It());
 }
-function ji(p) {
+function ji(o) {
+  const p = o.safe;
   Q.awaiting ||
     !Q.inspected ||
     ((Q.decisions.communication = p),
     (Q.awaiting = !0),
     p ? (Q.score += 20) : Q.mistakes++,
+    Streak(p),
     (Q.feedback = {
       kind: p ? "good" : "bad",
       text: p
         ? "Compartiste hallazgos concretos y las verificaciones pendientes."
-        : "El equipo no recibió un estado preciso. La pausa tendrá que recuperar esa información.",
+        : `${o.why ? o.why + " " : ""}El equipo no recibió un estado preciso. La pausa tendrá que recuperar esa información.`,
     }),
     Vt(p ? "good" : "bad"),
     St(),
@@ -1821,7 +2039,8 @@ function Oe(p, T) {
   Q.phase !== "pause" ||
     Q.awaiting ||
     _t()[0] !== p ||
-    (T
+    (Streak(T),
+    T
       ? (Q.recovered.push(p),
         (Q.awaiting = !0),
         (Q.feedback = {
@@ -1847,9 +2066,15 @@ function De(p) {
           kind: "good",
           text: `${Ct().steps[3]} completado: el equipo confirmó el resultado y lo pendiente.`,
         }));
-      const T = Te();
-      ((T[Q.missionIndex] = Math.max(Number(T[Q.missionIndex]) || 0, Q.score)),
-        Pi(Mi, T));
+      const T = Te(),
+        f = Final(),
+        r = ye(StarsKey),
+        n = Array.isArray(r) ? r : [];
+      ((T[Q.missionIndex] = Math.max(Number(T[Q.missionIndex]) || 0, f.total)),
+        Pi(Mi, T),
+        (n[Q.missionIndex] = Math.max(Number(n[Q.missionIndex]) || 0, f.stars)),
+        Pi(StarsKey, n),
+        Vt("complete"));
     } else
       (Q.mistakes++,
         (Q.feedback = {
@@ -1919,8 +2144,8 @@ function _i() {
           "¿Qué debe hacerse antes de que el equipo continúe?",
         ),
         Q.awaiting ||
-          p.options.forEach((T) =>
-            Tt(lt("#decision-options"), T.text, () => Ji(T.safe)),
+          shuffled(Q.substep, p.options).forEach((T) =>
+            Tt(lt("#decision-options"), T.text, () => Ji(T)),
           ))
       : Q.substep === "identity" && Ee(ft().intro),
     Q.awaiting &&
@@ -2017,6 +2242,7 @@ function ts() {
     (Q.challengeCorrect = T),
     (Q.awaiting = !0),
     T ? (Q.score += 25) : Q.mistakes++,
+    Streak(T),
     (Q.feedback = {
       kind: T ? "good" : "bad",
       text: T
@@ -2047,7 +2273,7 @@ function Gt() {
         ((i.textContent = a), e.append(i));
         const r = document.createElement("div");
         ((r.className = "match-options"),
-          p.choices.forEach((n) =>
+          shuffled("match", p.choices).forEach((n) =>
             Kt(r, n, Q.challengeSelections[s] === n, () => {
               ((Q.challengeSelections[s] = n), St(), Gt());
             }),
@@ -2087,7 +2313,10 @@ function Gt() {
   if (p.type === "tray") {
     const l = document.createElement("div");
     ((l.className = "instrument-grid"),
-      p.choices.forEach(([s], e) => {
+      shuffled(
+        "tray",
+        p.choices.map(([s], e) => [s, e]),
+      ).forEach(([s, e], n) => {
         const i = Kt(l, s, Q.challengePick.includes(e), () => {
           (Q.challengePick.includes(e)
             ? (Q.challengePick = Q.challengePick.filter((n) => n !== e))
@@ -2097,7 +2326,7 @@ function Gt() {
         });
         i.dataset.instrument = e;
         const r = document.createElement("small");
-        ((r.textContent = `INSTRUMENTO ${String(e + 1).padStart(2, "0")}`),
+        ((r.textContent = `INSTRUMENTO ${String(n + 1).padStart(2, "0")}`),
           i.prepend(r));
       }),
       T.append(l));
@@ -2123,7 +2352,7 @@ function Gt() {
       T.append(l));
     const a = document.createElement("div");
     ((a.className = "handoff-cards"),
-      p.cards.forEach(([s, e]) => {
+      shuffled("handoff", p.cards).forEach(([s, e]) => {
         const i = Kt(a, e, Q.challengeOrder.includes(s), () => {
           !Q.challengeOrder.includes(s) &&
             Q.challengeOrder.length < 3 &&
@@ -2223,8 +2452,8 @@ function is() {
     Q.inspected &&
       (Ee(ft().dialogue),
       Q.awaiting ||
-        ft().communication.forEach((p) =>
-          Tt(lt("#decision-options"), p.text, () => ji(p.safe)),
+        shuffled("communication", ft().communication).forEach((p) =>
+          Tt(lt("#decision-options"), p.text, () => ji(p)),
         )),
     Q.awaiting &&
       Tt(
@@ -2255,8 +2484,12 @@ function ss() {
       ),
       Q.awaiting
         ? Tt(lt("#decision-options"), "Seguir la pausa →", jt, "next-button")
-        : (Tt(lt("#decision-options"), T.fix, () => Oe(p, !0)),
-          Tt(lt("#decision-options"), T.unsafe, () => Oe(p, !1))));
+        : shuffled(`pause-${p}`, [
+            [T.fix, !0],
+            [T.unsafe, !1],
+          ]).forEach(([t, u]) =>
+            Tt(lt("#decision-options"), t, () => Oe(p, u)),
+          ));
   } else {
     const T = Hi[ft().module - 1];
     (ht("#panel-title", Ct().steps[3]),
@@ -2272,8 +2505,10 @@ function ss() {
             jt,
             "next-button",
           )
-        : (Tt(lt("#decision-options"), T.good, () => De(!0)),
-          Tt(lt("#decision-options"), T.bad, () => De(!1))));
+        : shuffled("closure", [
+            [T.good, !0],
+            [T.bad, !1],
+          ]).forEach(([t, u]) => Tt(lt("#decision-options"), t, () => De(u))));
   }
 }
 function ns() {
@@ -2288,9 +2523,25 @@ function ns() {
     ht("#panel-phase", "FASE 5 · APRENDER"));
   const p = lt("#decision-options"),
     T = document.createElement("div");
+  const F = Final();
   ((T.className = "debrief-score"),
-    (T.innerHTML = `${Q.score}<small> / 100 puntos</small>`),
+    (T.innerHTML = `${F.total}<small> / 100 puntos</small>`),
     p.append(T));
+  const S = document.createElement("div");
+  ((S.className = "debrief-stars"),
+    S.setAttribute("aria-label", `${F.stars} de 3 estrellas`),
+    (S.innerHTML = [1, 2, 3]
+      .map((i) => `<span class="${i <= F.stars ? "on" : ""}">★</span>`)
+      .join("")),
+    p.append(S));
+  const R = document.createElement("p");
+  ((R.className = "debrief-rank"),
+    (R.textContent = `${Rank(F.total)} · Mejor racha: ${Q.bestStreak || 0}`),
+    p.append(R));
+  const B = document.createElement("p");
+  ((B.className = "debrief-breakdown"),
+    (B.textContent = `Decisiones ${F.base} · Pistas −${F.hints} · Racha +${F.bonus}`),
+    p.append(B));
   const t = Te(),
     u =
       ft().module === 1
@@ -2345,8 +2596,8 @@ function ns() {
   const s = document.createElement("p");
   ((s.className = "debrief-note"),
     (s.textContent = Q.mistakes
-      ? `Revisa ${Q.mistakes} decisión(es) para mejorar. Mejor puntuación: ${t[Q.missionIndex] || Q.score}.`
-      : `Excelente primera pasada. Mejor puntuación: ${t[Q.missionIndex] || Q.score}.`),
+      ? `Revisa ${Q.mistakes} decisión(es) para mejorar. Mejor puntuación: ${t[Q.missionIndex] || F.total}.`
+      : `Excelente primera pasada. Mejor puntuación: ${t[Q.missionIndex] || F.total}.`),
     p.append(s));
   const e = document.createElement("div");
   ((e.className = "debrief-buttons"),
@@ -2387,7 +2638,13 @@ function rs() {
 }
 function as() {
   const p = lt("#hint-button");
-  ((p.hidden = Q.phase === "debrief"), !p.hidden && (p.textContent = "Pista"));
+  ((p.hidden = Q.phase === "debrief"),
+    !p.hidden &&
+      (p.textContent = (Q.hintKeys || []).includes(
+        Q.phase === "observe" ? Q.substep : Q.phase,
+      )
+        ? "Pista"
+        : "Pista (−3)"));
 }
 function It() {
   if (!Q) return;
@@ -2443,14 +2700,36 @@ function It() {
     Zt(),
     rs(),
     as(),
+    Sound.setHeartRate(Vitals().hr),
     Qi());
 }
+// Constantes del paciente: cada incidencia abierta tensa la escena y la
+// resolución la calma. Es ambientación, no un modelo fisiológico.
+function Vitals() {
+  if (!Q) return { hr: 72, spo2: 98, alert: !1 };
+  // El reto de material solo cuenta una vez jugado (en el módulo 1, _t() lo
+  // marca abierto mientras no haya asignaciones).
+  const n =
+    Q.phase === "debrief"
+      ? 0
+      : _t().filter(
+          (k) => k !== "material" || ["talk", "pause"].includes(Q.phase),
+        ).length;
+  return { hr: 72 + n * 9, spo2: Math.max(93, 99 - n), alert: n >= 2 };
+}
+ye("gpa-guardia-quirofano-sound") === !1 &&
+  ((Qt = !1),
+  Sound.setEnabled(!1),
+  (lt("#sound-toggle").textContent = "×"),
+  lt("#sound-toggle").setAttribute("aria-label", "Activar sonido"));
 lt("#start-mission").addEventListener("click", () => $t(zt));
 lt("#resume-mission").addEventListener("click", () => $t(zt, !0));
 lt("#back-to-menu").addEventListener("click", Ce);
 lt("#restart-mission").addEventListener("click", () => $t(Q.missionIndex));
 lt("#sound-toggle").addEventListener("click", () => {
   ((Qt = !Qt),
+    Sound.setEnabled(Qt),
+    Pi("gpa-guardia-quirofano-sound", Qt),
     (lt("#sound-toggle").textContent = Qt ? "♫" : "×"),
     lt("#sound-toggle").setAttribute(
       "aria-label",
@@ -2459,7 +2738,9 @@ lt("#sound-toggle").addEventListener("click", () => {
 });
 lt("#hint-button").addEventListener("click", () => {
   if (!Q || Q.phase === "debrief") return;
-  Q.hints++;
+  const hk = Q.phase === "observe" ? Q.substep : Q.phase;
+  ((Q.hintKeys ??= []),
+    Q.hintKeys.includes(hk) || (Q.hintKeys.push(hk), Q.hints++));
   const p = {
       1: "Comprueba integridad, esterilidad y destino de cada elemento.",
       2: "Relaciona cada hallazgo con la categoría descrita en el módulo.",
@@ -2476,6 +2757,12 @@ lt("#hint-button").addEventListener("click", () => {
       talk: "Comunica lo confirmado y también lo que permanece pendiente.",
       pause: "Toda incidencia abierta se aclara antes de completar esta fase.",
     };
-  ((Q.feedback = { kind: "tip", text: T[Q.phase] }), St(), Zt());
+  ((Q.feedback = { kind: "tip", text: T[Q.phase] }), St(), Zt(), as());
 });
 Ce();
+// PWA: instalable y jugable sin conexión (solo en el build de producción).
+import.meta.env.PROD &&
+  "serviceWorker" in navigator &&
+  window.addEventListener("load", () =>
+    navigator.serviceWorker.register("./sw.js").catch(() => {}),
+  );

@@ -1,0 +1,20 @@
+GUARDIA DE QUIROFANO - VERSION DE PRUEBA 1.1
+
+OPCION RECOMENDADA: jugar en el navegador
+Abre el enlace publicado por GPA Academy. En Chrome o Edge puedes pulsar
+"Instalar aplicacion" en la barra de direcciones para tenerlo como app.
+Despues de la primera visita tambien funciona sin conexion.
+
+OPCION SIN INTERNET EN WINDOWS (esta carpeta):
+1. Descomprime el ZIP completo en una carpeta.
+2. Haz doble clic en JUGAR.cmd.
+3. El juego se abrira en tu navegador en http://127.0.0.1:4174/.
+4. Deja abierta la ventana negra mientras juegas. Cierrala al terminar.
+
+No necesitas instalar Node.js ni tener conexion a la LMS. La partida se guarda
+solo en ese navegador y en ese equipo. Si borras los datos del navegador,
+se pierde el progreso. Las presentaciones enlazadas si requieren acceso a Drive.
+
+IMPORTANTE: Esta es una demo educativa. Todavia no esta integrada con la LMS
+ni aprobada como evaluacion clinica formal. Hay pendientes de seguridad,
+accesibilidad y validacion docente antes de publicarla para alumnos.

@@ -302,7 +302,7 @@ h3 {
   min-height: 450px;
   border: 1px solid #557681;
   border-radius: 25px;
-  background: url(./assets/quirofano-isometrico.png) center/cover;
+  background: url(./assets/quirofano-isometrico.webp) center/cover;
   box-shadow:
     0 25px 75px #0007,
     inset 0 0 0 8px #102e3baa;
@@ -1362,5 +1362,95 @@ h3 {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* Fase 1: racha, estrellas y rango */
+.combo-toast {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 22%;
+  transform: translateX(-50%);
+  padding: 8px 16px;
+  border: 1px solid #ffc857;
+  border-radius: 999px;
+  background: #3a2400e6;
+  color: #ffe2a3;
+  font:
+    800 16px Outfit,
+    sans-serif;
+  pointer-events: none;
+  animation: combo-pop 1.6s ease-out forwards;
+}
+@keyframes combo-pop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 12px) scale(0.85);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1.06);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -6px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -18px) scale(1);
+  }
+}
+.debrief-stars {
+  display: flex;
+  gap: 6px;
+  font-size: 30px;
+  line-height: 1;
+}
+.debrief-stars span {
+  color: #2d4a54;
+}
+.debrief-stars span.on {
+  color: #ffc857;
+  text-shadow: 0 0 12px #ffc85766;
+  animation: star-in 0.5s ease-out both;
+}
+.debrief-stars span.on:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.debrief-stars span.on:nth-child(3) {
+  animation-delay: 0.3s;
+}
+@keyframes star-in {
+  from {
+    transform: scale(0.2) rotate(-40deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+.debrief-rank {
+  margin: 4px 0 0;
+  color: #ecfffb;
+  font-weight: 700;
+}
+.debrief-breakdown {
+  margin: 2px 0 8px;
+  color: #88acb5;
+  font-size: 12px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .combo-toast,
+  .debrief-stars span.on {
+    animation: none;
+  }
+}
+/* En pantallas estrechas la etiqueta del módulo taparía el monitor del
+   paciente; el módulo ya aparece en la cabecera de la misión. */
+@media (max-width: 640px) {
+  .scene-module {
+    display: none;
   }
 }

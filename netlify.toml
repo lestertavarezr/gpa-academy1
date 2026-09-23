@@ -1,0 +1,9 @@
+[build]
+  base = "guardia-quirofano"
+  command = "npm ci && npm run build"
+  publish = "dist"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
