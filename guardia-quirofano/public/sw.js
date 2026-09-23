@@ -1,7 +1,7 @@
 // Service worker: permite jugar sin conexión tras la primera visita.
 // Navegación: red primero (para recibir actualizaciones) con copia en caché.
 // Recursos del juego (nombres con hash): caché primero.
-const CACHE = "guardia-qx-v1";
+const CACHE = "guardia-qx-v2";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

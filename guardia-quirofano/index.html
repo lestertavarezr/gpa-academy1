@@ -24,6 +24,11 @@
             <span class="eyebrow"><span class="eyebrow-dot"></span> 20 MISIONES · 5 MÓDULOS</span>
             <p class="chapter-label">ELIGE UN MÓDULO Y UN CASO</p>
             <h1 id="welcome-title">Guardia de<br><em>Quirófano</em></h1>
+            <div class="hub">
+              <div class="hub-chips"><button id="streak-chip" class="hub-chip" type="button" title="Días seguidos jugando">🔥 <b id="streak-count">0</b> <span id="streak-label">días seguidos</span></button><button id="medals-chip" class="hub-chip" type="button">🏅 <b id="medal-count">0</b>/<span id="medal-total">18</span> medallas</button></div>
+              <div class="mode-switch" role="radiogroup" aria-label="Modo de juego"><button type="button" role="radio" data-mode="learn">📘 Aprendizaje</button><button type="button" role="radio" data-mode="guardia">🛡️ Guardia</button></div>
+              <button id="daily-case" class="daily-card" type="button"><span class="daily-tag">CASO DEL DÍA</span><strong id="daily-title">—</strong><small id="daily-meta"></small><span class="daily-go" aria-hidden="true">→</span></button>
+            </div>
             <p id="welcome-lede" class="welcome-lede">Elige un módulo. Cada uno propone una actividad distinta, basada en los casos del programa.</p>
             <div id="module-selector" class="module-selector" role="group" aria-label="Elige un módulo"></div>
             <p id="module-heading" class="module-heading"></p>
@@ -32,12 +37,13 @@
             <div class="welcome-actions"><button id="start-mission" class="button button-primary" type="button">Entrar a la sala <span aria-hidden="true">→</span></button><button id="resume-mission" class="button button-quiet" type="button" hidden>Continuar partida</button></div>
             <p class="welcome-note">Sin cronómetro. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.</p>
           </div>
-          <div class="welcome-art" role="img" aria-label="Ilustración de una sala quirúrgica vacía"><div class="art-chip"><span class="eyebrow-dot"></span> SALA LISTA PARA EXPLORAR</div><div class="art-reticle">+</div><div class="art-bottom"><span>OBSERVA · ACTÚA · COMUNICA</span><span>GPA / SIM-20</span></div></div>
+          <div class="welcome-art" role="img" aria-label="Ilustración de una sala quirúrgica vacía"><button id="open-mayo" class="mayo-promo" type="button"><span class="daily-tag">NUEVO · MINIJUEGO</span><strong>Mesa de Mayo</strong><small>El cirujano pide, tú entregas. Contrarreloj.</small><em id="mayo-best-label"></em><span class="mayo-promo-go">Jugar →</span></button><div class="art-chip"><span class="eyebrow-dot"></span> SALA LISTA PARA EXPLORAR</div><div class="art-reticle">+</div><div class="art-bottom"><span>OBSERVA · ACTÚA · COMUNICA</span><span>GPA / SIM-20</span></div></div>
         </section>
 
         <section id="game-view" class="game-view" hidden aria-label="Simulación Guardia de Quirófano">
           <div class="mission-heading"><div><p class="chapter-label" id="mission-eyebrow">MÓDULO 1 · MISIÓN 01</p><h1 id="mission-heading-title">La primera apertura</h1><p id="mission-intro" class="mission-intro"></p><a id="mission-source" class="mission-source" target="_blank" rel="noreferrer">Ver presentación del módulo ↗</a></div><div class="top-buttons"><button id="back-to-menu" type="button">← Elegir misión</button><button id="restart-mission" type="button">Reiniciar</button></div></div>
           <div class="stepper" role="list" aria-label="Etapas de la misión"><span role="listitem" data-step="0">1 <b>Observar</b></span><span role="listitem" data-step="1">2 <b>Preparar</b></span><span role="listitem" data-step="2">3 <b>Comunicar</b></span><span role="listitem" data-step="3">4 <b>Pausa</b></span><span role="listitem" data-step="4">5 <b>Informe</b></span></div>
+          <div id="guardia-hud" class="guardia-hud" hidden><span class="guardia-tag">🛡️ MODO GUARDIA</span><div class="guardia-timer" aria-hidden="true"><span id="guardia-timer-fill"></span></div><span id="guardia-time" class="guardia-time">—</span><span class="guardia-stability">Estabilidad <b id="stability">100</b>%</span></div>
           <div class="mission-stats"><span id="mission-status">PASO GUIADO 1 DE 5</span><div class="stat-progress"><span id="stat-progress-fill"></span></div><span><strong id="score">0</strong> PTS</span></div>
           <div class="game-grid">
             <div class="scene-column"><div class="scene-frame"><div id="phaser-stage" role="img" aria-label="Sala quirúrgica interactiva"></div><div class="scene-id"><span class="eyebrow-dot"></span> SALA <b id="scene-number">01</b> · TURNO EN CURSO</div><div id="scene-module" class="scene-module">MÓDULO 1 · ASEPSIA</div><div id="stage-instruction" class="stage-instruction">Toca Expediente para comenzar</div></div><div id="actor-status" class="actor-status" role="status" hidden></div><div id="station-shortcuts" class="station-shortcuts" role="group" aria-label="Estaciones del quirófano"></div></div>
@@ -46,7 +52,10 @@
           <section id="workbench" class="workbench" hidden aria-labelledby="workbench-title"><div class="workbench-head"><div><p id="challenge-kicker" class="chapter-label">INTERACCIÓN · AUDITORÍA</p><h2 id="workbench-title">Asigna cada elemento a su destino</h2></div><span id="challenge-instruction">Arrastra o toca un elemento y luego un destino</span></div><div id="supply-grid" class="workbench-grid"><div><h3>ELEMENTOS</h3><div id="supply-cards" class="supply-cards"></div></div><div><h3>DESTINOS</h3><div id="supply-targets" class="supply-targets"></div></div></div><div id="challenge-board" class="challenge-board" hidden></div></section>
           <p class="safety-note">Caso ficticio para aprendizaje. No sustituye capacitación supervisada ni protocolos locales. <a href="https://www.who.int/publications/i/item/9789241598590" target="_blank" rel="noreferrer">Lista OMS ↗</a></p>
         </section>
+        <section id="mayo-view" class="mayo-view" hidden aria-label="Mesa de Mayo"></section>
       </main>
+      <dialog id="medals-dialog" class="medals-dialog" aria-labelledby="medals-title"><div class="medals-head"><h2 id="medals-title">Vitrina de medallas</h2><button id="medals-close" type="button" aria-label="Cerrar">×</button></div><div id="medals-grid" class="medals-grid"></div></dialog>
+      <div id="medal-toast" class="medal-toast" role="status" aria-live="polite" hidden></div>
       <footer class="app-footer"><span>GPA ACADEMY · DEMO EDUCATIVA</span><span>Versión web instalable · No conectada a la LMS</span></footer>
     </div>
   </body>

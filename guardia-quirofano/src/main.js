@@ -6,6 +6,9 @@ import actorArmUrl from "./assets/actor/arm.svg";
 import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
 import { DISTRACTORS } from "./distractors.js";
+import { EVENTS } from "./events.js";
+import { Progress, MEDALS } from "./progress.js";
+import { createMayo } from "./mayo.js";
 const Ut = Phaser,
   Dt = [
     { id: "ficha", label: "Expediente", short: "ID", x: 225, y: 170 },
@@ -1015,7 +1018,8 @@ const bi = {
   lt = (p) => document.querySelector(p),
   kt = "gpa-guardia-quirofano-save-v4",
   Mi = "gpa-guardia-quirofano-best-v4";
-let zt = 0,
+let Mode = ye("gpa-guardia-quirofano-mode") === "guardia" ? "guardia" : "learn",
+  zt = 0,
   Ot = 1,
   Q = null,
   Et = null,
@@ -1053,7 +1057,7 @@ function xe(p) {
     Number.isInteger(p.missionIndex) &&
     p.missionIndex >= 0 &&
     p.missionIndex < Mt.length &&
-    ["observe", "material", "talk", "pause"].includes(p.phase) &&
+    ["observe", "material", "event", "talk", "pause"].includes(p.phase) &&
     p.decisions &&
     p.assignments &&
     p.challengeSelections &&
@@ -1088,6 +1092,11 @@ function Yi(p) {
     shuffle: {},
     streak: 0,
     bestStreak: 0,
+    mode: Mode,
+    eventId: EVENTS[Math.floor(Math.random() * EVENTS.length)].id,
+    eventOk: null,
+    failed: !1,
+    timeouts: 0,
   };
 }
 function ft() {
@@ -1144,6 +1153,7 @@ function Streak(ok) {
   }
   Q.streak = (Q.streak || 0) + 1;
   Q.bestStreak = Math.max(Q.bestStreak || 0, Q.streak);
+  Q.streak >= 5 && Progress.unlock("racha5");
   Q.streak >= 3 && (Vt("streak"), Toast(`🔥 Racha x${Q.streak}`));
 }
 // Puntuación final: pistas restan (una vez por paso), la mejor racha suma
@@ -1213,14 +1223,14 @@ class Xi extends Ut.Scene {
     const T = this.add
         .rectangle(0, 0, 560, 146, 535353, 0.96)
         .setStrokeStyle(2, 8576979, 0.9),
-      t = this.add
+      t = (this.cardTitle = this.add
         .text(0, -28, "PAUSA DE SEGURIDAD", {
           fontFamily: "Arial",
           fontSize: "14px",
           fontStyle: "bold",
           color: "#8df1de",
         })
-        .setOrigin(0.5);
+        .setOrigin(0.5));
     ((this.cardText = this.add
       .text(0, 15, "EL EQUIPO SE DETIENE", {
         fontFamily: "Arial",
@@ -1701,7 +1711,7 @@ class Xi extends Ut.Scene {
       V.alert && !this.vitalsAlert && Sound.play("alarm"),
       (this.vitalsAlert = V.alert));
     const t = Jt(),
-      u = ["pause", "debrief"].includes(T.phase);
+      u = ["pause", "debrief", "event"].includes(T.phase);
     for (const e of Dt) {
       const i = this.points.get(e.id),
         r = t === e.id && !u;
@@ -1712,12 +1722,30 @@ class Xi extends Ut.Scene {
         (i.hit.input.enabled = !u));
     }
     (this.stageCard.setVisible(u),
+      this.cardTitle.setText(
+        T.phase === "event"
+          ? "ALERTA EN SALA"
+          : T.failed
+            ? "MODO GUARDIA"
+            : "PAUSA DE SEGURIDAD",
+      ),
+      this.cardTitle.setColor(
+        T.phase === "event" || T.failed ? "#ffc857" : "#8df1de",
+      ),
       this.cardText.setText(
-        T.phase === "debrief"
-          ? "MISIÓN COMPLETADA"
-          : T.recovered.length
-            ? "INCIDENCIA RESUELTA"
-            : "REVISAR ANTES DE AVANZAR",
+        T.phase === "event"
+          ? T.awaiting
+            ? T.eventOk
+              ? "IMPREVISTO RESUELTO"
+              : "REACCIÓN A REVISAR"
+            : "¡EVENTO INESPERADO!"
+          : T.phase === "debrief"
+            ? T.failed
+              ? "CASO SUSPENDIDO"
+              : "MISIÓN COMPLETADA"
+            : T.recovered.length
+              ? "INCIDENCIA RESUELTA"
+              : "REVISAR ANTES DE AVANZAR",
       ),
       u &&
         (c = this.actionBubble) != null &&
@@ -1789,7 +1817,7 @@ function Se() {
       const st = ye(StarsKey),
         sc = Array.isArray(st) ? Number(st[c]) || 0 : 0;
       ((i.textContent = p[c]
-        ? `${"★".repeat(sc)}${"☆".repeat(3 - sc)}  Mejor: ${p[c]}/100`
+        ? `${"★".repeat(sc)}${"☆".repeat(3 - sc)}  Mejor: ${p[c]}/100${Progress.guardiaDone().includes(c) ? " · 🛡️" : ""}`
         : u.guided
           ? "Misión guiada · empieza aquí"
           : "Pendiente de jugar"),
@@ -1804,7 +1832,8 @@ function Se() {
     ht(
       "#campaign-progress",
       `${Mt.filter((u, c) => Number(p[c]) > 0).length} de ${Mt.length} misiones completadas`,
-    ));
+    ),
+    Hub());
 }
 function Zi(p) {
   ((zt = p), (Ot = Mt[p].module), Se());
@@ -1821,6 +1850,8 @@ function Ce() {
         : t.stopActorMotion) == null || u.call(t),
     (lt("#welcome").hidden = !1),
     (lt("#game-view").hidden = !0),
+    (lt("#mayo-view").hidden = !0),
+    mayo.stop(),
     Sound.stopAmbient());
   const p = ye(kt);
   ((lt("#resume-mission").hidden = !xe(p)),
@@ -1853,7 +1884,7 @@ async function Li(p) {
   var a;
   if (
     !Q ||
-    ["pause", "debrief"].includes(Q.phase) ||
+    ["pause", "debrief", "event"].includes(Q.phase) ||
     !Dt.some((s) => s.id === p)
   )
     return;
@@ -1924,10 +1955,13 @@ function jt() {
         ? (Q.substep = "equipment")
         : (Q.phase = "material")
       : Q.phase === "material"
-        ? (Q.phase = "talk")
-        : Q.phase === "talk"
-          ? (Q.phase = "pause")
-          : Q.phase === "pause" && Q.pauseVerified && (Q.phase = "debrief"),
+        ? (Q.phase = "event")
+        : Q.phase === "event"
+          ? (Q.phase = "talk")
+          : Q.phase === "talk"
+            ? (Q.phase = "pause")
+            : Q.phase === "pause" && Q.pauseVerified && (Q.phase = "debrief"),
+    Q.phase === "event" && Vt("alarm"),
     St(),
     It());
 }
@@ -2074,7 +2108,8 @@ function De(p) {
         Pi(Mi, T),
         (n[Q.missionIndex] = Math.max(Number(n[Q.missionIndex]) || 0, f.stars)),
         Pi(StarsKey, n),
-        Vt("complete"));
+        Vt("complete"),
+        MissionDone(f));
     } else
       (Q.mistakes++,
         (Q.feedback = {
@@ -2512,6 +2547,7 @@ function ss() {
   }
 }
 function ns() {
+  if (Q.failed) return Failed();
   (ht("#panel-kicker", "INFORME FINAL"),
     ht("#panel-counter", "MISIÓN COMPLETA"),
     ht("#panel-avatar", "✓"),
@@ -2541,7 +2577,14 @@ function ns() {
   const B = document.createElement("p");
   ((B.className = "debrief-breakdown"),
     (B.textContent = `Decisiones ${F.base} · Pistas −${F.hints} · Racha +${F.bonus}`),
-    p.append(B));
+    p.append(B),
+    Q.mode === "guardia" &&
+      B.append(
+        Object.assign(document.createElement("span"), {
+          className: "guardia-badge",
+          textContent: " · 🛡️ Superada en Modo Guardia",
+        }),
+      ));
   const t = Te(),
     u =
       ft().module === 1
@@ -2588,6 +2631,7 @@ function ns() {
         f.append(d, m),
         l.append(f));
     }),
+    EventRow(l),
     p.append(l));
   const a = document.createElement("p");
   ((a.className = "debrief-note"),
@@ -2614,7 +2658,7 @@ function ns() {
 }
 function rs() {
   const p = lt("#station-shortcuts");
-  if ((p.replaceChildren(), ["pause", "debrief"].includes(Q.phase))) {
+  if ((p.replaceChildren(), ["pause", "debrief", "event"].includes(Q.phase))) {
     p.hidden = !0;
     return;
   }
@@ -2648,7 +2692,19 @@ function as() {
 }
 function It() {
   if (!Q) return;
-  const T = { observe: 0, material: 1, talk: 2, pause: 3, debrief: 4 }[Q.phase];
+  // Modo Guardia: si la estabilidad llega a cero, el caso se suspende.
+  Q.mode === "guardia" &&
+    Q.phase !== "debrief" &&
+    Stability() <= 0 &&
+    ((Q.failed = !0), (Q.phase = "debrief"), Vt("alarm"), St());
+  const T = {
+    observe: 0,
+    material: 1,
+    event: 1,
+    talk: 2,
+    pause: 3,
+    debrief: 4,
+  }[Q.phase];
   ((lt("#game-view").dataset.module = String(ft().module)),
     ht("#mission-eyebrow", ft().label),
     ht("#mission-heading-title", ft().title),
@@ -2662,10 +2718,16 @@ function It() {
     ht("#score", String(Q.score)),
     ht(
       "#mission-status",
-      Q.phase === "debrief" ? "MISIÓN COMPLETADA" : `PASO ${T + 1} DE 5`,
+      Q.phase === "debrief"
+        ? Q.failed
+          ? "CASO SUSPENDIDO"
+          : "MISIÓN COMPLETADA"
+        : Q.phase === "event"
+          ? "¡EVENTO INESPERADO!"
+          : `PASO ${T + 1} DE 5`,
     ),
     (lt("#stat-progress-fill").style.width =
-      `${((T + (Q.phase === "observe" && Q.substep === "equipment" ? 0.5 : 0)) / 4) * 100}%`),
+      `${((T + ((Q.phase === "observe" && Q.substep === "equipment") || Q.phase === "event" ? 0.5 : 0)) / 4) * 100}%`),
     document.querySelectorAll("[data-step]").forEach((t) => {
       const u = Number(t.dataset.step);
       (t.classList.toggle("current", u === T),
@@ -2686,7 +2748,9 @@ function It() {
               : "TOCA EQUIPO PARA COMUNICAR"
             : Q.phase === "pause"
               ? `FASE: ${Ct().steps[3].toUpperCase()}`
-              : "REVISA TU INFORME Y ELIGE OTRA MISIÓN",
+              : Q.phase === "event"
+                ? "¡ALERTA EN SALA! · RESPONDE EN EL PANEL"
+                : "REVISA TU INFORME Y ELIGE OTRA MISIÓN",
     ),
     (lt("#dialogue").hidden = !0),
     (lt("#evidence").hidden = !0),
@@ -2694,6 +2758,7 @@ function It() {
     (lt("#workbench").hidden = !0),
     Q.phase === "observe" && _i(),
     Q.phase === "material" && es(),
+    Q.phase === "event" && evs(),
     Q.phase === "talk" && is(),
     Q.phase === "pause" && ss(),
     Q.phase === "debrief" && ns(),
@@ -2701,6 +2766,11 @@ function It() {
     rs(),
     as(),
     Sound.setHeartRate(Vitals().hr),
+    lt(".scene-frame").classList.toggle(
+      "alarm",
+      Q.phase === "event" && !Q.awaiting,
+    ),
+    GuardHud(),
     Qi());
 }
 // Constantes del paciente: cada incidencia abierta tensa la escena y la
@@ -2715,8 +2785,319 @@ function Vitals() {
       : _t().filter(
           (k) => k !== "material" || ["talk", "pause"].includes(Q.phase),
         ).length;
-  return { hr: 72 + n * 9, spo2: Math.max(93, 99 - n), alert: n >= 2 };
+  const loss = Q.mode === "guardia" ? 100 - Stability() : 0;
+  return {
+    hr: Math.round(72 + n * 9 + loss * 0.3),
+    spo2: Math.max(88, 99 - n - Math.round(loss / 20)),
+    alert: n >= 2 || loss >= 50,
+  };
 }
+// ---------------------------------------------------------------------------
+// Fase 2: eventos inesperados, Modo Guardia, medallas, racha diaria y
+// Mesa de Mayo.
+
+// Tiempo por decisión en Modo Guardia (ms).
+const GUARD_LIMITS = {
+  decision: 20000,
+  event: 12000,
+  material: 45000,
+  pause: 20000,
+};
+let guard = { key: "", deadline: 0, limit: 0 };
+
+function CurrentEvent() {
+  return EVENTS.find((e) => e.id === Q.eventId) || EVENTS[0];
+}
+// Estabilidad del paciente en Modo Guardia: cada error resta 25 y cada
+// incidencia recuperada en la pausa devuelve 10. A 0 se suspende el caso.
+function Stability() {
+  if (!Q) return 100;
+  return Math.max(
+    0,
+    Math.min(100, 100 - Q.mistakes * 25 + (Q.recovered || []).length * 10),
+  );
+}
+function evs() {
+  const ev = CurrentEvent();
+  (ht("#panel-kicker", "EVENTO INESPERADO"),
+    ht("#panel-counter", "¡ALERTA!"),
+    ht("#panel-avatar", "!"),
+    ht("#panel-title", ev.title),
+    ht("#panel-description", ev.alarm),
+    ht("#panel-phase", "INTERRUPCIÓN · RESPONDE YA"),
+    te("TU REACCIÓN", "¿Qué haces primero?"),
+    Q.awaiting
+      ? Tt(lt("#decision-options"), "Volver al caso →", jt, "next-button")
+      : shuffled("event", ev.options).forEach((o) =>
+          Tt(lt("#decision-options"), o.text, () => EvPick(o)),
+        ));
+}
+function EvPick(o) {
+  if (Q.phase !== "event" || Q.awaiting) return;
+  ((Q.eventOk = o.safe),
+    (Q.awaiting = !0),
+    o.safe ? Progress.countEvent() : Q.mistakes++,
+    Streak(o.safe),
+    (Q.feedback = {
+      kind: o.safe ? "good" : "bad",
+      text: o.safe ? CurrentEvent().good : o.why,
+    }),
+    Vt(o.safe ? "good" : "bad"),
+    St(),
+    It());
+}
+function EventRow(list) {
+  if (Q.eventOk == null) return;
+  const row = document.createElement("div"),
+    d = document.createElement("span"),
+    b = document.createElement("b"),
+    sm = document.createElement("small"),
+    st = document.createElement("strong");
+  ((b.textContent = `Imprevisto: ${CurrentEvent().title.replace(/[¡!]/g, "")}`),
+    (sm.textContent = Q.eventOk
+      ? "Reaccionaste según el protocolo."
+      : "Repasa la reacción segura: detenerte, comunicar y resolver."),
+    (st.textContent = Q.eventOk ? "Bien resuelto" : "A repasar"),
+    (st.className = Q.eventOk ? "pass" : "recover"),
+    d.append(b, sm),
+    row.append(d, st),
+    list.append(row));
+}
+function Failed() {
+  (ht("#panel-kicker", "MODO GUARDIA"),
+    ht("#panel-counter", "CASO SUSPENDIDO"),
+    ht("#panel-avatar", "✕"),
+    ht("#panel-title", "El paciente se desestabilizó"),
+    ht(
+      "#panel-description",
+      "Demasiadas decisiones sin verificar a tiempo. En Modo Guardia cada error y cada segundo cuentan: el equipo suspendió el caso para estabilizar al paciente.",
+    ),
+    ht("#panel-phase", "FASE 5 · APRENDER"));
+  const box = lt("#decision-options"),
+    n = document.createElement("p");
+  ((n.className = "debrief-note"),
+    (n.textContent = `Errores: ${Q.mistakes} · Tiempos agotados: ${Q.timeouts || 0}. Aprendizaje clave: ${ft().learning}`),
+    box.append(n));
+  const e = document.createElement("div");
+  ((e.className = "debrief-buttons"),
+    Tt(
+      e,
+      "Reintentar en Guardia",
+      () => $t(Q.missionIndex),
+      "button button-primary",
+    ),
+    Tt(
+      e,
+      "Practicar en Aprendizaje",
+      () => (SetMode("learn"), $t(Q.missionIndex)),
+      "button button-quiet",
+    ),
+    box.append(e));
+}
+function GuardPending() {
+  if (!Q || Q.mode !== "guardia" || Q.awaiting || lt("#game-view").hidden)
+    return null;
+  switch (Q.phase) {
+    case "observe":
+    case "talk":
+      return Q.inspected ? GUARD_LIMITS.decision : null;
+    case "material":
+      return GUARD_LIMITS.material;
+    case "event":
+      return GUARD_LIMITS.event;
+    case "pause":
+      return GUARD_LIMITS.pause;
+    default:
+      return null;
+  }
+}
+function GuardHud() {
+  const hud = lt("#guardia-hud");
+  if (((hud.hidden = !Q || Q.mode !== "guardia"), hud.hidden)) return;
+  (ht("#stability", String(Stability())),
+    hud.classList.toggle("critical", Stability() <= 50));
+  const limit = GuardPending(),
+    key = `${Q.missionIndex}|${Q.phase}|${Q.substep}|${Q.inspected}|${Q.awaiting}|${Q.mistakes}|${Q.recovered.length}`;
+  key !== guard.key &&
+    (guard = {
+      key,
+      limit: limit || 0,
+      deadline: limit ? performance.now() + limit : 0,
+    });
+}
+function GuardTimeout() {
+  if (!GuardPending()) return;
+  ((Q.timeouts = (Q.timeouts || 0) + 1), Vt("alarm"));
+  const why = "¡Tiempo! El equipo tuvo que avanzar sin tu verificación.";
+  switch (Q.phase) {
+    case "observe":
+      return Ji({ safe: !1, why });
+    case "talk":
+      return ji({ safe: !1, why });
+    case "event":
+      return EvPick({ safe: !1, why });
+    case "material":
+      if (ft().module === 1) {
+        for (const s of ft().supplies)
+          Q.assignments[s.id] ||
+            Fe(s.id, s.target === "field" ? "hold" : "field");
+        return;
+      }
+      return ts();
+    case "pause": {
+      const open = _t()[0];
+      return open ? Oe(open, !1) : De(!1);
+    }
+  }
+}
+setInterval(() => {
+  if (!Q || Q.mode !== "guardia" || lt("#game-view").hidden) return;
+  const fill = lt("#guardia-timer-fill");
+  if (!guard.deadline)
+    return (
+      (fill.style.width = "100%"),
+      fill.classList.remove("urgent"),
+      ht("#guardia-time", Q.phase === "debrief" ? "—" : "En espera")
+    );
+  const left = guard.deadline - performance.now();
+  ((fill.style.width = `${Math.max(0, left / guard.limit) * 100}%`),
+    fill.classList.toggle("urgent", left < 5000),
+    ht("#guardia-time", `${Math.max(0, Math.ceil(left / 1000))} s`),
+    left <= 0 && ((guard.deadline = 0), GuardTimeout()));
+}, 200);
+
+// Medallas y progreso al terminar una misión.
+function MissionDone(f) {
+  (Progress.recordPlay(),
+    Progress.unlock("primera"),
+    f.stars === 3 && Progress.unlock("perfecta"));
+  const best = Te();
+  for (let m = 1; m <= 5; m++)
+    Mt.every((x, i) => x.module !== m || Number(best[i]) > 0) &&
+      Progress.unlock(`modulo${m}`);
+  (Mt.every((_, i) => Number(best[i]) > 0) && Progress.unlock("campana"),
+    Q.mode === "guardia" &&
+      (Progress.markGuardia(Q.missionIndex),
+      Progress.unlock("guardia"),
+      f.stars === 3 && Progress.unlock("guardia3")),
+    Q.missionIndex === Progress.dailyMission(Mt.length) &&
+      !Progress.dailyDone() &&
+      Progress.markDaily());
+}
+const medalQueue = [];
+let medalBusy = !1;
+function ShowMedal() {
+  if (medalBusy || !medalQueue.length) return;
+  medalBusy = !0;
+  const m = medalQueue.shift(),
+    box = lt("#medal-toast");
+  box.replaceChildren();
+  const icon = document.createElement("span"),
+    text = document.createElement("span"),
+    small = document.createElement("small"),
+    strong = document.createElement("strong");
+  ((icon.className = "medal-toast-icon"),
+    (icon.textContent = m.icon),
+    (small.textContent = "¡MEDALLA DESBLOQUEADA!"),
+    (strong.textContent = m.title),
+    text.append(small, strong),
+    box.append(icon, text),
+    (box.hidden = !1),
+    box.classList.remove("show"),
+    void box.offsetWidth,
+    box.classList.add("show"),
+    Vt("streak"),
+    setTimeout(() => {
+      ((box.hidden = !0), (medalBusy = !1), ShowMedal());
+    }, 3200));
+}
+Progress.onMedal((m) => (medalQueue.push(m), ShowMedal()));
+function RenderMedals() {
+  const got = Progress.medals(),
+    grid = lt("#medals-grid");
+  (grid.replaceChildren(),
+    MEDALS.forEach((m) => {
+      const card = document.createElement("div"),
+        icon = document.createElement("span"),
+        title = document.createElement("strong"),
+        desc = document.createElement("small");
+      ((card.className = `medal${got[m.id] ? " got" : ""}`),
+        (icon.className = "medal-icon"),
+        (icon.textContent = got[m.id] ? m.icon : "🔒"),
+        (title.textContent = m.title),
+        (desc.textContent = m.desc),
+        card.append(icon, title, desc),
+        grid.append(card));
+    }));
+}
+
+// Panel de inicio: racha, medallas, modo y caso del día.
+function SetMode(m) {
+  ((Mode = m), Pi("gpa-guardia-quirofano-mode", m), Hub());
+}
+function Hub() {
+  const streak = Progress.streak(),
+    played = Progress.playedToday();
+  (ht("#streak-count", String(streak)),
+    ht("#streak-label", streak === 1 ? "día seguido" : "días seguidos"),
+    lt("#streak-chip").classList.toggle("hot", played),
+    (lt("#streak-chip").title = played
+      ? "Ya jugaste hoy: racha asegurada"
+      : "Termina una misión o una Mesa de Mayo hoy para mantener la racha"),
+    ht("#medal-count", String(Object.keys(Progress.medals()).length)),
+    ht("#medal-total", String(MEDALS.length)),
+    document.querySelectorAll(".mode-switch [data-mode]").forEach((b) => {
+      const on = b.dataset.mode === Mode;
+      (b.classList.toggle("is-selected", on),
+        b.setAttribute("aria-checked", String(on)));
+    }));
+  const d = Progress.dailyMission(Mt.length);
+  (ht(
+    "#daily-title",
+    `Misión ${String(d + 1).padStart(2, "0")} · ${Mt[d].title}`,
+  ),
+    ht(
+      "#daily-meta",
+      Progress.dailyDone()
+        ? "✓ Completado hoy · vuelve mañana por otro"
+        : `Módulo ${Mt[d].module} · ${Xt[Mt[d].module - 1].title}`,
+    ),
+    lt("#daily-case").classList.toggle("done", Progress.dailyDone()),
+    ht(
+      ".welcome-note",
+      Mode === "guardia"
+        ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse. Progreso guardado en este navegador."
+        : "Modo Aprendizaje: sin cronómetro, a tu ritmo. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.",
+    ));
+  const best = Progress.mayoBest();
+  ht("#mayo-best-label", best ? `Tu récord: ${best} pts` : "");
+}
+document
+  .querySelectorAll(".mode-switch [data-mode]")
+  .forEach((b) => b.addEventListener("click", () => SetMode(b.dataset.mode)));
+lt("#daily-case").addEventListener("click", () =>
+  $t(Progress.dailyMission(Mt.length)),
+);
+lt("#medals-chip").addEventListener("click", () => {
+  (RenderMedals(), lt("#medals-dialog").showModal());
+});
+lt("#medals-close").addEventListener("click", () =>
+  lt("#medals-dialog").close(),
+);
+lt("#streak-chip").addEventListener("click", () => {
+  (RenderMedals(), lt("#medals-dialog").showModal());
+});
+const mayo = createMayo({
+  root: lt("#mayo-view"),
+  onExit: () => ((lt("#mayo-view").hidden = !0), Ce()),
+});
+lt("#open-mayo").addEventListener("click", () => {
+  ((lt("#welcome").hidden = !0),
+    (lt("#game-view").hidden = !0),
+    (lt("#mayo-view").hidden = !1),
+    window.scrollTo({ top: 0 }),
+    mayo.start());
+});
 ye("gpa-guardia-quirofano-sound") === !1 &&
   ((Qt = !1),
   Sound.setEnabled(!1),
@@ -2754,6 +3135,8 @@ lt("#hint-button").addEventListener("click", () => {
           ? "Busca una confirmación activa del expediente antes de continuar."
           : "Un equipo encendido o disponible todavía necesita una comprobación.",
       material: p[ft().module],
+      event:
+        "Ante una alarma o un imprevisto: detente, comunica y resuelve según protocolo.",
       talk: "Comunica lo confirmado y también lo que permanece pendiente.",
       pause: "Toda incidencia abierta se aclara antes de completar esta fase.",
     };

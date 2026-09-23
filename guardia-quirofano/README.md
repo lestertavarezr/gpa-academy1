@@ -6,7 +6,8 @@ Hecha con [Phaser 4](https://phaser.io) y Vite.
 
 > Demo educativa. Todavía no está integrada con la LMS ni validada como
 > evaluación clínica formal. Los textos de los distractores (`src/distractors.js`)
-> necesitan la revisión del equipo docente.
+> y los nuevos de la fase 2 (`src/events.js`, `src/instruments.js`) necesitan
+> la revisión del equipo docente.
 
 ## Desarrollo
 
@@ -37,6 +38,10 @@ Una vez publicado, es una PWA: se puede instalar desde Chrome o Edge
 |---|---|
 | `src/main.js` | Datos de misiones, lógica de juego, escena Phaser y UI. Recuperado del bundle de la demo (los nombres cortos vienen de la minificación). |
 | `src/distractors.js` | Tercera opción creíble para cada decisión, con su explicación. |
+| `src/events.js` | Eventos inesperados (alarma de SpO₂, gasa al suelo, guante perforado…). |
+| `src/instruments.js` | Instrumental de la Mesa de Mayo: función, peticiones y dibujo vectorial. |
+| `src/mayo.js` | Minijuego Mesa de Mayo. |
+| `src/progress.js` | Racha diaria, caso del día y medallas. |
 | `src/audio.js` | Sonido procedural: ambiente de quirófano, monitor y efectos. |
 | `src/assets/actor/*.svg` | Partes del personaje (cuerpo, brazo, pierna) que se animan. |
 | `public/sw.js`, `public/manifest.webmanifest` | PWA: instalación y juego sin conexión. |
@@ -61,3 +66,20 @@ Una vez publicado, es una PWA: se puede instalar desde Chrome o Edge
   ciclo del ventilador y pitido del monitor sincronizado con la FC.
 - **Web/PWA**: imagen en WebP (de 2,4 MB a 244 KB), manifiesto, iconos y
   service worker.
+
+## Fase 2: cambios de la versión 1.2
+
+- **Mesa de Mayo** (minijuego contrarreloj): el cirujano pide 15 piezas entre
+  16 instrumentos, primero por nombre y después por su función, con voz si el
+  sonido está activo. Hay 3 vidas, rachas, puntos por rapidez y récord, y al
+  final se repasa cada error con el dibujo y la función de la pieza.
+- **Modo Guardia**: tiempo límite por decisión (20 s, 12 s en eventos, 45 s en
+  retos) y **estabilidad del paciente**: cada error resta 25 %, cada incidencia
+  recuperada devuelve 10 % y a 0 % se suspende el caso. El monitor refleja la
+  estabilidad. El modo Aprendizaje se mantiene sin cronómetro.
+- **Eventos inesperados**: en cada misión aparece uno al azar entre el reto y
+  la comunicación, con alarma visual y sonora y una explicación si la reacción
+  no es segura.
+- **Medallas (18)**, **racha de días** y **caso del día** (la misma misión
+  para todos en la misma fecha), en el panel de inicio y en la vitrina de
+  medallas.

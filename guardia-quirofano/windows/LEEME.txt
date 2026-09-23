@@ -1,4 +1,4 @@
-GUARDIA DE QUIROFANO - VERSION DE PRUEBA 1.1
+GUARDIA DE QUIROFANO - VERSION DE PRUEBA 1.2
 
 OPCION RECOMENDADA: jugar en el navegador
 Abre el enlace publicado por GPA Academy. En Chrome o Edge puedes pulsar
