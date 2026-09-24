@@ -54,7 +54,7 @@ function speak(text) {
   } catch {}
 }
 
-export function createMayo({ root, onExit }) {
+export function createMayo({ root, onExit, onFinish }) {
   let S = null;
   let raf = 0;
   let pending = 0;
@@ -265,6 +265,7 @@ export function createMayo({ root, onExit }) {
       });
       box.append(review);
     }
+    onFinish?.(box, { score: S.score, correct: S.correct });
     const actions = el("div", "debrief-buttons");
     const again = el("button", "button button-primary", "Jugar otra vez →");
     again.type = "button";

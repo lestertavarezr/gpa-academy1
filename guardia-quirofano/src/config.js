@@ -16,4 +16,11 @@ export const CONFIG = {
     : null,
   // Endpoint del cirujano con IA. Vacío = función desactivada.
   aiEndpoint: import.meta.env.VITE_AI_ENDPOINT ?? "/api/cirujano",
+  // Versión demo para la landing page (npm run build:demo): solo la misión 1
+  // y la Mesa de Mayo, con invitación a inscribirse en el curso.
+  demo: import.meta.env.VITE_DEMO === "1",
+  // Página de inscripción a la que lleva el botón de la demo.
+  enrollUrl: import.meta.env.VITE_ENROLL_URL || "",
 };
+// Misiones jugables en la demo.
+export const DEMO_MISSIONS = [0];

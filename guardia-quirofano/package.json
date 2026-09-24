@@ -8,7 +8,9 @@
     "build": "vite build",
     "preview": "vite preview --port 4174",
     "package:windows": "vite build && node scripts/package-windows.mjs",
-    "package:scorm": "vite build && node scripts/package-scorm.mjs"
+    "package:scorm": "vite build && node scripts/package-scorm.mjs",
+    "build:demo": "vite build --mode demo",
+    "dev:demo": "vite --mode demo"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",

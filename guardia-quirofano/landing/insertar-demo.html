@@ -1,0 +1,30 @@
+<!--
+  Guardia de Quirófano · demo para la landing page de GPA Academy.
+
+  1. Genera la demo:   cd guardia-quirofano && npm run build:demo
+     (antes, pon la URL de inscripción en .env.demo → VITE_ENROLL_URL)
+  2. Sube el contenido de dist-demo/ a tu web, por ejemplo en /demo-quirofano/
+  3. Pega este bloque en la landing donde quieras mostrar el juego.
+-->
+<section id="demo-quirofano" style="max-width:1200px;margin:0 auto;padding:0 16px">
+  <div style="position:relative;width:100%;aspect-ratio:16/11;min-height:640px;border-radius:16px;overflow:hidden;background:#071a25">
+    <iframe
+      src="/demo-quirofano/index.html"
+      title="Demo gratuita: Guardia de Quirófano"
+      loading="lazy"
+      allow="autoplay; fullscreen"
+      style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+  </div>
+</section>
+
+<script>
+  // Opcional: medir lo que hacen los visitantes en la demo.
+  // Eventos: mission_start, mission_complete, mayo_complete, cta_open, cta_click.
+  window.addEventListener("message", function (e) {
+    if (!e.data || e.data.source !== "guardia-demo") return;
+    // Ejemplo con Google Analytics 4 (si lo usas en la landing):
+    if (window.gtag) window.gtag("event", "demo_" + e.data.event, e.data);
+    // Ejemplo con Meta Pixel:
+    // if (window.fbq && e.data.event === "cta_click") fbq("track", "Lead");
+  });
+</script>

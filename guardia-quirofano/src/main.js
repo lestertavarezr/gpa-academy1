@@ -11,7 +11,7 @@ import { DISTRACTORS } from "./distractors.js";
 import { EVENTS } from "./events.js";
 import { Progress, MEDALS } from "./progress.js";
 import { createMayo } from "./mayo.js";
-import { CONFIG } from "./config.js";
+import { CONFIG, DEMO_MISSIONS } from "./config.js";
 import { Report } from "./report.js";
 import { aiAvailable, mountCoach } from "./ai.js";
 const Ut = Phaser,
@@ -1794,9 +1794,13 @@ function Se() {
         ).length,
         a = Tt(
           T,
-          `M${c + 1} · ${u.title}  ${l}/4`,
+          CONFIG.demo
+            ? `M${c + 1} · ${u.title}`
+            : `M${c + 1} · ${u.title}  ${l}/4`,
           () => {
-            ((Ot = c + 1), (zt = Mt.findIndex((s) => s.module === Ot)), Se());
+            ((Ot = c + 1),
+              CONFIG.demo || (zt = Mt.findIndex((s) => s.module === Ot)),
+              Se());
           },
           "module-tab",
         );
@@ -1809,9 +1813,10 @@ function Se() {
   (t.replaceChildren(),
     Mt.forEach((u, c) => {
       if (u.module !== Ot) return;
-      const l = document.createElement("button");
+      const l = document.createElement("button"),
+        locked = Locked(c);
       ((l.type = "button"),
-        (l.className = `mission-choice${zt === c ? " is-selected" : ""}`),
+        (l.className = `mission-choice${zt === c ? " is-selected" : ""}${locked ? " locked" : ""}`),
         l.setAttribute("aria-pressed", String(zt === c)));
       const a = document.createElement("span");
       ((a.className = "mission-num"),
@@ -1822,22 +1827,28 @@ function Se() {
       const i = document.createElement("small");
       const st = ye(StarsKey),
         sc = Array.isArray(st) ? Number(st[c]) || 0 : 0;
-      ((i.textContent = p[c]
-        ? `${"★".repeat(sc)}${"☆".repeat(3 - sc)}  Mejor: ${p[c]}/100${Progress.guardiaDone().includes(c) ? " · 🛡️" : ""}`
-        : u.guided
-          ? "Misión guiada · empieza aquí"
-          : "Pendiente de jugar"),
+      ((i.textContent = locked
+        ? "🔒 Incluida en el curso completo"
+        : p[c]
+          ? `${"★".repeat(sc)}${"☆".repeat(3 - sc)}  Mejor: ${p[c]}/100${Progress.guardiaDone().includes(c) ? " · 🛡️" : ""}`
+          : u.guided
+            ? "Misión guiada · empieza aquí"
+            : "Pendiente de jugar"),
         s.append(e, i));
       const r = document.createElement("span");
       (r.setAttribute("aria-hidden", "true"),
-        (r.textContent = p[c] ? "✓" : "↗"),
+        (r.textContent = locked ? "🔒" : p[c] ? "✓" : "↗"),
         l.append(a, s, r),
-        l.addEventListener("click", () => Zi(c)),
+        l.addEventListener("click", () =>
+          locked ? Cta(`«${u.title}» está en el curso completo.`) : Zi(c),
+        ),
         t.append(l));
     }),
     ht(
       "#campaign-progress",
-      `${RequiredMissions().filter((c) => Number(p[c]) > 0).length} de ${RequiredMissions().length} misiones completadas`,
+      CONFIG.demo
+        ? `Demo: ${DEMO_MISSIONS.length} misión jugable de ${Mt.length} · el resto, en el curso completo`
+        : `${RequiredMissions().filter((c) => Number(p[c]) > 0).length} de ${RequiredMissions().length} misiones completadas`,
     ),
     Hub());
 }
@@ -2664,15 +2675,22 @@ function ns() {
   const e = document.createElement("div");
   ((e.className = "debrief-buttons"),
     Tt(e, "Repetir misión", () => $t(Q.missionIndex), "button button-quiet"),
-    Q.missionIndex < Mt.length - 1 &&
-    (!CONFIG.module || Mt[Q.missionIndex + 1].module === CONFIG.module)
+    CONFIG.demo
       ? Tt(
           e,
-          "Siguiente misión →",
-          () => $t(Q.missionIndex + 1),
+          "Quiero el curso completo →",
+          () => Cta("Completaste tu primera misión."),
           "button button-primary",
         )
-      : Tt(e, "Ver campaña completa →", Ce, "button button-primary"),
+      : Q.missionIndex < Mt.length - 1 &&
+          (!CONFIG.module || Mt[Q.missionIndex + 1].module === CONFIG.module)
+        ? Tt(
+            e,
+            "Siguiente misión →",
+            () => $t(Q.missionIndex + 1),
+            "button button-primary",
+          )
+        : Tt(e, "Ver campaña completa →", Ce, "button button-primary"),
     p.append(e));
 }
 function rs() {
@@ -3009,7 +3027,12 @@ function MissionDone(f) {
     Q.missionIndex === Progress.dailyMission(Mt.length) &&
       !Progress.dailyDone() &&
       Progress.markDaily(),
-    SyncLMS());
+    SyncLMS(),
+    Track("mission_complete", {
+      mission: Q.missionIndex + 1,
+      score: f.total,
+      mode: Q.mode,
+    }));
 }
 const medalQueue = [];
 let medalBusy = !1;
@@ -3092,9 +3115,13 @@ function Hub() {
     lt("#daily-case").classList.toggle("done", Progress.dailyDone()),
     ht(
       ".welcome-note",
-      Mode === "guardia"
-        ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse. Progreso guardado en este navegador."
-        : "Modo Aprendizaje: sin cronómetro, a tu ritmo. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.",
+      CONFIG.demo
+        ? Mode === "guardia"
+          ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse."
+          : "Versión demo: juega la misión 1 completa y la Mesa de Mayo. Sin registro."
+        : Mode === "guardia"
+          ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse. Progreso guardado en este navegador."
+          : "Modo Aprendizaje: sin cronómetro, a tu ritmo. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.",
     ));
   const best = Progress.mayoBest();
   ht("#mayo-best-label", best ? `Tu récord: ${best} pts` : "");
@@ -3117,6 +3144,18 @@ lt("#streak-chip").addEventListener("click", () => {
 const mayo = createMayo({
   root: lt("#mayo-view"),
   onExit: () => ((lt("#mayo-view").hidden = !0), Ce()),
+  onFinish: (box, result) => {
+    if ((Track("mayo_complete", result), !CONFIG.demo)) return;
+    const cta = document.createElement("button");
+    ((cta.type = "button"),
+      (cta.className = "demo-ribbon demo-ribbon-inline"),
+      (cta.innerHTML =
+        '<span class="daily-tag">CURSO COMPLETO</span><strong>20 misiones, Modo Guardia y seguimiento docente</strong><span class="daily-go" aria-hidden="true">→</span>'),
+      cta.addEventListener("click", () =>
+        Cta("¿Te gustó la Mesa de Mayo? Hay mucho más."),
+      ),
+      box.append(cta));
+  },
 });
 lt("#open-mayo").addEventListener("click", () => {
   ((lt("#welcome").hidden = !0),
@@ -3279,12 +3318,60 @@ LMS.connected &&
     ".app-footer span:last-child",
     `Conectado a la LMS (SCORM ${LMS.version})`,
   ));
+
+// ---------------------------------------------------------------------------
+// Versión demo para la landing page.
+
+function Locked(i) {
+  return CONFIG.demo && !DEMO_MISSIONS.includes(i);
+}
+// Avisa a la página que contiene el juego (la landing) de lo que hace el
+// visitante, para medir conversiones: {source: "guardia-demo", event, ...}.
+function Track(event, data = {}) {
+  if (!CONFIG.demo || window.parent === window) return;
+  try {
+    window.parent.postMessage({ source: "guardia-demo", event, ...data }, "*");
+  } catch {}
+}
+function Cta(reason) {
+  if (!CONFIG.demo) return;
+  (ht("#cta-reason", reason || ""),
+    (lt("#cta-link").hidden = !CONFIG.enrollUrl),
+    CONFIG.enrollUrl && (lt("#cta-link").href = CONFIG.enrollUrl),
+    (lt("#cta-fallback").hidden = !!CONFIG.enrollUrl),
+    lt("#cta-dialog").showModal(),
+    Track("cta_open", { reason }));
+}
+lt("#cta-close").addEventListener("click", () => lt("#cta-dialog").close());
+lt("#cta-back").addEventListener("click", () => lt("#cta-dialog").close());
+lt("#cta-link").addEventListener("click", () => Track("cta_click"));
+lt("#demo-ribbon").addEventListener("click", () =>
+  Cta("Estás jugando la demo gratuita."),
+);
+CONFIG.demo &&
+  ((lt("#demo-ribbon").hidden = !1),
+  (lt("#daily-case").hidden = !0),
+  (lt("#streak-chip").hidden = !0),
+  (lt("#medals-chip").hidden = !0),
+  (lt("#export-report").hidden = !0),
+  ht("#program-label", "DEMO GRATUITA"),
+  ht("#start-mission", "Jugar la misión 1 →"),
+  ht(
+    ".app-footer span:last-child",
+    "Demo gratuita · Curso de Asistencia Quirúrgica",
+  ),
+  (zt = 0),
+  (Ot = 1));
 ye("gpa-guardia-quirofano-sound") === !1 &&
   ((Qt = !1),
   Sound.setEnabled(!1),
   (lt("#sound-toggle").textContent = "×"),
   lt("#sound-toggle").setAttribute("aria-label", "Activar sonido"));
-lt("#start-mission").addEventListener("click", () => $t(zt));
+lt("#start-mission").addEventListener("click", () =>
+  Locked(zt)
+    ? Cta("Esa misión está en el curso completo.")
+    : (Track("mission_start", { mission: zt + 1 }), $t(zt)),
+);
 lt("#resume-mission").addEventListener("click", () => $t(zt, !0));
 lt("#back-to-menu").addEventListener("click", Ce);
 lt("#restart-mission").addEventListener("click", () => $t(Q.missionIndex));

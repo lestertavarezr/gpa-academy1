@@ -15,7 +15,7 @@
     <div class="app-shell">
       <header class="app-header">
         <div class="brand"><span class="brand-mark" aria-hidden="true">G<span>+</span></span><span><strong>GPA Academy</strong><small>Simulaciones de aprendizaje</small></span></div>
-        <div class="header-actions"><span id="lms-chip" class="lms-chip" hidden></span><span class="program-label">ASISTENCIA QUIRÚRGICA</span><button type="button" id="sound-toggle" class="sound-button" aria-label="Desactivar sonido">♫</button></div>
+        <div class="header-actions"><span id="lms-chip" class="lms-chip" hidden></span><span id="program-label" class="program-label">ASISTENCIA QUIRÚRGICA</span><button type="button" id="sound-toggle" class="sound-button" aria-label="Desactivar sonido">♫</button></div>
       </header>
 
       <main>
@@ -27,7 +27,7 @@
             <div class="hub">
               <div class="hub-chips"><button id="streak-chip" class="hub-chip" type="button" title="Días seguidos jugando">🔥 <b id="streak-count">0</b> <span id="streak-label">días seguidos</span></button><button id="medals-chip" class="hub-chip" type="button">🏅 <b id="medal-count">0</b>/<span id="medal-total">18</span> medallas</button><button id="export-report" class="hub-chip" type="button">📤 Informe para el docente</button></div>
               <div class="mode-switch" role="radiogroup" aria-label="Modo de juego"><button type="button" role="radio" data-mode="learn">📘 Aprendizaje</button><button type="button" role="radio" data-mode="guardia">🛡️ Guardia</button></div>
-              <button id="daily-case" class="daily-card" type="button"><span class="daily-tag">CASO DEL DÍA</span><strong id="daily-title">—</strong><small id="daily-meta"></small><span class="daily-go" aria-hidden="true">→</span></button>
+              <button id="demo-ribbon" class="demo-ribbon" type="button" hidden><span class="daily-tag">DEMO GRATUITA</span><strong>Juega la misión 1 y la Mesa de Mayo</strong><small>El curso completo tiene 20 misiones en 5 módulos</small><span class="daily-go" aria-hidden="true">→</span></button><button id="daily-case" class="daily-card" type="button"><span class="daily-tag">CASO DEL DÍA</span><strong id="daily-title">—</strong><small id="daily-meta"></small><span class="daily-go" aria-hidden="true">→</span></button>
             </div>
             <p id="welcome-lede" class="welcome-lede">Elige un módulo. Cada uno propone una actividad distinta, basada en los casos del programa.</p>
             <div id="module-selector" class="module-selector" role="group" aria-label="Elige un módulo"></div>
@@ -56,6 +56,7 @@
       </main>
       <dialog id="medals-dialog" class="medals-dialog" aria-labelledby="medals-title"><div class="medals-head"><h2 id="medals-title">Vitrina de medallas</h2><button id="medals-close" type="button" aria-label="Cerrar">×</button></div><div id="medals-grid" class="medals-grid"></div></dialog>
       <dialog id="report-dialog" class="medals-dialog report-dialog" aria-labelledby="report-title"><form id="report-form"><h2 id="report-title">Informe para el docente</h2><p>Se descargará un archivo con tus misiones, decisiones y resultados de la Mesa de Mayo. Entrégaselo a tu docente: lo abrirá en el panel docente. El archivo no se envía a ningún sitio por sí solo.</p><label for="report-name">Tu nombre completo</label><input id="report-name" autocomplete="name" maxlength="80" required><div class="debrief-buttons"><button class="button button-primary" type="submit">Descargar informe</button><button id="report-cancel" class="button button-quiet" type="button">Cancelar</button></div></form></dialog>
+      <dialog id="cta-dialog" class="medals-dialog cta-dialog" aria-labelledby="cta-title"><div class="medals-head"><h2 id="cta-title">Esto es solo tu primera guardia</h2><button id="cta-close" type="button" aria-label="Cerrar">×</button></div><p id="cta-reason" class="cta-reason"></p><p>El curso de Asistencia Quirúrgica de GPA Academy incluye el juego completo:</p><ul class="cta-list"><li><b>20 misiones</b> en 5 módulos: asepsia, heridas y suturas, equipos, instrumental por especialidad y repaso integrador</li><li><b>Modo Guardia</b>, con tiempo límite y un paciente que se desestabiliza si fallas</li><li><b>Mesa de Mayo</b>, medallas, racha diaria y caso del día</li><li><b>Integrado en el curso</b>, con seguimiento de tu docente</li></ul><div class="debrief-buttons"><a id="cta-link" class="button button-primary" target="_blank" rel="noopener" hidden>Quiero inscribirme →</a><button id="cta-back" class="button button-quiet" type="button">Seguir jugando la demo</button></div><p id="cta-fallback" class="cta-fallback" hidden>Pregunta por el curso de Asistencia Quirúrgica en GPA Academy.</p></dialog>
       <div id="medal-toast" class="medal-toast" role="status" aria-live="polite" hidden></div>
       <footer class="app-footer"><span>GPA ACADEMY · DEMO EDUCATIVA</span><span>Versión web instalable · No conectada a la LMS</span></footer>
     </div>

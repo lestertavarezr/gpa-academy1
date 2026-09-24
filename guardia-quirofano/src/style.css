@@ -2295,3 +2295,85 @@ h3 {
   color: #ffb3ba;
   font-size: 12px;
 }
+
+/* ---------- Demo para la landing ---------- */
+.demo-ribbon {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 12px;
+  text-align: left;
+  border: 1px solid #ffb454;
+  border-radius: 13px;
+  background: linear-gradient(120deg, #2b1a07, #13324a);
+  color: #fff3e0;
+  padding: 12px 14px;
+}
+.demo-ribbon:hover {
+  border-color: #ffd08a;
+  transform: translateY(-1px);
+}
+.demo-ribbon .daily-tag {
+  color: #ffc46e;
+}
+.demo-ribbon strong {
+  font:
+    700 15px Outfit,
+    sans-serif;
+}
+.demo-ribbon small {
+  color: #f1d6ae;
+  font-size: 11px;
+}
+.demo-ribbon .daily-go {
+  grid-row: 1 / 4;
+  grid-column: 2;
+  font-size: 20px;
+  color: #ffc46e;
+}
+.demo-ribbon-inline {
+  width: 100%;
+  margin-top: 12px;
+}
+.mission-choice.locked {
+  border-style: dashed;
+  background: #0f2733;
+}
+.mission-choice.locked .mission-num,
+.mission-choice.locked > span:last-child {
+  color: #8aa7ae;
+}
+.cta-dialog {
+  width: min(560px, calc(100vw - 32px));
+}
+.cta-dialog p {
+  color: #b8d3d8;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.cta-reason {
+  color: #ffd9a8 !important;
+  font-weight: 700;
+}
+.cta-list {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+.cta-list li {
+  border-left: 3px solid #78e5d3;
+  border-radius: 6px;
+  background: #0f2c3a;
+  padding: 8px 11px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.cta-dialog .button {
+  text-decoration: none;
+}
+.cta-fallback {
+  margin: 12px 0 0;
+  font-weight: 700;
+}

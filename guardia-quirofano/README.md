@@ -107,3 +107,25 @@ Nada de esto se ha instalado todavía en la LMS de GPA Academy.
   desde un paquete SCORM, compila con `VITE_AI_ENDPOINT=https://<sitio>/api/cirujano`
   y añade el origen de la LMS a `ALLOWED_ORIGINS`.
 - **Teclado**: las teclas 1-9 eligen la opción correspondiente.
+
+## Demo para la landing page
+
+Versión gratuita y sin registro para captar alumnos: se juega la **misión 1**
+completa (en Aprendizaje o Guardia, con su evento inesperado) y la **Mesa de
+Mayo**. Las otras 19 misiones se ven con candado e invitan a inscribirse.
+No incluye el cirujano con IA, SCORM, el informe docente ni el panel docente.
+
+```bash
+npm run build:demo   # genera dist-demo/
+npm run dev:demo     # para probarla en local
+```
+
+- **Enlace de inscripción:** `VITE_ENROLL_URL` en `.env.demo`. Sin él, la
+  invitación muestra «Pregunta por el curso…» en lugar del botón.
+- **Insertarla en la landing:** sube `dist-demo/` a tu web y usa el bloque de
+  `../landing/insertar-demo.html` (iframe adaptable).
+- **Medición:** la demo envía a la landing los eventos `mission_start`,
+  `mission_complete`, `mayo_complete`, `cta_open` y `cta_click`
+  (`postMessage` con `source: "guardia-demo"`); el bloque incluye un ejemplo
+  para Google Analytics 4.
+- Los textos de la invitación están en `index.html` (`#cta-dialog`).
