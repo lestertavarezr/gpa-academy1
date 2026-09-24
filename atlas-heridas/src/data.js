@@ -1,3 +1,11 @@
+import foamImg from './images/foam.jpg';
+import alginateImg from './images/alginate.jpg';
+import hydrocolloidImg from './images/hydrocolloid.jpg';
+import hydrogelImg from './images/hydrogel.jpg';
+import antimicrobialImg from './images/antimicrobial.jpg';
+import npwtImg from './images/npwt.jpg';
+import ostomyImg from './images/ostomy.jpg';
+
 export const modules = [
   { id: 'm1', label: '01', name: 'Cicatrización', short: 'Fases y factores', icon: '✦', color: '#61b49a' },
   { id: 'm2', label: '02', name: 'Evaluación', short: 'Clasificación y TIME', icon: '◈', color: '#dfa976' },
@@ -25,13 +33,13 @@ export const sources = {
 };
 
 export const dressings = [
-  { id: 'foam', name: 'Espuma absorbente', detail: 'Absorbe exudado moderado y protege la piel.', image: '/images/foam.jpg', credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Schaumverband.JPG' },
-  { id: 'alginate', name: 'Alginato', detail: 'Opción para exudado abundante; requiere cobertura secundaria.', image: '/images/alginate.jpg', credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Alginat_Wundauflagen.JPG' },
-  { id: 'hydrocolloid', name: 'Hidrocoloide', detail: 'Ambiente húmedo en herida limpia con exudado bajo.', image: '/images/hydrocolloid.jpg', credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Hydrokolloid.JPG' },
-  { id: 'hydrogel', name: 'Hidrogel', detail: 'Aporta humedad a un lecho seco cuando está indicado.', image: '/images/hydrogel.jpg', credit: 'Korrupt · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Hydrogel-Wundauflage.jpg' },
-  { id: 'antimicrobial', name: 'Compresa antimicrobiana', detail: 'Uso selectivo tras valoración; no sustituye el manejo de la infección.', image: '/images/antimicrobial.jpg', credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Antibakterielle_Saugkompresse.JPG' },
-  { id: 'npwt', name: 'Sistema NPWT', detail: 'Terapia avanzada bajo indicación y supervisión clínica.', image: '/images/npwt.jpg', credit: 'Noles1984 · dominio público', source: 'https://commons.wikimedia.org/wiki/File:KCI_Wound_Vac01.jpg' },
-  { id: 'ostomy', name: 'Bolsa + barrera', detail: 'Sistema de recogida con abertura ajustada al estoma.', image: '/images/ostomy.jpg', credit: 'DCwom · dominio público', source: 'https://commons.wikimedia.org/wiki/File:OstomyPouch.jpg' },
+  { id: 'foam', name: 'Espuma absorbente', detail: 'Absorbe exudado moderado y protege la piel.', image: foamImg, credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Schaumverband.JPG' },
+  { id: 'alginate', name: 'Alginato', detail: 'Opción para exudado abundante; requiere cobertura secundaria.', image: alginateImg, credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Alginat_Wundauflagen.JPG' },
+  { id: 'hydrocolloid', name: 'Hidrocoloide', detail: 'Ambiente húmedo en herida limpia con exudado bajo.', image: hydrocolloidImg, credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Hydrokolloid.JPG' },
+  { id: 'hydrogel', name: 'Hidrogel', detail: 'Aporta humedad a un lecho seco cuando está indicado.', image: hydrogelImg, credit: 'Korrupt · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Hydrogel-Wundauflage.jpg' },
+  { id: 'antimicrobial', name: 'Compresa antimicrobiana', detail: 'Uso selectivo tras valoración; no sustituye el manejo de la infección.', image: antimicrobialImg, credit: 'Enter · CC BY-SA 4.0', source: 'https://commons.wikimedia.org/wiki/File:Antibakterielle_Saugkompresse.JPG' },
+  { id: 'npwt', name: 'Sistema NPWT', detail: 'Terapia avanzada bajo indicación y supervisión clínica.', image: npwtImg, credit: 'Noles1984 · dominio público', source: 'https://commons.wikimedia.org/wiki/File:KCI_Wound_Vac01.jpg' },
+  { id: 'ostomy', name: 'Bolsa + barrera', detail: 'Sistema de recogida con abertura ajustada al estoma.', image: ostomyImg, credit: 'DCwom · dominio público', source: 'https://commons.wikimedia.org/wiki/File:OstomyPouch.jpg' },
 ];
 
 const option = (id, label, note = '') => ({ id, label, note });

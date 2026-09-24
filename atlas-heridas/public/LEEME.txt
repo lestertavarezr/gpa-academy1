@@ -1,0 +1,14 @@
+ATLAS - LABORATORIO DE HERIDAS Y OSTOMIAS
+
+1. Descomprime el archivo ZIP.
+2. Abre index.html con doble clic (Chrome, Edge o Firefox).
+   No necesita servidor, PowerShell ni conexion a Internet.
+3. El avance se guarda en el navegador de este equipo. Usa siempre el mismo
+   navegador y el mismo archivo index.html para conservarlo.
+   No sincroniza con la LMS.
+
+15 casos, 45 decisiones, 7 fotografias reales de apositos y dispositivos.
+Las guias externas y las fuentes de fotografias requieren conexion si deseas abrirlas.
+
+USO EDUCATIVO: casos ficticios. No diagnostica pacientes ni prescribe tratamientos.
+El equipo clinico debe aplicar valoracion individual y protocolos locales.

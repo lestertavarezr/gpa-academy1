@@ -6,20 +6,21 @@ Juego formativo local para el programa de Manejo de Heridas y Ostomías de GPA A
 
 Desde este directorio:
 
-```powershell
+```bash
 npm install
-npm run dev
+npm run dev     # http://127.0.0.1:4182/
+npm test        # valida la coherencia de los 45 pasos (respuestas, fuentes, apósitos)
+npm run build   # genera dist/
 ```
 
-Abrir http://127.0.0.1:4182/
-
-Para compilar: `npm run build`. El contenido de `dist/` puede servirse como sitio estático. El paquete Windows distribuido aparte incorpora un servidor local y no requiere Node.
+`npm run build` produce un **único `dist/index.html`** con JS, CSS, fuentes e imágenes incrustados (vite-plugin-singlefile), más `LEEME.txt` y `CREDITOS-IMAGENES.md`. Para distribuir, comprime `dist/`: el alumno abre `index.html` con doble clic, sin servidor, sin PowerShell y sin Internet.
 
 ## Diseño educativo
 
 - El alumno lee expediente y visor esquemático, toma tres decisiones por caso y recibe retroalimentación con enlace a la guía.
+- El orden de las opciones se baraja en cada decisión.
 - Las fotos de apósitos pueden seleccionarse por clic o arrastrarse al visor. La simulación no pretende mostrar la técnica de aplicación física.
-- Dos errores permiten continuar con la explicación, con puntuación menor; el caso puede repetirse.
+- Primer error: solo una pista (campo opcional `hint` del paso; si falta, se usa una pista genérica), sin revelar la respuesta. Segundo error: se resalta la opción correcta y se muestra la explicación. Puntuación: 100 al primer intento, 70 al segundo, 0 si se agotan los intentos; el caso puede repetirse.
 - El progreso se guarda solo en `localStorage` del navegador. No registra datos clínicos personales ni envía resultados a la LMS.
 - Los casos se basan en los módulos 1–5 del programa de Manejo de Heridas de la carpeta Drive proporcionada por el usuario. La ruta de ostomías añade escenarios periestomales.
 
