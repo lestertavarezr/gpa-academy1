@@ -11,6 +11,7 @@ npm install
 npm run dev     # http://127.0.0.1:4182/
 npm test        # valida la coherencia de los 45 pasos (respuestas, fuentes, apósitos)
 npm run build   # genera dist/
+npm run test:e2e  # juega los 15 casos en Chromium sobre dist/ (móvil, teclado, historial, progreso dañado)
 ```
 
 `npm run build` produce un **único `dist/index.html`** con JS, CSS, fuentes e imágenes incrustados (vite-plugin-singlefile), más `LEEME.txt` y `CREDITOS-IMAGENES.md`. Para distribuir, comprime `dist/`: el alumno abre `index.html` con doble clic, sin servidor, sin PowerShell y sin Internet.
@@ -22,6 +23,7 @@ npm run build   # genera dist/
 - Cada decisión tiene una pista propia (`hint`); el test exige que exista.
 - Las fotos de apósitos pueden seleccionarse por clic o arrastrarse al visor. La simulación no pretende mostrar la técnica de aplicación física.
 - Primer error: solo una pista (campo opcional `hint` del paso; si falta, se usa una pista genérica), sin revelar la respuesta. Segundo error: se resalta la opción correcta y se muestra la explicación. Puntuación: 100 al primer intento, 70 al segundo, 0 si se agotan los intentos; el caso puede repetirse.
+- Cada pantalla tiene su dirección (`#/caso/m1-a`, `#/biblioteca`…), así que el botón «atrás» del navegador navega dentro del juego.
 - El progreso se guarda solo en `localStorage` del navegador. No registra datos clínicos personales ni envía resultados a la LMS.
 - Los casos se basan en los módulos 1–5 del programa de Manejo de Heridas de la carpeta Drive proporcionada por el usuario. La ruta de ostomías añade escenarios periestomales.
 

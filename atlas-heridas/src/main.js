@@ -4,11 +4,17 @@ import { modules, cases, dressings, sources, moduleNote } from './data.js';
 
 const app = document.getElementById('app');
 const key = 'atlas-heridas-v1';
-let progress;
-try { progress = JSON.parse(localStorage.getItem(key)) || { completed: {}, xp: 0 }; }
-catch { progress = { completed: {}, xp: 0 }; }
-progress.completed ||= {};
-progress.xp ||= 0;
+// Un valor guardado dañado o de otra versión no debe dejar el juego en blanco.
+function loadProgress() {
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem(key)); } catch { /* sin almacenamiento o JSON inválido */ }
+  const valid = saved && typeof saved === 'object' && !Array.isArray(saved);
+  const completed = valid && saved.completed && typeof saved.completed === 'object' && !Array.isArray(saved.completed) ? saved.completed : {};
+  for (const id of Object.keys(completed)) if (!cases.some(c => c.id === id)) delete completed[id];
+  const xp = valid && Number.isFinite(saved.xp) && saved.xp > 0 ? Math.floor(saved.xp) : 0;
+  return { completed, xp };
+}
+let progress = loadProgress();
 const state = { page: 'home', module: 'all', caseId: null, step: 0, picks: [], feedback: null, misses: 0, score: 0, first: 0, menu: false, order: [] };
 const E = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]));
 const byId = id => cases.find(c => c.id === id);
@@ -129,9 +135,38 @@ function evidence() {
   return shell('<main class="page evidence-page"><div class="page-intro"><div class="eyebrow">TRANSPARENCIA CLÍNICA</div><h1>Guías, límites y seguridad</h1><p>El juego transforma recomendaciones en decisiones de casos ficticios. No es una herramienta de diagnóstico o prescripción para pacientes reales.</p></div><div class="evidence-grid"><section class="evidence-card feature">'+I('shield',29)+'<h2>Primero, reconocer el riesgo</h2><p>Sepsis, isquemia, infección profunda, sangrado y otras complicaciones requieren evaluación urgente. La selección de apósito no reemplaza esa decisión.</p></section><section class="evidence-card">'+I('target',29)+'<h2>Antibióticos con criterio</h2><p>Diferenciamos colonización de infección. En pie diabético leve se enseña el espectro objetivo, no una receta universal; fármaco, dosis y vía requieren criterio local.</p></section><section class="evidence-card">'+I('image',29)+'<h2>Apósitos con contexto</h2><p>Las fotos son auténticas; película, interfase y apósito seco se muestran como ilustración. Cada selección es plausible para un escenario definido; ninguna familia de productos resuelve por sí sola la causa de la herida.</p></section></div><div class="source-section"><div class="section-head"><div><div class="eyebrow muted">FUENTES PRIMARIAS</div><h2>Referencias usadas</h2></div></div><div class="source-list">'+Object.values(sources).map((s,i)=>'<a href="'+s.url+'" target="_blank" rel="noopener noreferrer"><span>'+String(i+1).padStart(2,'0')+'</span><strong>'+E(s.label)+'</strong>'+I('arrow',17)+'</a>').join('')+'</div></div><div class="source-section"><h2>Correspondencia académica</h2><p class="course-note">Los cinco módulos siguen las presentaciones del programa en Drive: cicatrización, clasificación/evaluación, heridas agudas y postquirúrgicas, heridas crónicas y presión negativa. La ruta de ostomías amplía la valoración periestomal con WOCN.</p></div></main>');
 }
 
-function render(focus) {
+// Rutas en el hash (#/caso/m1-a, #/biblioteca…) para que el botón «atrás» del navegador no saque al alumno del juego.
+function routeHash() {
+  if (state.page === 'game') return '#/caso/' + state.caseId;
+  if (state.page === 'result') return '#/caso/' + state.caseId + '/informe';
+  if (state.page === 'library') return '#/biblioteca';
+  if (state.page === 'evidence') return '#/guias';
+  return state.module === 'all' ? '#/' : '#/ruta/' + state.module;
+}
+function syncHistory(replace) {
+  const hash = routeHash();
+  if (location.hash === hash) return;
+  try { history[replace ? 'replaceState' : 'pushState'](null, '', hash); } catch { /* historial no disponible (p. ej. iframe restringido) */ }
+}
+function applyRoute(hash) {
+  const m = /^#\/(?:caso\/([\w-]+)(\/informe)?|(biblioteca)|(guias)|ruta\/([\w-]+))?$/.exec(hash || '#/');
+  state.menu = false;
+  if (m?.[1] && byId(m[1])) {
+    // Un informe solo existe justo después de terminar el caso; si no, se vuelve al panel.
+    if (m[2]) { if (state.page === 'result' && state.caseId === m[1]) return render(); }
+    else if (state.page === 'game' && state.caseId === m[1]) return render();
+    else return start(m[1]);
+  }
+  state.page = m?.[3] ? 'library' : m?.[4] ? 'evidence' : 'home';
+  if (state.page === 'home') state.module = modules.some(x => x.id === m?.[5]) ? m[5] : 'all';
+  render('h1', true);
+  window.scrollTo(0, 0);
+}
+
+function render(focus, replace) {
   app.innerHTML=state.page==='game'?game():state.page==='result'?result():state.page==='library'?library():state.page==='evidence'?evidence():home();
-  document.title=(state.page==='game'?current().title+' · ':'')+'ATLAS · Laboratorio de heridas';
+  document.title=(state.page==='game'||state.page==='result'?current().title+' · ':'')+'ATLAS · Laboratorio de heridas';
+  syncHistory(replace || (state.page==='result' && location.hash==='#/caso/'+state.caseId));
   document.querySelectorAll('.dressing-option').forEach(el=>el.addEventListener('dragstart',ev=>{ev.dataTransfer.setData('text/plain',el.dataset.id);ev.dataTransfer.effectAllowed='copy';}));
   const drop=document.querySelector('[data-dropzone]');
   if(drop){drop.addEventListener('dragover',ev=>{if(currentStep().kind==='dressing'&&!state.feedback){ev.preventDefault();drop.classList.add('dragover');}});drop.addEventListener('dragleave',()=>drop.classList.remove('dragover'));drop.addEventListener('drop',ev=>{ev.preventDefault();drop.classList.remove('dragover');const id=ev.dataTransfer.getData('text/plain');if(currentStep().options.includes(id))pick(id);});}
@@ -147,4 +182,6 @@ function submit(){const s=currentStep();if(!state.picks.length||(s.kind==='selec
 function advance(){const c=current();if(state.step<c.steps.length-1){state.step++;enterStep();render('.decision-panel h2');return;}const prior=progress.completed[c.id]?.score||0,wasCompleted=Boolean(progress.completed[c.id]);progress.completed[c.id]={score:Math.max(prior,state.score),date:new Date().toISOString()};progress.xp+=wasCompleted?Math.max(0,state.score-prior):state.score;saveProgress();state.page='result';render('h1');window.scrollTo(0,0);}
 function retry(){state.feedback=null;state.picks=[];render('.answer-option, .dressing-option');}
 document.addEventListener('click',ev=>{const el=ev.target.closest('[data-action]');if(!el)return;const a=el.dataset.action,id=el.dataset.id;if(a==='home'){state.page='home';state.menu=false;render('h1');window.scrollTo(0,0);}else if(a==='module'){state.page='home';state.module=id;state.menu=false;render(focusFor(el));window.scrollTo(0,0);}else if(a==='library'||a==='evidence'){state.page=a;state.menu=false;render('h1');window.scrollTo(0,0);}else if(a==='menu'){state.menu=!state.menu;render('.mobile-menu');}else if(a==='start')start(id);else if(a==='restart')start(state.caseId);else if(a==='pick')pick(id,focusFor(el));else if(a==='submit')submit();else if(a==='next')advance();else if(a==='retry')retry();else if(a==='reset'&&confirm('¿Borrar el progreso y la XP guardados en este navegador?')){progress={completed:{},xp:0};saveProgress();render();}});
-render();
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape'&&state.menu){state.menu=false;render('.mobile-menu');}});
+window.addEventListener('popstate',()=>applyRoute(location.hash));
+applyRoute(location.hash);
