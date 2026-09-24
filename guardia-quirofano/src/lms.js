@@ -177,7 +177,11 @@ export const LMS = {
     if (!connected) return;
     const n = interactionCount++,
       base = `cmi.interactions.${n}`,
-      safeId = id.replace(/[^\w.-]/g, "_").slice(0, 250);
+      clean = id.replace(/[^\w.-]/g, "_").slice(0, 240),
+      // SCORM 2004 exige ids únicos (RTE 4.1.6): un reintento en la pausa o
+      // repetir la misión en otra sesión repetiría el id. En 1.2 se deja el id
+      // tal cual para que la LMS agrupe las respuestas de cada decisión.
+      safeId = is2004 ? `${clean}-${n}` : clean;
     set(`${base}.id`, `${base}.id`, safeId);
     set(`${base}.type`, `${base}.type`, "fill-in");
     set(

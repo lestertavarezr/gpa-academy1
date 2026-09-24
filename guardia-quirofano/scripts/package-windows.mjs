@@ -3,9 +3,14 @@ import { cpSync, mkdirSync, rmSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 
 const out = "release/Guardia-de-Quirofano-Windows";
-rmSync("release", { recursive: true, force: true });
+// Solo se limpia lo propio: release/ también guarda los paquetes SCORM.
+rmSync(out, { recursive: true, force: true });
+rmSync("release/Guardia-de-Quirofano-Windows.zip", { force: true });
 mkdirSync(out, { recursive: true });
-cpSync("dist", out, { recursive: true });
+cpSync("dist", out, {
+  recursive: true,
+  filter: (src) => !/docente/.test(src),
+});
 cpSync("windows", out, { recursive: true });
 execFileSync("zip", ["-qr", "../Guardia-de-Quirofano-Windows.zip", "."], {
   cwd: out,

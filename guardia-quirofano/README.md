@@ -129,3 +129,21 @@ npm run dev:demo     # para probarla en local
   (`postMessage` con `source: "guardia-demo"`); el bloque incluye un ejemplo
   para Google Analytics 4.
 - Los textos de la invitación están en `index.html` (`#cta-dialog`).
+
+## Versión 1.4: verificación antes de la LMS
+
+Pruebas automáticas realizadas sobre esta versión:
+
+- Juego perfecto en las 20 misiones (100/100 y 3 estrellas en todas, en
+  Aprendizaje y Guardia) y juego al azar en ambos modos sin errores.
+- 18 casos límite: tiempos agotados en cada fase hasta suspender el caso,
+  reanudar tras recargar, teclado y pistas; Mesa de Mayo 15/15.
+- SCORM validado con `scorm-again` (1.2 y 2004): estado, nota, reanudación
+  entre sesiones, aislamiento entre alumnos, curso completo (suspend_data de
+  482 de 4096 caracteres), paquetes reales por módulo e interacciones con id
+  único en SCORM 2004 (RTE 4.1.6) aunque se reintente o repita una misión.
+- Accesibilidad con axe (WCAG 2 A/AA) en escritorio y móvil, sin problemas.
+- Demo de la landing: 15 comprobaciones, incluida la medición de eventos.
+
+Para generar todo: `npm run build`, `node scripts/package-scorm.mjs`,
+`node scripts/package-windows.mjs` y `npm run build:demo`.

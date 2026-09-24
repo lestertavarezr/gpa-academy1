@@ -57,7 +57,7 @@ ${files.map((f) => `      <file href="${xml(f.split("\\").join("/"))}"/>`).join(
 const out = "release/scorm";
 rmSync(out, { recursive: true, force: true });
 mkdirSync(out, { recursive: true });
-const files = listFiles("dist").filter((f) => !EXCLUDE.has(f));
+const files = listFiles("dist").filter((f) => !EXCLUDE.has(f) && !/docente/.test(f));
 
 const packages = [
   { slug: "completo", id: "GPA_GUARDIA_QX", title: "Guardia de Quirófano · Curso completo", parameters: "" },
