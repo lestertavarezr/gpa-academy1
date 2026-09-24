@@ -18,7 +18,8 @@ npm run build   # genera dist/
 ## Diseño educativo
 
 - El alumno lee expediente y visor esquemático, toma tres decisiones por caso y recibe retroalimentación con enlace a la guía.
-- El orden de las opciones se baraja en cada decisión.
+- El orden de las opciones se baraja en cada decisión. Los distractores reflejan prácticas reales desaconsejadas, no opciones absurdas.
+- Cada decisión tiene una pista propia (`hint`); el test exige que exista.
 - Las fotos de apósitos pueden seleccionarse por clic o arrastrarse al visor. La simulación no pretende mostrar la técnica de aplicación física.
 - Primer error: solo una pista (campo opcional `hint` del paso; si falta, se usa una pista genérica), sin revelar la respuesta. Segundo error: se resalta la opción correcta y se muestra la explicación. Puntuación: 100 al primer intento, 70 al segundo, 0 si se agotan los intentos; el caso puede repetirse.
 - El progreso se guarda solo en `localStorage` del navegador. No registra datos clínicos personales ni envía resultados a la LMS.
@@ -29,6 +30,10 @@ npm run build   # genera dist/
 Es una simulación de **casos ficticios**, no una herramienta para diagnosticar, indicar tratamientos o prescribir a pacientes reales. Las decisiones requieren evaluación individual, profesionales autorizados, alergias, función renal, microbiología cuando procede y protocolos locales. Los nombres de antibióticos aparecen únicamente como ejemplos de la tabla IWGDF 2023 para infección leve no complicada del pie diabético; no se dan dosis. Se prioriza derivación urgente cuando hay señales de isquemia, hemorragia o complicaciones quirúrgicas.
 
 Guías incorporadas: IWGDF/IDSA 2023 (infección y pie diabético), IWGDF 2023 (descarga, perfusión y cicatrización), NICE NG19/NG125/NG152/CG179, CDC (tétanos), FDA (seguridad NPWT) y WOCN (piel periestomal). Los enlaces exactos aparecen dentro del juego.
+
+## Revisión clínica
+
+La versión 1.2 aplica la propuesta de revisión clínica (distractores, pistas, citas, 3 apósitos básicos y 3 cambios de respuesta en los casos 01, 05 y 09). Está pendiente la aprobación del revisor clínico; cualquier ajuste se hace en `src/data.js`.
 
 ## Créditos
 

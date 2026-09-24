@@ -21,6 +21,8 @@ describe('contenido de los casos', () => {
           expect(new Set(ids).size).toBe(ids.length);
           expect(sources[step.source], 'fuente ' + step.source).toBeDefined();
           expect(step.explanation).toBeTruthy();
+          expect(step.hint, 'pista').toBeTruthy();
+          expect(step.hint.length, 'pista breve').toBeLessThanOrEqual(110);
           if (step.kind === 'select') {
             expect(Array.isArray(step.correct)).toBe(true);
             expect(step.correct.length).toBeLessThan(ids.length);
