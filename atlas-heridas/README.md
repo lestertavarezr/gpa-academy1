@@ -1,0 +1,34 @@
+# ATLAS · Laboratorio de heridas
+
+Juego formativo local para el programa de Manejo de Heridas y Ostomías de GPA Academy. Contiene **15 casos / 45 decisiones** en seis rutas: cicatrización, evaluación, heridas agudas, heridas crónicas, terapia de presión negativa y ostomías. Integra selección interactiva de apósitos con fotografías reales, escenarios de pie diabético con y sin infección, úlcera venosa, isquemia, lesión por presión, complicación postquirúrgica y seguridad de NPWT.
+
+## Ejecutar
+
+Desde este directorio:
+
+```powershell
+npm install
+npm run dev
+```
+
+Abrir http://127.0.0.1:4182/
+
+Para compilar: `npm run build`. El contenido de `dist/` puede servirse como sitio estático. El paquete Windows distribuido aparte incorpora un servidor local y no requiere Node.
+
+## Diseño educativo
+
+- El alumno lee expediente y visor esquemático, toma tres decisiones por caso y recibe retroalimentación con enlace a la guía.
+- Las fotos de apósitos pueden seleccionarse por clic o arrastrarse al visor. La simulación no pretende mostrar la técnica de aplicación física.
+- Dos errores permiten continuar con la explicación, con puntuación menor; el caso puede repetirse.
+- El progreso se guarda solo en `localStorage` del navegador. No registra datos clínicos personales ni envía resultados a la LMS.
+- Los casos se basan en los módulos 1–5 del programa de Manejo de Heridas de la carpeta Drive proporcionada por el usuario. La ruta de ostomías añade escenarios periestomales.
+
+## Seguridad clínica
+
+Es una simulación de **casos ficticios**, no una herramienta para diagnosticar, indicar tratamientos o prescribir a pacientes reales. Las decisiones requieren evaluación individual, profesionales autorizados, alergias, función renal, microbiología cuando procede y protocolos locales. Los nombres de antibióticos aparecen únicamente como ejemplos de la tabla IWGDF 2023 para infección leve no complicada del pie diabético; no se dan dosis. Se prioriza derivación urgente cuando hay señales de isquemia, hemorragia o complicaciones quirúrgicas.
+
+Guías incorporadas: IWGDF/IDSA 2023 (infección y pie diabético), IWGDF 2023 (descarga, perfusión y cicatrización), NICE NG19/NG125/NG152/CG179, CDC (tétanos), FDA (seguridad NPWT) y WOCN (piel periestomal). Los enlaces exactos aparecen dentro del juego.
+
+## Créditos
+
+Fotografías y licencias: [CREDITOS-IMAGENES.md](public/CREDITOS-IMAGENES.md). Las ilustraciones esquemáticas de heridas se generan mediante SVG en el código y no representan fotografías diagnósticas.

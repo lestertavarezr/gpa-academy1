@@ -1,0 +1,12 @@
+ATLAS - LABORATORIO DE HERIDAS Y OSTOMIAS
+
+1. Descomprime el archivo ZIP completo.
+2. En Windows, abre JUGAR.cmd.
+3. El juego se abrira en tu navegador. Mantén la ventana del servidor abierta mientras juegas.
+4. Puedes jugar sin conexion a Internet. Las guias externas y las fuentes de fotografias requieren conexion si deseas abrirlas.
+
+15 casos, 45 decisiones, 7 fotografias reales de apositos y dispositivos.
+El avance se guarda localmente en el navegador. No sincroniza con la LMS.
+
+USO EDUCATIVO: casos ficticios. No diagnostica pacientes ni prescribe tratamientos.
+El equipo clinico debe aplicar valoracion individual y protocolos locales.
