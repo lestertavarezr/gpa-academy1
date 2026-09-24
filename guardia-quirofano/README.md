@@ -123,7 +123,7 @@ npm run dev:demo     # para probarla en local
 - **Enlace de inscripción:** `VITE_ENROLL_URL` en `.env.demo`. Sin él, la
   invitación muestra «Pregunta por el curso…» en lugar del botón.
 - **Insertarla en la landing:** sube `dist-demo/` a tu web y usa el bloque de
-  `../landing/insertar-demo.html` (iframe adaptable).
+  `landing/insertar-demo.html` (iframe adaptable).
 - **Medición:** la demo envía a la landing los eventos `mission_start`,
   `mission_complete`, `mayo_complete`, `cta_open` y `cta_click`
   (`postMessage` con `source: "guardia-demo"`); el bloque incluye un ejemplo
