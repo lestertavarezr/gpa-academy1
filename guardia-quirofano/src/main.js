@@ -3332,3 +3332,15 @@ import.meta.env.PROD &&
   window.addEventListener("load", () =>
     navigator.serviceWorker.register("./sw.js").catch(() => {}),
   );
+// Solo en desarrollo: acceso de lectura para las pruebas automáticas
+// (Vite lo elimina del build de producción).
+import.meta.env.DEV &&
+  (window.__guardia = {
+    state: () => Q,
+    mission: () => ft(),
+    challenge: () => Ht(),
+    missions: Mt,
+    stability: () => Stability(),
+    event: () => CurrentEvent(),
+    closure: () => Hi[ft().module - 1],
+  });

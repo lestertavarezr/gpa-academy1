@@ -6,10 +6,13 @@ const params = new URLSearchParams(location.search);
 export const CONFIG = {
   // Nota mínima (media de las misiones requeridas) para «aprobado» en la LMS.
   passingScore: Number(import.meta.env.VITE_PASSING_SCORE) || 70,
-  // Módulo al que se limita el juego (1-5), p. ej. index.html?modulo=2.
-  // Los paquetes SCORM por módulo lo usan para exigir solo sus 4 misiones.
-  module: /^[1-5]$/.test(params.get("modulo") || "")
-    ? Number(params.get("modulo"))
+  // Módulo al que se limita el juego (1-5): solo se muestran y exigen sus 4 misiones.
+  // El paquete SCORM de cada módulo lo graba en window.GPA_MODULE (algunas LMS
+  // ignoran los parámetros de lanzamiento); la URL sirve para probarlo.
+  module: /^[1-5]$/.test(
+    String(window.GPA_MODULE ?? params.get("modulo") ?? ""),
+  )
+    ? Number(window.GPA_MODULE ?? params.get("modulo"))
     : null,
   // Endpoint del cirujano con IA. Vacío = función desactivada.
   aiEndpoint: import.meta.env.VITE_AI_ENDPOINT ?? "/api/cirujano",

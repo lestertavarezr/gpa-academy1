@@ -53,8 +53,52 @@ async function loadFiles(files) {
   render();
 }
 
+// Los informes vienen del alumno y pueden estar editados: se normalizan los
+// valores antes de usarlos.
+const int = (v, max) => Math.max(0, Math.min(max, Math.round(Number(v)) || 0));
+function sanitize(r) {
+  return {
+    ...r,
+    exportedAt: String(r.exportedAt || ""),
+    student: {
+      name: String(r.student.name).slice(0, 80),
+      lmsId: r.student.lmsId ? String(r.student.lmsId).slice(0, 80) : null,
+    },
+    missions: r.missions.slice(0, TOTAL_MISSIONS).map((m, i) => ({
+      index: i,
+      module: int(m?.module, 5),
+      title: String(m?.title || `Misión ${i + 1}`).slice(0, 80),
+      best: int(m?.best, 100),
+      stars: int(m?.stars, 3),
+      guardia: !!m?.guardia,
+    })),
+    decisions: r.decisions.slice(0, 2000).map((d) => ({
+      m: int(d?.m, TOTAL_MISSIONS - 1),
+      k: String(d?.k || "").slice(0, 40),
+      mt: String(d?.mt || "").slice(0, 80),
+      q: String(d?.q || "").slice(0, 160),
+      a: String(d?.a || "").slice(0, 200),
+      ok: !!d?.ok,
+      t: Number(d?.t) || 0,
+    })),
+    mayo: {
+      best: int(r.mayo?.best, 1e6),
+      picks: (Array.isArray(r.mayo?.picks) ? r.mayo.picks : [])
+        .slice(0, 2000)
+        .map((p) => ({
+          asked: String(p?.asked || "").slice(0, 40),
+          picked: String(p?.picked || "").slice(0, 40),
+          ok: !!p?.ok,
+          t: Number(p?.t) || 0,
+        })),
+    },
+    medals: (Array.isArray(r.medals) ? r.medals : []).slice(0, 50).map(String),
+  };
+}
+
 // Un informe por alumno: si llegan dos, se queda el más reciente.
-function add(report) {
+function add(raw) {
+  const report = sanitize(raw);
   const key = (report.student.lmsId || report.student.name)
     .trim()
     .toLowerCase();
@@ -335,7 +379,11 @@ function csv() {
     "Récord Mesa de Mayo",
     "Última actividad",
   ];
-  const esc = (v) => `"${String(v).replace(/"/g, '""')}"`;
+  // Comillas dobles escapadas y fórmulas neutralizadas (=, +, -, @) para Excel.
+  const esc = (v) =>
+    `"${String(v)
+      .replace(/^[=+\-@\t\r]/, "'$&")
+      .replace(/"/g, '""')}"`;
   const lines = [
     head.map(esc).join(";"),
     ...rows.map((r) =>

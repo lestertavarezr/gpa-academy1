@@ -1790,7 +1790,17 @@ h3 {
   border-radius: 12px;
   background: #0f2c3a;
   padding: 12px;
-  opacity: 0.55;
+}
+/* Bloqueada: se distingue por el candado, el borde discontinuo y el tono
+   apagado, sin bajar la opacidad del texto (contraste AA). */
+.medal:not(.got) {
+  border-style: dashed;
+}
+.medal:not(.got) strong {
+  color: #b4cdd2;
+}
+.medal:not(.got) .medal-icon {
+  opacity: 0.6;
 }
 .medal.got {
   opacity: 1;
