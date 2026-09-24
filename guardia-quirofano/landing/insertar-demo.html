@@ -1,10 +1,19 @@
 <!--
   Guardia de Quirófano · demo para la landing page de GPA Academy.
 
-  1. Genera la demo:   cd guardia-quirofano && npm run build:demo
-     (antes, pon la URL de inscripción en .env.demo → VITE_ENROLL_URL)
-  2. Sube el contenido de dist-demo/ a tu web, por ejemplo en /demo-quirofano/
-  3. Pega este bloque en la landing donde quieras mostrar el juego.
+  OPCIÓN A (más sencilla): un solo archivo
+    1. Sube guardia-quirofano-demo.html a tu web (npm run build:demo-single lo
+       genera en dist-demo-single/index.html; renómbralo).
+    2. Pega este bloque y cambia el src por la ruta del archivo, p. ej.
+       src="/guardia-quirofano-demo.html"
+    También puedes enlazarlo directamente: <a href="/guardia-quirofano-demo.html">.
+
+  OPCIÓN B: carpeta con archivos (carga algo más rápida)
+    1. npm run build:demo y sube el contenido de dist-demo/ a /demo-quirofano/
+    2. Pega este bloque tal cual.
+
+  Antes de generarla, pon la URL de inscripción en .env.demo y
+  .env.demo-single → VITE_ENROLL_URL.
 -->
 <section id="demo-quirofano" style="max-width:1200px;margin:0 auto;padding:0 16px">
   <div style="position:relative;width:100%;aspect-ratio:16/11;min-height:640px;border-radius:16px;overflow:hidden;background:#071a25">

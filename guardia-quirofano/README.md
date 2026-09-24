@@ -116,9 +116,13 @@ Mayo**. Las otras 19 misiones se ven con candado e invitan a inscribirse.
 No incluye el cirujano con IA, SCORM, el informe docente ni el panel docente.
 
 ```bash
-npm run build:demo   # genera dist-demo/
-npm run dev:demo     # para probarla en local
+npm run build:demo          # carpeta con archivos en dist-demo/
+npm run build:demo-single   # un solo archivo HTML (2,2 MB) en dist-demo-single/
+npm run dev:demo            # para probarla en local
 ```
+
+El archivo único lleva todo incrustado (código, estilos, imágenes): se sube
+a la web tal cual y funciona también abierto desde el disco.
 
 - **Enlace de inscripción:** `VITE_ENROLL_URL` en `.env.demo`. Sin él, la
   invitación muestra «Pregunta por el curso…» en lugar del botón.

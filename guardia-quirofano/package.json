@@ -10,7 +10,8 @@
     "package:windows": "vite build && node scripts/package-windows.mjs",
     "package:scorm": "vite build && node scripts/package-scorm.mjs",
     "build:demo": "vite build --mode demo",
-    "dev:demo": "vite --mode demo"
+    "dev:demo": "vite --mode demo",
+    "build:demo-single": "vite build --mode demo-single"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.128.0",
@@ -18,6 +19,7 @@
   },
   "devDependencies": {
     "prettier": "^3.6.0",
-    "vite": "^7.1.0"
+    "vite": "^7.1.0",
+    "vite-plugin-singlefile": "^2.3.3"
   }
 }

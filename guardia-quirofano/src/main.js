@@ -1204,15 +1204,23 @@ function Jt() {
           : null
     : null;
 }
+// En la demo de un solo archivo los SVG llegan incrustados como
+// «data:image/svg+xml,…» sin base64, que el cargador de Phaser no sabe leer:
+// se convierten en una URL blob equivalente.
+function SvgUrl(url) {
+  if (!url.startsWith("data:image/svg+xml,")) return url;
+  const svg = decodeURIComponent(url.slice(url.indexOf(",") + 1));
+  return URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+}
 class Xi extends Ut.Scene {
   constructor() {
     (super("RoomScene"), (this.points = new Map()));
   }
   preload() {
     (this.load.image("room", roomUrl),
-      this.load.svg("actor-body", actorBodyUrl, { scale: 2 }),
-      this.load.svg("actor-arm", actorArmUrl, { scale: 2 }),
-      this.load.svg("actor-leg", actorLegUrl, { scale: 2 }));
+      this.load.svg("actor-body", SvgUrl(actorBodyUrl), { scale: 2 }),
+      this.load.svg("actor-arm", SvgUrl(actorArmUrl), { scale: 2 }),
+      this.load.svg("actor-leg", SvgUrl(actorLegUrl), { scale: 2 }));
   }
   create() {
     (this.add.image(600, 337.5, "room").setDisplaySize(1200, 675),
@@ -3416,6 +3424,7 @@ import.meta.env.PROD &&
   "serviceWorker" in navigator &&
   !LMS.connected &&
   window.top === window &&
+  import.meta.env.VITE_SINGLE !== "1" &&
   window.addEventListener("load", () =>
     navigator.serviceWorker.register("./sw.js").catch(() => {}),
   );
