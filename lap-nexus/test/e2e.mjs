@@ -140,7 +140,13 @@ for (const width of [360, 390, 768]) {
   const p = await newPage({ viewport: { width, height: 800 } });
   await p.goto(URL);
   check(await overflow(p) <= 0, `desborde ${width}px en el menú`);
-  for (const id of ['1a', '1d', '1e', '2a', '2g', '3a', '4a', '7a', '8a']) { await open(p, byId(id)); check(await overflow(p) <= 0, `desborde ${width}px en ${id}`); }
+  for (const id of ['1a', '1d', '1e', '2a', '2g', '3a', '4a', '7a', '8a']) {
+    await open(p, byId(id));
+    // Espera las miniaturas del atlas antes de navegar, o su carga diferida se aborta y se registra como petición fallida.
+    await p.evaluate(() => document.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; }));
+    await p.waitForFunction(() => [...document.images].every(i => i.complete));
+    check(await overflow(p) <= 0, `desborde ${width}px en ${id}`);
+  }
   await open(p, byId('2g')); await playAll(p, byId('2g'));
   check(await overflow(p) <= 0, `desborde ${width}px en el informe`);
   for (const d of ['creditos', 'estudio', 'auditoria']) { await p.goto(`${URL}#/documento/${d}`); check(await overflow(p) <= 0, `desborde ${width}px en documento ${d}`); }

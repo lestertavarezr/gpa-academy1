@@ -22,6 +22,11 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `monopolar-hook.jpg` | Gancho monopolar laparoscópico | Fotografía propia | GPA Academy |
 | `nathanson.jpg` | Retractor hepático Nathanson | Fotografía propia | GPA Academy |
 | `linear-stapler.jpg` | Grapadora lineal laparoscópica | Fotografía propia | GPA Academy |
+| `insuflador.jpg` | Insuflador de CO₂ (WiSAP Tetraflator 20) | Fotografía propia | GPA Academy |
+| `camara-laparoscopica.jpg` | Cabezal de cámara laparoscópica | Fotografía propia | GPA Academy |
+| `procesador.jpg` | Procesador de vídeo / hub | Fotografía propia | GPA Academy |
+| `fuente-luz.jpg` | Fuente de luz | Fotografía propia | GPA Academy |
+| `cable-fibra.jpg` | Cable de fibra óptica | Fotografía propia | GPA Academy |
 
 `insufflator.svg` y `co2-tube.svg` son ilustraciones originales creadas para esta versión del juego. Se identifican como esquemas en cada tarjeta y no representan un modelo comercial exacto.
 
