@@ -30,14 +30,26 @@ Mecánicas: **Circuito** (ordenar una ruta con nodos de otras rutas), **Carga** 
 
 ## Ejecutar el código
 
-Requiere Node.js y npm. En esta carpeta:
+Requiere Node.js 18 o superior y npm. En esta carpeta:
 
 ```sh
 npm install
-npm run dev
+npm run dev          # desarrollo en http://127.0.0.1:4180/
+npm test             # coherencia de los datos y sesgos de respuesta
+npm run build        # genera dist/
+npm run test:e2e     # juega los 48 desafíos en Chromium sobre dist/ (file://)
+npm run revision     # regenera REVISION-CLINICA.md desde src/data.js
 ```
 
-Abre la dirección que muestra el servidor (por defecto `http://127.0.0.1:4180/`). Para compilar: `npm run build`. El resultado está en `dist/` y debe servirse por HTTP(S), no abrirse con `file://`.
+`npm run build` genera `dist/index.html` con el JS y el CSS incrustados, más `dist/images/` y `dist/LEEME.txt`. **Se abre con doble clic** (`file://`), sin servidor ni conexión: basta con comprimir la carpeta `dist/` y distribuirla o subirla a la LMS. Todas las rutas son relativas, así que funciona en cualquier subcarpeta.
+
+Si Playwright no tiene su navegador instalado, indica uno: `CHROMIUM_PATH=/ruta/a/chrome npm run test:e2e`.
+
+La prueba E2E cubre: los 48 desafíos, que todas las fotos carguen, el barajado, los dos intentos y el revelado, el umbral de 70 %, la persistencia del progreso, el almacenamiento corrupto, las rutas (enlace directo, atrás y adelante, documentos), el juego solo con teclado, la ausencia de peticiones externas y la ausencia de desbordamiento a 360, 390 y 768 px.
+
+### Rutas
+
+`#/sector/4` abre un sector, `#/desafio/5c` abre un desafío y `#/documento/creditos` (también `estudio` y `auditoria`) muestra un documento dentro del juego. El botón «atrás» del navegador navega entre estas pantallas.
 
 ## Fuentes de contenido
 
@@ -47,4 +59,4 @@ Como contraste general de seguridad formativa se revisaron [Fundamentals of Lapa
 
 ## Estado
 
-Es una demo local, sin autenticación ni integración con la LMS. Antes de usarlo como evaluación formal, un docente clínico debe revisar y aprobar el contenido y debe definirse cómo se guardarán puntajes por estudiante. No se emplean datos de pacientes.
+Funciona sin conexión y sin servidor, pero todavía no reporta puntajes a la LMS (no es un paquete SCORM). Antes de usarlo como evaluación formal, un docente clínico debe revisar y aprobar el contenido y debe definirse cómo se guardarán puntajes por estudiante. No se emplean datos de pacientes.

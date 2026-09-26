@@ -1,0 +1,25 @@
+LAP//NEXUS · Juego de instrumentación laparoscópica · GPA Academy
+
+CÓMO JUGAR
+1. Descomprime el ZIP completo en una carpeta (index.html y la carpeta images deben quedar juntos).
+2. Haz doble clic en index.html. Se abre en el navegador; no necesita servidor ni internet.
+   Funciona con Chrome, Edge, Firefox y Safari actualizados, en ordenador, tableta o móvil.
+
+REGLAS
+- 48 desafíos en 8 sectores. Cada desafío empieza con 100 % de integridad.
+- Cada error resta 15 % (10 % en los casos del sector Guardia). Se supera con 70 %.
+- Dos intentos por decisión: el primer error muestra su consecuencia y una pista;
+  el segundo revela la solución, que debes aplicar para continuar.
+- Al final verás un informe con los errores y su explicación.
+
+PROGRESO
+El progreso se guarda en este navegador y en este equipo. Si borras los datos del
+navegador o usas una ventana privada, el progreso empieza de cero.
+
+INTERNET
+Solo los enlaces a las presentaciones de cada módulo y a las fuentes de las
+fotografías necesitan conexión. Créditos, auditoría y estudio se consultan dentro
+del juego (pie de página).
+
+Material educativo. No sustituye la práctica supervisada, las instrucciones del
+fabricante ni los protocolos institucionales.

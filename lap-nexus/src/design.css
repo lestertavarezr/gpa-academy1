@@ -77,3 +77,26 @@
 @media (prefers-reduced-motion:reduce){.integrity-bar>span{transition:none}}
 .mission-header>div{min-width:0}
 .mission-header h1{overflow-wrap:break-word;hyphens:auto}
+
+/* Documentos internos (créditos, auditoría, estudio) */
+.doc-layout{max-width:980px;margin:0 auto;padding-bottom:30px}
+.doc-layout .back-button{text-decoration:none}
+.doc-tabs{display:flex;flex-wrap:wrap;gap:6px}
+.doc-tabs a{border:1px solid #3e5d66;border-radius:20px;padding:6px 12px;color:#b8d3d1;font-size:11px;font-weight:800;text-decoration:none}
+.doc-tabs a[aria-current="page"]{border-color:var(--accent);color:#fff}
+.doc-body{margin-top:18px;border:1px solid #ffffff20;border-radius:14px;background:#10232b;padding:26px 28px;color:#d6e6e3;font-size:14px;line-height:1.6}
+.doc-body h2{font-size:28px;line-height:1.15;margin:0 0 14px;color:#fff}
+.doc-body h3{font-size:19px;margin:26px 0 8px;color:#fff}
+.doc-body h4,.doc-body h5{font-size:15px;margin:20px 0 6px;color:#fff}
+.doc-body a{color:var(--accent)}
+.doc-body code{background:#0b1c24;border-radius:4px;padding:1px 5px;font-size:12px}
+.doc-body ul,.doc-body ol{padding-left:22px}
+.doc-table{overflow-x:auto;margin:14px 0}
+.doc-table table{border-collapse:collapse;min-width:100%;font-size:12px}
+.doc-table th,.doc-table td{border:1px solid #2f4b53;padding:7px 9px;text-align:left;vertical-align:top}
+.doc-table th{background:#15313a;color:#fff}
+@media (max-width:600px){.doc-body{padding:18px 16px;font-size:13px}.doc-body h2{font-size:22px}}
+.result-layout{overflow:hidden;grid-template-columns:minmax(0,1fr)}
+.result-card h1{overflow-wrap:break-word;hyphens:auto}
+@media (max-width:420px){.result-card h1{font-size:44px}.result-halo{width:300px;height:300px}.result-halo span{font-size:120px}}
+[tabindex="-1"]:focus:not(:focus-visible),main h1[tabindex="-1"]:focus,.doc-body h2[tabindex="-1"]:focus{outline:none}

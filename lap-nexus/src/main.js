@@ -1,5 +1,6 @@
 import {modules,missions,PASS,COST} from './data.js';
 import {visualAtlas,toolPhotos} from './media.js';
+import {documents,renderMarkdown} from './docs.js';
 import './style.css';
 import './visual.css';
 import './design.css';
@@ -35,7 +36,7 @@ function moduleOf(mission){return modules[mission.module-1];}
 function passed(id){return (save.best[id]??-1)>=PASS;}
 function completed(){return missions.filter(m=>passed(m.id)).length;}
 function stars(score){return score>=100?'✦ ✦ ✦':score>=85?'✦ ✦':score>=PASS?'✦':'—';}
-function photo(file){return `/images/${file}${/\.(?:svg|jpe?g|png|webp)$/i.test(file)?'':'.jpg'}`;}
+function photo(file){return `images/${file}${/\.(?:svg|jpe?g|png|webp)$/i.test(file)?'':'.jpg'}`;}
 function shuffle(list){const a=list.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 function shuffleAvoiding(list,isBad){let r=shuffle(list);for(let n=0;n<20&&list.length>1&&isBad(r);n++)r=shuffle(list);return r;}
 function task(){return current.mode==='op'?current.stages[run.stage]:current;}
@@ -54,13 +55,24 @@ function tone(kind='select'){
     oscillator.connect(gain).connect(audioContext.destination);oscillator.start();oscillator.stop(audioContext.currentTime+.18);
   }catch{/* Audio opcional. */}
 }
+function focusSelector(el){
+  if(!el||!app.contains(el))return null;
+  if(el.dataset.key)return `[data-key="${CSS.escape(el.dataset.key)}"]`;
+  if(el.dataset.action)return `[data-action="${el.dataset.action}"]${el.dataset.id!==undefined?`[data-id="${CSS.escape(el.dataset.id)}"]`:''}`;
+  return null;
+}
 function shell(content,accent='#a4ffdc'){
+  const previous=focusSelector(document.activeElement);
   app.style.setProperty('--accent',accent);
   app.innerHTML=`<div class="shell">
-    <header class="topbar"><a class="brand" href="#" data-action="home" aria-label="LAP Nexus, volver al mapa"><span class="brand-symbol">◇</span><span><strong>LAP<span>//</span>NEXUS</strong><small>GPA ACADEMY · SIMULADOR DE INSTRUMENTACIÓN</small></span></a><div class="top-actions"><span class="live-pill"><i></i> ENTRENAMIENTO ACTIVO</span><button class="icon-button" data-action="sound" aria-label="${soundOn?'Desactivar':'Activar'} sonido">${soundOn?'♪':'♪̸'}</button></div></header>
+    <header class="topbar"><a class="brand" href="#/" data-action="home" aria-label="LAP Nexus, volver al mapa"><span class="brand-symbol">◇</span><span><strong>LAP<span>//</span>NEXUS</strong><small>GPA ACADEMY · SIMULADOR DE INSTRUMENTACIÓN</small></span></a><div class="top-actions"><span class="live-pill"><i></i> ENTRENAMIENTO ACTIVO</span><button class="icon-button" data-action="sound" aria-label="${soundOn?'Desactivar':'Activar'} sonido">${soundOn?'♪':'♪̸'}</button></div></header>
     ${content}
-    <footer class="footer"><span>ENTRENA LA PREPARACIÓN · NO SUSTITUYE LA PRÁCTICA SUPERVISADA</span><span><a href="/ESTUDIO-MERCADO-30-DESAFIOS.md" target="_blank" rel="noopener noreferrer">ESTUDIO Y FUENTES ↗</a> · <a href="/AUDITORIA-INSTRUMENTAL.md" target="_blank" rel="noopener noreferrer">AUDITORÍA ↗</a> · <a href="/CREDITOS-IMAGENES.md" target="_blank" rel="noopener noreferrer">CRÉDITOS ↗</a></span></footer>
+    <footer class="footer"><span>ENTRENA LA PREPARACIÓN · NO SUSTITUYE LA PRÁCTICA SUPERVISADA</span><span><a href="#/documento/estudio">ESTUDIO Y FUENTES</a> · <a href="#/documento/auditoria">AUDITORÍA</a> · <a href="#/documento/creditos">CRÉDITOS</a></span></footer>
   </div>`;
+  if(!previous)return;
+  // Si el elemento enfocado ya no existe, el foco pasa al mensaje de estado en vez de perderse en <body>.
+  const target=[app.querySelector(previous)].find(el=>el&&!el.disabled)||app.querySelector('.game-feedback')||app.querySelector('main h1');
+  if(target){if(!target.matches('button,a,[tabindex]'))target.tabIndex=-1;target.focus({preventScroll:true});}
 }
 function focusAfter(key,selector){requestAnimationFrame(()=>{const target=selector?app.querySelector(selector):app.querySelector(`[data-key="${CSS.escape(key)}"]`);if(target){if(!target.matches('button,a,[tabindex]'))target.tabIndex=-1;target.focus();}});}
 
@@ -315,10 +327,10 @@ app.addEventListener('click',event=>{
   if(action==='visual-select'&&current&&run){run.visualIndex=Number(id);run.visualNote=null;renderGame();focusAfter(null,`[data-action="visual-select"][data-id="${id}"]`);return;}
   if(action==='visual-point'&&current&&run){run.visualNote=Number(id);run.visualSeen.add(`${run.visualIndex}-${id}`);tone();renderGame();focusAfter(null,`[data-action="visual-point"][data-id="${id}"]`);return;}
   if(action==='visual-zoom'&&current&&run){openLightbox();return;}
-  if(action==='home'){event.preventDefault();renderMenu();return;}
+  if(action==='home'){event.preventDefault();go(`#/sector/${selectedModule}`);return;}
   if(action==='sound'){soundOn=!soundOn;button.textContent=soundOn?'♪':'♪̸';button.setAttribute('aria-label',soundOn?'Desactivar sonido':'Activar sonido');return;}
-  if(action==='module'){selectedModule=Number(id);renderMenu(`module-${id}`);return;}
-  if(action==='start'||action==='next'){startMission(id);return;}
+  if(action==='module'){go(`#/sector/${id}`,`module-${id}`);return;}
+  if(action==='start'||action==='next'){go(`#/desafio/${id}`);return;}
   if(action==='retry'){startMission(current.id);return;}
   if(!current||!run||run.won)return;
   if(action==='stage-next'){nextStage();return;}
@@ -367,4 +379,28 @@ app.addEventListener('dragend',()=>{dragging=null;app.querySelectorAll('.draggin
 document.addEventListener('click',event=>{if(event.target.closest('[data-action="visual-close"]')||event.target===lightbox)closeLightbox();});
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&lightbox)closeLightbox();});
 
-renderMenu();
+// Rutas con hash: el botón «atrás» del navegador navega dentro del juego y funcionan con file://.
+let renderedRoute=null;
+function go(hash,focusKey){
+  if(location.hash!==hash)history.pushState(null,'',hash);
+  route(focusKey);
+}
+function route(focusKey){
+  renderedRoute=location.hash;
+  if(lightbox)closeLightbox();
+  const [,kind,value]=location.hash.match(/^#\/(sector|desafio|documento)\/([\w-]+)$/)||[];
+  if(kind==='desafio'&&missions.some(m=>m.id===value)){startMission(value);return;}
+  if(kind==='documento'&&documents[value]){renderDocument(value);return;}
+  if(kind==='sector'&&modules.some(m=>String(m.id)===value))selectedModule=Number(value);
+  renderMenu(focusKey);
+}
+window.addEventListener('popstate',()=>route());
+window.addEventListener('hashchange',()=>{if(location.hash!==renderedRoute)route();});
+function renderDocument(key){
+  current=null;run=null;
+  const doc=documents[key];
+  shell(`<main class="doc-layout"><div class="game-toolbar"><a class="back-button" href="#/sector/${selectedModule}">← MAPA DE SECTORES</a><nav class="doc-tabs" aria-label="Documentos">${Object.entries(documents).map(([k,d])=>`<a href="#/documento/${k}" ${k===key?'aria-current="page"':''}>${esc(d.label)}</a>`).join('')}</nav></div><article class="doc-body">${renderMarkdown(doc.source)}</article></main>`);
+  window.scrollTo({top:0});
+  focusAfter(null,'.doc-body h2');
+}
+route();
