@@ -1,0 +1,79 @@
+:root{--ok:#7fe0a0;--ok-bg:#1f4a38;--bad:#ff8f8f;--bad-bg:#4a2b31;--warn:#ffc978}
+
+/* Integridad del quirófano */
+.game-panel-top{align-items:center;gap:12px;flex-wrap:wrap}
+.integrity{display:flex;align-items:center;gap:9px;color:#cfe7e2}
+.integrity b{color:var(--ok);font-size:12px;letter-spacing:.04em}
+.integrity small{color:#7fa3a4;font-size:8px}
+.integrity-bar{position:relative;display:block;width:110px;height:6px;border-radius:4px;background:#0c2129;overflow:visible}
+.integrity-bar>span{display:block;height:100%;border-radius:4px;background:var(--ok);transition:width .35s ease}
+.integrity-bar i{position:absolute;top:-3px;width:2px;height:12px;background:#e9f3f3;opacity:.7}
+.integrity.warn b{color:var(--warn)}.integrity.warn .integrity-bar>span{background:var(--warn)}
+.integrity.danger b{color:var(--bad)}.integrity.danger .integrity-bar>span{background:var(--bad)}
+
+/* Estados revelados y respuestas */
+.is-correct{border-color:var(--ok)!important;background:var(--ok-bg)!important;box-shadow:inset 0 0 0 1px var(--ok)!important}
+.is-wrong{border-color:var(--bad)!important;background:var(--bad-bg)!important;box-shadow:inset 0 0 0 1px var(--bad)!important}
+.response-choice.is-wrong,.response-choice.is-correct{opacity:1}
+.response-choice.is-correct span:last-child{color:var(--ok)}
+.response-choice.is-wrong span:last-child{color:var(--bad)}
+.response-choice:disabled:not(.is-correct):not(.is-wrong){opacity:.55}
+.option-why{display:block;margin-top:6px;color:#dbe9e4!important;font-size:10px!important;font-weight:600!important;line-height:1.4;letter-spacing:0!important}
+.is-decoy{border-style:dashed!important;border-color:var(--bad)!important}
+.order-text{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
+.game-feedback b{color:#fff}
+.game-feedback.reveal{border-color:var(--warn);color:#ffe9c7;background:#453a28}
+.strike-note{display:inline-block;margin-left:4px;color:var(--warn);font-weight:800}
+
+/* Menú: estados de superación */
+.mission-result.pass{color:var(--ok)}
+.mission-result.fail{color:var(--bad)}
+.module-chip.mastered .module-count{color:var(--ok)}
+
+/* Escaneo sobre fotografía */
+.board-scan .board-intro strong{font-size:16px;line-height:1.35}
+.scan-figure{margin:0 22px 16px}
+.scan-wrap{position:relative;border-radius:10px;overflow:hidden;border:1px solid #3b5962;background:#0b1c24}
+.scan-wrap img{display:block;width:100%;height:auto}
+.scan-marker{position:absolute;transform:translate(-50%,-50%);min-width:34px;height:34px;padding:0 9px;border-radius:17px;border:2px solid #fff;background:#0b1c24cc;color:#fff;font-weight:900;font-size:13px;display:flex;align-items:center;gap:6px;box-shadow:0 0 0 3px #0008;cursor:pointer}
+.scan-marker:hover:not(:disabled){background:var(--accent);color:#102729}
+.scan-marker:disabled{cursor:default}
+.scan-name{font-size:10px;font-weight:700;white-space:nowrap}
+.scan-figure figcaption{margin-top:7px;font-size:9px;letter-spacing:.08em}
+.scan-figure figcaption a{color:#8fb5b3}
+
+/* Casos encadenados */
+.stage-track{list-style:none;display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0;padding:0}
+.stage-track li{display:flex;align-items:center;gap:6px;border:1px solid #3e5d66;border-radius:20px;padding:5px 11px;font-size:10px;font-weight:800;color:#8fb0b1}
+.stage-track li span{color:var(--accent)}
+.stage-track li.active{border-color:var(--accent);color:#fff}
+.stage-track li.done{border-color:var(--ok);color:var(--ok)}
+.stage-track li.done span{color:var(--ok)}
+.stage-brief{padding:16px 22px 0}
+.stage-brief span{color:var(--accent);font-size:9px;letter-spacing:.16em;font-weight:900}
+.stage-brief strong{display:block;margin-top:6px;font-size:18px}
+.stage-brief p{margin:6px 0 0;color:#b3cdca;font-size:13px}
+.stage-done{padding:34px 22px;display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.stage-done h2{margin:0;font-size:24px}
+.stage-done p{margin:0 0 8px;color:#b8d3d1}
+
+/* Informe final */
+.result-card.failed .section-eyebrow{color:var(--bad)}
+.result-halo.failed{filter:grayscale(.7) hue-rotate(140deg)}
+.debrief{margin:0 0 22px;text-align:left}
+.debrief ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.debrief li{border:1px solid #5a3d44;border-left:3px solid var(--bad);border-radius:8px;background:#2a1f25;padding:9px 12px;display:flex;flex-direction:column;gap:3px}
+.debrief li small{color:var(--warn);font-size:9px;letter-spacing:.1em;font-weight:900;text-transform:uppercase}
+.debrief li b{font-size:12px}
+.debrief li span{font-size:12px;color:#d8c6c8;line-height:1.4}
+.debrief.clean p{color:var(--ok);margin:8px 0 0}
+
+@media (max-width:600px){
+  .integrity-bar{width:70px}
+  .scan-figure{margin:0 12px 14px}
+  .scan-marker{min-width:30px;height:30px;font-size:12px}
+  .scan-name{display:none}
+}
+@media (prefers-reduced-motion:reduce){.integrity-bar>span{transition:none}}
+.mission-header>div{min-width:0}
+.mission-header h1{overflow-wrap:break-word;hyphens:auto}

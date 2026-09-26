@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 4180",
     "build": "vite build",
-    "preview": "vite preview --host 127.0.0.1 --port 4180"
+    "preview": "vite preview --host 127.0.0.1 --port 4180",
+    "test": "node test/data.test.mjs",
+    "revision": "node scripts/revision-clinica.mjs"
   },
   "devDependencies": {
     "vite": "6.3.1"
