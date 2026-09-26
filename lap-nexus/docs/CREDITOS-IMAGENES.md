@@ -32,6 +32,11 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `torre-completa.jpg` | Torre laparoscópica completa (carro con equipos) | Fotografía propia | GPA Academy |
 | `generador.jpg` | Generador electroquirúrgico | Fotografía propia | GPA Academy |
 | `botella-co2.jpg` | Botella de CO₂ | Fotografía propia | GPA Academy |
+| `pinza-bipolar.jpg` | Pinza bipolar laparoscópica | Fotografía propia | GPA Academy |
+| `placa-retorno.jpg` | Placa de retorno monopolar | Fotografía propia | GPA Academy |
+| `canula-metalica.jpg` | Cánula y trocar completamente metálicos | Fotografía propia | GPA Academy |
+| `funda-aislante.jpg` | Instrumento con funda protectora | Fotografía propia | GPA Academy |
+| `mesa-instrumental-2.jpg` | Mesa de instrumental laparoscópico preparada | Fotografía propia | GPA Academy |
 
 `co2-tube.svg` es una ilustración original creada para esta versión del juego; se identifica como esquema en su tarjeta y no representa un modelo comercial exacto.
 
