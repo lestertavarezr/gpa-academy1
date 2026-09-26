@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Esquema de un gancho monopolar laparoscópico">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#173d47"/><stop offset="1" stop-color="#07141e"/></linearGradient><linearGradient id="steel" x2="0" y2="1"><stop stop-color="#f0f4f3"/><stop offset=".5" stop-color="#95b0b6"/><stop offset="1" stop-color="#566f79"/></linearGradient></defs><rect width="960" height="600" fill="url(#bg)"/>
+  <path d="M232 278H760" stroke="#13242d" stroke-width="43" stroke-linecap="round"/><path d="M272 278H760" stroke="#d3e2df" stroke-width="22" stroke-linecap="round"/>
+  <path d="M760 278h72v-56" fill="none" stroke="url(#steel)" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M115 231h160v95H115a26 26 0 0 1-26-26v-43a26 26 0 0 1 26-26z" fill="#233a47" stroke="#a0bcc1" stroke-width="8"/><path d="M180 325l-29 95h53l42-95" fill="#294654" stroke="#9ab8bd" stroke-width="8"/>
+  <circle cx="168" cy="272" r="17" fill="#e9ad6e"/><circle cx="222" cy="272" r="13" fill="#c9dfda"/>
+  <path d="M89 277H46c-17 0-28 13-28 29v81" fill="none" stroke="#263643" stroke-width="19" stroke-linecap="round"/>
+  <text x="480" y="514" fill="#c5e6e0" text-anchor="middle" font-size="30" font-family="Arial,sans-serif" letter-spacing="5">ESQUEMA · GANCHO MONOPOLAR</text>
+</svg>

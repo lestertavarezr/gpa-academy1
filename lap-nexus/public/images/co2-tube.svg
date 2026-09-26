@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Esquema de tubo y conectores de insuflación de dióxido de carbono">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#173d47"/><stop offset="1" stop-color="#07141e"/></linearGradient></defs><rect width="960" height="600" fill="url(#bg)"/>
+  <path d="M192 286c101-174 188 228 324 45S671 170 788 290" fill="none" stroke="#0b1a24" stroke-width="62" stroke-linecap="round"/>
+  <path d="M192 286c101-174 188 228 324 45S671 170 788 290" fill="none" stroke="#d8edec" stroke-width="42" stroke-linecap="round"/>
+  <path d="M192 286c101-174 188 228 324 45S671 170 788 290" fill="none" stroke="#9dc6c6" stroke-width="23" stroke-linecap="round"/>
+  <path d="M122 251h82v70h-82zM775 249h82v80h-82z" fill="#b9ced0" stroke="#506a73" stroke-width="8"/>
+  <rect x="99" y="262" width="30" height="48" rx="7" fill="#dcebea"/><rect x="848" y="258" width="28" height="61" rx="6" fill="#dcebea"/><path d="M145 251v70m25-70v70m633-72v80m25-80v80" stroke="#5b7781" stroke-width="6"/>
+  <text x="480" y="511" fill="#c5e6e0" text-anchor="middle" font-size="30" font-family="Arial,sans-serif" letter-spacing="5">ESQUEMA · TUBO DE CO₂</text>
+</svg>

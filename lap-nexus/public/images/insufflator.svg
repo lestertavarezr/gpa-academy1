@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="Esquema de un insuflador de dióxido de carbono">
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#133746"/><stop offset="1" stop-color="#07131d"/></linearGradient><linearGradient id="case" x2="0" y2="1"><stop stop-color="#d6e1e2"/><stop offset=".5" stop-color="#839ba2"/><stop offset="1" stop-color="#344d59"/></linearGradient></defs>
+  <rect width="960" height="600" fill="url(#bg)"/><circle cx="760" cy="115" r="200" fill="#45baa4" opacity=".08"/>
+  <path d="M175 180h610a28 28 0 0 1 28 28v217a28 28 0 0 1-28 28H175a28 28 0 0 1-28-28V208a28 28 0 0 1 28-28z" fill="url(#case)" stroke="#e4f2f0" stroke-width="7"/>
+  <rect x="183" y="223" width="380" height="172" rx="12" fill="#09272e" stroke="#abcaca" stroke-width="5"/><text x="215" y="275" fill="#7ee3b5" font-size="27" font-family="Arial,sans-serif" font-weight="bold">CO₂</text><text x="214" y="356" fill="#b1ffe0" font-size="72" font-family="Arial,sans-serif" font-weight="bold">12.0</text>
+  <circle cx="650" cy="290" r="42" fill="#d5e4e3" stroke="#3e6069" stroke-width="10"/><circle cx="650" cy="290" r="12" fill="#4e8185"/><circle cx="742" cy="290" r="31" fill="#122e37" stroke="#e1eeee" stroke-width="9"/><circle cx="742" cy="290" r="10" fill="#79e4bd"/>
+  <rect x="686" y="356" width="97" height="26" rx="13" fill="#264653"/><circle cx="710" cy="369" r="9" fill="#78e3bd"/>
+  <path d="M248 453v28m463-28v28" stroke="#607983" stroke-width="18" stroke-linecap="round"/>
+  <text x="480" y="547" fill="#c5e6e0" text-anchor="middle" font-size="30" font-family="Arial,sans-serif" letter-spacing="5">ESQUEMA · INSUFLADOR</text>
+</svg>
