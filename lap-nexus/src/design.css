@@ -100,3 +100,6 @@
 .result-card h1{overflow-wrap:break-word;hyphens:auto}
 @media (max-width:420px){.result-card h1{font-size:44px}.result-halo{width:300px;height:300px}.result-halo span{font-size:120px}}
 [tabindex="-1"]:focus:not(:focus-visible),main h1[tabindex="-1"]:focus,.doc-body h2[tabindex="-1"]:focus{outline:none}
+
+/* Los marcadores del atlas quedan ocultos hasta que positionHotspots() los ubica sobre la imagen ya cargada. */
+.visual-hotspot{visibility:hidden}

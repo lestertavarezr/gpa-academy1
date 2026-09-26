@@ -129,15 +129,35 @@ function renderGame(focusKey){
     <aside class="learn-panel"><div><span class="section-eyebrow">GUÍA DE APRENDIZAJE</span><h2>Observa. Anticipa. Verifica.</h2><p>Este simulador representa tareas de preparación y comunicación. Las decisiones clínicas y técnicas reales corresponden al equipo responsable y a sus protocolos.</p></div>${mod.source?`<a href="${mod.source}" target="_blank" rel="noopener noreferrer">Presentación del módulo ↗</a>`:''}</aside>
   </main>`,mod.color);
   if(focusKey)focusAfter(focusKey);
+  positionHotspots();
 }
 function renderStageDone(){
   const next=current.stages[run.stage+1];
   return `<div class="stage-done" role="status"><span class="section-eyebrow">ETAPA ${run.stage+1} COMPLETADA</span><h2>«${esc(task().title)}» resuelta.</h2><p>Siguiente: <b>${esc(next.title)}</b> · ${modeNames[next.mode]}. La integridad se mantiene en ${run.integrity} %.</p><button class="primary-button" data-action="stage-next">CONTINUAR CON LA ETAPA ${run.stage+2} <span>→</span></button></div>`;
 }
+// Los marcadores se ubican según la imagen ya pintada por object-fit:contain, no según
+// el ancho de la caja: así funcionan con cualquier foto que suban, sea cual sea su proporción.
+function positionHotspots(){
+  const wrap=app.querySelector('.visual-image-wrap');
+  if(!wrap)return;
+  const img=wrap.querySelector('img');
+  if(!img)return;
+  const place=()=>{
+    const boxW=wrap.clientWidth,boxH=wrap.clientHeight,natW=img.naturalWidth,natH=img.naturalHeight;
+    if(!boxW||!boxH||!natW||!natH)return;
+    const scale=Math.min(boxW/natW,boxH/natH),dispW=natW*scale,dispH=natH*scale;
+    const offX=(boxW-dispW)/2,offY=(boxH-dispH)/2;
+    wrap.querySelectorAll('.visual-hotspot').forEach(btn=>{
+      const x=Number(btn.dataset.x),y=Number(btn.dataset.y);
+      btn.style.left=`${offX+(x/100)*dispW}px`;btn.style.top=`${offY+(y/100)*dispH}px`;btn.style.visibility='visible';
+    });
+  };
+  if(img.complete)place();else img.addEventListener('load',place,{once:true});
+}
 function renderVisualDossier(){
   const images=visualAtlas[current.module],item=images[run.visualIndex]||images[0];
   const total=images.reduce((sum,im)=>sum+(im.points?.length||0),0);
-  return `<section class="visual-dossier" aria-label="Atlas fotográfico del módulo"><div class="visual-image-wrap"><img src="${photo(item.file)}" alt="${esc(item.title)}" loading="eager"><div class="visual-image-shade"></div><span class="visual-kind">${esc(item.kind)}</span>${(item.points||[]).map((p,i)=>`<button class="visual-hotspot ${run.visualNote===i?'active':''} ${run.visualSeen.has(`${run.visualIndex}-${i}`)?'seen':''}" style="left:${p.x}%;top:${p.y}%" data-action="visual-point" data-id="${i}" aria-label="Inspeccionar: ${esc(p.label)}">${i+1}</button>`).join('')}<button class="visual-zoom" data-action="visual-zoom" aria-label="Ampliar ${esc(item.title)}">⤢ AMPLIAR</button></div><div class="visual-copy"><div class="visual-kicker">ATLAS VISUAL <span>${String(run.visualIndex+1).padStart(2,'0')} / ${String(images.length).padStart(2,'0')}</span></div><h2>${esc(item.title)}</h2><p>${esc(run.visualNote===null?item.caption:item.points?.[run.visualNote]?.note||item.caption)}</p>${total?`<div class="visual-progress">${run.visualSeen.size} / ${total} DETALLES INSPECCIONADOS ${run.visualSeen.size===total?'· ESCANEO COMPLETO':''}</div>`:''}<div class="visual-tabs" role="group" aria-label="Elegir imagen">${images.map((im,i)=>`<button class="visual-tab ${i===run.visualIndex?'active':''}" data-action="visual-select" data-id="${i}" aria-label="Mostrar ${esc(im.title)}" aria-pressed="${i===run.visualIndex}"><img src="${photo(im.file)}" alt="" loading="lazy"><span>${String(i+1).padStart(2,'0')}</span></button>`).join('')}</div>${item.source?`<a class="visual-credit" href="${item.source}" target="_blank" rel="noopener noreferrer">${esc(item.credit)} · VER FUENTE ↗</a>`:`<span class="visual-credit">${esc(item.credit)}</span>`}</div></section>`;
+  return `<section class="visual-dossier" aria-label="Atlas fotográfico del módulo"><div class="visual-image-wrap"><img src="${photo(item.file)}" alt="${esc(item.title)}" loading="eager"><div class="visual-image-shade"></div><span class="visual-kind">${esc(item.kind)}</span>${(item.points||[]).map((p,i)=>`<button class="visual-hotspot ${run.visualNote===i?'active':''} ${run.visualSeen.has(`${run.visualIndex}-${i}`)?'seen':''}" data-x="${p.x}" data-y="${p.y}" data-action="visual-point" data-id="${i}" aria-label="Inspeccionar: ${esc(p.label)}">${i+1}</button>`).join('')}<button class="visual-zoom" data-action="visual-zoom" aria-label="Ampliar ${esc(item.title)}">⤢ AMPLIAR</button></div><div class="visual-copy"><div class="visual-kicker">ATLAS VISUAL <span>${String(run.visualIndex+1).padStart(2,'0')} / ${String(images.length).padStart(2,'0')}</span></div><h2>${esc(item.title)}</h2><p>${esc(run.visualNote===null?item.caption:item.points?.[run.visualNote]?.note||item.caption)}</p>${total?`<div class="visual-progress">${run.visualSeen.size} / ${total} DETALLES INSPECCIONADOS ${run.visualSeen.size===total?'· ESCANEO COMPLETO':''}</div>`:''}<div class="visual-tabs" role="group" aria-label="Elegir imagen">${images.map((im,i)=>`<button class="visual-tab ${i===run.visualIndex?'active':''}" data-action="visual-select" data-id="${i}" aria-label="Mostrar ${esc(im.title)}" aria-pressed="${i===run.visualIndex}"><img src="${photo(im.file)}" alt="" loading="lazy"><span>${String(i+1).padStart(2,'0')}</span></button>`).join('')}</div>${item.source?`<a class="visual-credit" href="${item.source}" target="_blank" rel="noopener noreferrer">${esc(item.credit)} · VER FUENTE ↗</a>`:`<span class="visual-credit">${esc(item.credit)}</span>`}</div></section>`;
 }
 function openLightbox(){
   const item=visualAtlas[current.module][run.visualIndex];
@@ -399,6 +419,7 @@ function route(focusKey){
   if(kind==='sector'&&modules.some(m=>String(m.id)===value))selectedModule=Number(value);
   renderMenu(focusKey);
 }
+window.addEventListener('resize',()=>positionHotspots());
 window.addEventListener('popstate',()=>{memoryHash=null;route();});
 window.addEventListener('hashchange',()=>{if(location.hash!==renderedRoute)route();});
 function renderDocument(key){

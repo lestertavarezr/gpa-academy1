@@ -27,7 +27,14 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `procesador.jpg` | Procesador de vídeo / hub | Fotografía propia | GPA Academy |
 | `fuente-luz.jpg` | Fuente de luz | Fotografía propia | GPA Academy |
 | `cable-fibra.jpg` | Cable de fibra óptica | Fotografía propia | GPA Academy |
+| `optica-30.jpg` | Óptica laparoscópica de 30° | Fotografía propia | GPA Academy |
+| `optica-0-diagrama.jpg` | Diagrama del ángulo de visión de una óptica de 0° | Diseño propio | GPA Academy |
+| `torre-completa.jpg` | Torre laparoscópica completa (carro con equipos) | Fotografía propia | GPA Academy |
+| `generador.jpg` | Generador electroquirúrgico | Fotografía propia | GPA Academy |
+| `botella-co2.jpg` | Botella de CO₂ | Fotografía propia | GPA Academy |
 
-`insufflator.svg` y `co2-tube.svg` son ilustraciones originales creadas para esta versión del juego. Se identifican como esquemas en cada tarjeta y no representan un modelo comercial exacto.
+`co2-tube.svg` es una ilustración original creada para esta versión del juego; se identifica como esquema en su tarjeta y no representa un modelo comercial exacto.
+
+`optica-0-diagrama.jpg` es un diagrama, no una fotografía: ilustra el concepto del ángulo de visión de 0°, a diferencia de la fotografía real de la óptica de 30°. Se identifica como tal (`ESQUEMA · NO FOTOGRAFÍA`) en el atlas del juego.
 
 `trocar.jpg` es un esquema, no una fotografía. La fotografía de Babcock muestra solo el extremo distal de una pinza laparoscópica real, no el eje y mango completos. `endobag-use.jpg` es una imagen clínica. El archivo `dissector.jpg` está identificado por su fuente como disector laparoscópico; como la fuente no confirma el subtipo Maryland, el juego tampoco usa ese nombre. Consulta `AUDITORIA-INSTRUMENTAL.md` para la matriz de verificación. El juego no sustituye entrenamiento clínico supervisado ni protocolos institucionales.
