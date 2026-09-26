@@ -1,4 +1,4 @@
-:root{--ok:#7fe0a0;--ok-bg:#1f4a38;--bad:#ff8f8f;--bad-bg:#4a2b31;--warn:#ffc978}
+:root{color-scheme:dark;--ok:#7fe0a0;--ok-bg:#1f4a38;--bad:#ff8f8f;--bad-bg:#4a2b31;--warn:#ffc978}
 
 /* Integridad del quirófano */
 .game-panel-top{align-items:center;gap:12px;flex-wrap:wrap}

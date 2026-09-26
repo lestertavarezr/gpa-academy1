@@ -322,6 +322,8 @@ function finish(){
 }
 
 app.addEventListener('click',event=>{
+  const link=event.target.closest('a[href^="#/"]');
+  if(link&&!link.dataset.action){event.preventDefault();go(link.getAttribute('href'));return;}
   const button=event.target.closest('[data-action]');if(!button)return;
   const action=button.dataset.action,id=button.dataset.id;
   if(action==='visual-select'&&current&&run){run.visualIndex=Number(id);run.visualNote=null;renderGame();focusAfter(null,`[data-action="visual-select"][data-id="${id}"]`);return;}
@@ -381,20 +383,23 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape'&&lightbox)cl
 
 // Rutas con hash: el botón «atrás» del navegador navega dentro del juego y funcionan con file://.
 let renderedRoute=null;
+// Si el entorno (iframe restringido de una LMS o visor) bloquea el historial, la ruta vive en memoria.
+let memoryHash=null;
+const currentHash=()=>memoryHash??location.hash;
 function go(hash,focusKey){
-  if(location.hash!==hash)history.pushState(null,'',hash);
+  if(currentHash()!==hash){try{history.pushState(null,'',hash);memoryHash=null;}catch{memoryHash=hash;}}
   route(focusKey);
 }
 function route(focusKey){
-  renderedRoute=location.hash;
+  renderedRoute=currentHash();
   if(lightbox)closeLightbox();
-  const [,kind,value]=location.hash.match(/^#\/(sector|desafio|documento)\/([\w-]+)$/)||[];
+  const [,kind,value]=currentHash().match(/^#\/(sector|desafio|documento)\/([\w-]+)$/)||[];
   if(kind==='desafio'&&missions.some(m=>m.id===value)){startMission(value);return;}
   if(kind==='documento'&&documents[value]){renderDocument(value);return;}
   if(kind==='sector'&&modules.some(m=>String(m.id)===value))selectedModule=Number(value);
   renderMenu(focusKey);
 }
-window.addEventListener('popstate',()=>route());
+window.addEventListener('popstate',()=>{memoryHash=null;route();});
 window.addEventListener('hashchange',()=>{if(location.hash!==renderedRoute)route();});
 function renderDocument(key){
   current=null;run=null;
