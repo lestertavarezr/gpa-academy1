@@ -40,10 +40,10 @@ export const toolPhotos={
   trocar:{file:'trocar-product',note:'Trocares reales; verifica el modelo y calibre'},
   babcock:{file:'babcock-laparoscopic',note:'Babcock laparoscópica real de 5 mm; detalle distal'},
   gas:{file:'insufflator.svg',note:'Esquema de insuflador; verifica el equipo'},
-  hook:{file:'monopolar-hook.svg',note:'Esquema de gancho monopolar; verifica el modelo'},
+  hook:{file:'monopolar-hook',note:'Gancho monopolar laparoscópico real'},
   tube:{file:'co2-tube.svg',note:'Esquema de tubo de CO₂; verifica la conexión'},
-  nathanson:{file:'nathanson.svg',note:'Esquema de retractor Nathanson'},
-  stapler:{file:'linear-stapler.svg',note:'Esquema de grapadora lineal; no identifica un modelo Endo-GIA'},
+  nathanson:{file:'nathanson',note:'Retractor hepático Nathanson real'},
+  stapler:{file:'linear-stapler',note:'Grapadora lineal laparoscópica real; verifica el modelo y la carga'},
   circular:{file:'stapler-eea',note:'Grapadora circular EEA real'},
   bag:{file:'endobag-use',note:'Bolsa de extracción real en uso clínico'},
   maryland:{file:'dissector',note:'Disector laparoscópico real; subtipo no especificado'}

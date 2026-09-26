@@ -19,7 +19,10 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `babcock-laparoscopic.jpg` | *Evaluation of the laparoscopic liver biopsy technique with Babcock forceps*, Figura 1A, Daniella Kaísa de Oliveira Bezerra et al.; segundo recorte que aísla únicamente la Babcock laparoscópica de 5 mm | [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) | [Revista ARACÊ](https://periodicos.newsciencepubl.com/arace/article/view/8981), [política de licencia](https://periodicos.newsciencepubl.com/arace/about) |
 | `stapler-eea.jpg` | *Stapler EEA*, Rocco Cusari | Dominio público | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Stapler_EEA.jpg) |
 | `endobag-use.jpg` | *Endobag Appendix 01*, Parveen Bhatia et al. | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Endobag_Appendix_01.jpg) |
+| `monopolar-hook.jpg` | Gancho monopolar laparoscópico | Fotografía propia | GPA Academy |
+| `nathanson.jpg` | Retractor hepático Nathanson | Fotografía propia | GPA Academy |
+| `linear-stapler.jpg` | Grapadora lineal laparoscópica | Fotografía propia | GPA Academy |
 
-`insufflator.svg`, `co2-tube.svg`, `monopolar-hook.svg`, `nathanson.svg` y `linear-stapler.svg` son ilustraciones originales creadas para esta versión del juego. Se identifican como esquemas en cada tarjeta y no representan un modelo comercial exacto.
+`insufflator.svg` y `co2-tube.svg` son ilustraciones originales creadas para esta versión del juego. Se identifican como esquemas en cada tarjeta y no representan un modelo comercial exacto.
 
 `trocar.jpg` es un esquema, no una fotografía. La fotografía de Babcock muestra solo el extremo distal de una pinza laparoscópica real, no el eje y mango completos. `endobag-use.jpg` es una imagen clínica. El archivo `dissector.jpg` está identificado por su fuente como disector laparoscópico; como la fuente no confirma el subtipo Maryland, el juego tampoco usa ese nombre. Consulta `AUDITORIA-INSTRUMENTAL.md` para la matriz de verificación. El juego no sustituye entrenamiento clínico supervisado ni protocolos institucionales.
