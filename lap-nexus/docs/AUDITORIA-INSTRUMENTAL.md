@@ -9,6 +9,7 @@ Revisión final de las pinzas e instrumentos de prensión mostrados en el juego.
 | Portaagujas laparoscópico bloqueable | Mango bloqueable, eje largo y extremo portaagujas | Wikimedia Commons lo describe como `Laparoskopický jehelec zamykatelný` | Verificado como laparoscópico y bloqueable. |
 | Pinza Babcock laparoscópica de 5 mm | Detalle distal con mordazas redondeadas y fenestradas | El artículo identifica una `5-mm reusable Babcock forceps` en su Figura 1A | Verificado como laparoscópico. Se aisló únicamente la Babcock; se eliminó la fotografía convencional y el esquema anterior. |
 | Mesa de instrumental | Conjunto de acceso y manipulación de eje largo | Wikimedia Commons identifica la foto como instrumental usado en una operación laparoscópica de hernia | Verificada como contexto laparoscópico; no se usa para asignar subtipos concretos a cada pieza. |
+| Disector Maryland (atlas del sector 02) | Mordazas curvas y finas, mango de anillas | GPA Academy identifica directamente su propio instrumento como Maryland | Caso distinto al disector genérico de arriba: aquí la identificación la aporta el propietario del instrumento fotografiado, no una fuente de terceros. Se usa el nombre Maryland solo en esta tarjeta del atlas, no en las tarjetas de Carga/Set-up que siguen usando el disector genérico. |
 
 ## Fuentes de verificación
 

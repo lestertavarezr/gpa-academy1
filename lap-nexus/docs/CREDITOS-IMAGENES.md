@@ -37,6 +37,11 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `canula-metalica.jpg` | Cánula y trocar completamente metálicos | Fotografía propia | GPA Academy |
 | `funda-aislante.jpg` | Instrumento con funda protectora | Fotografía propia | GPA Academy |
 | `mesa-instrumental-2.jpg` | Mesa de instrumental laparoscópico preparada | Fotografía propia | GPA Academy |
+| `pedal.jpg` | Pedal de activación de energía | Fotografía propia | GPA Academy |
+| `cable-luz-2.jpg` | Cable de fibra óptica (otro modelo) | Fotografía propia | GPA Academy |
+| `maryland-real.jpg` | Disector Maryland | Fotografía propia | GPA Academy |
+| `trocares-tamanos.jpg` | Trocares de varios calibres (5, 10, 12, 15) | Fotografía propia | GPA Academy |
+| `valvula-trocar.jpg` | Válvula de un trocar | Fotografía propia | GPA Academy |
 
 `co2-tube.svg` es una ilustración original creada para esta versión del juego; se identifica como esquema en su tarjeta y no representa un modelo comercial exacto.
 
