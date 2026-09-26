@@ -42,9 +42,16 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `maryland-real.jpg` | Disector Maryland | Fotografía propia | GPA Academy |
 | `trocares-tamanos.jpg` | Trocares de varios calibres (5, 10, 12, 15) | Fotografía propia | GPA Academy |
 | `valvula-trocar.jpg` | Válvula de un trocar | Fotografía propia | GPA Academy |
+| `portaagujas-2.jpg` | Portaagujas laparoscópico | Fotografía propia | GPA Academy |
+| `sobre-sutura.jpg` | Diagrama de cómo leer un sobre de sutura | Diseño propio | GPA Academy |
+| `mesa-instrumental-3.jpg` | Mesa de instrumental con cables | Fotografía propia | GPA Academy |
+| `cartuchos-grapadora.jpg` | Cartuchos de grapadora lineal, varios colores | Fotografía propia | GPA Academy |
+| `eea-detalle.jpg` | Grapadora circular EEA, yunque separado | Fotografía propia | GPA Academy |
 
 `co2-tube.svg` es una ilustración original creada para esta versión del juego; se identifica como esquema en su tarjeta y no representa un modelo comercial exacto.
 
 `optica-0-diagrama.jpg` es un diagrama, no una fotografía: ilustra el concepto del ángulo de visión de 0°, a diferencia de la fotografía real de la óptica de 30°. Se identifica como tal (`ESQUEMA · NO FOTOGRAFÍA`) en el atlas del juego.
+
+`sobre-sutura.jpg` tampoco es una fotografía: es un diagrama propio con rotulado, hecho por GPA Academy sobre un sobre de sutura real. Se identifica como `DISEÑO PROPIO · NO FOTOGRAFÍA` en el atlas.
 
 `trocar.jpg` es un esquema, no una fotografía. La fotografía de Babcock muestra solo el extremo distal de una pinza laparoscópica real, no el eje y mango completos. `endobag-use.jpg` es una imagen clínica. El archivo `dissector.jpg` está identificado por su fuente como disector laparoscópico; como la fuente no confirma el subtipo Maryland, el juego tampoco usa ese nombre. Consulta `AUDITORIA-INSTRUMENTAL.md` para la matriz de verificación. El juego no sustituye entrenamiento clínico supervisado ni protocolos institucionales.
