@@ -47,6 +47,10 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | `mesa-instrumental-3.jpg` | Mesa de instrumental con cables | Fotografía propia | GPA Academy |
 | `cartuchos-grapadora.jpg` | Cartuchos de grapadora lineal, varios colores | Fotografía propia | GPA Academy |
 | `eea-detalle.jpg` | Grapadora circular EEA, yunque separado | Fotografía propia | GPA Academy |
+| `bolsa-extraccion-2.jpg` | Bolsa de extracción, desplegada fuera de uso | Fotografía propia | GPA Academy |
+| `clipadora.jpg` | Clipadora laparoscópica | Fotografía propia | GPA Academy |
+| `clips-laparoscopicos.jpg` | Clips laparoscópicos de varios tamaños | Fotografía propia | GPA Academy |
+| `monitor-torre.jpg` | Monitor con imagen laparoscópica de referencia (equipo Mindray) | Fotografía propia | GPA Academy |
 
 `co2-tube.svg` es una ilustración original creada para esta versión del juego; se identifica como esquema en su tarjeta y no representa un modelo comercial exacto.
 
