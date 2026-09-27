@@ -651,18 +651,18 @@
     "id": 31,
     "module": 5,
     "difficulty": "Básica",
-    "title": "Absceso y difusión",
-    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
-    "question": "En un patrón compatible con absceso, la restricción suele localizarse en…",
-    "competency": "Reconocer un patrón de difusión en un caso de absceso.",
+    "title": "Realce en anillo",
+    "caseText": "Material docente: analiza la imagen de RM con contraste y describe el patrón de realce.",
+    "question": "¿Qué hallazgo es característico en esta RM T1 con contraste?",
+    "competency": "Reconocer el patrón de captación en anillo en una RM T1 con contraste.",
     "options": [
-      "El contenido central de la cavidad",
-      "La calota",
-      "La grasa subcutánea",
-      "El seno sagital"
+      "Captación en anillo cerrado de la cápsula",
+      "Ausencia de realce en toda la lesión",
+      "Realce homogéneo del contenido central",
+      "Captación exclusiva de la calota"
     ],
     "answer": 0,
-    "explanation": "La restricción central puede apoyar absceso en el contexto adecuado, pero algunos tumores y otras entidades pueden restringir. Este reto no determina un diagnóstico real.",
+    "explanation": "La captación periférica en anillo cerrado de la cápsula es el hallazgo distintivo en esta RM T1 con contraste. Este patrón se asocia a lesiones con pared vascularizada y centro necrótico o purulento; el diferencial incluye absceso, metástasis necrótica y glioblastoma, por lo que requiere correlación clínica y microbiológica.",
     "source": "Integrado, diap. 174–175",
     "media": [
       "case-abscess-dwi"
