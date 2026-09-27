@@ -11,7 +11,7 @@ test("the single-file build runs from disk under its hash-based CSP", async ({ p
   const ch = await answer(page);
   await expect(page.locator(".feedback strong")).toHaveText("Respuesta correcta");
   await page.reload();
-  await expect(page.locator("#ns-progress")).toHaveText("1 / 98");
+  await expect(page.locator("#ns-progress")).toHaveText("1 / 5");
   const saved = await page.evaluate(() => JSON.parse(localStorage.getItem("neuroscan-progress-v1")));
   expect(saved.done).toEqual([ch.id]);
   await expect(page.locator("#ns-cloud")).toBeHidden();
@@ -38,7 +38,7 @@ test("backups export and import", async ({ page }) => {
   const file = await download.path();
   await page.evaluate(() => localStorage.clear());
   await page.reload();
-  await expect(page.locator("#ns-progress")).toHaveText("0 / 98");
+  await expect(page.locator("#ns-progress")).toHaveText("0 / 5");
   await page.locator("summary", { hasText: "Guardar y transferir progreso" }).click();
   await page.locator("#ns-import-file").setInputFiles(file);
   await expect.poll(() => page.evaluate(() => JSON.parse(localStorage.getItem("neuroscan-progress-v1") || "{}").done)).toEqual([ch.id]);
