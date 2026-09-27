@@ -25,7 +25,7 @@ const SYNC_TEXT = {
   error: "No se pudo sincronizar. Se reintentará más tarde.",
 };
 
-export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null, allowImport = true }) {
+export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null, allowImport = true, sessionSize = SESSION_SIZE }) {
   const $ = (selector) => root.querySelector(selector);
   const main = $("#ns-main");
   const moduleNav = $("#ns-modules");
@@ -46,7 +46,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
   const dueList = () => dueIds(state.srs, challenges, now());
   const pendingId = () => state.sessionQueue.find((id) => !state.sessionDone.includes(id));
   const candidates = (moduleIndex) =>
-    sessionCandidates({ challenges, moduleCount: modules.length, srs: state.srs, done: state.done, now: now(), moduleIndex });
+    sessionCandidates({ challenges, moduleCount: modules.length, srs: state.srs, done: state.done, now: now(), moduleIndex, size: sessionSize });
   const nextDueText = () => {
     const at = nextDueAt(state.srs, now());
     return at ? new Date(at).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "sin fecha programada";
@@ -135,7 +135,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
   function renderSidebar() {
     const ch = currentChallenge();
     const done = state.sessionDone.length;
-    const max = state.sessionQueue.length || SESSION_SIZE;
+    const max = state.sessionQueue.length || sessionSize;
     $("#ns-progress").textContent = `${done} / ${max}`;
     $("#ns-fill").style.width = `${max ? (done / max) * 100 : 0}%`;
     $("#ns-track").setAttribute("aria-valuemax", String(max));
@@ -251,7 +251,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     state.sessionDone.push(ch.id);
     state.sessionAnswers[ch.id] = score;
     state.srs[ch.id] = reviewCard(previous, { correct, confidence, now: t });
-    awardAnswer(state, { correct, now: new Date(t), sessionSize: SESSION_SIZE });
+    awardAnswer(state, { correct, now: new Date(t), sessionSize });
     state.selected = null;
     render({ focus: "next" });
     persist();

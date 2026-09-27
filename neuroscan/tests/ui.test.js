@@ -30,7 +30,7 @@ function memoryStore(initial = null, ok = true) {
 function mount(store = memoryStore(), options = {}) {
   document.body.innerHTML = body;
   const root = document.getElementById("neuroscan-root");
-  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store, ...options });
+  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store, sessionSize: 5, ...options });
   const $ = (s) => root.querySelector(s);
   const current = () => challenges.find((c) => c.title === $("#ns-main h2").textContent);
   const choose = (i) => {

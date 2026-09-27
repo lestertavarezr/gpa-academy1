@@ -1,6 +1,6 @@
 import { dueIds } from "./srs.js";
 
-export const SESSION_SIZE = 5;
+export const SESSION_SIZE = 98;
 const MAX_DUE_FIRST = 3;
 
 export function interleavedIds(challenges, moduleCount) {
