@@ -39,11 +39,11 @@ describe("buildChallenges", () => {
   // Golden values produced by the original v1 single-file app; saved `choices` depend on them.
   it("matches the v1 option order so existing backups stay valid", () => {
     const golden = [
-      // Case 1 was reworded later; its option order (and so the answer index) is still the v1 one.
+      // IDs reflect the module-grouped reorder (module 0 = 1-12, module 1 = 13-24, …).
       [1, 2, "El diagnóstico más probable"],
       [2, 2, "Cisternas basales"],
-      [17, 1, "Ancho del cráneo en ventana ós"],
-      [49, 1, "Craneosinostosis coronal bilat"],
+      [7, 2, "Hidrocefalia comunicante"],
+      [29, 0, "Desplazamiento de estructuras "],
       [98, 2, "Esperar al informe final para "],
     ];
     for (const [id, answer, firstOption] of golden) {
