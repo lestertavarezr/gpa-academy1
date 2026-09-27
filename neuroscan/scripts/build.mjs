@@ -1,7 +1,8 @@
 // Builds two targets from the same sources:
 //   dist/web/          → deployable site served by the Cloudflare Worker (hashed assets, SW, push, sync)
 //   dist/standalone/   → one self-contained HTML file that works from file:// (local progress only)
-// Usage: node scripts/build.mjs [--target=web|standalone|all]
+//   dist/artifact/     → the standalone app as a claude.ai Artifact page (host supplies the document and CSP)
+// Usage: node scripts/build.mjs [--target=web|standalone|artifact|all]
 // NEUROSCAN_STANDALONE_API=https://… enables cloud sync in the standalone file (the Worker must allow its origin).
 import crypto from "node:crypto";
 import fs from "node:fs";
@@ -175,12 +176,7 @@ async function buildWeb() {
   console.log(`web → dist/web  (JS ${kb(size(appJs))}, CSS ${kb(size(appCss))}, ${mediaFiles.length} imágenes ${kb(mediaBytes)} bajo demanda)`);
 }
 
-async function buildStandalone() {
-  const out = path.join(DIST, "standalone");
-  fs.rmSync(out, { recursive: true, force: true });
-  fs.mkdirSync(out, { recursive: true });
-  const apiBase = process.env.NEUROSCAN_STANDALONE_API ? `${process.env.NEUROSCAN_STANDALONE_API.replace(/\/$/, "")}/api/v1` : "";
-
+async function inlineBundle(buildTarget, apiBase) {
   const mediaUrls = {};
   for (const key of usedMedia) {
     mediaUrls[key] = `data:image/webp;base64,${read(path.join("content/media", content.media[key].file)).toString("base64")}`;
@@ -193,7 +189,7 @@ async function buildStandalone() {
     minify: true,
     target: ["es2020", "safari15"],
     write: false,
-    define: defines("standalone", apiBase),
+    define: defines(buildTarget, apiBase),
     plugins: [mediaPlugin(mediaUrls)],
     logLevel: "warning",
   });
@@ -201,6 +197,15 @@ async function buildStandalone() {
   const script = js.outputFiles[0].text.trim();
   const style = css.outputFiles[0].text.trim();
   if (/<\/script/i.test(script) || /<\/style/i.test(style)) throw new Error("El bundle contiene una etiqueta de cierre que rompería el HTML en línea");
+  return { script, style };
+}
+
+async function buildStandalone() {
+  const out = path.join(DIST, "standalone");
+  fs.rmSync(out, { recursive: true, force: true });
+  fs.mkdirSync(out, { recursive: true });
+  const apiBase = process.env.NEUROSCAN_STANDALONE_API ? `${process.env.NEUROSCAN_STANDALONE_API.replace(/\/$/, "")}/api/v1` : "";
+  const { script, style } = await inlineBundle("standalone", apiBase);
 
   // Hash-based CSP: only this exact script and stylesheet may run, no 'unsafe-inline'/'unsafe-eval'.
   const csp = [
@@ -222,5 +227,21 @@ async function buildStandalone() {
   console.log(`standalone → dist/standalone/neuroscan-app.html (${kb(Buffer.byteLength(html))}${apiBase ? `, sincroniza con ${apiBase}` : ", solo progreso local"})`);
 }
 
+// The Artifact host wraps the page in its own document and CSP, blocks downloads and
+// native dialogs, and requires at least a 16px side gutter at phone width.
+async function buildArtifact() {
+  const out = path.join(DIST, "artifact");
+  fs.rmSync(out, { recursive: true, force: true });
+  fs.mkdirSync(out, { recursive: true });
+  const { script, style } = await inlineBundle("artifact", "");
+  const template = read("src/index.html").toString();
+  const body = /<body>([\s\S]*)<\/body>/.exec(template)[1].replace("<!--SCRIPTS-->", () => `<script>${script}</script>`);
+  const gutter = "@media(max-width:680px){body{padding-inline:16px}}";
+  const page = `<title>NEURO//SCAN</title>\n<style>${style}${gutter}</style>\n${body.trim()}\n`;
+  fs.writeFileSync(path.join(out, "neuroscan.html"), page);
+  console.log(`artifact → dist/artifact/neuroscan.html (${kb(Buffer.byteLength(page))})`);
+}
+
 if (target === "web" || target === "all") await buildWeb();
 if (target === "standalone" || target === "all") await buildStandalone();
+if (target === "artifact" || target === "all") await buildArtifact();

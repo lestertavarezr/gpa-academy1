@@ -31,5 +31,15 @@ if (API_BASE && !embedded) {
   });
 }
 if (isWeb && !embedded) registerServiceWorker();
-app = mountApp({ root, modules, challenges, mediaItem, store: createProgressStore(), sync, api, pushEnabled: isWeb && !embedded });
+app = mountApp({
+  root,
+  modules,
+  challenges,
+  mediaItem,
+  store: createProgressStore(),
+  sync,
+  api,
+  pushEnabled: isWeb && !embedded,
+  downloads: BUILD_TARGET === "artifact" ? (globalThis.claude?.use?.("downloads") ?? Promise.resolve(null)) : null,
+});
 sync?.start();

@@ -71,26 +71,28 @@ Para añadir una imagen: copia el `.webp` en `content/media/` y añade su entrad
 
 ## Despliegue en Cloudflare
 
-Una sola vez:
+El despliegue se hace desde GitHub Actions y no requiere instalar nada.
 
-```bash
-npx wrangler login
-npx wrangler d1 create neuroscan            # copia el database_id en wrangler.toml
-npm run vapid:generate                      # pega la clave pública en VAPID_PUBLIC_KEY (wrangler.toml)
-npx wrangler secret put VAPID_PRIVATE_KEY   # la clave privada que imprimió el paso anterior
-npx wrangler secret put ADMIN_TOKEN         # token largo y aleatorio para /admin.html
-```
+Una sola vez, en GitHub → Settings → Secrets and variables → Actions:
 
-Edita también `VAPID_SUBJECT` con un correo real de contacto.
+| Tipo | Nombre | Valor |
+|---|---|---|
+| Secret | `CLOUDFLARE_API_TOKEN` | Token de Cloudflare (My Profile → API Tokens → plantilla "Edit Cloudflare Workers" + permiso **D1: Edit**) |
+| Secret | `CLOUDFLARE_ACCOUNT_ID` | ID de la cuenta (panel de Cloudflare → Workers & Pages, columna derecha) |
+| Secret | `NEUROSCAN_ADMIN_TOKEN` | Contraseña larga (24+ caracteres) para entrar a `/admin.html`. Guárdala: no se puede leer después |
+| Variable | `NEUROSCAN_CONTACT_EMAIL` | Opcional. Correo de contacto para los servicios push |
 
-Cada despliegue:
+Para desplegar: Actions → "NEURO//SCAN" → Run workflow → marca `deploy`. El job ejecuta las pruebas y después `scripts/deploy.mjs`, que:
 
-```bash
-npm run db:migrate:remote
-npm run deploy          # valida, prueba, construye y publica
-```
+1. busca la base D1 `neuroscan` y la crea la primera vez;
+2. aplica las migraciones pendientes;
+3. publica el Worker con el sitio;
+4. guarda `ADMIN_TOKEN` y, solo si faltan, genera las claves VAPID dentro de Cloudflare (no salen de allí ni rotan por accidente);
+5. comprueba `/api/v1/health` y deja la URL en el resumen del job.
 
-O desde GitHub Actions: ejecuta el workflow "NEURO//SCAN" manualmente con `deploy` marcado. Necesita los secretos `CLOUDFLARE_API_TOKEN` y `CLOUDFLARE_ACCOUNT_ID` en el entorno `production`.
+Es idempotente: volver a ejecutarlo solo publica la versión nueva.
+
+Desde una terminal con esas mismas variables de entorno también funciona: `npm run deploy`.
 
 Si el LMS de GPA Academy debe mostrar la app en un iframe, añade su dominio a `frame-ancestors` en `scripts/build.mjs` (`WEB_CSP`).
 

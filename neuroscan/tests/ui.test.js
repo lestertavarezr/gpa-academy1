@@ -27,10 +27,10 @@ function memoryStore(initial = null, ok = true) {
   return store;
 }
 
-function mount(store = memoryStore()) {
+function mount(store = memoryStore(), options = {}) {
   document.body.innerHTML = body;
   const root = document.getElementById("neuroscan-root");
-  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store });
+  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store, ...options });
   const $ = (s) => root.querySelector(s);
   const current = () => challenges.find((c) => c.title === $("#ns-main h2").textContent);
   const choose = (i) => {
@@ -44,7 +44,15 @@ function mount(store = memoryStore()) {
 beforeEach(() => {
   vi.spyOn(console, "error").mockImplementation(() => {});
   HTMLCanvasElement.prototype.getContext = () => null;
+  HTMLDialogElement.prototype.showModal ??= function showModal() {
+    this.open = true;
+  };
+  HTMLDialogElement.prototype.close ??= function close() {
+    this.open = false;
+  };
 });
+
+const flush = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe("challenge flow", () => {
   it("renders a five-case session with four options", () => {
@@ -98,6 +106,64 @@ describe("challenge flow", () => {
     expect(store.saved.dailyBonusClaimed).toBe(true);
     expect(store.saved.xpTotal).toBe(5 * 15 + 50);
     expect($("#ns-bonus-title").textContent).toBe("Bono asegurado");
+  });
+});
+
+describe("reset", () => {
+  it("asks inside the page and only resets after confirming", async () => {
+    const { $, store, current, choose } = mount();
+    const confirmSpy = vi.spyOn(window, "confirm");
+    choose(current().answer);
+    $("#ns-submit").click();
+    $("#ns-reset").click();
+    expect($("#ns-confirm").open).toBe(true);
+    expect(document.activeElement).toBe($("#ns-confirm-cancel"));
+    $("#ns-confirm-cancel").click();
+    await flush();
+    expect(store.saved.done).toHaveLength(1);
+    $("#ns-reset").click();
+    $("#ns-confirm-ok").click();
+    await flush();
+    expect($("#ns-confirm").open).toBe(false);
+    expect(store.saved.done).toEqual([]);
+    expect(store.saved.xpTotal).toBe(0);
+    expect(store.saved.epoch).toBeGreaterThan(0);
+    expect(confirmSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("backup export inside a host that blocks downloads", () => {
+  it("saves through the host's downloads capability", async () => {
+    const save = vi.fn().mockResolvedValue({ status: "saved" });
+    const { $, current, choose } = mount(memoryStore(), { downloads: Promise.resolve({ save }) });
+    expect($("#ns-export").hidden).toBe(true);
+    await flush();
+    expect($("#ns-export").hidden).toBe(false);
+    const ch = current();
+    choose(ch.answer);
+    $("#ns-submit").click();
+    $("#ns-export").click();
+    await flush();
+    const [{ filename, data }] = save.mock.calls[0];
+    expect(filename).toBe("neuroscan-progreso.json");
+    expect(JSON.parse(data)).toMatchObject({ app: "NEURO//SCAN", version: 2, state: { done: [ch.id] } });
+    expect($("#ns-backup-message").textContent).toBe("Respaldo guardado.");
+  });
+
+  it("reports a declined save without retrying", async () => {
+    const save = vi.fn().mockRejectedValue({ code: "declined", message: "no" });
+    const { $ } = mount(memoryStore(), { downloads: Promise.resolve({ save }) });
+    await flush();
+    $("#ns-export").click();
+    await flush();
+    expect(save).toHaveBeenCalledTimes(1);
+    expect($("#ns-backup-message").textContent).toBe("Guardado cancelado.");
+  });
+
+  it("keeps the export button hidden when the capability is unavailable", async () => {
+    const { $ } = mount(memoryStore(), { downloads: Promise.resolve(null) });
+    await flush();
+    expect($("#ns-export").hidden).toBe(true);
   });
 });
 
