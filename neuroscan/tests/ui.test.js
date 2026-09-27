@@ -85,6 +85,15 @@ describe("challenge flow", () => {
     expect(store.saved.updatedAt).toBeGreaterThan(0);
   });
 
+  it("never shows what a case is testing before the learner answers", () => {
+    const { $, current, choose } = mount();
+    const ch = current();
+    expect($("#ns-main").textContent).not.toContain(ch.competency);
+    choose(ch.answer);
+    $("#ns-submit").click();
+    expect($(".feedback").textContent).toContain(ch.competency);
+  });
+
   it("hides the explanation until the end in exam mode", () => {
     const { $, current, choose } = mount();
     $("#ns-exam").click();
