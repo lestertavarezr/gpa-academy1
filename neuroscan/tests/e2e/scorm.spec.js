@@ -61,7 +61,7 @@ test("reports progress and grade to the LMS and resumes it on the next launch", 
   await page.goto(`${base}/host.html`);
   await expect.poll(async () => (await record(page))["cmi.core.exit"]).toBe("suspend");
   expect((await record(page))["cmi.core.session_time"]).toMatch(/^\d{2,4}:\d{2}:\d{2}$/);
-  await expect(app.locator("#ns-progress")).toHaveText("1 / 5");
+  await expect(app.locator("#ns-progress")).toHaveText("1 / 98");
   await expect(app.locator("#ns-main h2")).toHaveText(ch.title);
   await expect(app.locator(".feedback strong")).toHaveText("Respuesta correcta");
   await expect(app.locator("#ns-import")).toBeHidden();
@@ -76,7 +76,7 @@ test("keeps each learner's progress separate on a shared computer", async ({ pag
 
   await page.goto(`${base}/host.html?learner=maria`);
   const app = page.frameLocator("#scorm_object");
-  await expect(app.locator("#ns-progress")).toHaveText("0 / 5");
+  await expect(app.locator("#ns-progress")).toHaveText("0 / 98");
   await expect(app.locator("#ns-xp-total")).toHaveText("0");
 });
 
