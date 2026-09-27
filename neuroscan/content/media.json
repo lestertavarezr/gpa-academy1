@@ -218,9 +218,9 @@
   "mr-cervical-hernia": {
     "file": "mr-cervical-hernia.webp",
     "width": 480,
-    "height": 360,
-    "alt": "Caso ilustrativo de hernia cervical con compresión medular, imagen educativa, fuente Clase 1.3 · diap. 21.",
-    "caption": "Caso ilustrativo de hernia cervical con compresión medular",
+    "height": 288,
+    "alt": "RM cervical, planos sagital y axial, secuencias T2 y STIR, imagen educativa, fuente Clase 1.3 · diap. 21.",
+    "caption": "RM cervical, planos sagital y axial (T2 y STIR)",
     "source": "Clase 1.3 · diap. 21"
   },
   "mr-lumbar-t2": {
