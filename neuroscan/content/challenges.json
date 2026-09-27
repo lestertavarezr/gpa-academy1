@@ -1,0 +1,2093 @@
+[
+  {
+    "id": 1,
+    "module": 0,
+    "difficulty": "Básica",
+    "title": "Planos de lectura",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Antes de describir una estructura del encéfalo, ¿qué dato orienta el plano de la imagen?",
+    "competency": "Identificar la orientación anatómica del corte.",
+    "options": [
+      "Axial, coronal o sagital",
+      "Densidad del LCR",
+      "Edad del paciente",
+      "Presencia de contraste"
+    ],
+    "answer": 0,
+    "explanation": "Los planos axial, coronal y sagital describen la orientación espacial de los cortes y deben reconocerse antes de localizar un hallazgo.",
+    "source": "Neuroanatomía, diap. 13–14",
+    "media": [
+      "ct-axial",
+      "ct-coronal",
+      "ct-sagittal"
+    ]
+  },
+  {
+    "id": 2,
+    "module": 0,
+    "difficulty": "Básica",
+    "title": "Sistema ventricular",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "En un esquema axial, ¿qué estructuras contienen normalmente LCR dentro del parénquima?",
+    "competency": "Reconocer anatomía ventricular normal.",
+    "options": [
+      "Ventrículos laterales",
+      "Núcleos caudados",
+      "Cápsulas internas",
+      "Cisternas basales"
+    ],
+    "answer": 0,
+    "explanation": "Los ventrículos laterales forman parte del sistema ventricular y contienen LCR. Las otras opciones son estructuras anatómicas distintas.",
+    "source": "Neuroanatomía, diap. 35–36",
+    "media": [
+      "ct-axial"
+    ]
+  },
+  {
+    "id": 3,
+    "module": 0,
+    "difficulty": "Intermedia",
+    "title": "Convención radiológica",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "En la convención radiológica habitual, el lado derecho de la imagen axial corresponde a…",
+    "competency": "Aplicar la convención de lateralidad.",
+    "options": [
+      "El lado izquierdo del paciente",
+      "El lado derecho del paciente",
+      "La parte anterior del paciente",
+      "La línea media"
+    ],
+    "answer": 0,
+    "explanation": "En la vista axial estándar se observa al paciente desde los pies; por ello, la izquierda del paciente aparece a la derecha de la pantalla. Confirma siempre las marcas de orientación del estudio.",
+    "source": "TC, diap. 6",
+    "media": [
+      "xray-skull-ap",
+      "ct-axial"
+    ]
+  },
+  {
+    "id": 4,
+    "module": 0,
+    "difficulty": "Intermedia",
+    "title": "Secuencia de cortes",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Al recorrer cortes axiales desde la convexidad hacia la base, ¿qué relación describe mejor el movimiento?",
+    "competency": "Ordenar cortes según posición craneocaudal.",
+    "options": [
+      "De superior a inferior",
+      "De anterior a posterior",
+      "De lateral a medial",
+      "De posterior a anterior"
+    ],
+    "answer": 0,
+    "explanation": "Los cortes axiales se ordenan a lo largo del eje superior-inferior. El visor real puede invertir el sentido de navegación, así que hay que atender a la orientación indicada.",
+    "source": "Neuroanatomía, diap. 13–14",
+    "media": [
+      "ct-axial",
+      "ct-coronal",
+      "ct-sagittal"
+    ]
+  },
+  {
+    "id": 5,
+    "module": 0,
+    "difficulty": "Avanzada",
+    "title": "Espacios meníngeos",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "¿Qué espacio meníngeo se asocia clásicamente con una colección extraaxial lentiforme en el contexto de trauma?",
+    "competency": "Relacionar compartimento y forma.",
+    "options": [
+      "Epidural",
+      "Subdural",
+      "Subaracnoideo",
+      "Intraventricular"
+    ],
+    "answer": 0,
+    "explanation": "Una colección epidural puede adoptar forma lentiforme y está limitada por suturas; la apariencia debe interpretarse con el contexto y el resto de la imagen.",
+    "source": "Trauma, diap. 15; Neuroanatomía, diap. 27–31",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 6,
+    "module": 0,
+    "difficulty": "Avanzada",
+    "title": "Anatomía profunda",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "¿Qué conjunto anatómico se localiza a ambos lados del tercer ventrículo y ayuda a reconocer el nivel de los ganglios basales?",
+    "competency": "Localizar estructuras profundas.",
+    "options": [
+      "Tálamos",
+      "Lóbulos occipitales",
+      "Senos maxilares",
+      "Amígdalas cerebelosas"
+    ],
+    "answer": 0,
+    "explanation": "Los tálamos son estructuras profundas pares a ambos lados del tercer ventrículo. En una imagen real, el nivel y el plano ayudan a diferenciarlos de núcleos vecinos.",
+    "source": "Neuroanatomía, diap. 59–69",
+    "media": [
+      "ct-anatomy"
+    ]
+  },
+  {
+    "id": 7,
+    "module": 1,
+    "difficulty": "Básica",
+    "title": "TC o RM",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué modalidad utiliza rayos X y expresa las diferencias entre tejidos como atenuación/densidad?",
+    "competency": "Distinguir modalidades por su principio de imagen.",
+    "options": [
+      "TC",
+      "RM",
+      "DWI",
+      "FLAIR"
+    ],
+    "answer": 0,
+    "explanation": "La TC utiliza rayos X y representa la atenuación; en el lenguaje de TC se describen hallazgos como hiperdensos o hipodensos.",
+    "source": "TC, diap. 3–6",
+    "media": [
+      "xray-skull-ap",
+      "ct-axial",
+      "mr-t1-sag"
+    ]
+  },
+  {
+    "id": 8,
+    "module": 1,
+    "difficulty": "Básica",
+    "title": "T1 básico",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "En una RM cerebral T1 sin supresión grasa, ¿cómo suele verse el LCR normal?",
+    "competency": "Reconocer señal de T1.",
+    "options": [
+      "Hipointenso (oscuro)",
+      "Muy hiperintenso",
+      "Igual a aire",
+      "Con blooming"
+    ],
+    "answer": 0,
+    "explanation": "En T1 el LCR suele ser oscuro y la grasa relativamente brillante. Las características pueden variar con secuencia, equipo y parámetros.",
+    "source": "RM, diap. 6–7",
+    "media": [
+      "mr-t1-sag",
+      "mr-t1-cor"
+    ]
+  },
+  {
+    "id": 9,
+    "module": 1,
+    "difficulty": "Intermedia",
+    "title": "T2 frente a FLAIR",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué diferencia práctica ayuda a distinguir FLAIR de T2 convencional?",
+    "competency": "Comparar secuencias sensibles a agua.",
+    "options": [
+      "El LCR se suprime y se ve oscuro en FLAIR",
+      "El LCR se vuelve más brillante en FLAIR",
+      "FLAIR no es una secuencia de RM",
+      "FLAIR muestra solo hueso"
+    ],
+    "answer": 0,
+    "explanation": "FLAIR mantiene muchas características de T2, pero suprime la señal libre del LCR, lo que puede hacer más visibles lesiones periventriculares o cercanas a espacios de LCR.",
+    "source": "RM, diap. 8–12",
+    "media": [
+      "mr-t2-cor",
+      "mr-flair"
+    ]
+  },
+  {
+    "id": 10,
+    "module": 1,
+    "difficulty": "Intermedia",
+    "title": "Restricción verdadera",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Una lesión es brillante en DWI y oscura en ADC. ¿Qué patrón describe mejor esa combinación?",
+    "competency": "Correlacionar DWI y ADC.",
+    "options": [
+      "Restricción de difusión",
+      "Flujo vascular normal",
+      "Realce poscontraste",
+      "Supresión de grasa"
+    ],
+    "answer": 0,
+    "explanation": "DWI hiperintensa con ADC bajo apoya restricción verdadera de difusión. El brillo DWI aislado no basta; hay que correlacionar ambas imágenes y el contexto.",
+    "source": "RM, diap. 13; integrado, diap. 49",
+    "media": [
+      "mr-dwi",
+      "mr-adc"
+    ]
+  },
+  {
+    "id": 11,
+    "module": 1,
+    "difficulty": "Avanzada",
+    "title": "Susceptibilidad",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué secuencias son especialmente sensibles a productos hemáticos y susceptibilidad magnética?",
+    "competency": "Identificar GRE/SWI.",
+    "options": [
+      "SWI o GRE",
+      "T1 sin contraste únicamente",
+      "STIR únicamente",
+      "FIESTA únicamente"
+    ],
+    "answer": 0,
+    "explanation": "SWI y GRE pueden mostrar focos de susceptibilidad relacionados con sangre, hierro u otras fuentes. El blooming puede exagerar el tamaño aparente.",
+    "source": "RM, diap. 16",
+    "media": [
+      "mr-swi"
+    ]
+  },
+  {
+    "id": 12,
+    "module": 1,
+    "difficulty": "Avanzada",
+    "title": "Ventanas de TC",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué preset de ventana se elige para valorar mejor una posible fractura de la calota?",
+    "competency": "Seleccionar ventana según la pregunta.",
+    "options": [
+      "Ventana ósea",
+      "Ventana de parénquima",
+      "FLAIR",
+      "ADC"
+    ],
+    "answer": 0,
+    "explanation": "La ventana ósea aumenta la utilidad para revisar calota y fracturas. La lectura sistemática combina ventanas apropiadas; una sola ventana no responde todas las preguntas.",
+    "source": "TC, diap. 7–11",
+    "media": [
+      "ct-bone",
+      "xray-skull-lat"
+    ]
+  },
+  {
+    "id": 13,
+    "module": 2,
+    "difficulty": "Básica",
+    "title": "Sutura o fractura",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "En un esquema de calota, una línea dentada que sigue una unión anatómica favorece…",
+    "competency": "Distinguir una sutura de una fractura en contexto.",
+    "options": [
+      "Sutura",
+      "Fractura desplazada",
+      "Hemorragia subdural",
+      "Neumocéfalo"
+    ],
+    "answer": 0,
+    "explanation": "Las suturas suelen tener bordes dentados y ubicación anatómica esperada; una fractura puede ser más lisa o irregular. No se decide con un solo rasgo aislado.",
+    "source": "Trauma, diap. 5–10; módulo 1.1, diap. 6–14",
+    "media": [
+      "xray-skull-ap",
+      "ct-fracture"
+    ]
+  },
+  {
+    "id": 14,
+    "module": 2,
+    "difficulty": "Básica",
+    "title": "Compartimento epidural",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "Una colección traumática extraaxial lentiforme se asocia con mayor frecuencia a…",
+    "competency": "Clasificar una colección por forma y compartimento.",
+    "options": [
+      "Epidural",
+      "Subdural",
+      "Intraparenquimatosa",
+      "Intraventricular"
+    ],
+    "answer": 0,
+    "explanation": "El hematoma epidural suele ser lentiforme/biconvexo y puede estar relacionado con fractura. Hay excepciones; forma y contexto se leen juntos.",
+    "source": "Trauma, diap. 15–16",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 15,
+    "module": 2,
+    "difficulty": "Intermedia",
+    "title": "Hemorragia ventricular",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "¿Qué nombre describe sangre dentro del sistema ventricular?",
+    "competency": "Nombrar el compartimento de la sangre.",
+    "options": [
+      "Hemorragia intraventricular",
+      "Hemorragia epidural",
+      "Hematoma subdural",
+      "Contusión cortical"
+    ],
+    "answer": 0,
+    "explanation": "El término describe la localización de sangre en los ventrículos. Conviene revisar también hidrocefalia y otros hallazgos asociados.",
+    "source": "Trauma, diap. 13",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 16,
+    "module": 2,
+    "difficulty": "Intermedia",
+    "title": "Golpe y contragolpe",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "Las contusiones de golpe/contragolpe se relacionan con…",
+    "competency": "Explicar un patrón frecuente de contusión traumática.",
+    "options": [
+      "Impacto y movimiento relativo del encéfalo",
+      "Supresión de señal del LCR",
+      "Un artefacto de movimiento exclusivo de RM",
+      "Un patrón normal de simetría"
+    ],
+    "answer": 0,
+    "explanation": "El golpe y contragolpe describen lesión cerca del sitio del impacto y en el lado opuesto por movimiento del encéfalo. Las contusiones suelen afectar regiones frontales y temporales.",
+    "source": "Trauma, diap. 4–10",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 17,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Efecto de masa",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "Al medir desplazamiento de línea media en una imagen educativa, ¿qué comparación se utiliza?",
+    "competency": "Medir desplazamiento con una referencia anatómica.",
+    "options": [
+      "Desplazamiento de estructuras centrales respecto a la línea media esperada",
+      "Ancho del cráneo en ventana ósea",
+      "Señal del LCR frente a grasa",
+      "Distancia entre ambos globos oculares"
+    ],
+    "answer": 0,
+    "explanation": "La estimación compara estructuras centrales desplazadas con la línea media anatómica esperada. En la práctica real se usan criterios, niveles y contexto clínico definidos por profesionales.",
+    "source": "Trauma, diap. 22–25",
+    "media": [
+      "mr-mass",
+      "ct-sagittal"
+    ]
+  },
+  {
+    "id": 18,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Herniación",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "Un desplazamiento medial del giro cingulado bajo la hoz se denomina…",
+    "competency": "Relacionar desplazamiento anatómico y tipo de herniación.",
+    "options": [
+      "Subfalcina",
+      "Tonsilar",
+      "Transcalvaria",
+      "Uncal"
+    ],
+    "answer": 0,
+    "explanation": "La herniación subfalcina desplaza tejido por debajo de la hoz. La descripción del efecto y sus consecuencias requiere lectura completa y valoración profesional.",
+    "source": "Trauma, diap. 26–30",
+    "media": [
+      "ct-sagittal"
+    ]
+  },
+  {
+    "id": 19,
+    "module": 3,
+    "difficulty": "Básica",
+    "title": "Imagen de difusión",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "¿Qué secuencia es especialmente útil para detectar cambios de isquemia aguda en RM?",
+    "competency": "Reconocer el papel de DWI.",
+    "options": [
+      "DWI",
+      "T1 poscontraste únicamente",
+      "STIR",
+      "Radiografía lateral"
+    ],
+    "answer": 0,
+    "explanation": "DWI es sensible a cambios tempranos de difusión. El hallazgo se interpreta junto con ADC y el contexto; el simulador no decide manejo ni diagnóstico clínico.",
+    "source": "RM, diap. 13; integrado, diap. 164–165",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 20,
+    "module": 3,
+    "difficulty": "Básica",
+    "title": "Parénquima y vasos",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "En sospecha de enfermedad cerebrovascular, ¿qué estudio muestra directamente la luz arterial mediante contraste yodado?",
+    "competency": "Distinguir CTA de imágenes de parénquima.",
+    "options": [
+      "Angio-TC (CTA)",
+      "TC ósea",
+      "FLAIR",
+      "STIR"
+    ],
+    "answer": 0,
+    "explanation": "La CTA es una técnica vascular que puede evaluar arterias. El ACR contempla varias opciones de imagen según la variante clínica; no hay una única secuencia adecuada para todo caso.",
+    "source": "TC, diap. 5 y 16; ACR Stroke",
+    "media": [
+      "ct-cta",
+      "ct-cta-sag"
+    ]
+  },
+  {
+    "id": 21,
+    "module": 3,
+    "difficulty": "Intermedia",
+    "title": "DWI y ADC",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Una zona hiperintensa en DWI también es brillante en ADC. ¿Qué conclusión es más prudente?",
+    "competency": "Evitar confundir brillo DWI aislado con restricción verdadera.",
+    "options": [
+      "El patrón por sí solo no confirma restricción verdadera",
+      "Confirma restricción verdadera",
+      "Confirma hemorragia",
+      "Confirma realce por gadolinio"
+    ],
+    "answer": 0,
+    "explanation": "Para apoyar restricción verdadera, la correlación clásica es DWI alto con ADC bajo. DWI alto con ADC alto puede reflejar otros efectos, incluido T2 shine-through.",
+    "source": "RM, diap. 13; Schaefer et al.",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 22,
+    "module": 3,
+    "difficulty": "Intermedia",
+    "title": "Territorio arterial",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Un patrón de infarto que compromete gran parte de un territorio de cerebral media orienta a…",
+    "competency": "Relacionar topografía con territorio vascular probable.",
+    "options": [
+      "Territorio de arteria cerebral media",
+      "Territorio de arteria espinal anterior",
+      "Seno sagital superior",
+      "Nervio óptico"
+    ],
+    "answer": 0,
+    "explanation": "La distribución ayuda a sugerir un territorio arterial, pero la imagen sintética no sustituye la valoración vascular ni permite decidir tratamiento.",
+    "source": "Integrado, diap. 164–165",
+    "media": [
+      "ct-cta",
+      "mr-dwi"
+    ]
+  },
+  {
+    "id": 23,
+    "module": 3,
+    "difficulty": "Avanzada",
+    "title": "Caso progresivo de ictus",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Caso ficticio: déficit focal de inicio súbito y lesión territorial DWI alta/ADC bajo. ¿Cuál es la lectura educativa más consistente?",
+    "competency": "Integrar tiempo, clínica y patrón de difusión.",
+    "options": [
+      "Patrón compatible con isquemia aguda; correlacionar y escalar a evaluación profesional",
+      "Hematoma epidural típico",
+      "Hallazgo normal sin relevancia",
+      "Tumor extraaxial demostrado"
+    ],
+    "answer": 0,
+    "explanation": "El patrón y la presentación son compatibles con isquemia aguda, aunque no establecen por sí solos causa, extensión definitiva ni conducta. Las decisiones clínicas dependen de equipos especializados y protocolos locales.",
+    "source": "Integrado, diap. 164–165; ACR Stroke",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 24,
+    "module": 3,
+    "difficulty": "Avanzada",
+    "title": "HSA no traumática",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "La sangre en cisternas basales en un caso sin trauma requiere describir el hallazgo y considerar evaluación vascular. ¿Qué modalidad vascular aparece en el curso?",
+    "competency": "Reconocer la CTA en la caracterización vascular.",
+    "options": [
+      "Angio-TC",
+      "Ventana ósea aislada",
+      "STIR de columna",
+      "Radiografía de cráneo"
+    ],
+    "answer": 0,
+    "explanation": "El material integra HSA espontánea y plantea angio-TC para investigar posible origen aneurismático. La secuencia de estudios depende del contexto y la evaluación profesional.",
+    "source": "Integrado, diap. 178–179; ACR Stroke",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 25,
+    "module": 4,
+    "difficulty": "Básica",
+    "title": "Localización de masa",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Una lesión originada dentro del parénquima se clasifica como…",
+    "competency": "Distinguir localización intraaxial y extraaxial.",
+    "options": [
+      "Intraaxial",
+      "Extraaxial",
+      "Epidural espinal",
+      "Intraventricular por definición"
+    ],
+    "answer": 0,
+    "explanation": "Intraaxial indica origen dentro del parénquima. La localización es un primer paso del diferencial, no un diagnóstico histológico.",
+    "source": "Integrado, diap. 103–108",
+    "media": [
+      "mr-mass"
+    ]
+  },
+  {
+    "id": 26,
+    "module": 4,
+    "difficulty": "Básica",
+    "title": "Edema vasogénico",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "En una lesión expansiva, el edema vasogénico suele predominar en…",
+    "competency": "Reconocer un patrón de edema en imágenes.",
+    "options": [
+      "Sustancia blanca perilesional",
+      "Hueso cortical",
+      "LCR ventricular exclusivamente",
+      "Senos venosos"
+    ],
+    "answer": 0,
+    "explanation": "El edema vasogénico asociado a masa suele involucrar sustancia blanca y puede producir efecto de masa. Su patrón no identifica por sí solo la etiología.",
+    "source": "Trauma, diap. 23–25; integrado, diap. 106–109",
+    "media": [
+      "mr-mass"
+    ]
+  },
+  {
+    "id": 27,
+    "module": 4,
+    "difficulty": "Intermedia",
+    "title": "Signo extraaxial",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué combinación apoya una localización extraaxial de una masa?",
+    "competency": "Priorizar signos de compartimento.",
+    "options": [
+      "Interfaz con el parénquima y signos de base dural",
+      "Lesión centrada en sustancia blanca profunda",
+      "Restricción en ADC únicamente",
+      "Señal del LCR suprimida"
+    ],
+    "answer": 0,
+    "explanation": "La interfaz con el parénquima y una base dural pueden apoyar origen extraaxial. Ningún signo aislado confirma el tipo de tumor.",
+    "source": "Integrado, diap. 105–108 y 122–125",
+    "media": [
+      "mr-mass"
+    ]
+  },
+  {
+    "id": 28,
+    "module": 4,
+    "difficulty": "Intermedia",
+    "title": "Lesiones múltiples",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Varias lesiones con edema vasogénico desproporcionado plantean con frecuencia cuál diferencial?",
+    "competency": "Usar multiplicidad y edema para organizar un diferencial.",
+    "options": [
+      "Metástasis, entre otros diferenciales",
+      "Meningioma único como única posibilidad",
+      "Fractura de calota",
+      "Hidrocefalia comunicante"
+    ],
+    "answer": 0,
+    "explanation": "El material destaca metástasis entre las posibilidades ante múltiples lesiones con edema. El patrón requiere historia, secuencias, contraste y diagnóstico diferencial; no es absoluto.",
+    "source": "Integrado, diap. 106, 118–120, 150",
+    "media": [
+      "mr-gad-lesions"
+    ]
+  },
+  {
+    "id": 29,
+    "module": 4,
+    "difficulty": "Avanzada",
+    "title": "Complicación de masa",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Una masa con compresión ventricular, borramiento de cisternas y desplazamiento central exige describir…",
+    "competency": "Integrar efecto de masa y estructuras críticas.",
+    "options": [
+      "Efecto de masa y estructuras afectadas",
+      "Solo el tamaño en una secuencia",
+      "Únicamente la intensidad de señal",
+      "Solo el lado del paciente"
+    ],
+    "answer": 0,
+    "explanation": "Una lectura estructurada incluye efecto sobre línea media, cisternas, ventrículos y estructuras adyacentes, además de describir la lesión.",
+    "source": "Trauma, diap. 22–30; integrado, diap. 170–171",
+    "media": [
+      "mr-mass",
+      "mr-t2-cor"
+    ]
+  },
+  {
+    "id": 30,
+    "module": 4,
+    "difficulty": "Avanzada",
+    "title": "Diferencial prudente",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué afirmación es más adecuada cuando un patrón de imagen es compatible con glioma de alto grado?",
+    "competency": "Comunicar probabilidad sin sobrediagnosticar histología.",
+    "options": [
+      "Es un diferencial de imagen que requiere caracterización y evaluación profesional",
+      "La imagen por sí sola demuestra tipo molecular y grado",
+      "Toda lesión con realce es glioblastoma",
+      "El ADC por sí solo define histología"
+    ],
+    "answer": 0,
+    "explanation": "Los hallazgos de imagen permiten formular diferenciales y orientar caracterización, pero no sustituyen histología ni clasificación molecular cuando sean necesarias.",
+    "source": "Integrado, diap. 109–128 y 148–150; WHO CNS5",
+    "media": [
+      "mr-mass",
+      "mr-gad-lesions",
+      "mr-dwi"
+    ]
+  },
+  {
+    "id": 31,
+    "module": 5,
+    "difficulty": "Básica",
+    "title": "Absceso y difusión",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "En un patrón compatible con absceso, la restricción suele localizarse en…",
+    "competency": "Reconocer un patrón de difusión en un caso de absceso.",
+    "options": [
+      "El contenido central de la cavidad",
+      "La calota",
+      "La grasa subcutánea",
+      "El seno sagital"
+    ],
+    "answer": 0,
+    "explanation": "La restricción central puede apoyar absceso en el contexto adecuado, pero algunos tumores y otras entidades pueden restringir. Este reto no determina un diagnóstico real.",
+    "source": "Integrado, diap. 174–175",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 32,
+    "module": 5,
+    "difficulty": "Básica",
+    "title": "Realce y barrera",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "El realce tras gadolinio se interpreta, de forma general, como señal de…",
+    "competency": "Entender qué aporta el contraste sin atribuir etiología única.",
+    "options": [
+      "Alteración de la barrera hematoencefálica o vascularización, según contexto",
+      "Restricción de difusión confirmada",
+      "Fractura ósea",
+      "Supresión del LCR"
+    ],
+    "answer": 0,
+    "explanation": "El realce aporta información sobre barrera y vascularización; aparece en múltiples procesos neoplásicos, infecciosos e inflamatorios.",
+    "source": "RM, diap. 17",
+    "media": [
+      "mr-gad-lesions"
+    ]
+  },
+  {
+    "id": 33,
+    "module": 5,
+    "difficulty": "Intermedia",
+    "title": "Lesión en anillo",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "Una lesión con realce en anillo no es específica. ¿Qué grupo reúne diferenciales razonables?",
+    "competency": "Evitar interpretar el realce en anillo como diagnóstico único.",
+    "options": [
+      "Absceso, tumor necrótico y otras lesiones",
+      "Solo aneurisma",
+      "Solo lesión normal",
+      "Únicamente hemorragia subdural"
+    ],
+    "answer": 0,
+    "explanation": "El realce en anillo tiene un diferencial amplio. La difusión, el edema, la localización y el contexto modifican las probabilidades.",
+    "source": "Integrado, diap. 106 y 109",
+    "media": [
+      "mr-gad-lesions",
+      "mr-mass"
+    ]
+  },
+  {
+    "id": 34,
+    "module": 5,
+    "difficulty": "Intermedia",
+    "title": "FLAIR y placas",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "¿Qué característica de FLAIR es útil para examinar posibles lesiones cercanas a los ventrículos?",
+    "competency": "Relacionar supresión de LCR y conspicuidad de lesiones.",
+    "options": [
+      "Suprime el LCR y puede aumentar el contraste de lesiones periventriculares",
+      "Muestra únicamente vasos con contraste",
+      "Elimina toda señal patológica",
+      "Es una ventana ósea de TC"
+    ],
+    "answer": 0,
+    "explanation": "Al suprimir el LCR, FLAIR puede facilitar la visualización de alteraciones junto a espacios de LCR. El patrón debe interpretarse con criterios diagnósticos completos.",
+    "source": "RM, diap. 11–12; ACR demielinizantes",
+    "media": [
+      "mr-flair",
+      "mr-t2-cor"
+    ]
+  },
+  {
+    "id": 35,
+    "module": 5,
+    "difficulty": "Avanzada",
+    "title": "Difusión en el diferencial",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "¿Por qué un DWI brillante no basta para concluir restricción verdadera?",
+    "competency": "Aplicar control de error frecuente.",
+    "options": [
+      "Debe revisarse también el mapa ADC",
+      "El DWI equivale a una TC con contraste",
+      "La señal ADC no aporta información",
+      "Todo brillo es sangre"
+    ],
+    "answer": 0,
+    "explanation": "ADC ayuda a corroborar si existe disminución de difusión y a evitar atribuir automáticamente todo brillo DWI a restricción.",
+    "source": "RM, diap. 13; Schaefer et al.",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 36,
+    "module": 5,
+    "difficulty": "Avanzada",
+    "title": "Caso multimodal",
+    "caseText": "Reto educativo: describe lo que muestran las imágenes y evita inferencias clínicas.",
+    "question": "En una lesión con realce, FLAIR perilesional y señal alta central en DWI, ¿qué enfoque es más sólido?",
+    "competency": "Integrar secuencias y mantener incertidumbre.",
+    "options": [
+      "Integrar patrón, ADC, localización y contexto para construir diferenciales",
+      "Nombrar histología definitiva solo con una imagen",
+      "Ignorar FLAIR y ADC",
+      "Asumir que todo realce es infección"
+    ],
+    "answer": 0,
+    "explanation": "Las secuencias contribuyen información distinta. La combinación orienta diferenciales, pero la etiología puede seguir siendo inespecífica sin evaluación completa.",
+    "source": "RM, diap. 11, 13 y 17; integrado, diap. 174–175",
+    "media": [
+      "mr-t2-cor",
+      "mr-dwi",
+      "mr-adc"
+    ]
+  },
+  {
+    "id": 37,
+    "module": 6,
+    "difficulty": "Básica",
+    "title": "Secuencia de columna",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Para resaltar edema en la columna, ¿qué secuencia del material se describe como sensible a líquido y con supresión de grasa?",
+    "competency": "Seleccionar secuencias para evaluación de columna.",
+    "options": [
+      "STIR",
+      "T1 sin supresión",
+      "SWI",
+      "DWI cerebral"
+    ],
+    "answer": 0,
+    "explanation": "STIR suprime grasa y hace más conspicuas señales de líquido/edema. La utilidad depende de la región, protocolo y pregunta clínica.",
+    "source": "RM, diap. 19–24; Neuroanatomía, diap. 38–50",
+    "media": [
+      "mr-stir-cervical"
+    ]
+  },
+  {
+    "id": 38,
+    "module": 6,
+    "difficulty": "Básica",
+    "title": "Nivel vertebral",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "En una RM sagital lumbar, ¿qué referencia ayuda primero a ubicar un hallazgo?",
+    "competency": "Orientar nivel y plano antes de describir.",
+    "options": [
+      "Contar y confirmar niveles vertebrales",
+      "La señal de la corteza cerebral",
+      "El tamaño de los ventrículos",
+      "La intensidad del LCR intracraneal"
+    ],
+    "answer": 0,
+    "explanation": "El nivel se identifica con referencias anatómicas y marcadores del estudio; variaciones anatómicas y cobertura incompleta requieren cautela.",
+    "source": "RM, diap. 19–24; Neuroanatomía, diap. 38–45",
+    "media": [
+      "xray-spine-ap",
+      "xray-lumbar-label",
+      "mr-lumbar-t2"
+    ]
+  },
+  {
+    "id": 39,
+    "module": 6,
+    "difficulty": "Intermedia",
+    "title": "Compartimentos espinales",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Una masa dentro del canal, pero fuera de la médula y de la duramadre, es…",
+    "competency": "Clasificar una masa por compartimento anatómico.",
+    "options": [
+      "Extradural",
+      "Intramedular",
+      "Intraventricular",
+      "Intraaxial cerebral"
+    ],
+    "answer": 0,
+    "explanation": "La localización extradural es externa al saco dural. Diferenciar compartimentos ayuda a organizar el diferencial y la descripción.",
+    "source": "Integrado, diap. 143–147",
+    "media": [
+      "mr-lumbar-axial"
+    ]
+  },
+  {
+    "id": 40,
+    "module": 6,
+    "difficulty": "Intermedia",
+    "title": "Hernia discal",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "Un caso simulado muestra material discal focal hacia la izquierda en L4–L5. ¿Qué dato debe conservar el informe educativo?",
+    "competency": "Describir nivel y lateralidad.",
+    "options": [
+      "Nivel L4–L5 y lado izquierdo",
+      "Solo que existe dolor lumbar",
+      "Solo el plano axial",
+      "La edad exacta del paciente"
+    ],
+    "answer": 0,
+    "explanation": "El material relaciona el caso con hernia lumbar L4–L5 izquierda. Un informe educativo claro preserva nivel, lado y efecto sobre estructuras vecinas.",
+    "source": "Integrado, diap. 172–173",
+    "media": [
+      "mr-lumbar-hernia",
+      "mr-lumbar-axial"
+    ]
+  },
+  {
+    "id": 41,
+    "module": 6,
+    "difficulty": "Avanzada",
+    "title": "Compresión medular",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "¿Qué par de planos aporta una revisión complementaria de una lesión medular?",
+    "competency": "Integrar planos en RM espinal.",
+    "options": [
+      "Sagital y axial",
+      "Solo axial oblicuo de cráneo",
+      "Solo frontal de radiografía",
+      "DWI y ADC cerebrales"
+    ],
+    "answer": 0,
+    "explanation": "Sagital ofrece visión longitudinal y axial muestra relación transversal con canal y médula. La cobertura y secuencias se determinan por protocolos profesionales.",
+    "source": "RM, diap. 19–24; ACR Myelopathy",
+    "media": [
+      "mr-cervical-hernia",
+      "mr-t2-cervical"
+    ]
+  },
+  {
+    "id": 42,
+    "module": 6,
+    "difficulty": "Avanzada",
+    "title": "Informe espinal",
+    "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
+    "question": "¿Cuál estructura describe mejor una masa que desplaza la médula desde fuera, sin originarse en ella?",
+    "competency": "Distinguir lesión medular intrínseca de compresión extrínseca.",
+    "options": [
+      "Lesión extrínseca con efecto de compresión/desplazamiento",
+      "Lesión intramedular demostrada",
+      "Hallazgo normal por definición",
+      "Masa intraaxial cerebral"
+    ],
+    "answer": 0,
+    "explanation": "La relación de la lesión con la médula y el efecto de desplazamiento son elementos anatómicos centrales; no definen por sí mismos la histología.",
+    "source": "Integrado, diap. 143–147; ACR Myelopathy",
+    "media": [
+      "mr-cervical-hernia",
+      "mr-stir-cervical",
+      "xray-spine-label"
+    ]
+  },
+  {
+    "id": 43,
+    "module": 7,
+    "difficulty": "Básica",
+    "title": "Lectura sistemática",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Al comenzar una revisión educativa de TC craneal, ¿qué combinación de ventanas ayuda a no limitarse al parénquima?",
+    "competency": "Ordenar una revisión por ventanas.",
+    "options": [
+      "Parénquima y hueso",
+      "T1 y STIR",
+      "DWI y ADC",
+      "Solo ventana de tejidos blandos"
+    ],
+    "answer": 0,
+    "explanation": "Las ventanas cambian qué estructuras destacan. El material enfatiza revisar parénquima y hueso; la selección debe ajustarse a la pregunta.",
+    "source": "TC, diap. 7–11; Trauma, diap. 31",
+    "media": [
+      "ct-bone",
+      "ct-axial"
+    ]
+  },
+  {
+    "id": 44,
+    "module": 7,
+    "difficulty": "Básica",
+    "title": "Hallazgo urgente",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué actitud de comunicación representa mejor una colección hemorrágica con efecto de masa en un ejercicio?",
+    "competency": "Reconocer prioridad de comunicación sin ejecutar decisiones clínicas.",
+    "options": [
+      "Marcar para comunicación expedita al profesional responsable",
+      "Tratarlo como incidental sin mencionar",
+      "Esperar a completar el juego antes de comunicar",
+      "Enviar datos identificables a un canal personal"
+    ],
+    "answer": 0,
+    "explanation": "Un hallazgo potencialmente urgente requiere comunicación oportuna por canales profesionales definidos y documentación adecuada. El juego no es un protocolo de atención.",
+    "source": "Trauma, diap. 31–36; ACR Communication",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 45,
+    "module": 7,
+    "difficulty": "Intermedia",
+    "title": "Informe estructurado",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Qué conjunto mínimo mejora la claridad de una descripción de imagen?",
+    "competency": "Construir un informe educativo reproducible.",
+    "options": [
+      "Modalidad, hallazgo, localización/lateralidad y efecto",
+      "Solo el nombre probable de una enfermedad",
+      "Edad, nombre y número de historia",
+      "Una conclusión sin hallazgos"
+    ],
+    "answer": 0,
+    "explanation": "Modalidad, localización, lateralidad, patrón y efectos asociados ayudan a que la descripción sea verificable y útil.",
+    "source": "Trauma, diap. 31–36; ACR Communication",
+    "media": [
+      "ct-anatomy"
+    ]
+  },
+  {
+    "id": 46,
+    "module": 7,
+    "difficulty": "Intermedia",
+    "title": "Confirmación de recepción",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Tras comunicar un hallazgo no rutinario en la simulación, ¿qué paso cierra el circuito?",
+    "competency": "Practicar comunicación cerrada en un caso ficticio.",
+    "options": [
+      "Confirmar recepción con el profesional responsable y documentar el aviso",
+      "Publicar el caso en redes sociales",
+      "Cerrar el registro sin destinatario",
+      "Repetir el examen sin indicación"
+    ],
+    "answer": 0,
+    "explanation": "La comunicación urgente busca que la información llegue a quien gestiona la atención; debe seguir el procedimiento institucional y quedar documentada.",
+    "source": "ACR Communication of Diagnostic Imaging Findings",
+    "media": [
+      "ct-cta",
+      "mr-dwi",
+      "mr-adc"
+    ]
+  },
+  {
+    "id": 47,
+    "module": 7,
+    "difficulty": "Avanzada",
+    "title": "Caso integrado",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "Un caso ficticio incluye hemorragia, compresión ventricular y desviación central. ¿Qué resumen es más informativo?",
+    "competency": "Priorizar hallazgo, localización y efecto en una síntesis breve.",
+    "options": [
+      "Describir compartimento y lateralidad, luego efecto sobre ventrículos y línea media",
+      "Nombrar una cirugía como diagnóstico",
+      "Mencionar solo que la TC es anormal",
+      "Omitir el efecto de masa"
+    ],
+    "answer": 0,
+    "explanation": "Una síntesis descriptiva comunica qué se ve y qué estructuras afecta sin recomendar tratamiento ni convertir el simulador en un sistema diagnóstico.",
+    "source": "Trauma, diap. 33–36; integrado, diap. 164–179",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 48,
+    "module": 7,
+    "difficulty": "Avanzada",
+    "title": "Mensaje crítico",
+    "caseText": "Material docente de práctica: revisa orientación, secuencia y estructuras visibles.",
+    "question": "¿Cuál formulación es más apropiada para una alerta educativa a un colega?",
+    "competency": "Redactar comunicación concisa y estructurada.",
+    "options": [
+      "Hallazgo + localización/lateralidad + urgencia + solicitud de confirmación",
+      "Solo una etiqueta diagnóstica sin contexto",
+      "Un diagnóstico definitivo sin incertidumbre",
+      "Datos identificables del caso"
+    ],
+    "answer": 0,
+    "explanation": "Un aviso conciso nombra el hallazgo, dónde está, el nivel de preocupación y verifica recepción mediante el canal profesional establecido. La incertidumbre se comunica cuando existe.",
+    "source": "ACR Communication of Diagnostic Imaging Findings",
+    "media": [
+      "case-b2-hemorrhage",
+      "ct-cta"
+    ]
+  },
+  {
+    "id": 49,
+    "module": 0,
+    "difficulty": "Básica",
+    "title": "Caso clínico: deformidad craneal progresiva",
+    "caseText": "Lactante de 6 meses con cráneo elongado en sentido anteroposterior, cresta sagital palpable e índice cefálico reducido.",
+    "question": "¿Qué patrón anatómico sugiere la imagen?",
+    "competency": "Correlacionar morfología craneal y sutura",
+    "options": [
+      "Escafocefalia por cierre precoz de la sutura sagital",
+      "Craneosinostosis coronal bilateral",
+      "Hidrocefalia comunicante",
+      "Fractura deprimida del cráneo"
+    ],
+    "answer": 0,
+    "explanation": "La forma alargada anteroposterior y la cresta sagital son características de escafocefalia asociada a sinostosis sagital.",
+    "source": "Curso de neuroimagenes · diap. 160",
+    "media": [
+      "case-scapho"
+    ]
+  },
+  {
+    "id": 50,
+    "module": 0,
+    "difficulty": "Básica",
+    "title": "Lectura sistemática del cráneo",
+    "caseText": "Caso docente: antes de interpretar una radiografía o TC, el equipo necesita registrar una descripción reproducible.",
+    "question": "¿Qué paso debe preceder a la localización de una lesión?",
+    "competency": "Identificar modalidad, plano y orientación",
+    "options": [
+      "Reconocer modalidad, plano y orientación",
+      "Asignar un diagnóstico histológico",
+      "Inferir el tratamiento definitivo",
+      "Medir primero el tamaño de la lesión"
+    ],
+    "answer": 0,
+    "explanation": "Reconocer modalidad, plano y orientación establece el marco para ubicar el hallazgo y evita confundir derecha e izquierda.",
+    "source": "Curso de neuroimagenes · diap. 34",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 51,
+    "module": 0,
+    "difficulty": "Intermedia",
+    "title": "Vistas multiplanares de la base",
+    "caseText": "Caso docente: se sospecha fractura del odontoides tras caída de baja energía.",
+    "question": "¿Qué combinación ayuda a revisar la anatomía ósea cervical?",
+    "competency": "Correlación multiplanar",
+    "options": [
+      "TC axial y reconstrucciones sagitales/coronales",
+      "RM FLAIR aislada",
+      "Radiografía de tórax",
+      "Angio-TC cerebral únicamente"
+    ],
+    "answer": 0,
+    "explanation": "La TC con reconstrucciones multiplanares caracteriza el trazo óseo; correlaciona las imágenes con el contexto clínico.",
+    "source": "Curso de neuroimagenes · diap. 40-41, 162-163",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 52,
+    "module": 0,
+    "difficulty": "Intermedia",
+    "title": "Proyección y orientación radiográfica",
+    "caseText": "Caso docente: una radiografía de columna contiene marcadores de lateralidad.",
+    "question": "¿Qué elemento evita una localización lateral incorrecta?",
+    "competency": "Verificar marcadores",
+    "options": [
+      "Confirmar marcador de lado y proyección",
+      "Asumir que la izquierda de pantalla es la del paciente",
+      "Usar solo el título de la diapositiva",
+      "Ignorar rotación del paciente"
+    ],
+    "answer": 0,
+    "explanation": "Los marcadores y la proyección deben revisarse antes de describir lateralidad.",
+    "source": "Curso de neuroimagenes · diap. 8-10",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 53,
+    "module": 0,
+    "difficulty": "Avanzada",
+    "title": "Índice cefálico y suturas",
+    "caseText": "Caso docente: lactante con deformidad progresiva sin signos descritos de hipertensión intracraneal.",
+    "question": "¿Qué hallazgo complementa la forma craneal para sospechar sinostosis sagital?",
+    "competency": "Relacionar anatomía y clínica",
+    "options": [
+      "Cresta sagital palpable e índice cefálico reducido",
+      "Hiperdensidad intraventricular aislada",
+      "Edema vasogénico perilesional",
+      "Restricción en ganglios basales"
+    ],
+    "answer": 0,
+    "explanation": "La cresta sagital y la reducción del índice cefálico son pistas anatómicas descritas en el caso.",
+    "source": "Curso de neuroimagenes · diap. 160",
+    "media": [
+      "case-scapho"
+    ]
+  },
+  {
+    "id": 54,
+    "module": 0,
+    "difficulty": "Avanzada",
+    "title": "Ventana ósea en TC",
+    "caseText": "Caso docente: dolor cervical después de una caída en persona con osteoporosis.",
+    "question": "¿Qué ajuste es esencial para valorar el hueso?",
+    "competency": "Seleccionar ventana apropiada",
+    "options": [
+      "Revisar ventana ósea y reconstrucciones multiplanares",
+      "Usar solo ventana de partes blandas",
+      "Aplicar ventana pulmonar",
+      "Interpretar una única imagen coronal"
+    ],
+    "answer": 0,
+    "explanation": "La evaluación ósea requiere ventana adecuada y revisión multiplanar.",
+    "source": "Curso de neuroimagenes · diap. 62, 163",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 55,
+    "module": 1,
+    "difficulty": "Básica",
+    "title": "DWI y ADC en evento agudo",
+    "caseText": "Paciente con déficit neurológico súbito; la RM incluye DWI y mapa ADC.",
+    "question": "¿Qué patrón apoya restricción verdadera de difusión?",
+    "competency": "Interpretar secuencias pareadas",
+    "options": [
+      "Señal alta en DWI con señal baja correspondiente en ADC",
+      "Señal alta idéntica en DWI y ADC",
+      "Señal baja en ambas en toda lesión",
+      "Realce T1 como único criterio"
+    ],
+    "answer": 0,
+    "explanation": "La restricción verdadera suele mostrar hiperintensidad en DWI con descenso correspondiente del ADC; correlaciona el contexto.",
+    "source": "Curso de neuroimagenes · diap. 49, 165",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 56,
+    "module": 1,
+    "difficulty": "Básica",
+    "title": "FLAIR y edema perilesional",
+    "caseText": "Caso docente: lesión expansiva con alteración de señal alrededor en FLAIR.",
+    "question": "¿Qué aporta FLAIR en la valoración cerebral?",
+    "competency": "Reconocer secuencias",
+    "options": [
+      "Atenúa el LCR y ayuda a ver alteraciones parenquimatosas",
+      "Muestra exclusivamente cortical ósea",
+      "Sustituye todas las secuencias T1",
+      "Es una proyección radiográfica"
+    ],
+    "answer": 0,
+    "explanation": "FLAIR suprime LCR y hace más conspicuas algunas alteraciones parenquimatosas; no define etiología por sí sola.",
+    "source": "Curso de neuroimagenes · diap. 45, 106",
+    "media": [
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 57,
+    "module": 1,
+    "difficulty": "Intermedia",
+    "title": "T1 con contraste y lesión extraaxial",
+    "caseText": "Paciente con proptosis y disminución visual unilateral durante varios meses.",
+    "question": "¿Qué pregunta visual debe responderse al revisar la RM con contraste?",
+    "competency": "Describir localización y realce",
+    "options": [
+      "Si es extraaxial y cómo realza respecto a duramadre",
+      "Si hay fractura de bóveda solamente",
+      "Si el ADC es bajo sin revisar DWI",
+      "Si existe hemorragia subaracnoidea"
+    ],
+    "answer": 0,
+    "explanation": "La presentación relaciona este caso con meningioma. Describe localización y realce sin basarte en un solo signo.",
+    "source": "Curso de neuroimagenes · diap. 158-159",
+    "media": [
+      "case-meningioma-ax"
+    ]
+  },
+  {
+    "id": 58,
+    "module": 1,
+    "difficulty": "Intermedia",
+    "title": "RM para lesión medular",
+    "caseText": "Caso docente: dolor cervical intenso después de traumatismo, sin déficit motor descrito.",
+    "question": "¿Qué modalidad complementa la TC si se sospecha compromiso medular o de tejidos blandos?",
+    "competency": "Elegir modalidad según estructura",
+    "options": [
+      "RM cervical con secuencias apropiadas",
+      "Radiografía simple como prueba única",
+      "PET cerebral",
+      "TC de cráneo sin reconstrucción"
+    ],
+    "answer": 0,
+    "explanation": "La TC define mejor el hueso; la RM evalúa médula, discos y tejidos blandos cuando la pregunta clínica lo requiere.",
+    "source": "Curso de neuroimagenes · diap. 48, 53-55",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 59,
+    "module": 1,
+    "difficulty": "Avanzada",
+    "title": "Comparación T1 y T2",
+    "caseText": "Caso docente: una lesión se revisa en varias secuencias antes de describir su composición.",
+    "question": "¿Qué práctica es útil al comparar T1 y T2?",
+    "competency": "Comparar secuencias y anatomía",
+    "options": [
+      "Confirmar que las imágenes correspondan al mismo plano y nivel",
+      "Comparar cortes de niveles distintos como equivalentes",
+      "Fijar histología por intensidad de señal",
+      "Basarse en una sola imagen"
+    ],
+    "answer": 0,
+    "explanation": "La comparación requiere correspondencia de plano y nivel; la señal apoya caracterización, pero no determina histología aisladamente.",
+    "source": "Curso de neuroimagenes · diap. 43-45",
+    "media": [
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 60,
+    "module": 1,
+    "difficulty": "Avanzada",
+    "title": "STIR en columna",
+    "caseText": "Caso docente: se busca edema óseo o de tejidos blandos en columna.",
+    "question": "¿Qué aporta una secuencia STIR?",
+    "competency": "Reconocer secuencias espinales",
+    "options": [
+      "Supresión grasa que resalta edema sensible a líquido",
+      "Visualización exclusiva de arterias",
+      "Medición directa de presión intracraneal",
+      "Reconstrucción ósea 3D"
+    ],
+    "answer": 0,
+    "explanation": "STIR suprime señal grasa y facilita reconocer edema; integra con secuencias anatómicas y otros datos.",
+    "source": "Curso de neuroimagenes · diap. 48",
+    "media": [
+      "case-disc-ax"
+    ]
+  },
+  {
+    "id": 61,
+    "module": 2,
+    "difficulty": "Básica",
+    "title": "Caso clínico: trauma con pérdida de conciencia",
+    "caseText": "Varón de 18 años tras accidente de tránsito, pérdida de conocimiento de 7 minutos y equimosis frontal derecha; GCS 15.",
+    "question": "¿Cuál es la prioridad interpretativa inicial?",
+    "competency": "Buscar lesión traumática aguda",
+    "options": [
+      "Revisar hemorragia extraaxial, contusión y fractura",
+      "Asumir que GCS 15 excluye lesión",
+      "Buscar primero tumor infiltrativo",
+      "Solicitar solo RM electiva"
+    ],
+    "answer": 0,
+    "explanation": "La recuperación no excluye lesión. Revisa TC en ventanas cerebral y ósea, buscando sangre extraaxial y contusiones.",
+    "source": "Curso de neuroimagenes · diap. 97",
+    "media": [
+      "case-b2-trauma"
+    ]
+  },
+  {
+    "id": 62,
+    "module": 2,
+    "difficulty": "Básica",
+    "title": "Caso clínico: hematoma subdural subagudo",
+    "caseText": "Varón de 39 años anticoagulado, traumatismo hace 20 días, cefalea y hemiparesia izquierda leve.",
+    "question": "¿Qué lesión indica el material docente?",
+    "competency": "Reconocer colección extraaxial",
+    "options": [
+      "Hematoma subdural subagudo",
+      "Hematoma epidural agudo",
+      "Hemorragia intraventricular aislada",
+      "Fractura de odontoides"
+    ],
+    "answer": 0,
+    "explanation": "El diagnóstico presentado es hematoma subdural subagudo. La evolución temporal y el antecedente de trauma ayudan a contextualizar.",
+    "source": "Curso de neuroimagenes · diap. 156-157",
+    "media": [
+      "case-sdh-ct"
+    ]
+  },
+  {
+    "id": 63,
+    "module": 2,
+    "difficulty": "Intermedia",
+    "title": "Caso clínico: deterioro tras trauma",
+    "caseText": "Varón de 22 años tras colisión, inicialmente agitado; a los 35 minutos vuelve inconsciente y con anisocoria izquierda.",
+    "question": "¿Qué hallazgo corresponde a este caso?",
+    "competency": "Detectar deterioro neurológico",
+    "options": [
+      "Hematoma epidural frontotemporoparietal izquierdo",
+      "Meningioma de crecimiento lento",
+      "Hernia discal lumbar",
+      "Hidrocefalia crónica"
+    ],
+    "answer": 0,
+    "explanation": "La resolución identifica hematoma epidural frontotemporoparietal izquierdo. El deterioro y la anisocoria son señales de alarma.",
+    "source": "Curso de neuroimagenes · diap. 166-167",
+    "media": [
+      "case-epidural-ax"
+    ]
+  },
+  {
+    "id": 64,
+    "module": 2,
+    "difficulty": "Intermedia",
+    "title": "Caso clínico: lesión axonal difusa",
+    "caseText": "Varón de 19 años, accidente hace 2 horas, GCS 6/15 y exploración limitada.",
+    "question": "¿Qué patrón traumático nombra la presentación?",
+    "competency": "Reconocer lesión difusa",
+    "options": [
+      "Lesión axonal difusa",
+      "Meningioma extraaxial",
+      "Absceso cerebral",
+      "Fractura de C2"
+    ],
+    "answer": 0,
+    "explanation": "La resolución la identifica como lesión axonal difusa. La RM puede mostrar lesiones en distintos focos; importa su distribución.",
+    "source": "Curso de neuroimagenes · diap. 168-169",
+    "media": [
+      "case-dai-1"
+    ]
+  },
+  {
+    "id": 65,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Morfología de hematomas extraaxiales",
+    "caseText": "Caso docente: colección traumática entre cráneo y duramadre.",
+    "question": "¿Qué forma clásica orienta a hematoma epidural?",
+    "competency": "Distinguir patrones extraaxiales",
+    "options": [
+      "Colección lentiforme o biconvexa",
+      "Colección en semiluna",
+      "Realce dural homogéneo en masa",
+      "Lesión intramedular central"
+    ],
+    "answer": 0,
+    "explanation": "El patrón lentiforme/biconvexo orienta a epidural; revisa también suturas, volumen y efecto de masa.",
+    "source": "Curso de neuroimagenes · diap. 78, 167",
+    "media": [
+      "case-epidural-ax"
+    ]
+  },
+  {
+    "id": 66,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Contusión hemorrágica",
+    "caseText": "Caso docente: TC tras traumatismo muestra focos hemorrágicos corticales y edema vecino.",
+    "question": "¿Qué lesión primaria debe considerarse?",
+    "competency": "Clasificar lesión primaria",
+    "options": [
+      "Contusión cerebral hemorrágica",
+      "Hidrocefalia comunicante",
+      "Meningioma calcificado",
+      "Ependimoma"
+    ],
+    "answer": 0,
+    "explanation": "Las contusiones son lesiones primarias traumáticas y pueden acompañarse de edema.",
+    "source": "Curso de neuroimagenes · diap. 68-75",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 67,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Ventanas en trauma craneal",
+    "caseText": "Caso docente: una fractura puede pasar inadvertida con ventana cerebral solamente.",
+    "question": "¿Qué revisión completa la evaluación inicial?",
+    "competency": "Aplicar lectura sistemática",
+    "options": [
+      "Ventana cerebral y ósea, con reconstrucciones disponibles",
+      "Solo reconstrucción sagital",
+      "Solo ventana abdominal",
+      "Una imagen impresa aislada"
+    ],
+    "answer": 0,
+    "explanation": "El curso recalca revisar ventanas adecuadas. La ventana ósea complementa la lectura del parénquima.",
+    "source": "Curso de neuroimagenes · diap. 62, 94",
+    "media": [
+      "case-b2-trauma"
+    ]
+  },
+  {
+    "id": 68,
+    "module": 2,
+    "difficulty": "Avanzada",
+    "title": "Edema y efecto de masa",
+    "caseText": "Caso docente: lesión hemorrágica con borramiento de surcos y compresión ventricular.",
+    "question": "¿Cómo debe describirse ese componente secundario?",
+    "competency": "Reconocer lesión secundaria",
+    "options": [
+      "Edema con efecto de masa y posible desplazamiento de línea media",
+      "Realce dural en cola",
+      "Restricción aislada del ADC",
+      "Calcificación fisiológica"
+    ],
+    "answer": 0,
+    "explanation": "Borramiento de surcos y compresión ventricular son signos de edema/efecto de masa.",
+    "source": "Curso de neuroimagenes · diap. 85-88",
+    "media": [
+      "case-epidural-ax"
+    ]
+  },
+  {
+    "id": 69,
+    "module": 3,
+    "difficulty": "Básica",
+    "title": "Caso clínico: déficit focal abrupto",
+    "caseText": "Mujer de 65 años con HTA y diabetes, pérdida abrupta de conciencia, GCS 9, hemiplejia izquierda y disartria.",
+    "question": "¿Qué patrón visible en TC debe buscarse primero?",
+    "competency": "Evaluar hemorragia aguda",
+    "options": [
+      "Hemorragia intraparenquimatosa aguda",
+      "Hernia discal lumbar",
+      "Meningioma incidental",
+      "Hidrocefalia ex vacuo"
+    ],
+    "answer": 0,
+    "explanation": "El material presenta una hiperdensidad intraparenquimatosa. La TC simple ayuda a reconocer hemorragia en un déficit abrupto.",
+    "source": "Curso de neuroimagenes · diap. 96",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 70,
+    "module": 3,
+    "difficulty": "Básica",
+    "title": "Caso clínico: déficit progresivo en adulta mayor",
+    "caseText": "Mujer de 89 años sin trauma referido, una semana arrastrando una pierna, hemiparesia derecha y cefalea.",
+    "question": "¿Qué dato debe evitar una falsa tranquilidad?",
+    "competency": "Integrar tiempo y clínica",
+    "options": [
+      "No referir trauma no descarta una colección subdural",
+      "La edad descarta enfermedad vascular",
+      "La evolución subaguda excluye lesión estructural",
+      "Fuerza conservada descarta sangrado"
+    ],
+    "answer": 0,
+    "explanation": "La historia puede no revelar un trauma menor. Revisa colecciones extraaxiales y efecto de masa.",
+    "source": "Curso de neuroimagenes · diap. 98",
+    "media": [
+      "case-b2-subdural"
+    ]
+  },
+  {
+    "id": 71,
+    "module": 3,
+    "difficulty": "Intermedia",
+    "title": "Caso clínico: sospecha de EVC isquémico",
+    "caseText": "Varón de 45 años con HTA y dislipidemia, disartria y hemiparesia derecha de dos horas.",
+    "question": "¿Qué territorio hemisférico concuerda con la lateralidad?",
+    "competency": "Correlacionar clínica y lateralidad",
+    "options": [
+      "Hemisferio izquierdo; evaluar vasos según protocolo",
+      "Hemisferio derecho necesariamente",
+      "Médula lumbar",
+      "Nervio óptico derecho"
+    ],
+    "answer": 0,
+    "explanation": "Los déficits motores derechos suelen localizarse al hemisferio izquierdo. La TC inicial descarta hemorragia.",
+    "source": "Curso de neuroimagenes · diap. 99",
+    "media": [
+      "case-b2-stroke"
+    ]
+  },
+  {
+    "id": 72,
+    "module": 3,
+    "difficulty": "Intermedia",
+    "title": "Caso clínico: infarto de ACM izquierda",
+    "caseText": "Varón de 68 años con hemiparesia derecha súbita, afasia y desviación facial; NIHSS 18.",
+    "question": "¿Qué patrón diagnóstico presenta la diapositiva?",
+    "competency": "Reconocer territorio vascular",
+    "options": [
+      "EVC isquémico de arteria cerebral media izquierda",
+      "Hemorragia epidural derecha",
+      "Meningioma esfenoidal",
+      "Fractura de L4"
+    ],
+    "answer": 0,
+    "explanation": "La diapositiva identifica EVC isquémico de ACM izquierda. DWI y ADC apoyan la valoración; manejo sigue protocolo de ictus.",
+    "source": "Curso de neuroimagenes · diap. 164-165",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 73,
+    "module": 3,
+    "difficulty": "Avanzada",
+    "title": "Caso clínico: cefalea en trueno",
+    "caseText": "Mujer de 56 años con la peor cefalea de su vida, vómitos, GCS 10 y ptosis con midriasis derecha arreactiva.",
+    "question": "¿Qué patrón señala el documento?",
+    "competency": "Reconocer emergencia vascular",
+    "options": [
+      "Hemorragia subaracnoidea con sospecha de ruptura aneurismática",
+      "Esclerosis múltiple típica",
+      "Hernia discal L4-L5",
+      "Quiste pineal incidental"
+    ],
+    "answer": 0,
+    "explanation": "El documento plantea HSA espontánea y sospecha de ruptura aneurismática; angio-TC estaba pendiente.",
+    "source": "Curso de neuroimagenes · diap. 178-179",
+    "media": [
+      "case-sah-1"
+    ]
+  },
+  {
+    "id": 74,
+    "module": 3,
+    "difficulty": "Avanzada",
+    "title": "DWI/ADC en déficit focal",
+    "caseText": "Caso docente: déficit reciente y área brillante en DWI.",
+    "question": "¿Qué comprobar en ADC antes de llamarla restricción?",
+    "competency": "Corroborar difusión",
+    "options": [
+      "Descenso concordante del ADC en la misma región",
+      "Realce dural en T1",
+      "Fractura en ventana ósea",
+      "FLAIR completamente normal"
+    ],
+    "answer": 0,
+    "explanation": "ADC ayuda a diferenciar restricción verdadera de otros mecanismos de señal alta en DWI.",
+    "source": "Curso de neuroimagenes · diap. 49, 165",
+    "media": [
+      "case-stroke-dwi"
+    ]
+  },
+  {
+    "id": 75,
+    "module": 3,
+    "difficulty": "Avanzada",
+    "title": "Hemorragia intraparenquimatosa y urgencia",
+    "caseText": "Caso docente: sangre intraparenquimatosa con alteración del sensorio.",
+    "question": "¿Qué debe acompañar la descripción del sangrado?",
+    "competency": "Comunicar hallazgos críticos",
+    "options": [
+      "Localización, extensión, efecto de masa y posible extensión ventricular",
+      "Solo tamaño aproximado",
+      "Solo edad",
+      "Etiología definitiva sin contexto"
+    ],
+    "answer": 0,
+    "explanation": "Informa sitio, extensión, efecto de masa y extensión ventricular; comunica hallazgos críticos según protocolo.",
+    "source": "Curso de neuroimagenes · diap. 94, 96",
+    "media": [
+      "case-b2-hemorrhage"
+    ]
+  },
+  {
+    "id": 76,
+    "module": 4,
+    "difficulty": "Básica",
+    "title": "Caso clínico: proptosis y convulsiones",
+    "caseText": "Mujer de 45 años con proptosis derecha, visión borrosa ipsilateral y dos crisis tónico-clónicas en tres meses.",
+    "question": "¿Qué diagnóstico muestra la diapositiva de resolución?",
+    "competency": "Caracterizar lesión extraaxial",
+    "options": [
+      "Meningioma",
+      "Absceso cerebral",
+      "Lesión axonal difusa",
+      "Fractura de C2"
+    ],
+    "answer": 0,
+    "explanation": "El material titula la resolución como meningiomas. Describe localización, relación dural y patrón de realce.",
+    "source": "Curso de neuroimagenes · diap. 158-159",
+    "media": [
+      "case-meningioma-ax"
+    ]
+  },
+  {
+    "id": 77,
+    "module": 4,
+    "difficulty": "Básica",
+    "title": "Caso clínico: lesión de alto grado",
+    "caseText": "Mujer de 34 años con cefalea holocraneana intensa que la despierta por la noche, de tres semanas.",
+    "question": "¿Qué diagnóstico presenta la resolución docente?",
+    "competency": "Identificar patrón expansivo",
+    "options": [
+      "Glioma de alto grado",
+      "Meningioma calcificado",
+      "Craniosinostosis",
+      "Hematoma epidural"
+    ],
+    "answer": 0,
+    "explanation": "La resolución lo identifica como glioma de alto grado. Describe realce, necrosis, edema y efecto de masa.",
+    "source": "Curso de neuroimagenes · diap. 176-177",
+    "media": [
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 78,
+    "module": 4,
+    "difficulty": "Intermedia",
+    "title": "Lesiones múltiples con edema",
+    "caseText": "Caso docente: RM con varias lesiones realzadas y edema desproporcionado.",
+    "question": "¿Qué diagnóstico diferencial debe mantenerse alto?",
+    "competency": "Construir diferencial por patrón",
+    "options": [
+      "Metástasis, considerando contexto y distribución",
+      "Fractura de cráneo",
+      "Hidrocefalia como única explicación",
+      "Discopatía lumbar"
+    ],
+    "answer": 0,
+    "explanation": "El curso destaca considerar metástasis ante lesiones múltiples con edema desproporcionado.",
+    "source": "Curso de neuroimagenes · diap. 106, 118",
+    "media": [
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 79,
+    "module": 4,
+    "difficulty": "Intermedia",
+    "title": "Localización intraaxial o extraaxial",
+    "caseText": "Caso docente: masa en contacto con duramadre que desplaza estructuras vecinas.",
+    "question": "¿Qué característica ayuda a orientar el compartimento?",
+    "competency": "Clasificar compartimento",
+    "options": [
+      "Ángulo con duramadre y desplazamiento de estructuras/vasos",
+      "Lateralidad del dolor solamente",
+      "Intensidad T2 aislada",
+      "Tamaño del ventrículo contralateral"
+    ],
+    "answer": 0,
+    "explanation": "El curso compara ángulo dural y desplazamiento vascular para distinguir compartimentos.",
+    "source": "Curso de neuroimagenes · diap. 105-108",
+    "media": [
+      "case-meningioma-ax"
+    ]
+  },
+  {
+    "id": 80,
+    "module": 4,
+    "difficulty": "Avanzada",
+    "title": "Difusión en lesiones con anillo",
+    "caseText": "Caso docente: lesión con realce periférico, edema y centro de señal distinta.",
+    "question": "¿Qué secuencias complementan la evaluación del centro?",
+    "competency": "Usar difusión en el diferencial",
+    "options": [
+      "DWI y ADC, junto con T1 con contraste y FLAIR",
+      "Radiografía de cráneo sola",
+      "STIR cervical",
+      "Angiografía lumbar"
+    ],
+    "answer": 0,
+    "explanation": "La difusión puede contribuir al diferencial entre absceso y tumor, integrada con morfología, realce y contexto.",
+    "source": "Curso de neuroimagenes · diap. 106-109",
+    "media": [
+      "case-abscess-dwi",
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 81,
+    "module": 4,
+    "difficulty": "Avanzada",
+    "title": "Masa extraaxial y base de cráneo",
+    "caseText": "Caso docente: proptosis unilateral y lesión de región paraselar/orbitaria.",
+    "question": "¿Qué relación anatómica debe quedar en el informe?",
+    "competency": "Describir extensión local",
+    "options": [
+      "Relación con órbita, seno cavernoso y base de cráneo",
+      "Solo diámetro mayor",
+      "Intensidad ADC únicamente",
+      "Solo edad"
+    ],
+    "answer": 0,
+    "explanation": "En lesiones de base de cráneo es relevante describir extensión orbitaria y relación con estructuras vecinas.",
+    "source": "Curso de neuroimagenes · diap. 158-159",
+    "media": [
+      "case-meningioma-ax"
+    ]
+  },
+  {
+    "id": 82,
+    "module": 5,
+    "difficulty": "Básica",
+    "title": "Caso clínico: fiebre y otalgia previas",
+    "caseText": "Varón de 18 años con cefalea y tres convulsiones en una semana; antecedente de fiebre y otalgia por un mes.",
+    "question": "¿Qué diagnóstico recoge la diapositiva de resolución?",
+    "competency": "Reconocer infección focal",
+    "options": [
+      "Absceso cerebral",
+      "Glioma de bajo grado",
+      "Hematoma subdural crónico",
+      "Meningioma"
+    ],
+    "answer": 0,
+    "explanation": "El documento identifica absceso cerebral. Fiebre y otalgia orientan al contexto infeccioso.",
+    "source": "Curso de neuroimagenes · diap. 174-175",
+    "media": [
+      "case-abscess-dwi"
+    ]
+  },
+  {
+    "id": 83,
+    "module": 5,
+    "difficulty": "Básica",
+    "title": "Realce en anillo: diferencial",
+    "caseText": "Caso docente: lesión con realce periférico y edema vasogénico.",
+    "question": "¿Qué entidades deben compararse con difusión y contexto?",
+    "competency": "Diferenciar patrones de anillo",
+    "options": [
+      "Absceso y tumor necrótico, entre otros diagnósticos",
+      "Fractura y escafocefalia",
+      "Hidrocefalia y hernia discal",
+      "Epidural y subdural únicamente"
+    ],
+    "answer": 0,
+    "explanation": "El realce en anillo no es específico; el curso compara absceso, metástasis y glioblastoma con difusión y clínica.",
+    "source": "Curso de neuroimagenes · diap. 106-109",
+    "media": [
+      "case-abscess-dwi"
+    ]
+  },
+  {
+    "id": 84,
+    "module": 5,
+    "difficulty": "Intermedia",
+    "title": "DWI baja en absceso",
+    "caseText": "Caso docente: lesión con centro hiperintenso en DWI y ADC bajo.",
+    "question": "¿Qué proceso puede mostrar restricción central marcada?",
+    "competency": "Interpretar difusión con cautela",
+    "options": [
+      "Absceso piógeno en el contexto apropiado",
+      "Meningioma sin edema siempre",
+      "Fractura ósea",
+      "Craniosinostosis"
+    ],
+    "answer": 0,
+    "explanation": "La restricción central puede apoyar absceso, pero no es exclusiva.",
+    "source": "Curso de neuroimagenes · diap. 108-109, 175",
+    "media": [
+      "case-abscess-dwi"
+    ]
+  },
+  {
+    "id": 85,
+    "module": 5,
+    "difficulty": "Intermedia",
+    "title": "Correlación clínico-radiológica",
+    "caseText": "Caso docente: lesión cerebral con antecedente infeccioso reciente.",
+    "question": "¿Qué información clínica es especialmente pertinente?",
+    "competency": "Integrar antecedentes",
+    "options": [
+      "Fiebre, foco infeccioso y cronología",
+      "Solo grupo sanguíneo",
+      "Color de ojos",
+      "Dolor lumbar únicamente"
+    ],
+    "answer": 0,
+    "explanation": "La historia infecciosa y su cronología informan el diferencial de una lesión con realce.",
+    "source": "Curso de neuroimagenes · diap. 149, 174-175",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 86,
+    "module": 5,
+    "difficulty": "Avanzada",
+    "title": "Edema alrededor de una masa",
+    "caseText": "Caso docente: una lesión expansiva tiene edema periférico en sustancia blanca.",
+    "question": "¿Cómo describirlo sin sobrediagnosticar?",
+    "competency": "Describir antes de concluir",
+    "options": [
+      "Distribución, extensión del edema y efecto de masa",
+      "Etiología definitiva por edema",
+      "Solo intensidad de señal",
+      "Ignorar estructuras comprimidas"
+    ],
+    "answer": 0,
+    "explanation": "Describe hallazgos observables y efecto; distintas lesiones pueden acompañarse de edema.",
+    "source": "Curso de neuroimagenes · diap. 86, 106",
+    "media": [
+      "case-glioma-ax"
+    ]
+  },
+  {
+    "id": 87,
+    "module": 5,
+    "difficulty": "Avanzada",
+    "title": "Absceso frente a neoplasia",
+    "caseText": "Caso docente: una lesión con anillo se estudia en TC y RM.",
+    "question": "¿Qué enfoque evita cerrar prematuramente el diagnóstico?",
+    "competency": "Construir diferencial",
+    "options": [
+      "Combinar morfología, difusión, localización y antecedentes",
+      "Decidir por una imagen aislada",
+      "Usar solo edad",
+      "Descartar infección si examen es normal"
+    ],
+    "answer": 0,
+    "explanation": "Combinar secuencias y contexto evita atribuir una lesión en anillo a una sola causa.",
+    "source": "Curso de neuroimagenes · diap. 108-109, 149",
+    "media": [
+      "case-abscess-dwi"
+    ]
+  },
+  {
+    "id": 88,
+    "module": 6,
+    "difficulty": "Básica",
+    "title": "Caso clínico: fractura de odontoides",
+    "caseText": "Varón de 78 años con osteoporosis tras caída de su propia altura, dolor cervical intenso, sin déficit motor o sensitivo.",
+    "question": "¿Qué lesión presenta la resolución del caso?",
+    "competency": "Clasificar fractura cervical",
+    "options": [
+      "Fractura de C2 tipo II de Anderson y D’Alonzo",
+      "Fractura de L4 tipo A4",
+      "Hernia discal L4-L5",
+      "Lesión axonal difusa"
+    ],
+    "answer": 0,
+    "explanation": "La presentación identifica fractura tipo II de C2. Las reconstrucciones ayudan a definir el trazo; correlaciona con estabilidad y examen.",
+    "source": "Curso de neuroimagenes · diap. 162-163",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 89,
+    "module": 6,
+    "difficulty": "Básica",
+    "title": "Caso clínico: radiculopatía L4-L5",
+    "caseText": "Mujer de 46 años con lumbociatalgia izquierda, parestesias L4-L5 y limitación funcional de dos semanas.",
+    "question": "¿Qué hallazgo menciona la resolución?",
+    "competency": "Correlacionar nivel y lado",
+    "options": [
+      "Hernia discal L4-L5 izquierda con migración caudal",
+      "Estenosis cervical C2",
+      "Fractura de base de cráneo",
+      "Hidrocefalia obstructiva"
+    ],
+    "answer": 0,
+    "explanation": "La resolución la denomina hernia L4-L5 izquierda con migración caudal. Verifica nivel, lado y raíces.",
+    "source": "Curso de neuroimagenes · diap. 172-173",
+    "media": [
+      "case-disc-ax"
+    ]
+  },
+  {
+    "id": 90,
+    "module": 6,
+    "difficulty": "Intermedia",
+    "title": "Caso clínico: trauma lumbar",
+    "caseText": "Mujer de 33 años atropellada por un camión; examen ASIA E y dolor lumbar.",
+    "question": "¿Qué lesión muestra la diapositiva siguiente?",
+    "competency": "Identificar lesión vertebral",
+    "options": [
+      "Fractura de L4 tipo A4",
+      "Hernia discal cervical",
+      "Fractura tipo II de C2",
+      "Espondilosis aislada"
+    ],
+    "answer": 0,
+    "explanation": "La diapositiva siguiente indica fractura de L4 tipo A4; su numeración difiere del caso previo.",
+    "source": "Curso de neuroimagenes · diap. 180-181",
+    "media": [
+      "case-l4"
+    ]
+  },
+  {
+    "id": 91,
+    "module": 6,
+    "difficulty": "Intermedia",
+    "title": "Nivel y lateralidad en RM lumbar",
+    "caseText": "Caso docente: dolor radicular izquierdo y cambios en L4-L5.",
+    "question": "¿Qué tres datos deben quedar explícitos?",
+    "competency": "Estructurar informe espinal",
+    "options": [
+      "Nivel, lado y dirección de migración si existe",
+      "Edad y sexo",
+      "Diámetro del canal solamente",
+      "Plano de la primera imagen"
+    ],
+    "answer": 0,
+    "explanation": "Nivel y lateralidad son esenciales; si hay fragmento migrado, señala dirección y correlaciona con síntomas.",
+    "source": "Curso de neuroimagenes · diap. 172-173",
+    "media": [
+      "case-disc-ax"
+    ]
+  },
+  {
+    "id": 92,
+    "module": 6,
+    "difficulty": "Avanzada",
+    "title": "Canal cervical y médula",
+    "caseText": "Caso docente: fractura cervical en paciente mayor con dolor y sin déficit inicial.",
+    "question": "¿Qué debe revisarse además del trazo óseo?",
+    "competency": "Evaluar complicaciones",
+    "options": [
+      "Canal, alineación y posible compromiso medular/partes blandas",
+      "Senos paranasales",
+      "Cerebelo únicamente",
+      "Tejidos abdominales"
+    ],
+    "answer": 0,
+    "explanation": "La lectura del trauma cervical revisa alineación y canal; la RM puede ayudar ante sospecha ligamentaria o medular.",
+    "source": "Curso de neuroimagenes · diap. 162-163",
+    "media": [
+      "case-c2-ct"
+    ]
+  },
+  {
+    "id": 93,
+    "module": 6,
+    "difficulty": "Avanzada",
+    "title": "Fractura vertebral y mecanismo",
+    "caseText": "Caso docente: lesión lumbar por atropello, dolor y examen motor conservado.",
+    "question": "¿Qué no debe inferirse de un ASIA E aislado?",
+    "competency": "Separar imagen y función",
+    "options": [
+      "Que no existe fractura estructural",
+      "Que la lesión es necesariamente estable",
+      "Que el dolor no requiere evaluación",
+      "Que la RM sustituye TC para hueso"
+    ],
+    "answer": 0,
+    "explanation": "Un examen neurológico conservado no descarta fractura. La imagen caracteriza morfología; estabilidad requiere evaluación especializada.",
+    "source": "Curso de neuroimagenes · diap. 180-181",
+    "media": [
+      "case-l4"
+    ]
+  },
+  {
+    "id": 94,
+    "module": 6,
+    "difficulty": "Avanzada",
+    "title": "Correlación clínica-radicular",
+    "caseText": "Caso docente: hernia discal y síntomas en distribución dermatómica.",
+    "question": "¿Qué comparación aporta más al análisis?",
+    "competency": "Correlacionar nivel y clínica",
+    "options": [
+      "Nivel y lado con dermatoma, fuerza y reflejos",
+      "Nombre de secuencia solamente",
+      "Color de imagen",
+      "Lado del marcador sin síntomas"
+    ],
+    "answer": 0,
+    "explanation": "La concordancia de nivel y lateralidad con síntomas y examen mejora la interpretación.",
+    "source": "Curso de neuroimagenes · diap. 172-173",
+    "media": [
+      "case-disc-ax"
+    ]
+  },
+  {
+    "id": 95,
+    "module": 7,
+    "difficulty": "Básica",
+    "title": "Caso clínico: cefalea progresiva y parálisis del VI",
+    "caseText": "Varón de 25 años con cefalea, náuseas y vómitos, visión borrosa y parálisis del VI par izquierdo durante nueve meses.",
+    "question": "¿Qué diagnóstico recoge la resolución docente?",
+    "competency": "Reconocer hidrocefalia obstructiva",
+    "options": [
+      "Hidrocefalia obstructiva",
+      "Meningioma espinal",
+      "Hernia discal",
+      "Hemorragia epidural"
+    ],
+    "answer": 0,
+    "explanation": "La diapositiva identifica hidrocefalia obstructiva. Evalúa dilatación ventricular y posible punto de obstrucción.",
+    "source": "Curso de neuroimagenes · diap. 170-171",
+    "media": [
+      "case-hydro-1"
+    ]
+  },
+  {
+    "id": 96,
+    "module": 7,
+    "difficulty": "Básica",
+    "title": "Prioridad en deterioro neurológico",
+    "caseText": "Caso docente: traumatismo, deterioro de conciencia y anisocoria en poco tiempo.",
+    "question": "¿Qué debe priorizarse en la comunicación?",
+    "competency": "Escalar hallazgo crítico",
+    "options": [
+      "Aviso inmediato según protocolo por posible efecto de masa",
+      "Informe rutinario diferido",
+      "Esperar una RM electiva",
+      "Avisar solo si hay fiebre"
+    ],
+    "answer": 0,
+    "explanation": "Deterioro y anisocoria son señales de emergencia; comunica el hallazgo crítico sin demora.",
+    "source": "Curso de neuroimagenes · diap. 166-167, 94",
+    "media": [
+      "case-epidural-ax"
+    ]
+  },
+  {
+    "id": 97,
+    "module": 7,
+    "difficulty": "Intermedia",
+    "title": "Informe de hemorragia subaracnoidea",
+    "caseText": "Caso docente: cefalea en trueno, vómitos y alteración de conciencia.",
+    "question": "¿Qué hallazgos deben notificarse con prioridad?",
+    "competency": "Comunicar urgencia vascular",
+    "options": [
+      "Distribución de sangre, hidrocefalia/efecto de masa y sospecha vascular",
+      "Tamaño del cráneo",
+      "Secuencia T1 únicamente",
+      "Cambios lumbares"
+    ],
+    "answer": 0,
+    "explanation": "Comunica localización, extensión y efecto de masa como hallazgo crítico; la evaluación vascular sigue el protocolo local.",
+    "source": "Curso de neuroimagenes · diap. 178-179",
+    "media": [
+      "case-sah-1"
+    ]
+  },
+  {
+    "id": 98,
+    "module": 7,
+    "difficulty": "Intermedia",
+    "title": "Siguiente paso ante hallazgo inesperado",
+    "caseText": "Caso docente: imagen neurológica con hallazgo agudo potencialmente crítico.",
+    "question": "¿Cuál es una comunicación segura?",
+    "competency": "Comunicación clínica",
+    "options": [
+      "Transmitir hallazgo, localización y urgencia al equipo y documentarlo",
+      "Esperar al informe final para avisar",
+      "Enviar solo captura sin contexto",
+      "Afirmar etiología definitiva si hay incertidumbre"
+    ],
+    "answer": 0,
+    "explanation": "Transmite hallazgo y urgencia, documenta la comunicación y sigue el protocolo institucional.",
+    "source": "Curso de neuroimagenes · diap. 94, 149",
+    "media": [
+      "case-b2-stroke"
+    ]
+  }
+]

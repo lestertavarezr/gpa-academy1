@@ -1,0 +1,67 @@
+// Schematic axial "scan" drawn for challenges without real images. Purely decorative.
+export function drawScan(canvas, ch) {
+  if (!canvas?.getContext) return;
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+  const dpr = globalThis.devicePixelRatio || 1;
+  const W = canvas.clientWidth;
+  const H = canvas.clientHeight;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = "#030a0f";
+  ctx.fillRect(0, 0, W, H);
+  const cx = W / 2;
+  const cy = H / 2 + 8;
+  const rx = Math.min(W * 0.21, 112);
+  const ry = Math.min(H * 0.37, 87);
+  const grd = ctx.createRadialGradient(cx, cy, rx * 0.1, cx, cy, rx * 1.18);
+  grd.addColorStop(0, "#bdc7c2");
+  grd.addColorStop(0.67, "#788781");
+  grd.addColorStop(1, "#293a3c");
+  ctx.fillStyle = grd;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx, ry, 0, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#d4ddd455";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.ellipse(cx, cy, rx * 0.92, ry * 0.91, 0, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.strokeStyle = "#e0e8dd55";
+  ctx.lineWidth = 1.1;
+  for (let i = 0; i < 8; i++) {
+    const side = i % 2 ? 1 : -1;
+    ctx.beginPath();
+    ctx.moveTo(cx + side * 7, cy - ry * 0.82 + i * ry * 0.19);
+    ctx.bezierCurveTo(cx + side * rx * 0.6, cy - ry * 0.9 + i * ry * 0.13, cx + side * rx * 0.78, cy - ry * 0.32 + i * ry * 0.08, cx + side * rx * 0.2, cy + ry * 0.78 - i * ry * 0.05);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "#142322";
+  ctx.beginPath();
+  ctx.ellipse(cx - rx * 0.18, cy, rx * 0.12, ry * 0.21, -0.25, 0, Math.PI * 2);
+  ctx.ellipse(cx + rx * 0.18, cy, rx * 0.12, ry * 0.21, 0.25, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = "#daf0df55";
+  ctx.beginPath();
+  ctx.moveTo(cx, cy - ry * 0.85);
+  ctx.lineTo(cx, cy + ry * 0.85);
+  ctx.stroke();
+  const hue = ch.module === 2 || ch.module === 3 ? "#ffbd6b" : ch.module === 4 || ch.module === 5 ? "#c29bff" : "#67e4e7";
+  const ox = ch.module % 2 === 0 ? -rx * 0.37 : rx * 0.34;
+  const oy = ((ch.id % 3) - 1) * ry * 0.18;
+  ctx.fillStyle = hue + "88";
+  ctx.beginPath();
+  ctx.ellipse(cx + ox, cy + oy, rx * 0.105, ry * 0.14, 0.35, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = hue;
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+  ctx.fillStyle = "#b6cbd0";
+  ctx.font = "10px system-ui";
+  ctx.textAlign = "center";
+  ctx.fillText("A", cx, cy - ry - 6);
+  ctx.fillText("P", cx, cy + ry + 14);
+  ctx.fillText("R", cx - rx - 12, cy + 3);
+  ctx.fillText("L", cx + rx + 12, cy + 3);
+}
