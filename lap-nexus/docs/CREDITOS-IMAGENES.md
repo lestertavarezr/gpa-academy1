@@ -5,7 +5,6 @@ Las imágenes se obtuvieron de Wikimedia Commons y de un artículo de Revista AR
 | Archivo local | Obra y autor | Licencia | Fuente |
 |---|---|---|---|
 | `theatre.jpg` | *Laparoscopic operating theatre*, Dr.jayesh amin | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Laparoscopic_operating_theatre.jpg) |
-| `lap-tower.jpg` | *Pacific Partnership 2024-1: Laparoscopy donation*, Justin Ontiveros / U.S. Navy | Dominio público | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pacific_Partnership_2024-1-_Laparoscopy_donation_(8147071).jpg) |
 | `instruments.jpg` | *Laparoscopic Hand Instruments 001 JPN*, ignis | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Laparoscopic_Hand_Instruments_001_JPN.jpg) |
 | `hernia-set.jpg` | *Instruments for laparoscopic Hernia Operation*, Anpol42 | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Instruments_for_laparoscopic_Hernia_Operation.jpg) |
 | `dissector.jpg` | *Laparo disektor*, David.Mirth | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Laparo_disektor.jpg) |
