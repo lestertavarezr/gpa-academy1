@@ -197,6 +197,12 @@ describe("safety", () => {
     expect($("#ns-xp-total").textContent).toBe("15");
   });
 
+  it("hides backup import where the LMS grades progress", () => {
+    const { $ } = mount(memoryStore(), { allowImport: false });
+    expect($("#ns-import").hidden).toBe(true);
+    expect($("#ns-export").hidden).toBe(false);
+  });
+
   it("hides cloud controls when there is no backend", () => {
     const { $ } = mount();
     expect($("#ns-cloud").hidden).toBe(true);

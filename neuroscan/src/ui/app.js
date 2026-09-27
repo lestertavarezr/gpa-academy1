@@ -9,6 +9,8 @@ import { drawScan } from "./scan-canvas.js";
 import * as T from "./templates.js";
 
 const PUSH_SUBSCRIBE_TIMEOUT_MS = 8000;
+const STORAGE_WARNING =
+  "No se puede guardar el progreso en este navegador (modo privado o almacenamiento lleno). Exporta un respaldo para no perderlo.";
 
 function withTimeout(promise, ms) {
   let timer;
@@ -23,7 +25,7 @@ const SYNC_TEXT = {
   error: "No se pudo sincronizar. Se reintentará más tarde.",
 };
 
-export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null }) {
+export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null, allowImport = true }) {
   const $ = (selector) => root.querySelector(selector);
   const main = $("#ns-main");
   const moduleNav = $("#ns-modules");
@@ -53,8 +55,10 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
 
   function persist({ touch = true } = {}) {
     if (touch) state.updatedAt = now();
-    const { ok } = store.save(state);
-    $("#ns-storage-warning").hidden = ok;
+    const { ok, message } = store.save(state);
+    const warning = $("#ns-storage-warning");
+    if (!ok) warning.textContent = message || STORAGE_WARNING;
+    warning.hidden = ok;
     if (touch) sync?.schedule();
   }
 
@@ -482,6 +486,8 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     });
   }
   $("#ns-import").addEventListener("click", () => $("#ns-import-file").click());
+  // When the LMS grades progress, importing an edited backup would let a learner set their own grade.
+  $("#ns-import").hidden = !allowImport;
   $("#ns-import-file").addEventListener("change", (event) => {
     const file = event.target.files?.[0];
     if (file) importBackup(file);

@@ -38,12 +38,16 @@ jobs:
         run: npm run validate
       - name: Pruebas unitarias e integración (motor, API, push)
         run: npm test
-      - name: Build web + archivo único
+      - name: Build web, archivo único y paquete SCORM
         run: npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: neuroscan-app-html
           path: neuroscan/dist/standalone/neuroscan-app.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: neuroscan-scorm
+          path: neuroscan/dist/neuroscan-scorm.zip
 
   e2e:
     needs: test

@@ -2,13 +2,16 @@
 //   dist/web/          → deployable site served by the Cloudflare Worker (hashed assets, SW, push, sync)
 //   dist/standalone/   → one self-contained HTML file that works from file:// (local progress only)
 //   dist/artifact/     → the standalone app as a claude.ai Artifact page (host supplies the document and CSP)
-// Usage: node scripts/build.mjs [--target=web|standalone|artifact|all]
+//   dist/neuroscan-scorm.zip → SCORM 1.2 package for Moodle and other LMSs (progress and grade in the LMS)
+// Usage: node scripts/build.mjs [--target=web|standalone|artifact|scorm|all]
 // NEUROSCAN_STANDALONE_API=https://… enables cloud sync in the standalone file (the Worker must allow its origin).
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import * as esbuild from "esbuild";
 import { unusedMedia, validateContent } from "../src/core/content.js";
+import { scormManifest } from "./scorm-manifest.mjs";
+import { createZip } from "./zip.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const DIST = path.join(ROOT, "dist");
@@ -242,6 +245,40 @@ async function buildArtifact() {
   console.log(`artifact → dist/artifact/neuroscan.html (${kb(Buffer.byteLength(page))})`);
 }
 
+// One SCO: the inlined app plus its manifest. Progress goes to cmi.suspend_data, the grade to
+// cmi.core.score.raw and completion to cmi.core.lesson_status (see src/services/scorm.js).
+async function buildScorm() {
+  const out = path.join(DIST, "scorm");
+  fs.rmSync(out, { recursive: true, force: true });
+  fs.mkdirSync(out, { recursive: true });
+  const { script, style } = await inlineBundle("scorm", "");
+  const csp = [
+    "default-src 'none'",
+    `script-src 'sha256-${sha256b64(script)}'`,
+    `style-src 'sha256-${sha256b64(style)}'`,
+    "img-src data: blob:",
+    "connect-src 'none'",
+    "base-uri 'none'",
+    "form-action 'none'",
+    "object-src 'none'",
+  ].join("; ");
+  const html = fillTemplate(read("src/index.html").toString(), {
+    HEAD: `<meta http-equiv="Content-Security-Policy" content="${csp}">`,
+    STYLES: `<style>${style}</style>`,
+    SCRIPTS: `<script>${script}</script>`,
+  });
+  const manifest = scormManifest({ identifier: "gpa-academy-neuroscan", version, title: "NEURO//SCAN · Lectura sistemática de neuroimágenes" });
+  fs.writeFileSync(path.join(out, "index.html"), html);
+  fs.writeFileSync(path.join(out, "imsmanifest.xml"), manifest);
+  const zip = createZip([
+    { name: "imsmanifest.xml", data: manifest },
+    { name: "index.html", data: html },
+  ]);
+  fs.writeFileSync(path.join(DIST, "neuroscan-scorm.zip"), zip);
+  console.log(`scorm → dist/neuroscan-scorm.zip (${kb(zip.length)}, SCORM 1.2)`);
+}
+
 if (target === "web" || target === "all") await buildWeb();
 if (target === "standalone" || target === "all") await buildStandalone();
 if (target === "artifact" || target === "all") await buildArtifact();
+if (target === "scorm" || target === "all") await buildScorm();
