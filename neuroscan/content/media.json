@@ -171,8 +171,8 @@
     "file": "mr-dwi.webp",
     "width": 395,
     "height": 480,
-    "alt": "RM cerebral DWI, imagen educativa, fuente Clase 1.3 · diap. 13.",
-    "caption": "RM cerebral DWI",
+    "alt": "RM cerebral T1 axial con contraste, imagen educativa, fuente Clase 1.3 · diap. 13.",
+    "caption": "RM cerebral T1 axial con contraste",
     "source": "Clase 1.3 · diap. 13"
   },
   "mr-adc": {
@@ -218,9 +218,9 @@
   "mr-cervical-hernia": {
     "file": "mr-cervical-hernia.webp",
     "width": 480,
-    "height": 360,
-    "alt": "Caso ilustrativo de hernia cervical con compresión medular, imagen educativa, fuente Clase 1.3 · diap. 21.",
-    "caption": "Caso ilustrativo de hernia cervical con compresión medular",
+    "height": 288,
+    "alt": "RM cervical, planos sagital y axial, secuencias T2 y STIR, imagen educativa, fuente Clase 1.3 · diap. 21.",
+    "caption": "RM cervical, planos sagital y axial (T2 y STIR)",
     "source": "Clase 1.3 · diap. 21"
   },
   "mr-lumbar-t2": {
@@ -315,8 +315,8 @@
     "file": "case-meningioma-ax.webp",
     "width": 256,
     "height": 256,
-    "alt": "RM cerebral axial, Curso de neuroimagenes · diap. 159, material educativo GPA Academy.",
-    "caption": "RM cerebral axial",
+    "alt": "RM cerebral T1 axial con contraste, Curso de neuroimagenes · diap. 159, material educativo GPA Academy.",
+    "caption": "RM cerebral T1 axial con contraste",
     "source": "Curso de neuroimagenes · diap. 159"
   },
   "case-scapho": {
@@ -379,8 +379,8 @@
     "file": "case-abscess-dwi.webp",
     "width": 512,
     "height": 512,
-    "alt": "RM cerebral DWI, Curso de neuroimagenes · diap. 175, material educativo GPA Academy.",
-    "caption": "RM cerebral DWI",
+    "alt": "RM cerebral T1 axial con contraste, Curso de neuroimagenes · diap. 175, material educativo GPA Academy.",
+    "caption": "RM cerebral T1 axial con contraste",
     "source": "Curso de neuroimagenes · diap. 175"
   },
   "case-glioma-ax": {
@@ -406,5 +406,21 @@
     "alt": "RM/TC lumbar sagital, Curso de neuroimagenes · diap. 180, material educativo GPA Academy.",
     "caption": "RM/TC lumbar sagital",
     "source": "Curso de neuroimagenes · diap. 180"
+  },
+  "ct-epidural-ax": {
+    "file": "ct-epidural-ax.webp",
+    "width": 480,
+    "height": 267,
+    "alt": "TC simple axial: hematoma epidural biconvexo hiperdensoen región temporoparietal, material educativo GPA Academy.",
+    "caption": "TC simple axial: hematoma epidural",
+    "source": "GPA Academy"
+  },
+  "ct-ivh-ax": {
+    "file": "ct-ivh-ax.webp",
+    "width": 480,
+    "height": 571,
+    "alt": "TC simple axial: hemorragia intraventricular con sangre en ventrículos laterales, material educativo GPA Academy.",
+    "caption": "TC simple axial: hemorragia intraventricular",
+    "source": "GPA Academy"
   }
 }

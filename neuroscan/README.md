@@ -96,6 +96,35 @@ Desde una terminal con esas mismas variables de entorno también funciona: `npm 
 
 Si el LMS de GPA Academy debe mostrar la app en un iframe, añade su dominio a `frame-ancestors` en `scripts/build.mjs` (`WEB_CSP`).
 
+## Subir a Moodle (SCORM 1.2)
+
+`npm run build` genera `dist/neuroscan-scorm.zip`. CI también lo publica como artefacto en cada ejecución (`neuroscan-scorm`).
+
+En el curso: **Activar edición → Añadir una actividad o un recurso → Paquete SCORM**, sube el zip y ajusta (los nombres pueden variar un poco según la versión de Moodle):
+
+| Sección | Ajuste | Valor |
+|---|---|---|
+| Apariencia | Mostrar paquete | Ventana actual |
+| Apariencia | Altura | 1000 (o Nueva ventana si el tema es estrecho) |
+| Apariencia | El estudiante se salta la página de estructura del contenido | Siempre |
+| Apariencia | Mostrar navegación / estructura del curso | No / Oculto |
+| Calificación | Método de calificación | Calificación más alta |
+| Calificación | Calificación máxima | 100 |
+| Calificación | Calificación para aprobar | la que decida el equipo (p. ej. 70) |
+| Gestión de intentos | Número de intentos | Intentos ilimitados |
+| Gestión de intentos | Forzar nuevo intento | **No** |
+| Gestión de intentos | Bloquear después del intento final | No |
+| Finalización de actividad | Condición | Recibir una calificación aprobatoria |
+
+Qué registra Moodle:
+
+- **Progreso por estudiante** (`cmi.suspend_data`): casos vistos, repasos programados, sesión en curso, XP y reflexiones de la sesión actual. Cabe en los 4096 caracteres de SCORM 1.2 aunque se hayan respondido los 98 casos.
+- **Calificación** (`cmi.core.score.raw`, 0–100): porcentaje de los 98 casos cuya última respuesta fue correcta; sube a medida que el estudiante avanza.
+- **Estado**: siempre "incompleto". Si el paquete reportara "completado", Moodle abriría el siguiente intento en modo revisión (solo lectura) o empezaría uno nuevo sin progreso, y el repaso espaciado dejaría de funcionar. Por eso la finalización se mide con la calificación para aprobar.
+- **Tiempo de sesión** al cerrar la actividad.
+
+Dentro de Moodle no hay nube ni push (Moodle guarda el progreso) y el botón "Importar respaldo" está oculto para que un archivo editado no cambie la calificación. Como en cualquier SCORM, la nota la calcula el navegador del estudiante: úsala como evidencia de práctica, no como examen de alto impacto.
+
 ## Cómo funciona
 
 **Sincronización.** Al abrir la app web se crea una cuenta anónima (sin nombre ni correo). El servidor guarda solo el hash SHA-256 del token del dispositivo. Cada escritura lleva la revisión de la que parte; si otro dispositivo escribió antes, el servidor responde 409 con su copia y el cliente fusiona:

@@ -30,7 +30,7 @@ function memoryStore(initial = null, ok = true) {
 function mount(store = memoryStore(), options = {}) {
   document.body.innerHTML = body;
   const root = document.getElementById("neuroscan-root");
-  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store, ...options });
+  mountApp({ root, modules, challenges, mediaItem: (key) => ({ key, src: `media/${key}.webp`, ...media[key] }), store, sessionSize: 5, ...options });
   const $ = (s) => root.querySelector(s);
   const current = () => challenges.find((c) => c.title === $("#ns-main h2").textContent);
   const choose = (i) => {
@@ -83,6 +83,15 @@ describe("challenge flow", () => {
     expect(store.saved.srs[ch.id]).toMatchObject({ streak: 1, interval: 1, reviews: 1 });
     expect(store.saved.xpTotal).toBe(15);
     expect(store.saved.updatedAt).toBeGreaterThan(0);
+  });
+
+  it("never shows what a case is testing before the learner answers", () => {
+    const { $, current, choose } = mount();
+    const ch = current();
+    expect($("#ns-main").textContent).not.toContain(ch.competency);
+    choose(ch.answer);
+    $("#ns-submit").click();
+    expect($(".feedback").textContent).toContain(ch.competency);
   });
 
   it("hides the explanation until the end in exam mode", () => {
@@ -195,6 +204,12 @@ describe("safety", () => {
     expect($("#ns-progress").textContent).toBe("1 / 5");
     expect($("#ns-main h2").textContent).toBe(challenges[1].title);
     expect($("#ns-xp-total").textContent).toBe("15");
+  });
+
+  it("hides backup import where the LMS grades progress", () => {
+    const { $ } = mount(memoryStore(), { allowImport: false });
+    expect($("#ns-import").hidden).toBe(true);
+    expect($("#ns-export").hidden).toBe(false);
   });
 
   it("hides cloud controls when there is no backend", () => {

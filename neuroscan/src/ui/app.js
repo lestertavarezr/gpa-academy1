@@ -9,6 +9,8 @@ import { drawScan } from "./scan-canvas.js";
 import * as T from "./templates.js";
 
 const PUSH_SUBSCRIBE_TIMEOUT_MS = 8000;
+const STORAGE_WARNING =
+  "No se puede guardar el progreso en este navegador (modo privado o almacenamiento lleno). Exporta un respaldo para no perderlo.";
 
 function withTimeout(promise, ms) {
   let timer;
@@ -23,7 +25,7 @@ const SYNC_TEXT = {
   error: "No se pudo sincronizar. Se reintentará más tarde.",
 };
 
-export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null }) {
+export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null, allowImport = true, sessionSize = SESSION_SIZE }) {
   const $ = (selector) => root.querySelector(selector);
   const main = $("#ns-main");
   const moduleNav = $("#ns-modules");
@@ -44,7 +46,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
   const dueList = () => dueIds(state.srs, challenges, now());
   const pendingId = () => state.sessionQueue.find((id) => !state.sessionDone.includes(id));
   const candidates = (moduleIndex) =>
-    sessionCandidates({ challenges, moduleCount: modules.length, srs: state.srs, done: state.done, now: now(), moduleIndex });
+    sessionCandidates({ challenges, moduleCount: modules.length, srs: state.srs, done: state.done, now: now(), moduleIndex, size: sessionSize });
   const nextDueText = () => {
     const at = nextDueAt(state.srs, now());
     return at ? new Date(at).toLocaleDateString(undefined, { month: "short", day: "numeric" }) : "sin fecha programada";
@@ -53,8 +55,10 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
 
   function persist({ touch = true } = {}) {
     if (touch) state.updatedAt = now();
-    const { ok } = store.save(state);
-    $("#ns-storage-warning").hidden = ok;
+    const { ok, message } = store.save(state);
+    const warning = $("#ns-storage-warning");
+    if (!ok) warning.textContent = message || STORAGE_WARNING;
+    warning.hidden = ok;
     if (touch) sync?.schedule();
   }
 
@@ -131,7 +135,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
   function renderSidebar() {
     const ch = currentChallenge();
     const done = state.sessionDone.length;
-    const max = state.sessionQueue.length || SESSION_SIZE;
+    const max = state.sessionQueue.length || sessionSize;
     $("#ns-progress").textContent = `${done} / ${max}`;
     $("#ns-fill").style.width = `${max ? (done / max) * 100 : 0}%`;
     $("#ns-track").setAttribute("aria-valuemax", String(max));
@@ -247,7 +251,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     state.sessionDone.push(ch.id);
     state.sessionAnswers[ch.id] = score;
     state.srs[ch.id] = reviewCard(previous, { correct, confidence, now: t });
-    awardAnswer(state, { correct, now: new Date(t), sessionSize: SESSION_SIZE });
+    awardAnswer(state, { correct, now: new Date(t), sessionSize });
     state.selected = null;
     render({ focus: "next" });
     persist();
@@ -482,6 +486,8 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     });
   }
   $("#ns-import").addEventListener("click", () => $("#ns-import-file").click());
+  // When the LMS grades progress, importing an edited backup would let a learner set their own grade.
+  $("#ns-import").hidden = !allowImport;
   $("#ns-import-file").addEventListener("change", (event) => {
     const file = event.target.files?.[0];
     if (file) importBackup(file);

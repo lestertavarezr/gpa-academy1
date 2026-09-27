@@ -44,7 +44,7 @@ export function challengeHTML({ ch, total, queuePosition, queueLength, isReview,
     .join("");
   const feedback =
     answerDone && mode === "practice"
-      ? `<div class="feedback${correct ? "" : " bad"}"><strong>${correct ? "Respuesta correcta" : "Respuesta para repasar"}</strong>${e(ch.explanation)}<div class="source">Fuente curricular: ${e(ch.source)}</div><div class="source">Próximo repaso sugerido: ${e(nextReviewText)}</div></div>`
+      ? `<div class="feedback${correct ? "" : " bad"}"><strong>${correct ? "Respuesta correcta" : "Respuesta para repasar"}</strong>${e(ch.explanation)}<div class="source">Qué evalúa este caso: ${e(ch.competency)}</div><div class="source">Fuente curricular: ${e(ch.source)}</div><div class="source">Próximo repaso sugerido: ${e(nextReviewText)}</div></div>`
       : "";
   const hint = answerDone
     ? mode === "exam"
@@ -56,7 +56,7 @@ export function challengeHTML({ ch, total, queuePosition, queueLength, isReview,
   const action = answerDone
     ? `<button class="primary" id="ns-next" data-focus="next" type="button">Siguiente desafío →</button>`
     : `<button class="primary" id="ns-submit" data-focus="submit" type="button"${selected === null ? " disabled" : ""}>Confirmar respuesta</button>`;
-  return `<div class="session-banner"><strong>Sesión mezclada · caso ${queuePosition} de ${queueLength}</strong><span>${isReview ? "Repaso vencido" : "Caso nuevo"}</span></div><div class="challengehead"><span class="badge">Módulo ${pad2(ch.module + 1)}</span><span class="badge level">${e(ch.difficulty)}</span><span class="number">DESAFÍO ${pad2(ch.id)} / ${total}</span></div><h2 id="ns-challenge-title" tabindex="-1">${e(ch.title)}</h2><p class="case">${e(ch.caseText)}</p>${visual}<div class="qrow"><strong id="ns-question">${e(ch.question)}</strong><span class="competency">${e(ch.competency)}</span></div>${reflectionHTML(reflect, answerDone)}<div class="options" role="group" aria-labelledby="ns-question">${options}</div><div id="ns-feedback" aria-live="polite">${feedback}</div><div class="actions"><span class="hint">${hint}</span><div class="actionbuttons">${action}</div></div>`;
+  return `<div class="session-banner"><strong>Sesión mezclada · caso ${queuePosition} de ${queueLength}</strong><span>${isReview ? "Repaso vencido" : "Caso nuevo"}</span></div><div class="challengehead"><span class="badge">Módulo ${pad2(ch.module + 1)}</span><span class="badge level">${e(ch.difficulty)}</span><span class="number">DESAFÍO ${pad2(ch.id)} / ${total}</span></div><h2 id="ns-challenge-title" tabindex="-1">${e(ch.title)}</h2><p class="case">${e(ch.caseText)}</p>${visual}<div class="qrow"><strong id="ns-question">${e(ch.question)}</strong></div>${reflectionHTML(reflect, answerDone)}<div class="options" role="group" aria-labelledby="ns-question">${options}</div><div id="ns-feedback" aria-live="polite">${feedback}</div><div class="actions"><span class="hint">${hint}</span><div class="actionbuttons">${action}</div></div>`;
 }
 
 export function reportGroupsHTML({ modules, challengesById, ids, state, masteredByModule, totals }) {
