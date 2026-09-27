@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="Entrenamiento educativo en lectura sistemática de neuroimágenes · GPA Academy">
+<meta name="theme-color" content="#07111a">
+<!--HEAD-->
+<title>NEURO//SCAN · GPA Academy</title>
+<!--STYLES-->
+</head>
+<body>
+<div id="neuroscan-root">
+  <div class="app">
+    <header class="top">
+      <div class="brand"><div class="logo" aria-hidden="true">N//</div><div><h1>NEURO//SCAN</h1><div class="subbrand">Entrenamiento en lectura sistemática de neuroimágenes</div></div></div>
+      <div class="topright"><span class="live"><span class="dot"></span> SESIÓN DE PRÁCTICA</span><button class="reset" id="ns-reset" type="button">Reiniciar</button></div>
+    </header>
+    <p class="storage-warning" id="ns-storage-warning" role="alert" hidden>No se puede guardar el progreso en este navegador (modo privado o almacenamiento lleno). Exporta un respaldo para no perderlo.</p>
+    <noscript><p class="storage-warning">NEURO//SCAN necesita JavaScript activado.</p></noscript>
+    <div class="layout">
+      <aside aria-label="Progreso y módulos">
+        <div class="eyebrow">Tu recorrido</div>
+        <div class="progress-head"><span>Sesión de hoy</span><strong id="ns-progress">0 / 5</strong></div>
+        <div class="track" id="ns-track" role="progressbar" aria-label="Progreso de la sesión de hoy" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><div class="fill" id="ns-fill"></div></div>
+        <div class="retention-status" id="ns-retention-status" aria-live="polite"></div>
+        <section class="bonus-card" aria-label="Bonos de participación"><div class="bonus-head"><strong id="ns-bonus-title">Bono diario</strong><span id="ns-bonus-value">+50 XP</span></div><div id="ns-bonus-copy">Completa una sesión de 5 casos</div><div class="bonus-countdown" id="ns-bonus-countdown" aria-live="off"></div><div class="bonus-stats"><span><b id="ns-xp-total">0</b> XP acumulados</span><span id="ns-xp-multiplier">×1 XP</span></div><div class="bonus-badges" id="ns-bonus-badges"></div><small>El progreso y el dominio se conservan; solo vence el bono diario sin reclamar.</small></section>
+        <div class="retention-tools">
+          <button class="secondary" id="ns-new-session" type="button">Nueva sesión de 5</button>
+          <details class="progress-tools">
+            <summary>Guardar y transferir progreso</summary>
+            <div class="backup-actions">
+              <button class="secondary" id="ns-export" type="button">Exportar respaldo</button>
+              <button class="secondary" id="ns-import" type="button">Importar respaldo</button>
+              <input id="ns-import-file" type="file" accept="application/json,.json" hidden>
+              <small>Incluye respuestas y reflexiones. Guárdalo de forma privada.</small>
+            </div>
+            <div class="cloud-tools" id="ns-cloud" hidden>
+              <small id="ns-sync-status" aria-live="polite"></small>
+              <button class="secondary" id="ns-sync-toggle" type="button">Desactivar nube</button>
+              <button class="secondary" id="ns-pair-create" type="button">Vincular otro dispositivo</button>
+              <label>Tengo un código<input id="ns-pair-input" type="text" inputmode="text" autocomplete="one-time-code" maxlength="9" placeholder="XXXX-XXXX"></label>
+              <button class="secondary" id="ns-pair-claim" type="button">Usar código</button>
+              <small id="ns-pair-message" aria-live="polite"></small>
+              <button class="secondary danger" id="ns-cloud-delete" type="button">Borrar mis datos del servidor</button>
+              <small>La nube guarda tu progreso sin nombre ni correo, y envía estadísticas anónimas por pregunta para mejorar el banco de casos.</small>
+            </div>
+          </details>
+        </div>
+        <details class="reminder-tools"><summary>Recordatorio opcional</summary><div class="reminder-fields"><label>Hora local<input id="ns-reminder-time" type="time" value="19:00"></label><button class="secondary" id="ns-reminder-toggle" type="button">Activar recordatorio</button><small id="ns-reminder-status" aria-live="polite">El aviso aparece si la app sigue abierta.</small></div></details>
+        <nav class="modlist" id="ns-modules" aria-label="Módulos"></nav>
+        <label class="mobile-module-select" for="ns-mobile-module"><span>Ir al módulo</span><select id="ns-mobile-module"></select></label>
+        <div class="sidebottom">
+          <div><span class="mode-label" id="ns-mode-label">Modo</span><div class="mode-toggle" role="group" aria-labelledby="ns-mode-label"><button id="ns-practice" class="sel" type="button" aria-pressed="true">Práctica</button><button id="ns-exam" type="button" aria-pressed="false">Evaluación</button></div></div>
+          <div class="scoreline"><span>Puntuación</span><strong id="ns-score">0</strong></div>
+        </div>
+      </aside>
+      <main id="ns-main"></main>
+    </div>
+    <div class="safety"><strong>Simulador educativo.</strong> No es una herramienta diagnóstica y no sustituye la evaluación de un radiólogo, neurorradiólogo u otro profesional cualificado. No lo uses para decisiones clínicas, no introduzcas información de pacientes ni cargues estudios reales. Las imágenes de los retos son educativas, proceden del material de GPA Academy y no son DICOM.</div>
+  </div>
+  <dialog id="ns-zoom" aria-label="Imagen educativa ampliada"><button id="ns-zoom-close" type="button">Cerrar imagen</button><img id="ns-zoom-image" alt=""><p id="ns-zoom-caption"></p></dialog>
+</div>
+<!--SCRIPTS-->
+</body>
+</html>

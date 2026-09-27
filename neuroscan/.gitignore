@@ -1,0 +1,7 @@
+dist/
+node_modules/
+.wrangler/
+.dev.vars
+test-results/
+playwright-report/
+content/challenges.csv

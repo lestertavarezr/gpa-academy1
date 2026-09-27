@@ -1,0 +1,22 @@
+:root{color-scheme:dark;--bg:#07111a;--panel:#0c1a26;--line:#203746;--text:#eaf4f8;--muted:#9db1bd;--cyan:#57e6ed;--amber:#ffca73;--red:#ff8d92}
+body{margin:0;background:var(--bg);color:var(--text);font:14px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+.admin{max-width:1200px;margin:0 auto;padding:24px 16px}
+h1{font-size:20px;margin:0 0 6px}
+header p{color:var(--muted);margin:0 0 18px}
+.auth{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;margin-bottom:18px}
+.auth label{display:grid;gap:4px;color:var(--muted);font-size:12px}
+input,button{font:inherit;color:inherit;min-height:40px;border-radius:8px;border:1px solid var(--line);background:var(--panel);padding:6px 10px}
+button{cursor:pointer}
+.auth button{background:var(--cyan);color:#061319;border-color:var(--cyan);font-weight:600}
+#status{color:var(--muted)}
+.summary{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:16px;color:var(--muted)}
+.summary b{display:block;color:var(--text);font-size:20px;font-variant-numeric:tabular-nums}
+.table-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+th button{border:0;background:none;padding:0;min-height:0;color:var(--cyan);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.low{color:var(--red)}
+.warn{color:var(--amber)}
+small{color:var(--muted)}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:2px}

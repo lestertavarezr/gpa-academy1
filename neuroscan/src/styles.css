@@ -1,0 +1,191 @@
+html{color-scheme:dark;background:#050c12}
+body{margin:0;padding:16px;min-height:100vh;box-sizing:border-box;background:#050c12}
+@media(max-width:680px){body{padding:8px}}
+#neuroscan-root{--ns-bg:#07111a;--ns-panel:#0c1a26;--ns-panel2:#102331;--ns-line:#203746;--ns-text:#eaf4f8;--ns-muted:#9db1bd;--ns-cyan:#57e6ed;--ns-purple:#bd9bff;--ns-amber:#ffca73;--ns-green:#77e2b1;--ns-red:#ff8d92;color:var(--ns-text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:14px;background:linear-gradient(135deg,#06111a,#081722 55%,#10142a);border-radius:18px;overflow:hidden;max-width:1024px;margin:0 auto;box-shadow:0 24px 90px #0008}
+#neuroscan-root *{box-sizing:border-box}
+#neuroscan-root button{font:inherit;color:inherit}
+#neuroscan-root .app{min-height:680px;padding:22px 24px 18px}
+#neuroscan-root .top{display:flex;align-items:center;justify-content:space-between;gap:18px;border-bottom:1px solid var(--ns-line);padding-bottom:18px}
+#neuroscan-root .brand{display:flex;align-items:center;gap:12px}
+#neuroscan-root .logo{width:38px;height:38px;border:1px solid #57e6ed80;border-radius:11px;display:grid;place-items:center;color:var(--ns-cyan);font-weight:700;letter-spacing:-1px;box-shadow:inset 0 0 20px #57e6ed12}
+#neuroscan-root h1{font-size:20px;line-height:1.15;margin:0;font-weight:700;letter-spacing:.035em}
+#neuroscan-root .subbrand{font-size:12px;color:var(--ns-muted);margin-top:4px}
+#neuroscan-root .topright{display:flex;align-items:center;gap:14px;color:var(--ns-muted);font-size:12px}
+#neuroscan-root .live{display:inline-flex;align-items:center;gap:7px;color:var(--ns-green)}
+#neuroscan-root .dot{width:7px;height:7px;background:currentColor;border-radius:50%}
+#neuroscan-root .reset{background:transparent;border:1px solid var(--ns-line);border-radius:9px;padding:8px 11px;color:var(--ns-muted)}
+#neuroscan-root .layout{display:grid;grid-template-columns:205px minmax(0,1fr);gap:24px;padding-top:20px}
+#neuroscan-root aside{border-right:1px solid var(--ns-line);padding-right:18px}
+#neuroscan-root .eyebrow{color:var(--ns-cyan);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:650}
+#neuroscan-root .progress-head{display:flex;justify-content:space-between;align-items:baseline;margin:10px 0 7px;font-size:13px}
+#neuroscan-root .progress-head strong{font-variant-numeric:tabular-nums}
+#neuroscan-root .track{height:5px;border-radius:4px;background:#1a2b36;overflow:hidden}
+#neuroscan-root .fill{height:100%;width:0;background:linear-gradient(90deg,var(--ns-cyan),var(--ns-purple));transition:width .25s ease}
+#neuroscan-root .modlist{display:grid;gap:4px;margin-top:19px}
+#neuroscan-root .mod{width:100%;display:flex;gap:9px;align-items:center;text-align:left;border:0;background:transparent;padding:9px 8px;border-radius:8px;color:var(--ns-muted);font-size:12px;line-height:1.25}
+#neuroscan-root .mod.active{color:var(--ns-text);background:#14303a}
+#neuroscan-root .modnum{color:var(--ns-cyan);font-variant-numeric:tabular-nums;font-size:10px;min-width:18px}
+#neuroscan-root .modcount{margin-left:auto;color:#8fa6b2;font-size:10px}
+#neuroscan-root .sidebottom{margin-top:24px;padding-top:16px;border-top:1px solid var(--ns-line)}
+#neuroscan-root .mode-label{display:block;color:var(--ns-muted);font-size:11px;margin-bottom:8px}
+#neuroscan-root .mode-toggle{display:flex;gap:3px;background:#091620;padding:3px;border-radius:9px}
+#neuroscan-root .mode-toggle button{flex:1;background:transparent;border:0;border-radius:7px;padding:7px 4px;color:var(--ns-muted);font-size:11px}
+#neuroscan-root .mode-toggle button.sel{background:#18343e;color:var(--ns-cyan)}
+#neuroscan-root .scoreline{display:flex;justify-content:space-between;margin-top:13px;color:var(--ns-muted);font-size:11px}
+#neuroscan-root main{min-width:0}
+#neuroscan-root .challengehead{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:11px}
+#neuroscan-root .badge{font-size:10px;text-transform:uppercase;letter-spacing:.08em;border:1px solid #57e6ed55;color:var(--ns-cyan);padding:5px 8px;border-radius:6px}
+#neuroscan-root .badge.level{border-color:#bd9bff55;color:var(--ns-purple)}
+#neuroscan-root .number{margin-left:auto;color:var(--ns-muted);font-size:12px;font-variant-numeric:tabular-nums}
+#neuroscan-root h2{font-size:22px;line-height:1.23;margin:0 0 9px;font-weight:600}
+#neuroscan-root .case{color:#bfccd4;line-height:1.55;margin:0 0 15px;max-width:760px}
+#neuroscan-root .scanbox{position:relative;background:#02080c;border:1px solid #27404c;border-radius:11px;overflow:hidden;height:242px;display:flex;align-items:center;justify-content:center}
+#neuroscan-root canvas{width:100%;height:100%;display:block}
+#neuroscan-root .scanlabel{position:absolute;left:12px;top:10px;color:#aac3cd;background:#07131dcc;border:1px solid #36515c;border-radius:5px;padding:5px 7px;font-size:10px;letter-spacing:.06em}
+#neuroscan-root .scanlegend{position:absolute;right:12px;top:10px;color:#87a0ab;font-size:10px}
+#neuroscan-root .scanfoot{position:absolute;bottom:9px;left:12px;right:12px;display:flex;justify-content:space-between;color:#8ca3ae;font-size:10px}
+#neuroscan-root .scanbox.with-images{height:auto;min-height:320px;display:block;padding:42px 12px 40px}
+#neuroscan-root .challenge-images{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));align-items:center;gap:10px}
+#neuroscan-root .challenge-images figure{min-width:0;margin:0;text-align:center}
+#neuroscan-root .challenge-images img{display:block;width:100%;height:245px;object-fit:contain;background:#02080c}
+#neuroscan-root .challenge-images.single{display:flex;justify-content:center}
+#neuroscan-root .challenge-images.single figure{width:100%;max-width:650px}
+#neuroscan-root .challenge-images.single img{height:310px}
+#neuroscan-root .challenge-images figcaption{padding:4px 3px 0;color:#b7cad2;font-size:11px;line-height:1.25}
+#neuroscan-root .challenge-images figcaption small{display:block;color:#829aa6;font-size:10px}
+#neuroscan-root .qrow{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:16px 0 9px}
+#neuroscan-root .qrow strong{font-size:14px;font-weight:600}
+#neuroscan-root .competency{font-size:11px;color:var(--ns-muted)}
+#neuroscan-root .options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#neuroscan-root .option{background:#0b1a25;border:1px solid #203744;border-radius:9px;text-align:left;padding:11px 12px;min-height:47px;display:flex;align-items:center;gap:10px;line-height:1.35;transition:background .15s,border-color .15s}
+#neuroscan-root .option:hover{border-color:#57e6ed88;background:#0f2530}
+#neuroscan-root .option[aria-pressed="true"]{border-color:var(--ns-cyan);background:#12313b}
+#neuroscan-root .option:disabled{cursor:default;opacity:.87}
+#neuroscan-root .letter{display:grid;place-items:center;width:23px;height:23px;border-radius:6px;background:#172a35;color:#a7bdc7;flex:none;font-size:11px}
+#neuroscan-root .option[aria-pressed="true"] .letter{background:var(--ns-cyan);color:#061319}
+#neuroscan-root .actions{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:13px}
+#neuroscan-root .hint{color:var(--ns-muted);font-size:11px}
+#neuroscan-root .actionbuttons{display:flex;gap:8px}
+#neuroscan-root .primary,#neuroscan-root .secondary{border-radius:8px;padding:9px 14px;font-size:12px;font-weight:600}
+#neuroscan-root .primary{background:var(--ns-cyan);border:1px solid var(--ns-cyan);color:#061319}
+#neuroscan-root .primary:disabled{opacity:.42;cursor:not-allowed}
+#neuroscan-root .secondary{background:transparent;border:1px solid var(--ns-line);color:#d3e0e5}
+#neuroscan-root .feedback{margin-top:13px;border-left:3px solid var(--ns-green);padding:10px 12px;background:#102822;border-radius:0 8px 8px 0;color:#d9eee6;line-height:1.45}
+#neuroscan-root .feedback.bad{border-color:var(--ns-amber);background:#2b2417;color:#f1e6d2}
+#neuroscan-root .feedback strong{display:block;margin-bottom:4px}
+#neuroscan-root .source{margin-top:6px;color:#a7bec8;font-size:10px}
+#neuroscan-root .safety{border-top:1px solid var(--ns-line);margin-top:18px;padding-top:12px;color:#9db1bd;font-size:10px;line-height:1.5}
+#neuroscan-root .safety strong{color:var(--ns-amber);font-weight:600}
+#neuroscan-root .complete{padding:40px 12px;text-align:center}
+#neuroscan-root .complete h2{margin-bottom:9px}
+#neuroscan-root .complete p{color:var(--ns-muted);line-height:1.5}
+#neuroscan-root .mobile-module-select{display:none;gap:5px;margin-top:12px;color:var(--ns-muted);font-size:11px}
+#neuroscan-root .mobile-module-select select{width:100%;min-height:44px;padding:8px 10px;border:1px solid var(--ns-line);border-radius:8px;background:#091620;color:var(--ns-text);font:inherit;font-size:14px}
+@media(max-width:680px){
+  #neuroscan-root{border-radius:12px}
+  #neuroscan-root .app{min-height:0;padding:14px 12px 16px}
+  #neuroscan-root .top{align-items:flex-start;flex-wrap:wrap;gap:10px;padding-bottom:12px}
+  #neuroscan-root .brand{flex:1 1 220px;min-width:0;gap:9px}
+  #neuroscan-root .logo{width:34px;height:34px;flex:none}
+  #neuroscan-root h1{font-size:18px}
+  #neuroscan-root .subbrand{font-size:11px;line-height:1.35}
+  #neuroscan-root .topright{margin-left:auto}
+  #neuroscan-root .layout{grid-template-columns:minmax(0,1fr)!important;gap:14px!important;padding-top:14px}
+  #neuroscan-root .layout aside{min-width:0;border-right:0;border-bottom:1px solid var(--ns-line);padding:0 0 10px}
+  #neuroscan-root .sidebottom{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:10px 16px;margin-top:10px!important;padding-top:10px!important}
+  #neuroscan-root .sidebottom>div:first-child{flex:1 1 160px;min-width:0}
+  #neuroscan-root .mode-label{margin-bottom:5px}
+  #neuroscan-root .mode-toggle button{min-height:44px;padding:7px 10px}
+  #neuroscan-root .scoreline{flex:0 0 auto;gap:8px;margin:0!important;display:flex!important;align-items:center}
+  #neuroscan-root .topright .live{display:none}
+  #neuroscan-root .challengehead{gap:6px}
+  #neuroscan-root .number{font-size:11px}
+  #neuroscan-root h2{font-size:19px}
+  #neuroscan-root .case{font-size:13px;line-height:1.5}
+  #neuroscan-root .scanbox:not(.with-images){height:205px!important}
+  #neuroscan-root .scanbox.with-images{min-height:0;padding:11px 9px 10px}
+  #neuroscan-root .scanbox.with-images .scanlabel,#neuroscan-root .scanbox.with-images .scanlegend{position:static;display:inline-block;max-width:100%;margin:0 5px 8px 0;vertical-align:top;font-size:9px;line-height:1.35}
+  #neuroscan-root .challenge-images{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+  #neuroscan-root .challenge-images img{height:clamp(170px,58vw,225px)}
+  #neuroscan-root .challenge-images.single img{height:clamp(220px,72vw,310px)}
+  #neuroscan-root .challenge-images figcaption{overflow-wrap:anywhere}
+  #neuroscan-root .scanbox.with-images .scanfoot{position:static;display:flex;flex-wrap:wrap;gap:3px 12px;margin-top:8px;font-size:9px;line-height:1.35}
+  #neuroscan-root .qrow{align-items:flex-start;flex-direction:column;gap:5px;margin:13px 0 9px}
+  #neuroscan-root .qrow strong{font-size:14px;line-height:1.4}
+  #neuroscan-root .options{grid-template-columns:minmax(0,1fr)!important;gap:7px}
+  #neuroscan-root .option{min-height:48px;padding:10px}
+  #neuroscan-root .actions{align-items:stretch!important;flex-direction:column;gap:8px}
+  #neuroscan-root .hint{line-height:1.4}
+  #neuroscan-root .actionbuttons{align-self:stretch;justify-content:flex-end}
+  #neuroscan-root .primary,#neuroscan-root .secondary{min-height:44px}
+  #neuroscan-root .feedback{overflow-wrap:anywhere}
+  #neuroscan-root .safety{font-size:10px}
+  #neuroscan-root .modlist{display:none!important}
+  #neuroscan-root .mobile-module-select{display:grid}
+}
+@media(max-width:360px){#neuroscan-root .app{padding-right:10px;padding-left:10px}#neuroscan-root .badge{font-size:9px;padding:4px 6px}#neuroscan-root .number{width:100%;margin-left:0}}
+@media(pointer:coarse){#neuroscan-root button{min-height:44px}}
+@media(prefers-reduced-motion:reduce){#neuroscan-root *{transition:none!important;scroll-behavior:auto!important}}
+#neuroscan-root .reflection{margin:14px 0 10px;padding:12px 0;border-top:1px solid var(--ns-line);border-bottom:1px solid var(--ns-line)}
+#neuroscan-root .reflection-title{margin-bottom:9px;font-size:12px;font-weight:600;color:var(--ns-cyan)}
+#neuroscan-root .reflection-fields{display:grid;grid-template-columns:1fr 1fr minmax(130px,.65fr);gap:8px}
+#neuroscan-root .reflection-fields label{display:grid;gap:5px;color:var(--ns-muted);font-size:11px}
+#neuroscan-root .reflection-fields input,#neuroscan-root .reflection-fields select{width:100%;min-width:0;min-height:42px;padding:8px 10px;border:1px solid var(--ns-line);border-radius:7px;background:#091620;color:var(--ns-text);font:inherit;font-size:14px}
+#neuroscan-root .reflection-fields input::placeholder{color:#78909d}
+#neuroscan-root .reflection-fields :disabled{opacity:.62}
+#neuroscan-root .image-expand{position:relative;display:block;width:100%;padding:0;border:0;background:transparent;text-align:center}
+#neuroscan-root .image-expand img{display:block;width:100%;height:245px;object-fit:contain;background:#02080c}
+#neuroscan-root .expand-label{display:block;margin-top:4px;color:var(--ns-cyan);font-size:11px;text-align:center}
+#neuroscan-root .challenge-images.single .image-expand img{height:310px}
+#neuroscan-root #ns-zoom{max-width:96vw;max-height:94vh;padding:14px;border:1px solid #36515c;border-radius:12px;background:#07111a;color:var(--ns-text);box-shadow:0 20px 70px #000a}
+#neuroscan-root #ns-zoom::backdrop{background:#000c}
+#neuroscan-root #ns-zoom-close{display:block;margin:0 0 10px auto;min-height:44px;padding:8px 12px;border:1px solid var(--ns-line);border-radius:8px;background:#0c1a26;color:var(--ns-text)}
+#neuroscan-root #ns-zoom-image{display:block;max-width:92vw;max-height:82vh;object-fit:contain;margin:auto}
+#neuroscan-root #ns-zoom-caption{margin:8px 0 0;color:var(--ns-muted);font-size:12px;text-align:center}
+#neuroscan-root .result-modules{display:grid;gap:10px;margin:18px 0;text-align:left}
+#neuroscan-root .result-module{padding:10px 0;border-bottom:1px solid var(--ns-line)}
+#neuroscan-root .result-module summary{cursor:pointer;line-height:1.45}
+#neuroscan-root .result-module ul{padding-left:20px;color:var(--ns-muted);font-size:12px;line-height:1.6}
+#neuroscan-root .result-module li strong{color:var(--ns-text)}
+#neuroscan-root .result-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:14px}
+#neuroscan-root .retention-status{margin-top:8px;color:var(--ns-muted);font-size:11px;line-height:1.45}
+#neuroscan-root .bonus-card{margin-top:10px;padding:11px;border:1px solid #ffca7355;border-radius:9px;background:linear-gradient(135deg,#211e17,#111b22);color:#eaf4f8;font-size:11px;line-height:1.4}
+#neuroscan-root .bonus-head,#neuroscan-root .bonus-stats{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#neuroscan-root .bonus-head strong{color:var(--ns-amber);font-size:12px}
+#neuroscan-root .bonus-head span{color:var(--ns-amber);font-weight:700;white-space:nowrap}
+#neuroscan-root #ns-bonus-copy{margin-top:5px;color:#d8cba9}
+#neuroscan-root .bonus-countdown{margin-top:3px;color:var(--ns-amber);font-variant-numeric:tabular-nums}
+#neuroscan-root .bonus-stats{margin-top:8px;color:var(--ns-muted)}
+#neuroscan-root .bonus-stats b{color:var(--ns-text);font-variant-numeric:tabular-nums}
+#neuroscan-root .bonus-badges{margin-top:6px;color:var(--ns-cyan)}
+#neuroscan-root .bonus-card small{display:block;margin-top:7px;color:var(--ns-muted);font-size:10px;line-height:1.4}
+#neuroscan-root .retention-tools{display:grid;gap:8px;margin-top:10px}
+#neuroscan-root .progress-tools,#neuroscan-root .reminder-tools{font-size:11px;color:var(--ns-muted)}
+#neuroscan-root .progress-tools summary,#neuroscan-root .reminder-tools summary{padding:7px 0;cursor:pointer}
+#neuroscan-root .backup-actions,#neuroscan-root .reminder-fields{display:grid;gap:7px;padding:4px 0 8px}
+#neuroscan-root .backup-actions small,#neuroscan-root .reminder-fields small{font-size:11px;line-height:1.4}
+#neuroscan-root .backup-actions button,#neuroscan-root .reminder-fields button{min-height:42px}
+#neuroscan-root .reminder-fields label{display:grid;gap:4px}
+#neuroscan-root .reminder-fields input{min-height:40px;padding:7px 9px;border:1px solid var(--ns-line);border-radius:7px;background:#091620;color:var(--ns-text);font:inherit;font-size:14px}
+#neuroscan-root .session-banner{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 12px;color:var(--ns-muted);font-size:11px}
+#neuroscan-root .session-banner strong{color:var(--ns-cyan);font-weight:600}
+#neuroscan-root .mastery{color:var(--ns-green)}
+#neuroscan-root .session-report{padding:28px 8px}
+#neuroscan-root .session-report h2{margin:8px 0}
+#neuroscan-root .session-report p{color:var(--ns-muted);line-height:1.5}
+#neuroscan-root .session-report .result-modules{margin-top:14px}
+#neuroscan-root .session-report .result-actions{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px}
+#neuroscan-root .session-report button{min-height:44px}
+@media(max-width:680px){#neuroscan-root .retention-tools>button,#neuroscan-root .backup-actions button,#neuroscan-root .reminder-fields button{min-height:44px}#neuroscan-root .session-report .result-actions{flex-direction:column}#neuroscan-root .session-report .result-actions button{width:100%}}
+@media(max-width:680px){#neuroscan-root .reflection-fields{grid-template-columns:minmax(0,1fr)}#neuroscan-root .reflection-fields input,#neuroscan-root .reflection-fields select{min-height:44px;font-size:16px}#neuroscan-root #ns-zoom{max-width:98vw;padding:9px}#neuroscan-root #ns-zoom-image{max-width:94vw;max-height:78vh}#neuroscan-root .result-actions{flex-direction:column}#neuroscan-root .result-actions button{width:100%;min-height:44px}}
+#neuroscan-root button:not(:disabled),#neuroscan-root summary{cursor:pointer}
+#neuroscan-root :focus-visible{outline:2px solid var(--ns-cyan);outline-offset:2px}
+#neuroscan-root h2:focus{outline:none}
+#neuroscan-root .storage-warning{margin:12px 0 0;padding:10px 12px;border:1px solid #ffca7388;border-radius:8px;background:#2b2417;color:#f1e6d2;font-size:12px;line-height:1.45}
+#neuroscan-root .cloud-tools{display:grid;gap:7px;padding:8px 0;border-top:1px solid var(--ns-line)}
+#neuroscan-root .cloud-tools small{font-size:11px;line-height:1.4}
+#neuroscan-root .cloud-tools label{display:grid;gap:4px;font-size:11px;color:var(--ns-muted)}
+#neuroscan-root .cloud-tools input{min-height:40px;padding:7px 9px;border:1px solid var(--ns-line);border-radius:7px;background:#091620;color:var(--ns-text);font:inherit;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+#neuroscan-root .cloud-tools button{min-height:42px}
+#neuroscan-root .secondary.danger{border-color:#ff8d9266;color:var(--ns-red)}
+#neuroscan-root [hidden]{display:none!important}
