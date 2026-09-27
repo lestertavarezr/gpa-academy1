@@ -5,16 +5,16 @@
     "difficulty": "Básica",
     "title": "Planos de lectura",
     "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
-    "question": "Antes de describir una estructura del encéfalo, ¿qué dato orienta el plano de la imagen?",
+    "question": "Antes de describir un hallazgo o plantear un diagnóstico, ¿qué debes identificar primero en estas imágenes?",
     "competency": "Identificar la orientación anatómica del corte.",
     "options": [
-      "Axial, coronal o sagital",
-      "Densidad del LCR",
-      "Edad del paciente",
-      "Presencia de contraste"
+      "El plano de cada corte: axial, coronal o sagital",
+      "La densidad del LCR",
+      "La edad del paciente",
+      "El diagnóstico más probable"
     ],
     "answer": 0,
-    "explanation": "Los planos axial, coronal y sagital describen la orientación espacial de los cortes y deben reconocerse antes de localizar un hallazgo.",
+    "explanation": "Lo primero es orientarse: reconocer si cada corte es axial, coronal o sagital y a qué nivel está. Solo así se puede localizar y describir un hallazgo; el diagnóstico llega después de esa lectura sistemática, nunca antes.",
     "source": "Neuroanatomía, diap. 13–14",
     "media": [
       "ct-axial",
