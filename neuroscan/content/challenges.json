@@ -106,7 +106,7 @@
     "explanation": "Una colección epidural puede adoptar forma lentiforme y está limitada por suturas; la apariencia debe interpretarse con el contexto y el resto de la imagen.",
     "source": "Trauma, diap. 15; Neuroanatomía, diap. 27–31",
     "media": [
-      "case-b2-hemorrhage"
+      "ct-epidural-ax"
     ]
   },
   {
@@ -554,7 +554,7 @@
     "explanation": "El hematoma epidural suele ser lentiforme/biconvexo y puede estar relacionado con fractura. Hay excepciones; forma y contexto se leen juntos.",
     "source": "Trauma, diap. 15–16",
     "media": [
-      "case-b2-hemorrhage"
+      "ct-epidural-ax"
     ]
   },
   {
@@ -575,7 +575,7 @@
     "explanation": "El término describe la localización de sangre en los ventrículos. Conviene revisar también hidrocefalia y otros hallazgos asociados.",
     "source": "Trauma, diap. 13",
     "media": [
-      "case-b2-hemorrhage"
+      "ct-ivh-ax"
     ]
   },
   {

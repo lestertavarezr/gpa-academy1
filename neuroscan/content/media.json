@@ -406,5 +406,21 @@
     "alt": "RM/TC lumbar sagital, Curso de neuroimagenes · diap. 180, material educativo GPA Academy.",
     "caption": "RM/TC lumbar sagital",
     "source": "Curso de neuroimagenes · diap. 180"
+  },
+  "ct-epidural-ax": {
+    "file": "ct-epidural-ax.webp",
+    "width": 480,
+    "height": 267,
+    "alt": "TC simple axial: hematoma epidural biconvexo hiperdensoen región temporoparietal, material educativo GPA Academy.",
+    "caption": "TC simple axial: hematoma epidural",
+    "source": "GPA Academy"
+  },
+  "ct-ivh-ax": {
+    "file": "ct-ivh-ax.webp",
+    "width": 480,
+    "height": 571,
+    "alt": "TC simple axial: hemorragia intraventricular con sangre en ventrículos laterales, material educativo GPA Academy.",
+    "caption": "TC simple axial: hemorragia intraventricular",
+    "source": "GPA Academy"
   }
 }
