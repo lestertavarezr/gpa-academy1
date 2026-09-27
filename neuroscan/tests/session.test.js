@@ -16,10 +16,10 @@ describe("interleavedIds", () => {
 });
 
 describe("sessionCandidates", () => {
-  it("starts a fresh learner with all unseen cases in sequential order", () => {
+  it("starts a fresh learner with a full session of unseen cases in sequential order", () => {
     const queue = sessionCandidates(base);
-    expect(queue).toHaveLength(authored.length);
-    expect(queue).toEqual(authored.map((c) => c.id));
+    expect(queue).toHaveLength(5);
+    expect(queue).toEqual(authored.slice(0, 5).map((c) => c.id));
   });
 
   it("puts at most three overdue reviews first, then new cases", () => {
