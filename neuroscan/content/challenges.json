@@ -397,9 +397,9 @@
     "title": "Imagen de difusión",
     "caseText": "Caso educativo. Observa modalidad y anatomía antes de elegir.",
     "question": "¿Qué secuencia es especialmente útil para detectar cambios de isquemia aguda en RM?",
-    "competency": "Reconocer el papel de DWI.",
+    "competency": "Reconocer el papel de DWI y ADC.",
     "options": [
-      "DWI",
+      "DWI y ADC",
       "T1 poscontraste únicamente",
       "STIR",
       "Radiografía lateral"
