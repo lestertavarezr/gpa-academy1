@@ -23,7 +23,7 @@ const SYNC_TEXT = {
   error: "No se pudo sincronizar. Se reintentará más tarde.",
 };
 
-export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false }) {
+export function mountApp({ root, modules, challenges, mediaItem, store, sync = null, api = null, pushEnabled = false, downloads = null }) {
   const $ = (selector) => root.querySelector(selector);
   const main = $("#ns-main");
   const moduleNav = $("#ns-modules");
@@ -35,6 +35,7 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
   let reminderTimer = null;
   let pushActive = false;
   let resizeFrame = 0;
+  let saver = null;
 
   const now = () => Date.now();
   const currentChallenge = () => challenges[state.current];
@@ -329,9 +330,28 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     renderSidebar();
   }
 
+  // In-page confirmation: native confirm()/alert() are blocked in sandboxed hosts (artifacts, widgets).
+  function askConfirm(message, confirmLabel) {
+    const dialog = $("#ns-confirm");
+    $("#ns-confirm-text").textContent = message;
+    $("#ns-confirm-ok").textContent = confirmLabel;
+    return new Promise((resolve) => {
+      const finish = (value) => {
+        if (dialog.open) dialog.close();
+        resolve(value);
+      };
+      $("#ns-confirm-ok").onclick = () => finish(true);
+      $("#ns-confirm-cancel").onclick = () => finish(false);
+      dialog.oncancel = () => resolve(false);
+      dialog.showModal();
+      $("#ns-confirm-cancel").focus();
+    });
+  }
+
   function importBackup(file) {
+    const message = $("#ns-backup-message");
     if (file.size > MAX_BACKUP_BYTES) {
-      alert("El respaldo supera el límite de 1 MB.");
+      message.textContent = "El respaldo supera el límite de 1 MB.";
       return;
     }
     const reader = new FileReader();
@@ -341,25 +361,42 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
         state = { ...imported, reminderPrefs: state.reminderPrefs };
         render();
         persist();
+        message.textContent = "Respaldo importado.";
       } catch {
-        alert("No pude leer ese respaldo de NEURO//SCAN.");
+        message.textContent = "Ese archivo no es un respaldo válido de NEURO//SCAN.";
       }
     };
     reader.readAsText(file);
   }
 
-  function exportBackup() {
-    const blob = new Blob([JSON.stringify(exportPayload(state), null, 2)], { type: "application/json" });
+  async function exportBackup() {
+    const filename = "neuroscan-progreso.json";
+    const json = JSON.stringify(exportPayload(state), null, 2);
+    if (saver) {
+      const message = $("#ns-backup-message");
+      try {
+        await saver.save({ filename, data: json });
+        message.textContent = "Respaldo guardado.";
+      } catch (error) {
+        message.textContent = error?.code === "declined" ? "Guardado cancelado." : "No se pudo guardar el respaldo en esta vista.";
+      }
+      return;
+    }
+    const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = "neuroscan-progreso.json";
+    link.download = filename;
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   }
 
   async function resetProgress() {
-    if (!window.confirm("¿Reiniciar el progreso, los repasos programados y las respuestas? Si la nube está activa, también se reinicia en tus otros dispositivos.")) return;
+    const confirmed = await askConfirm(
+      "¿Reiniciar el progreso, los repasos programados y las respuestas? Si la nube está activa, también se reinicia en tus otros dispositivos.",
+      "Reiniciar progreso",
+    );
+    if (!confirmed) return;
     if (pushActive) await unsubscribePush({ api }).catch(() => {});
     pushActive = false;
     clearTimeout(reminderTimer);
@@ -435,6 +472,15 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
     renderSidebar();
   });
   $("#ns-export").addEventListener("click", exportBackup);
+  // Hosts that block page downloads (claude.ai artifacts) hand over a save capability instead;
+  // the button stays hidden unless that capability is actually available.
+  if (downloads) {
+    $("#ns-export").hidden = true;
+    downloads.then((capability) => {
+      saver = capability;
+      $("#ns-export").hidden = !capability;
+    });
+  }
   $("#ns-import").addEventListener("click", () => $("#ns-import-file").click());
   $("#ns-import-file").addEventListener("change", (event) => {
     const file = event.target.files?.[0];
@@ -468,8 +514,8 @@ export function mountApp({ root, modules, challenges, mediaItem, store, sync = n
         message.textContent = "Dispositivo vinculado. Tu progreso se combinó con el de la cuenta.";
       }),
     );
-    $("#ns-cloud-delete").addEventListener("click", () => {
-      if (!window.confirm("¿Borrar tu progreso y avisos del servidor? El progreso de este navegador se conserva.")) return;
+    $("#ns-cloud-delete").addEventListener("click", async () => {
+      if (!(await askConfirm("¿Borrar tu progreso y avisos del servidor? El progreso de este navegador se conserva.", "Borrar del servidor"))) return;
       withMessage(message, async () => {
         if (pushActive) await unsubscribePush({ api }).catch(() => {});
         pushActive = false;

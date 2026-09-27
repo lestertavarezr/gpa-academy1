@@ -35,6 +35,7 @@
               <button class="secondary" id="ns-import" type="button">Importar respaldo</button>
               <input id="ns-import-file" type="file" accept="application/json,.json" hidden>
               <small>Incluye respuestas y reflexiones. Guárdalo de forma privada.</small>
+              <small id="ns-backup-message" aria-live="polite"></small>
             </div>
             <div class="cloud-tools" id="ns-cloud" hidden>
               <small id="ns-sync-status" aria-live="polite"></small>
@@ -60,6 +61,7 @@
     </div>
     <div class="safety"><strong>Simulador educativo.</strong> No es una herramienta diagnóstica y no sustituye la evaluación de un radiólogo, neurorradiólogo u otro profesional cualificado. No lo uses para decisiones clínicas, no introduzcas información de pacientes ni cargues estudios reales. Las imágenes de los retos son educativas, proceden del material de GPA Academy y no son DICOM.</div>
   </div>
+  <dialog id="ns-confirm" aria-labelledby="ns-confirm-text"><p id="ns-confirm-text"></p><div class="confirm-actions"><button class="secondary" id="ns-confirm-cancel" type="button">Cancelar</button><button class="primary" id="ns-confirm-ok" type="button">Confirmar</button></div></dialog>
   <dialog id="ns-zoom" aria-label="Imagen educativa ampliada"><button id="ns-zoom-close" type="button">Cerrar imagen</button><img id="ns-zoom-image" alt=""><p id="ns-zoom-caption"></p></dialog>
 </div>
 <!--SCRIPTS-->

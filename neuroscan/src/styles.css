@@ -189,3 +189,8 @@ body{margin:0;padding:16px;min-height:100vh;box-sizing:border-box;background:#05
 #neuroscan-root .cloud-tools button{min-height:42px}
 #neuroscan-root .secondary.danger{border-color:#ff8d9266;color:var(--ns-red)}
 #neuroscan-root [hidden]{display:none!important}
+#neuroscan-root #ns-confirm{max-width:min(420px,92vw);padding:18px;border:1px solid #36515c;border-radius:12px;background:#07111a;color:var(--ns-text);box-shadow:0 20px 70px #000a}
+#neuroscan-root #ns-confirm::backdrop{background:#000c}
+#neuroscan-root #ns-confirm p{margin:0 0 16px;line-height:1.5}
+#neuroscan-root .confirm-actions{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px}
+#neuroscan-root .confirm-actions button{min-height:44px}
