@@ -18,8 +18,7 @@
     "content:import-csv": "node scripts/content-csv.mjs import",
     "vapid:generate": "node scripts/generate-vapid.mjs",
     "db:migrate:local": "wrangler d1 migrations apply neuroscan --local",
-    "db:migrate:remote": "wrangler d1 migrations apply neuroscan --remote",
-    "deploy": "npm run check && wrangler deploy",
+    "deploy": "npm run check && node scripts/deploy.mjs",
     "test:e2e": "playwright test"
   },
   "devDependencies": {
