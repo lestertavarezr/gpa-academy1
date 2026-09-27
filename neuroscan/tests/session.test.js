@@ -8,18 +8,18 @@ const base = { challenges: authored, moduleCount: modules.length, srs: {}, done:
 const moduleOf = (id) => authored[id - 1].module;
 
 describe("interleavedIds", () => {
-  it("takes one challenge per module in turn and includes every challenge once", () => {
+  it("returns all challenge ids in sequential order", () => {
     const ids = interleavedIds(authored, modules.length);
-    expect(ids.slice(0, 8).map(moduleOf)).toEqual([0, 1, 2, 3, 4, 5, 6, 7]);
+    expect(ids).toEqual(authored.map((c) => c.id));
     expect(new Set(ids).size).toBe(authored.length);
   });
 });
 
 describe("sessionCandidates", () => {
-  it("starts a fresh learner with five unseen cases from different modules", () => {
+  it("starts a fresh learner with the first five unseen cases in order", () => {
     const queue = sessionCandidates(base);
     expect(queue).toHaveLength(5);
-    expect(new Set(queue.map(moduleOf)).size).toBe(5);
+    expect(queue).toEqual([1, 2, 3, 4, 5]);
   });
 
   it("puts at most three overdue reviews first, then new cases", () => {
