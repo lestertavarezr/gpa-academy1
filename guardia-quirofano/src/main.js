@@ -12,6 +12,9 @@ import photoMaterial from "./assets/estaciones/material.webp";
 import photoMonitor from "./assets/estaciones/monitor.webp";
 import photoAspiracion from "./assets/estaciones/aspiracion.webp";
 import photoConteo from "./assets/estaciones/conteo.webp";
+import photoEquipo from "./assets/estaciones/equipo.webp";
+import portraitCirujano from "./assets/personajes/cirujano.webp";
+import portraitAsistente from "./assets/personajes/asistente.webp";
 import {
   buildOccluders,
   footprintY,
@@ -3040,6 +3043,7 @@ function It() {
     GuardHud(),
     Coach(),
     StationPhoto(),
+    PanelAvatar(),
     Qi());
 }
 // Constantes del paciente: cada incidencia abierta tensa la escena y la
@@ -3410,7 +3414,28 @@ const STATION_PHOTOS = {
   ],
   aspiracion: [photoAspiracion, "Aspirador con frasco recolector y cánula"],
   conteo: [photoConteo, "Estación de conteo de gasas con registro inicial"],
+  equipo: [photoEquipo, "El equipo quirúrgico reunido en la estación"],
 };
+// Retratos: el cirujano (comunicación, Mesa de Mayo, cirujano con IA) y el
+// alumno (inspección). Se exponen como variables CSS para los avatares.
+document.documentElement.style.setProperty(
+  "--foto-cirujano",
+  `url("${portraitCirujano}")`,
+);
+document.documentElement.style.setProperty(
+  "--foto-asistente",
+  `url("${portraitAsistente}")`,
+);
+function PanelAvatar() {
+  const el = lt("#panel-avatar"),
+    who =
+      Q.phase === "talk"
+        ? "cirujano"
+        : ["observe", "material"].includes(Q.phase)
+          ? "asistente"
+          : "";
+  (el.classList.toggle("photo", !!who), (el.dataset.photo = who));
+}
 function StationPhoto() {
   const fig = lt("#station-photo"),
     id =
@@ -3418,7 +3443,9 @@ function StationPhoto() {
         ? ft()[Q.substep].station
         : Q.phase === "material" && ft().module === 1
           ? "material"
-          : null,
+          : Q.phase === "talk" && Q.inspected
+            ? "equipo"
+            : null,
     photo = id && STATION_PHOTOS[id];
   if (!photo) return ((fig.hidden = !0), (fig.dataset.id = ""));
   fig.dataset.id !== id &&

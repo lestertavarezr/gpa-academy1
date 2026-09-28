@@ -2488,3 +2488,29 @@ h3 {
     animation: none;
   }
 }
+
+/* Retratos en los avatares (el texto queda oculto detrás de la foto). */
+.panel-avatar.photo,
+.mayo-avatar,
+.coach-avatar {
+  background-size: cover;
+  background-position: center 30%;
+  color: transparent;
+  text-shadow: none;
+}
+.panel-avatar.photo[data-photo="asistente"] {
+  background-image: var(--foto-asistente);
+  border-radius: 50%;
+}
+.panel-avatar.photo[data-photo="cirujano"],
+.mayo-avatar,
+.coach-avatar {
+  background-image: var(--foto-cirujano);
+  border-radius: 50%;
+}
+.panel-avatar.photo {
+  width: 54px;
+  height: 54px;
+  border-width: 2px;
+  box-shadow: 0 6px 16px -6px #000c;
+}
