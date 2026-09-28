@@ -7,6 +7,11 @@ import actorBodyUrl from "./assets/actor/body.svg";
 import actorArmUrl from "./assets/actor/arm.svg";
 import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
+import photoFicha from "./assets/estaciones/ficha.webp";
+import photoMaterial from "./assets/estaciones/material.webp";
+import photoMonitor from "./assets/estaciones/monitor.webp";
+import photoAspiracion from "./assets/estaciones/aspiracion.webp";
+import photoConteo from "./assets/estaciones/conteo.webp";
 import {
   buildOccluders,
   footprintY,
@@ -3034,6 +3039,7 @@ function It() {
     ),
     GuardHud(),
     Coach(),
+    StationPhoto(),
     Qi());
 }
 // Constantes del paciente: cada incidencia abierta tensa la escena y la
@@ -3389,6 +3395,42 @@ lt("#open-mayo").addEventListener("click", () => {
     window.scrollTo({ top: 0 }),
     mayo.start());
 });
+
+// Foto de la estación: al inspeccionarla, el panel muestra lo que el alumno
+// está revisando. La estación «equipo» aún no tiene foto.
+const STATION_PHOTOS = {
+  ficha: [photoFicha, "Expediente clínico con la pulsera de identificación"],
+  material: [
+    photoMaterial,
+    "Paquete estéril con indicador químico de esterilización",
+  ],
+  monitor: [
+    photoMonitor,
+    "Monitor de constantes: ECG, SpO₂ y frecuencia respiratoria",
+  ],
+  aspiracion: [photoAspiracion, "Aspirador con frasco recolector y cánula"],
+  conteo: [photoConteo, "Estación de conteo de gasas con registro inicial"],
+};
+function StationPhoto() {
+  const fig = lt("#station-photo"),
+    id =
+      Q.phase === "observe" && Q.inspected
+        ? ft()[Q.substep].station
+        : Q.phase === "material" && ft().module === 1
+          ? "material"
+          : null,
+    photo = id && STATION_PHOTOS[id];
+  if (!photo) return ((fig.hidden = !0), (fig.dataset.id = ""));
+  fig.dataset.id !== id &&
+    ((fig.dataset.id = id),
+    (lt("#station-photo-img").src = photo[0]),
+    (lt("#station-photo-img").alt = photo[1]),
+    ht("#station-photo-cap", photo[1]),
+    fig.classList.remove("reveal"),
+    void fig.offsetWidth,
+    fig.classList.add("reveal"));
+  fig.hidden = !1;
+}
 
 // ---------------------------------------------------------------------------
 // Fase 3: LMS (SCORM), informe para el docente, cirujano con IA y teclado.
