@@ -1,5 +1,8 @@
 import photoBisturi from "./assets/instrumentos/bisturi.webp";
+import photoKelly from "./assets/instrumentos/kelly.webp";
 import photoMayoCurva from "./assets/instrumentos/mayo-curva.webp";
+import photoMayoRecta from "./assets/instrumentos/mayo-recta.webp";
+import photoMetzenbaum from "./assets/instrumentos/metzenbaum.webp";
 
 // Instrumental de la Mesa de Mayo: nombre, función, peticiones del cirujano
 // y un dibujo vectorial esquemático generado por código.
@@ -26,6 +29,7 @@ export const INSTRUMENTS = [
     need: "Tijera para disecar tejido delicado.",
     tier: 1,
     draw: "metz",
+    photo: photoMetzenbaum,
   },
   {
     id: "mayo-recta",
@@ -35,6 +39,7 @@ export const INSTRUMENTS = [
     need: "Tijera para cortar la sutura.",
     tier: 1,
     draw: "scissors",
+    photo: photoMayoRecta,
   },
   {
     id: "mayo-curva",
@@ -44,8 +49,8 @@ export const INSTRUMENTS = [
     need: "Tijera fuerte para cortar tejido denso.",
     tier: 2,
     draw: "scissors-curved",
-    // PENDIENTE: confirmar con el equipo docente que la foto es una Mayo curva
-    // (y no una Metzenbaum curva).
+    // PENDIENTE: el equipo docente debe confirmar las fotos de las tijeras
+    // (Mayo curva: hojas largas y robustas; Metzenbaum: mango largo y hojas cortas).
     photo: photoMayoCurva,
   },
   {
@@ -56,6 +61,7 @@ export const INSTRUMENTS = [
     need: "Pinza hemostática mediana para este vaso.",
     tier: 1,
     draw: "clamp-curved",
+    photo: photoKelly,
   },
   {
     id: "mosquito",

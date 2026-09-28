@@ -185,6 +185,8 @@ que no quede oculto detrás de ellos.
   resuelven bien o al cerrar el caso. En la Mesa de Mayo reacciona a cada
   entrega.
 - **Guía María G.** acompaña la pausa de seguridad.
-- **Instrumental real** en el repaso de errores de la Mesa de Mayo (bisturí
-  n.º 3 con hoja 15 y tijera curva). Pendiente de los docentes: confirmar si
-  la tijera de la foto es Mayo curva o Metzenbaum curva.
+- **Instrumental real** en el repaso de errores de la Mesa de Mayo: bisturí
+  n.º 3 con hoja 15, pinza Kelly, tijeras Mayo recta, Mayo curva y
+  Metzenbaum. Pendiente de los docentes: confirmar la identificación de las
+  tijeras. La foto rotulada «Pinza Babcock» no se usa: parece una pinza de
+  anillos (Foerster).
