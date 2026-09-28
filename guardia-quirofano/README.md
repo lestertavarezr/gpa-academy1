@@ -151,3 +151,29 @@ Pruebas automáticas realizadas sobre esta versión:
 
 Para generar todo: `npm run build`, `node scripts/package-scorm.mjs`,
 `node scripts/package-windows.mjs` y `npm run build:demo`.
+
+## Etapa A · sala en 2.5D (versión 1.5)
+
+Sin cambiar la ilustración, la sala gana profundidad (`src/stage.js`):
+
+- **Oclusión:** la mesa quirúrgica, la máquina de anestesia y las mesas de
+  material y de Mayo se recortan de la propia imagen; el personaje pasa por
+  detrás o por delante según dónde pise (línea de apoyo de cada mueble).
+- **Perspectiva:** el personaje se ve más pequeño cuanto más al fondo está.
+- **Sombra y reflejo:** la sombra se aleja de las lámparas y el suelo pulido
+  refleja la pose del personaje.
+- **Cámara:** acercamiento a la estación al llegar, plano general al caminar,
+  bandas de cine y acercamiento a la mesa en la pausa, sacudida y tinte rojo
+  en los eventos, destello y chispas al completar la misión. La interfaz de la
+  escena (monitor, tarjetas, viñeta) va en una capa fija que no se acerca.
+- **Luz:** charco de luz de las lámparas sobre la mesa, foco en el suelo que
+  marca el destino y viñeta cinematográfica.
+- **Estaciones:** distintivos flotantes con icono dibujado (expediente,
+  material, monitor, aspiración, conteo y equipo) en lugar de letras.
+- **Interfaz con relieve:** botones que se hunden al pulsarlos y marco de la
+  sala que se inclina levemente con el ratón.
+
+Con «reducir movimiento» activado en el sistema no hay zoom, sacudidas,
+chispas ni inclinación. Los puntos donde se detiene el personaje en
+expediente, material, monitor y conteo se movieron junto a los muebles para
+que no quede oculto detrás de ellos.

@@ -7,6 +7,13 @@ import actorBodyUrl from "./assets/actor/body.svg";
 import actorArmUrl from "./assets/actor/arm.svg";
 import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
+import {
+  buildOccluders,
+  footprintY,
+  makeStageTextures,
+  iconUrl,
+  STATION_ICONS,
+} from "./stage.js";
 import { DISTRACTORS } from "./distractors.js";
 import { EVENTS } from "./events.js";
 import { Progress, MEDALS } from "./progress.js";
@@ -1032,11 +1039,11 @@ let Mode = ye("gpa-guardia-quirofano-mode") === "guardia" ? "guardia" : "learn",
   At = null,
   qt = 0;
 const Ri = {
-  ficha: { x: 265, y: 345, icon: "ID", label: "LEYENDO EXPEDIENTE" },
-  material: { x: 240, y: 540, icon: "ST", label: "REVISANDO MATERIAL" },
-  monitor: { x: 475, y: 365, icon: "MN", label: "COMPROBANDO MONITOR" },
+  ficha: { x: 205, y: 395, icon: "ID", label: "LEYENDO EXPEDIENTE" },
+  material: { x: 335, y: 575, icon: "ST", label: "REVISANDO MATERIAL" },
+  monitor: { x: 430, y: 388, icon: "MN", label: "COMPROBANDO MONITOR" },
   aspiracion: { x: 380, y: 440, icon: "AS", label: "PROBANDO ASPIRACIÓN" },
-  conteo: { x: 790, y: 505, icon: "CT", label: "CONTANDO ELEMENTOS" },
+  conteo: { x: 860, y: 600, icon: "CT", label: "CONTANDO ELEMENTOS" },
   equipo: { x: 845, y: 345, icon: "EQ", label: "HABLANDO CON EQUIPO" },
 };
 function ye(p) {
@@ -1220,12 +1227,21 @@ class Xi extends Ut.Scene {
     (this.load.image("room", roomUrl),
       this.load.svg("actor-body", SvgUrl(actorBodyUrl), { scale: 2 }),
       this.load.svg("actor-arm", SvgUrl(actorArmUrl), { scale: 2 }),
-      this.load.svg("actor-leg", SvgUrl(actorLegUrl), { scale: 2 }));
+      this.load.svg("actor-leg", SvgUrl(actorLegUrl), { scale: 2 }),
+      Object.keys(STATION_ICONS).forEach((id) =>
+        this.load.svg(`icon-${id}`, iconUrl(id)),
+      ));
   }
   create() {
-    (this.add.image(600, 337.5, "room").setDisplaySize(1200, 675),
+    ((this.reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches),
+      this.add.image(600, 337.5, "room").setDisplaySize(1200, 675),
       this.add.rectangle(600, 337.5, 1200, 675, 400426, 0.1),
+      makeStageTextures(this),
+      (this.occluders = buildOccluders(this, "room")),
       this.makeAmbience(),
+      this.makeLights(),
       this.makeVitals(),
       Dt.forEach((u) => this.makePoint(u)),
       this.makeActor(),
@@ -1253,6 +1269,7 @@ class Xi extends Ut.Scene {
       })
       .setOrigin(0.5)),
       this.stageCard.add([T, t, this.cardText]),
+      this.makeHud(),
       this.game.events.on("state-change", this.sync, this),
       this.events.once(Ut.Scenes.Events.SHUTDOWN, () =>
         this.game.events.off("state-change", this.sync, this),
@@ -1261,69 +1278,159 @@ class Xi extends Ut.Scene {
       this.cameras.main.fadeIn(420, 5, 25, 35));
   }
   makePoint(T) {
-    const t = this.add
-        .circle(0, 0, 51, 8321503, 0.19)
-        .setStrokeStyle(1, 13697013, 0.45),
-      u = this.add
-        .circle(0, 0, 33, 667968, 0.94)
-        .setStrokeStyle(2, 12976117, 0.9),
-      c = this.add.circle(0, 0, 24, 948098, 0.98),
-      l = this.add
-        .text(0, 0, T.short, {
-          fontFamily: "Arial",
-          fontSize: "15px",
-          fontStyle: "bold",
-          color: "#ffffff",
-        })
-        .setOrigin(0.5),
-      a = this.add
-        .rectangle(
-          0,
-          52,
-          Math.max(114, T.label.length * 9 + 24),
-          27,
-          601403,
-          0.95,
-        )
-        .setStrokeStyle(1, 10349792, 0.6),
-      s = this.add
-        .text(0, 52, T.label.toUpperCase(), {
+    // Distintivo flotante: halo, disco de vidrio con icono y etiqueta.
+    const halo = this.add
+        .ellipse(0, 40, 92, 26, 0x7ef6e0, 0.18)
+        .setStrokeStyle(2, 0xaaffee, 0.45),
+      pin = this.add.image(0, 4, "station-pin").setOrigin(0.5, 0.5),
+      icon = this.add.image(0, -1, `icon-${T.id}`).setScale(0.42),
+      w = Math.max(104, T.label.length * 8.5 + 22),
+      pill = this.add
+        .rectangle(0, 58, w, 24, 0x06202a, 0.92)
+        .setStrokeStyle(1, 0x8df1de, 0.55),
+      name = this.add
+        .text(0, 58, T.label.toUpperCase(), {
           fontFamily: "Arial",
           fontSize: "11px",
           fontStyle: "bold",
           color: "#f1fffc",
         })
         .setOrigin(0.5),
-      e = this.add.container(T.x, T.y, [t, u, c, l, a, s]).setDepth(15),
-      i = this.add
+      badge = this.add.container(0, 0, [pin, icon]),
+      group = this.add
+        .container(T.x, T.y, [halo, badge, pill, name])
+        .setDepth(24)
+        .setScale(0.92),
+      hit = this.add
         .zone(T.x, T.y + 15, 140, 115)
         .setInteractive({ useHandCursor: !0 })
-        .setDepth(16);
-    (i.on("pointerover", () =>
-      this.tweens.add({ targets: e, scale: 1.1, duration: 140 }),
+        .setDepth(25);
+    (hit.on("pointerover", () =>
+      this.tweens.add({ targets: group, scale: 1.04, duration: 140 }),
     ),
-      i.on("pointerout", () =>
-        this.tweens.add({ targets: e, scale: 1, duration: 140 }),
+      hit.on("pointerout", () =>
+        this.tweens.add({ targets: group, scale: 0.92, duration: 140 }),
       ),
-      i.on("pointerdown", () => this.game.events.emit("station-select", T.id)),
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      hit.on("pointerdown", () =>
+        this.game.events.emit("station-select", T.id),
+      ),
+      this.reduced ||
+        (this.tweens.add({
+          targets: badge,
+          y: -6,
+          duration: 1400 + Math.random() * 400,
+          yoyo: !0,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+          delay: Math.random() * 800,
+        }),
         this.tweens.add({
-          targets: t,
-          scale: 1.18,
-          alpha: 0.24,
+          targets: halo,
+          scaleX: 1.15,
+          scaleY: 1.15,
+          alpha: 0.28,
           duration: 1500,
           yoyo: !0,
           repeat: -1,
           delay: Math.random() * 800,
+        })),
+      this.points.set(T.id, { group, halo, pin, icon, hit, name }));
+  }
+  // Luz de las lámparas sobre la mesa, foco del destino y tinte de alarma.
+  makeLights() {
+    ((this.tableLight = this.add
+      .image(600, 372, "light-pool")
+      .setScale(1.9, 0.72)
+      .setBlendMode(Ut.BlendModes.ADD)
+      .setAlpha(0.32)
+      .setDepth(7)),
+      this.reduced ||
+        this.tweens.add({
+          targets: this.tableLight,
+          alpha: 0.24,
+          duration: 3200,
+          yoyo: !0,
+          repeat: -1,
+          ease: "Sine.easeInOut",
         }),
-      this.points.set(T.id, {
-        group: e,
-        halo: t,
-        disc: u,
-        core: c,
-        hit: i,
-        name: s,
-      }));
+      (this.spot = this.add
+        .image(0, 0, "floor-ring")
+        .setScale(0.7, 0.26)
+        .setBlendMode(Ut.BlendModes.ADD)
+        .setDepth(8)
+        .setVisible(!1)),
+      this.reduced ||
+        this.tweens.add({
+          targets: this.spot,
+          scaleX: 0.86,
+          scaleY: 0.32,
+          alpha: 0.55,
+          duration: 900,
+          yoyo: !0,
+          repeat: -1,
+          ease: "Sine.easeInOut",
+        }),
+      (this.alarmTint = this.add
+        .rectangle(600, 337.5, 1200, 675, 0xff2b3d, 0)
+        .setBlendMode(Ut.BlendModes.ADD)
+        .setDepth(27)),
+      (this.sparks = this.add
+        .particles(0, 0, "spark", {
+          speed: { min: 120, max: 360 },
+          angle: { min: 200, max: 340 },
+          gravityY: 420,
+          lifespan: 1400,
+          scale: { start: 1.1, end: 0.2 },
+          alpha: { start: 1, end: 0 },
+          blendMode: "ADD",
+          emitting: !1,
+        })
+        .setDepth(29)));
+  }
+  // Capa fija de interfaz: no se acerca ni tiembla con la cámara del mundo.
+  makeHud() {
+    ((this.vignette = this.add
+      .image(600, 337.5, "vignette")
+      .setDisplaySize(1200, 675)
+      .setDepth(28)),
+      (this.barTop = this.add
+        .rectangle(600, -30, 1200, 60, 0x020b10, 1)
+        .setDepth(31)),
+      (this.barBottom = this.add
+        .rectangle(600, 705, 1200, 60, 0x020b10, 1)
+        .setDepth(31)));
+    const hud = [
+      this.vignette,
+      this.barTop,
+      this.barBottom,
+      this.vitals,
+      this.stageCard,
+    ];
+    ((this.hudCam = this.cameras.add(0, 0, 1200, 675)),
+      this.cameras.main.ignore(hud),
+      this.hudCam.ignore(this.children.list.filter((o) => !hud.includes(o))),
+      this.cameras.main.setBounds(0, 0, 1200, 675));
+  }
+  // Cámara del mundo: plano general o acercamiento a un punto.
+  frame(x, y, zoom, duration = 700) {
+    const cam = this.cameras.main;
+    if (this.reduced) return (cam.setZoom(1), cam.centerOn(600, 337.5));
+    (cam.pan(x, y, duration, "Sine.easeInOut", !0),
+      cam.zoomTo(zoom, duration, "Sine.easeInOut", !0));
+  }
+  letterbox(on) {
+    this.tweens.add({
+      targets: this.barTop,
+      y: on ? 16 : -30,
+      duration: 500,
+      ease: "Sine.easeInOut",
+    });
+    this.tweens.add({
+      targets: this.barBottom,
+      y: on ? 659 : 705,
+      duration: 500,
+      ease: "Sine.easeInOut",
+    });
   }
   makeAmbience() {
     const reduced = window.matchMedia(
@@ -1430,6 +1537,7 @@ class Xi extends Ut.Scene {
   }
   update(time, delta) {
     if (!this.ecg) return;
+    this.updateDepth();
     const hr = Sound.heartRate;
     // Plantilla PQRST simplificada; se avanza un paso por muestra.
     const beat = [0, 1.5, 2, 0, -2, 15, -6, 0, 0, 1, 3, 4, 3, 1];
@@ -1461,10 +1569,71 @@ class Xi extends Ut.Scene {
     });
     g.strokePath();
   }
+  // 2.5D por fotograma: quién tapa a quién, tamaño según la distancia,
+  // sombra alejándose de las lámparas y reflejo que imita la pose.
+  updateDepth() {
+    const a = this.actor;
+    if (!a || !a.visible) return;
+    const s = Math.max(0.82, Math.min(1.16, 0.86 + ((a.y - 300) / 300) * 0.26)),
+      k = 1.1 * s;
+    (this.figure.setScale(this.facing * k, k),
+      this.reflection.setScale(this.facing * k, -k),
+      this.reflectionParts.forEach((p, i) =>
+        p.setAngle(
+          [
+            this.leftLeg,
+            this.rightLeg,
+            this.torso,
+            this.leftArm,
+            this.rightArm,
+          ][i].angle,
+        ),
+      ),
+      (this.reflectionParts[2].scaleY = this.torso.scaleY),
+      a.setDepth(20));
+    for (const o of this.occluders) {
+      const x0 = o.image.x,
+        x1 = x0 + o.image.width,
+        overlaps = a.x + 35 * s > x0 && a.x - 35 * s < x1;
+      o.image.setDepth(
+        overlaps && a.y < footprintY(o.footprint, a.x) ? 22 : 18,
+      );
+    }
+    // Las lámparas cuelgan sobre la mesa: la sombra se aleja de ese punto.
+    const dx = a.x - 600,
+      dy = (a.y - 380) * 1.8,
+      d = Math.hypot(dx, dy) || 1;
+    (this.shadow
+      .setPosition((dx / d) * 9 * s, 3 + (dy / d) * 3 * s)
+      .setRotation(Math.atan2(dy, dx) * 0.35)
+      .setScale(s * (1 + Math.min(d, 500) / 900), s),
+      this.actionBubble.setPosition(a.x, a.y - 190 * s));
+  }
   makeActor() {
-    const shadow = this.add.ellipse(0, 3, 64, 16, 0x031b27, 0.45),
+    const shadow = (this.shadow = this.add.ellipse(
+        0,
+        3,
+        64,
+        16,
+        0x031b27,
+        0.45,
+      )),
       part = (key, x, y, ox, oy) =>
         this.add.image(x, y, key).setOrigin(ox, oy).setScale(0.5);
+    // Reflejo en el suelo pulido: copia invertida que imita la pose.
+    const ref = [
+      part("actor-leg", -8, -36, 0.5, 0),
+      part("actor-leg", 8, -36, 0.5, 0),
+      part("actor-body", 0, -30, 0.5, 1),
+      part("actor-arm", -25, -77, 0.5, 0.06),
+      part("actor-arm", 25, -77, 0.5, 0.06).setFlipX(!0),
+    ];
+    ((this.reflection = this.add
+      .container(0, 8, ref)
+      .setScale(1.1, -1.1)
+      .setAlpha(0.13)),
+      (this.reflectionParts = ref),
+      (this.facing = 1));
     ((this.leftLeg = part("actor-leg", -8, -36, 0.5, 0)),
       (this.rightLeg = part("actor-leg", 8, -36, 0.5, 0)),
       (this.torso = part("actor-body", 0, -30, 0.5, 1)),
@@ -1480,7 +1649,7 @@ class Xi extends Ut.Scene {
         ])
         .setScale(1.1)),
       (this.actor = this.add
-        .container(600, 560, [shadow, this.figure])
+        .container(600, 560, [shadow, this.reflection, this.figure])
         .setDepth(23)
         .setVisible(!1)),
       window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -1553,8 +1722,8 @@ class Xi extends Ut.Scene {
           h,
           this.scanBar,
         ])
-        .setVisible(!1)),
-      this.actor.add(this.actionBubble));
+        .setVisible(!1)
+        .setDepth(26)));
   }
   stopActorMotion() {
     var T, t, u, c, l, a;
@@ -1587,6 +1756,12 @@ class Xi extends Ut.Scene {
       this.pendingVisit && (this.pendingVisit(!1), (this.pendingVisit = null)));
   }
   resetActor() {
+    // Antes de create() (primera misión) todavía no hay cámara ni capas.
+    this.alarmTint &&
+      ((this.lastCine = null),
+      this.cameras.main.setZoom(1).centerOn(600, 337.5),
+      this.letterbox(!1),
+      this.alarmTint.setAlpha(0));
     this.actor &&
       (this.stopActorMotion(),
       this.actor.setPosition(600, 560).setAlpha(1).setVisible(!1),
@@ -1603,8 +1778,10 @@ class Xi extends Ut.Scene {
       this.prop.setVisible(!1));
     const c = Ut.Math.Distance.Between(this.actor.x, this.actor.y, t.x, t.y),
       l = Math.min(1150, Math.max(530, c * 1.7));
-    Math.abs(t.x - this.actor.x) > 8 &&
-      this.figure.setScale(t.x < this.actor.x ? -1.1 : 1.1, 1.1);
+    (Math.abs(t.x - this.actor.x) > 8 &&
+      (this.facing = t.x < this.actor.x ? -1 : 1),
+      this.spot.setVisible(!1),
+      this.frame(600, 337.5, 1, 500));
     return (
       (this.walkTweenA = this.tweens.add({
         targets: [this.leftLeg, this.rightArm],
@@ -1646,7 +1823,8 @@ class Xi extends Ut.Scene {
                 (e = this.walkTweenB) == null || e.stop(),
                 this.bobTween && (this.bobTween.stop(), (this.bobTween = null)),
                 (this.figure.y = 0),
-                this.figure.setScale(1.1, 1.1),
+                (this.facing = 1),
+                this.frame(t.x, t.y - 90, 1.2, 800),
                 this.leftLeg.setAngle(0),
                 this.rightLeg.setAngle(0),
                 this.leftArm.setAngle(0),
@@ -1728,12 +1906,20 @@ class Xi extends Ut.Scene {
     for (const e of Dt) {
       const i = this.points.get(e.id),
         r = t === e.id && !u;
-      (i.group.setAlpha(u ? 0.43 : r ? 1 : 0.62),
-        i.disc.setStrokeStyle(r ? 4 : 2, r ? 16777215 : 12976117),
-        i.core.setFillStyle(r ? 2670518 : 948098),
-        i.halo.setAlpha(r ? 0.42 : 0.12),
+      (i.group.setAlpha(u ? 0.4 : r ? 1 : 0.7),
+        r ? i.pin.clearTint() : i.pin.setTint(0x9fc3c9),
+        i.halo.setVisible(r),
         (i.hit.input.enabled = !u));
     }
+    // Foco en el suelo donde debe ir el personaje.
+    const dest = t && Ri[t],
+      here =
+        dest &&
+        this.actor.visible &&
+        Math.hypot(this.actor.x - dest.x, this.actor.y - dest.y) < 12;
+    (this.spot.setVisible(!!dest && !u && !T.inspected && !here),
+      dest && this.spot.setPosition(dest.x, dest.y));
+    this.cinematics(T);
     (this.stageCard.setVisible(u),
       this.cardTitle.setText(
         T.phase === "event"
@@ -1770,6 +1956,37 @@ class Xi extends Ut.Scene {
         (s = this.propTween) == null || s.stop()));
   }
 }
+// Cámara y luz según la fase: pausa con bandas de cine, alarma en rojo,
+// celebración al completar y plano general al cambiar de paso.
+Xi.prototype.cinematics = function (T) {
+  const key = `${T.missionIndex}|${T.phase}|${T.substep}|${T.failed}`;
+  if (key === this.lastCine) return;
+  const prev = this.lastCine;
+  this.lastCine = key;
+  const cam = this.cameras.main;
+  (this.alarmTween?.stop(), this.alarmTint.setAlpha(0));
+  if (T.phase === "pause")
+    return (this.letterbox(!0), this.frame(600, 360, 1.12, 900));
+  if ((this.letterbox(!1), this.frame(600, 337.5, 1, 600), T.phase === "event"))
+    return (
+      this.reduced || cam.shake(420, 0.006),
+      (this.alarmTween = this.tweens.add({
+        targets: this.alarmTint,
+        alpha: 0.16,
+        duration: 450,
+        yoyo: !0,
+        repeat: this.reduced ? 0 : 5,
+      }))
+    );
+  if (T.phase === "debrief" && prev)
+    T.failed
+      ? (this.alarmTint.setAlpha(0.1), this.reduced || cam.shake(300, 0.004))
+      : this.reduced ||
+        (cam.flash(350, 255, 244, 214),
+        this.sparks.explode(70, 600, 300),
+        this.time.delayedCall(250, () => this.sparks.explode(40, 420, 330)),
+        this.time.delayedCall(450, () => this.sparks.explode(40, 780, 330)));
+};
 function Ki() {
   Et ||
     ((Et = new Ut.Game({
@@ -3419,6 +3636,23 @@ lt("#hint-button").addEventListener("click", () => {
   ((Q.feedback = { kind: "tip", text: T[Q.phase] }), St(), Zt(), as());
 });
 Ce();
+// Relieve: el marco de la sala y la ilustración de portada se inclinan un
+// poco siguiendo el ratón (solo con ratón y sin «reducir movimiento»).
+matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !matchMedia("(prefers-reduced-motion: reduce)").matches &&
+  document.querySelectorAll(".scene-frame, .welcome-art").forEach((el) => {
+    (el.addEventListener("pointermove", (ev) => {
+      const r = el.getBoundingClientRect(),
+        x = (ev.clientX - r.left) / r.width - 0.5,
+        y = (ev.clientY - r.top) / r.height - 0.5;
+      (el.style.setProperty("--tilt-x", `${(-y * 2.4).toFixed(2)}deg`),
+        el.style.setProperty("--tilt-y", `${(x * 3.2).toFixed(2)}deg`));
+    }),
+      el.addEventListener("pointerleave", () => {
+        (el.style.setProperty("--tilt-x", "0deg"),
+          el.style.setProperty("--tilt-y", "0deg"));
+      }));
+  });
 // PWA: instalable y jugable sin conexión (solo en el build de producción).
 import.meta.env.PROD &&
   "serviceWorker" in navigator &&
@@ -3439,4 +3673,5 @@ import.meta.env.DEV &&
     stability: () => Stability(),
     event: () => CurrentEvent(),
     closure: () => Hi[ft().module - 1],
+    scene: () => Et?.scene.getScene("RoomScene"),
   });
