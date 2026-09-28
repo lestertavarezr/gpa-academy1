@@ -1,8 +1,13 @@
 import photoBisturi from "./assets/instrumentos/bisturi.webp";
+import photoDiseccionDientes from "./assets/instrumentos/diseccion-dientes.webp";
+import photoDiseccionLisa from "./assets/instrumentos/diseccion-lisa.webp";
+import photoFarabeuf from "./assets/instrumentos/farabeuf.webp";
 import photoKelly from "./assets/instrumentos/kelly.webp";
+import photoKocher from "./assets/instrumentos/kocher.webp";
 import photoMayoCurva from "./assets/instrumentos/mayo-curva.webp";
 import photoMayoRecta from "./assets/instrumentos/mayo-recta.webp";
 import photoMetzenbaum from "./assets/instrumentos/metzenbaum.webp";
+import photoPortaagujas from "./assets/instrumentos/portaagujas.webp";
 
 // Instrumental de la Mesa de Mayo: nombre, función, peticiones del cirujano
 // y un dibujo vectorial esquemático generado por código.
@@ -80,6 +85,7 @@ export const INSTRUMENTS = [
     need: "Pinza fuerte con dientes para tejido fibroso.",
     tier: 2,
     draw: "kocher",
+    photo: photoKocher,
   },
   {
     id: "allis",
@@ -107,6 +113,7 @@ export const INSTRUMENTS = [
     need: "Pinza de disección para sujetar la piel.",
     tier: 1,
     draw: "forceps-teeth",
+    photo: photoDiseccionDientes,
   },
   {
     id: "diseccion-lisa",
@@ -116,6 +123,7 @@ export const INSTRUMENTS = [
     need: "Pinza de disección atraumática para tejido delicado.",
     tier: 1,
     draw: "forceps",
+    photo: photoDiseccionLisa,
   },
   {
     id: "portaagujas",
@@ -125,6 +133,7 @@ export const INSTRUMENTS = [
     need: "Vamos a suturar: algo para sostener la aguja.",
     tier: 1,
     draw: "needle-holder",
+    photo: photoPortaagujas,
   },
   {
     id: "farabeuf",
@@ -134,6 +143,7 @@ export const INSTRUMENTS = [
     need: "Separador manual para los bordes superficiales.",
     tier: 1,
     draw: "farabeuf",
+    photo: photoFarabeuf,
   },
   {
     id: "balfour",
