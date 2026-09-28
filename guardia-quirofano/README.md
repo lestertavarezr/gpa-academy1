@@ -177,3 +177,14 @@ Con «reducir movimiento» activado en el sistema no hay zoom, sacudidas,
 chispas ni inclinación. Los puntos donde se detiene el personaje en
 expediente, material, monitor y conteo se movieron junto a los muebles para
 que no quede oculto detrás de ellos.
+
+### Fotos de personajes e instrumental
+
+- **Cirujano con expresiones:** neutral al pedir la comunicación, preocupado
+  en los eventos y ante una comunicación incompleta, y aprobando cuando se
+  resuelven bien o al cerrar el caso. En la Mesa de Mayo reacciona a cada
+  entrega.
+- **Guía María G.** acompaña la pausa de seguridad.
+- **Instrumental real** en el repaso de errores de la Mesa de Mayo (bisturí
+  n.º 3 con hoja 15 y tijera curva). Pendiente de los docentes: confirmar si
+  la tijera de la foto es Mayo curva o Metzenbaum curva.

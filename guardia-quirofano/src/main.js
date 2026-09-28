@@ -15,6 +15,9 @@ import photoConteo from "./assets/estaciones/conteo.webp";
 import photoEquipo from "./assets/estaciones/equipo.webp";
 import portraitCirujano from "./assets/personajes/cirujano.webp";
 import portraitAsistente from "./assets/personajes/asistente.webp";
+import portraitCirujanoOk from "./assets/personajes/cirujano-aprueba.webp";
+import portraitCirujanoAlerta from "./assets/personajes/cirujano-preocupado.webp";
+import portraitGuia from "./assets/personajes/guia.webp";
 import {
   buildOccluders,
   footprintY,
@@ -3426,14 +3429,42 @@ document.documentElement.style.setProperty(
   "--foto-asistente",
   `url("${portraitAsistente}")`,
 );
+document.documentElement.style.setProperty(
+  "--foto-cirujano-ok",
+  `url("${portraitCirujanoOk}")`,
+);
+document.documentElement.style.setProperty(
+  "--foto-cirujano-alerta",
+  `url("${portraitCirujanoAlerta}")`,
+);
+document.documentElement.style.setProperty(
+  "--foto-guia",
+  `url("${portraitGuia}")`,
+);
 function PanelAvatar() {
   const el = lt("#panel-avatar"),
+    // El cirujano reacciona a la comunicación y a las alarmas; la guía
+    // (circulante) conduce la pausa de seguridad.
     who =
       Q.phase === "talk"
-        ? "cirujano"
-        : ["observe", "material"].includes(Q.phase)
-          ? "asistente"
-          : "";
+        ? Q.awaiting
+          ? Q.decisions.communication
+            ? "cirujano-ok"
+            : "cirujano-alerta"
+          : "cirujano"
+        : Q.phase === "event"
+          ? Q.awaiting && Q.eventOk
+            ? "cirujano-ok"
+            : "cirujano-alerta"
+          : Q.phase === "pause"
+            ? "guia"
+            : Q.phase === "debrief"
+              ? Q.failed
+                ? "cirujano-alerta"
+                : "cirujano-ok"
+              : ["observe", "material"].includes(Q.phase)
+                ? "asistente"
+                : "";
   (el.classList.toggle("photo", !!who), (el.dataset.photo = who));
 }
 function StationPhoto() {

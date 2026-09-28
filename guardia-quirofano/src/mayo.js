@@ -59,6 +59,11 @@ export function createMayo({ root, onExit, onFinish }) {
   let raf = 0;
   let pending = 0;
 
+  // Gesto del cirujano: aprueba la entrega o se preocupa por el error.
+  function Mood(mood) {
+    const av = $(".mayo-avatar", root);
+    av && (av.dataset.mood = mood);
+  }
   function clearTimers() {
     cancelAnimationFrame(raf);
     clearTimeout(pending);
@@ -134,6 +139,11 @@ export function createMayo({ root, onExit, onFinish }) {
     S.stage = stage;
     S.busy = !1;
     if (stage.reshuffle) ((S.order = shuffle(INSTRUMENTS)), renderTray());
+    else
+      // Sin barajar, la bandeja no se redibuja: limpia las marcas del turno anterior.
+      root
+        .querySelectorAll(".mayo-card")
+        .forEach((c) => c.classList.remove("wrong", "reveal", "delivered"));
     const text = stage.kind === "name" ? S.current.call : `«${S.current.need}»`;
     $("#mayo-kind", root).textContent =
       stage.kind === "name"
@@ -142,6 +152,7 @@ export function createMayo({ root, onExit, onFinish }) {
     $("#mayo-call", root).textContent = text;
     $("#mayo-feedback", root).textContent = "";
     $("#mayo-feedback", root).className = "mayo-feedback";
+    Mood("");
     speak(stage.kind === "name" ? S.current.call : S.current.need);
     renderStats();
     S.start = performance.now();
@@ -177,6 +188,7 @@ export function createMayo({ root, onExit, onFinish }) {
     Report.logMayo({ asked: S.current.id, picked: id, ok: !0 });
     S.times.push(took);
     card.classList.add("delivered");
+    Mood("ok");
     const fb = $("#mayo-feedback", root);
     fb.className = "mayo-feedback good";
     fb.textContent = `+${gained} · ${(took / 1000).toFixed(1)} s${S.combo >= 3 ? ` · racha x${S.combo}` : ""}`;
@@ -202,6 +214,7 @@ export function createMayo({ root, onExit, onFinish }) {
       kind: S.stage.kind,
     });
     card?.classList.add("wrong");
+    Mood("alerta");
     $(`.mayo-card[data-id="${S.current.id}"]`, root)?.classList.add("reveal");
     const fb = $("#mayo-feedback", root);
     fb.className = "mayo-feedback bad";
@@ -248,7 +261,15 @@ export function createMayo({ root, onExit, onFinish }) {
       review.append(el("h3", "", "Repasa lo que falló"));
       S.errors.forEach((e) => {
         const row = el("div", "mayo-review-row");
-        row.innerHTML = instrumentSvg(e.asked.id);
+        e.asked.photo
+          ? row.append(
+              Object.assign(document.createElement("img"), {
+                src: e.asked.photo,
+                alt: `Foto: ${e.asked.name}`,
+                loading: "lazy",
+              }),
+            )
+          : (row.innerHTML = instrumentSvg(e.asked.id));
         const text = el("p");
         const strong = el("strong", "", e.asked.name);
         text.append(strong, el("span", "", ` — ${e.asked.use}`));

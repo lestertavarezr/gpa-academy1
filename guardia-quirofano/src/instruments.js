@@ -1,3 +1,6 @@
+import photoBisturi from "./assets/instrumentos/bisturi.webp";
+import photoMayoCurva from "./assets/instrumentos/mayo-curva.webp";
+
 // Instrumental de la Mesa de Mayo: nombre, función, peticiones del cirujano
 // y un dibujo vectorial esquemático generado por código.
 // `call`: petición por nombre; `need`: petición por función (sin nombrarlo).
@@ -13,6 +16,7 @@ export const INSTRUMENTS = [
     need: "Voy a incidir la piel: necesito corte.",
     tier: 1,
     draw: "scalpel",
+    photo: photoBisturi,
   },
   {
     id: "metzenbaum",
@@ -40,6 +44,9 @@ export const INSTRUMENTS = [
     need: "Tijera fuerte para cortar tejido denso.",
     tier: 2,
     draw: "scissors-curved",
+    // PENDIENTE: confirmar con el equipo docente que la foto es una Mayo curva
+    // (y no una Metzenbaum curva).
+    photo: photoMayoCurva,
   },
   {
     id: "kelly",

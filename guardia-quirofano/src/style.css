@@ -2514,3 +2514,33 @@ h3 {
   border-width: 2px;
   box-shadow: 0 6px 16px -6px #000c;
 }
+.panel-avatar.photo[data-photo="cirujano-ok"],
+.mayo-avatar[data-mood="ok"] {
+  background-image: var(--foto-cirujano-ok);
+  border-radius: 50%;
+}
+.panel-avatar.photo[data-photo="cirujano-alerta"],
+.mayo-avatar[data-mood="alerta"] {
+  background-image: var(--foto-cirujano-alerta);
+  border-radius: 50%;
+}
+.panel-avatar.photo[data-photo="guia"] {
+  background-image: var(--foto-guia);
+  border-radius: 50%;
+}
+.panel-avatar.photo[data-photo="cirujano-alerta"],
+.mayo-avatar[data-mood="alerta"] {
+  border-color: #ffb454;
+  box-shadow: 0 0 0 3px #ffb45455;
+}
+.mayo-review-row img {
+  width: 130px;
+  aspect-ratio: 700 / 150;
+  object-fit: cover;
+  border-radius: 8px;
+}
+@media (max-width: 560px) {
+  .mayo-review-row img {
+    width: 90px;
+  }
+}
