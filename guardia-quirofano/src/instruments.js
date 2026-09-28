@@ -1,3 +1,5 @@
+import photoBackhaus from "./assets/instrumentos/backhaus.webp";
+import photoBalfour from "./assets/instrumentos/balfour.webp";
 import photoBisturi from "./assets/instrumentos/bisturi.webp";
 import photoDiseccionDientes from "./assets/instrumentos/diseccion-dientes.webp";
 import photoDiseccionLisa from "./assets/instrumentos/diseccion-lisa.webp";
@@ -153,6 +155,7 @@ export const INSTRUMENTS = [
     need: "Separador autoestático para el abdomen.",
     tier: 2,
     draw: "balfour",
+    photo: photoBalfour,
   },
   {
     id: "yankauer",
@@ -171,6 +174,7 @@ export const INSTRUMENTS = [
     need: "Algo para fijar los campos.",
     tier: 2,
     draw: "backhaus",
+    photo: photoBackhaus,
   },
 ];
 

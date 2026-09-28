@@ -187,7 +187,7 @@ que no quede oculto detrás de ellos.
 - **Guía María G.** acompaña la pausa de seguridad.
 - **Instrumental real** en el repaso de errores de la Mesa de Mayo: bisturí
   n.º 3 con hoja 15, pinzas Kelly y Kocher, tijeras Mayo recta, Mayo curva y
-  Metzenbaum, pinzas de disección con y sin dientes, portaagujas Mayo-Hegar y
-  separador Farabeuf. Pendiente de los docentes: confirmar la identificación de las
+  Metzenbaum, pinzas de disección con y sin dientes, portaagujas Mayo-Hegar,
+  separadores Farabeuf y Balfour y pinza de campo Backhaus. Pendiente de los docentes: confirmar la identificación de las
   tijeras. La foto rotulada «Pinza Babcock» no se usa: parece una pinza de
   anillos (Foerster).
