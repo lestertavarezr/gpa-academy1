@@ -1,3 +1,5 @@
+import photoAllis from "./assets/instrumentos/allis.webp";
+import photoBabcock from "./assets/instrumentos/babcock.webp";
 import photoBackhaus from "./assets/instrumentos/backhaus.webp";
 import photoBalfour from "./assets/instrumentos/balfour.webp";
 import photoBisturi from "./assets/instrumentos/bisturi.webp";
@@ -9,6 +11,7 @@ import photoKocher from "./assets/instrumentos/kocher.webp";
 import photoMayoCurva from "./assets/instrumentos/mayo-curva.webp";
 import photoMayoRecta from "./assets/instrumentos/mayo-recta.webp";
 import photoMetzenbaum from "./assets/instrumentos/metzenbaum.webp";
+import photoMosquito from "./assets/instrumentos/mosquito.webp";
 import photoPortaagujas from "./assets/instrumentos/portaagujas.webp";
 import photoYankauer from "./assets/instrumentos/yankauer.webp";
 
@@ -79,6 +82,7 @@ export const INSTRUMENTS = [
     need: "Hemostática fina para un vaso muy pequeño.",
     tier: 2,
     draw: "clamp-small",
+    photo: photoMosquito,
   },
   {
     id: "kocher",
@@ -98,6 +102,7 @@ export const INSTRUMENTS = [
     need: "Pinza de dientecillos finos para traccionar tejido.",
     tier: 2,
     draw: "allis",
+    photo: photoAllis,
   },
   {
     id: "babcock",
@@ -107,6 +112,7 @@ export const INSTRUMENTS = [
     need: "Pinza atraumática para sujetar el intestino.",
     tier: 2,
     draw: "babcock",
+    photo: photoBabcock,
   },
   {
     id: "diseccion-dientes",

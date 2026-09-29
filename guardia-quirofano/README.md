@@ -185,12 +185,8 @@ que no quede oculto detrás de ellos.
   resuelven bien o al cerrar el caso. En la Mesa de Mayo reacciona a cada
   entrega.
 - **Guía María G.** acompaña la pausa de seguridad.
-- **Instrumental real** en el repaso de errores de la Mesa de Mayo: bisturí
-  n.º 3 con hoja 15, pinzas Kelly y Kocher, tijeras Mayo recta, Mayo curva y
-  Metzenbaum, pinzas de disección con y sin dientes, portaagujas Mayo-Hegar,
-  separadores Farabeuf y Balfour, pinza de campo Backhaus y aspirador
-  Yankauer. Pendiente de los docentes: confirmar la identificación de las
-  tijeras. La foto rotulada «Pinza Babcock» no se usa: parece una pinza de
-  anillos (Foerster).
+- **Instrumental real** en el repaso de errores de la Mesa de Mayo: las 16
+  piezas tienen foto (el dibujo queda como respaldo). Pendiente de los docentes: confirmar la identificación de las
+  tijeras.
 - **Quirófano real:** la estación del monitor muestra la máquina de anestesia
   en un quirófano, y la pausa de seguridad, el campo estéril ya preparado.
