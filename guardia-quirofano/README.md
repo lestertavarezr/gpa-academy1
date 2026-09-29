@@ -190,3 +190,24 @@ que no quede oculto detrás de ellos.
   tijeras.
 - **Quirófano real:** la estación del monitor muestra la máquina de anestesia
   en un quirófano, y la pausa de seguridad, el campo estéril ya preparado.
+
+## Equipo quirúrgico en la sala (versión 1.6)
+
+`src/surgeons.js` añade a la escena el paciente y dos cirujanos:
+
+- **Paciente** cubierto con campo estéril, con la cabeza sobre la almohada,
+  el arco de anestesia y la ventana quirúrgica con la piel preparada.
+- **Cirujano principal** al otro lado de la mesa (de frente) y **ayudante**
+  del lado de la cámara (de espaldas), con bata estéril, gorro de quirófano,
+  gafas y guantes estériles color crema. El alumno lleva pijama y guantes de
+  nitrilo: se ve a simple vista quién está dentro del campo estéril.
+- **Siguen el caso:** todas las misiones ocurren antes de la incisión, así
+  que el equipo espera en posición estéril (manos juntas a la altura del
+  pecho). En un evento inesperado miran el monitor. Al completar la misión,
+  con la pausa hecha, aparece «Pausa hecha · Comienza la cirugía»: surge la
+  incisión, el cirujano opera y el ayudante pide instrumental hacia la Mesa
+  de Mayo. Si el caso se suspende, no se opera.
+- **Profundidad:** la mesa tapa las piernas del cirujano del fondo, y el
+  alumno pasa por delante o por detrás de cada uno según dónde pise.
+- El cartel de pausa y evento se movió debajo de la mesa para no tapar al
+  equipo.

@@ -7,6 +7,7 @@ import actorBodyUrl from "./assets/actor/body.svg";
 import actorArmUrl from "./assets/actor/arm.svg";
 import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
+import { TEAM, TEAM_SVGS, teamUrl, drawPatient, makeMember } from "./surgeons.js";
 import photoFicha from "./assets/estaciones/ficha.webp";
 import photoMaterial from "./assets/estaciones/material.webp";
 import photoMonitor from "./assets/estaciones/monitor.webp";
@@ -1242,6 +1243,9 @@ class Xi extends Ut.Scene {
       this.load.svg("actor-leg", SvgUrl(actorLegUrl), { scale: 2 }),
       Object.keys(STATION_ICONS).forEach((id) =>
         this.load.svg(`icon-${id}`, iconUrl(id)),
+      ),
+      Object.keys(TEAM_SVGS).forEach((key) =>
+        this.load.svg(key, teamUrl(key), { scale: 2 }),
       ));
   }
   create() {
@@ -1252,20 +1256,22 @@ class Xi extends Ut.Scene {
       this.add.rectangle(600, 337.5, 1200, 675, 400426, 0.1),
       makeStageTextures(this),
       (this.occluders = buildOccluders(this, "room")),
+      this.makeTeam(),
       this.makeAmbience(),
       this.makeLights(),
       this.makeVitals(),
       Dt.forEach((u) => this.makePoint(u)),
       this.makeActor(),
+      // Debajo de la mesa, para que se vea al equipo durante la pausa.
       (this.stageCard = this.add
-        .container(600, 338)
+        .container(600, 532)
         .setDepth(30)
         .setVisible(!1)));
     const T = this.add
-        .rectangle(0, 0, 560, 146, 535353, 0.96)
+        .rectangle(0, 0, 560, 112, 535353, 0.94)
         .setStrokeStyle(2, 8576979, 0.9),
       t = (this.cardTitle = this.add
-        .text(0, -28, "PAUSA DE SEGURIDAD", {
+        .text(0, -22, "PAUSA DE SEGURIDAD", {
           fontFamily: "Arial",
           fontSize: "14px",
           fontStyle: "bold",
@@ -1273,7 +1279,7 @@ class Xi extends Ut.Scene {
         })
         .setOrigin(0.5));
     ((this.cardText = this.add
-      .text(0, 15, "EL EQUIPO SE DETIENE", {
+      .text(0, 14, "EL EQUIPO SE DETIENE", {
         fontFamily: "Arial",
         fontSize: "26px",
         fontStyle: "bold",
@@ -1603,13 +1609,20 @@ class Xi extends Ut.Scene {
       ),
       (this.reflectionParts[2].scaleY = this.torso.scaleY),
       a.setDepth(20));
+    // Quien pasa por delante del ayudante está también por delante de la mesa.
+    const helper = this.team?.ayudante,
+      beforeHelper =
+        helper && Math.abs(a.x - helper.x) < 110 && a.y > helper.y - 4;
     for (const o of this.occluders) {
       const x0 = o.image.x,
         x1 = x0 + o.image.width,
-        overlaps = a.x + 35 * s > x0 && a.x - 35 * s < x1;
-      o.image.setDepth(
-        overlaps && a.y < footprintY(o.footprint, a.x) ? 22 : 18,
-      );
+        overlaps = a.x + 35 * s > x0 && a.x - 35 * s < x1,
+        behind =
+          overlaps &&
+          a.y < footprintY(o.footprint, a.x) &&
+          !(o.id === "mesa-quirurgica" && beforeHelper);
+      o.image.setDepth(behind ? 22 : 18);
+      o.id === "mesa-quirurgica" && this.teamDepth(behind ? 22 : 18, a);
     }
     // Las lámparas cuelgan sobre la mesa: la sombra se aleja de ese punto.
     const dx = a.x - 600,
@@ -1620,6 +1633,124 @@ class Xi extends Ut.Scene {
       .setRotation(Math.atan2(dy, dx) * 0.35)
       .setScale(s * (1 + Math.min(d, 500) / 900), s),
       this.actionBubble.setPosition(a.x, a.y - 190 * s));
+  }
+  // Equipo quirúrgico: paciente, cirujano principal y ayudante (surgeons.js).
+  makeTeam() {
+    // Hasta que aparece el alumno, los muebles van por delante del equipo.
+    this.occluders.forEach((o) => o.image.setDepth(18));
+    this.patient = drawPatient(this);
+    this.team = {
+      cirujano: makeMember(this, TEAM.cirujano, !1),
+      ayudante: makeMember(this, TEAM.ayudante, !0),
+    };
+    this.teamTweens = [];
+    this.teamDepth(18, null);
+    this.teamPose("ready");
+  }
+  // Orden de dibujo respecto a la mesa (t = profundidad de la mesa) y al alumno.
+  teamDepth(t, a) {
+    const { cirujano: c, ayudante: h } = this.team,
+      behindSurgeon = a && Math.abs(a.x - c.x) < 45 && a.y < c.y,
+      behindHelper = a && Math.abs(a.x - h.x) < 45 && a.y < h.y;
+    (c.body.setDepth(t === 22 ? (behindSurgeon ? 21 : 19.5) : t - 0.1),
+      this.patient.body.setDepth(t + 0.2),
+      this.patient.incision.setDepth(t + 0.21),
+      c.arms.setDepth(t + 0.3),
+      h.body.setDepth(behindHelper ? Math.max(t + 0.5, 20.5) : t + 0.5));
+  }
+  // Postura del equipo. Las misiones ocurren antes de la incisión, así que el
+  // equipo espera en posición estéril («ready»: manos juntas a la altura del
+  // pecho) y mira el monitor en los eventos («event»). Solo al completar la
+  // misión, con la pausa hecha, empieza la cirugía («work»).
+  teamPose(pose) {
+    if (!this.team || pose === this.teamPoseNow) return;
+    this.teamPoseNow = pose;
+    const { cirujano: c, ayudante: h } = this.team;
+    (this.teamTweens.forEach((tw) => tw.stop()),
+      (this.teamTweens = []),
+      this.teamAsk?.remove(),
+      (this.teamAsk = null));
+    const set = {
+        work: [-9, 13, -20, 20],
+        event: [-58, 58, -34, 34],
+        ready: [-58, 58, -34, 34],
+      }[pose],
+      move = (target, angle, extra = {}) =>
+        this.teamTweens.push(
+          this.tweens.add({
+            targets: target,
+            angle,
+            duration: this.reduced ? 0 : 450,
+            ease: "Sine.easeInOut",
+            ...extra,
+          }),
+        );
+    (c.torso.setTexture(pose === "event" ? "team-front-left" : "team-front"),
+      move(c.leftArm, set[0]),
+      move(c.rightArm, set[1]),
+      move(h.leftArm, set[2]),
+      move(h.rightArm, set[3]),
+      c.rightArm.setY(-77),
+      this.patient.incision.setVisible(pose === "work"));
+    if (this.reduced) return;
+    if (pose !== "work") {
+      // En espera: respiran y el ayudante acomoda las manos.
+      const idle = (target, props, duration, delay = 0) =>
+        this.teamTweens.push(
+          this.tweens.add({
+            targets: target,
+            ...props,
+            duration,
+            delay,
+            yoyo: !0,
+            repeat: -1,
+            ease: "Sine.easeInOut",
+          }),
+        );
+      return (
+        idle(c.torso, { scaleY: 0.508 }, 1500),
+        idle(h.torso, { scaleY: 0.507 }, 1600, 300),
+        pose === "ready" &&
+          idle(h.leftArm, { angle: set[2] + 5 }, 2100, 600)
+      );
+    }
+    // Trabajo continuo: el cirujano sutura, el ayudante sostiene y ajusta, y
+    // de vez en cuando pide instrumental hacia la Mesa de Mayo.
+    this.time.delayedCall(460, () => {
+      if (this.teamPoseNow !== "work") return;
+      const loop = (target, props, duration, delay = 0) =>
+        this.teamTweens.push(
+          this.tweens.add({
+            targets: target,
+            ...props,
+            duration,
+            delay,
+            yoyo: !0,
+            repeat: -1,
+            ease: "Sine.easeInOut",
+          }),
+        );
+      (loop(c.rightArm, { angle: 24, y: -73 }, 620),
+        loop(c.leftArm, { angle: -4 }, 1700, 200),
+        loop(c.torso, { scaleY: 0.508 }, 1500),
+        loop(h.leftArm, { angle: -15 }, 1300),
+        loop(h.torso, { scaleY: 0.507 }, 1600, 300));
+      const ask = () => {
+        if (this.teamPoseNow !== "work") return;
+        this.teamTweens.push(
+          this.tweens.add({
+            targets: h.rightArm,
+            angle: -72,
+            duration: 380,
+            hold: 1100,
+            yoyo: !0,
+            ease: "Sine.easeInOut",
+          }),
+        );
+        this.teamAsk = this.time.delayedCall(9000, ask);
+      };
+      this.teamAsk = this.time.delayedCall(4000, ask);
+    });
   }
   makeActor() {
     const shadow = (this.shadow = this.add.ellipse(
@@ -1938,7 +2069,9 @@ class Xi extends Ut.Scene {
           ? "ALERTA EN SALA"
           : T.failed
             ? "MODO GUARDIA"
-            : "PAUSA DE SEGURIDAD",
+            : T.phase === "debrief"
+              ? "PAUSA HECHA · COMIENZA LA CIRUGÍA"
+              : "PAUSA DE SEGURIDAD",
       ),
       this.cardTitle.setColor(
         T.phase === "event" || T.failed ? "#ffc857" : "#8df1de",
@@ -1975,6 +2108,13 @@ Xi.prototype.cinematics = function (T) {
   if (key === this.lastCine) return;
   const prev = this.lastCine;
   this.lastCine = key;
+  this.teamPose(
+    T.phase === "event"
+      ? "event"
+      : T.phase === "debrief" && !T.failed
+        ? "work"
+        : "ready",
+  );
   const cam = this.cameras.main;
   (this.alarmTween?.stop(), this.alarmTint.setAlpha(0));
   if (T.phase === "pause")
