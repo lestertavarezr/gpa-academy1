@@ -119,6 +119,18 @@ export const MEDALS = [
     desc: "Tiempo medio menor de 2,5 s con 10 aciertos o más.",
   },
   {
+    id: "observador",
+    icon: "👁️",
+    title: "Ojos en la sala",
+    desc: "Completa una misión del modo Asistente observador.",
+  },
+  {
+    id: "ojo-clinico",
+    icon: "🔎",
+    title: "Ojo clínico",
+    desc: "Detecta todas las incidencias de una observación sin falsas alarmas ni invadir el campo.",
+  },
+  {
     id: "diario",
     icon: "📅",
     title: "Caso del día",
@@ -217,6 +229,18 @@ export const Progress = {
   },
   mayoBest() {
     return load().mayoBest || 0;
+  },
+  /** Mejor resultado de cada misión del modo observador: { índice: { score, stars } }. */
+  observer() {
+    return load().obs || {};
+  },
+  saveObserver(index, score, stars) {
+    const data = load();
+    data.obs ??= {};
+    const prev = data.obs[index],
+      record = !prev || score > prev.score;
+    record && ((data.obs[index] = { score, stars }), save(data));
+    return record;
   },
   saveMayo(score) {
     const data = load(),

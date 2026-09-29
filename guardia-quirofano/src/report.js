@@ -68,6 +68,28 @@ export const Report = {
     write(LOG_KEY, log.slice(-MAX_LOG));
   },
 
+  /** Resultado de una incidencia del modo observador. */
+  logObserver({ mission, kind, detected, commOk, answer, ms }) {
+    const log = read(LOG_KEY) || [];
+    log.push({
+      obs: 1,
+      m: mission,
+      k: kind,
+      a: String(answer || "").slice(0, 200),
+      d: detected ? 1 : 0,
+      ok: !!(detected && commOk),
+      ms: ms || 0,
+      t: Date.now(),
+    });
+    write(LOG_KEY, log.slice(-MAX_LOG));
+    LMS.interaction({
+      id: `obs${mission + 1}-${kind}`,
+      question: `Observador, misión ${mission + 1}: ${kind}`,
+      answer: answer || "no detectada",
+      correct: !!(detected && commOk),
+    });
+  },
+
   entries() {
     return read(LOG_KEY) || [];
   },
@@ -91,12 +113,25 @@ export const Report = {
         stars: Number(stars[i]) || 0,
         guardia: (progress.guardia || []).includes(i),
       })),
-      decisions: log.filter((e) => !e.mayo),
+      decisions: log.filter((e) => !e.mayo && !e.obs),
       mayo: {
         best: progress.mayoBest || 0,
         picks: log
           .filter((e) => e.mayo)
           .map(({ k, a, ok, t }) => ({ asked: k, picked: a, ok, t })),
+      },
+      observer: {
+        missions: progress.obs || {},
+        reports: log
+          .filter((e) => e.obs)
+          .map(({ m, k, d, ok, ms, t }) => ({
+            mission: m,
+            kind: k,
+            detected: !!d,
+            ok,
+            ms,
+            t,
+          })),
       },
       medals: Object.keys(progress.medals || {}),
       streak: progress.streak || 0,

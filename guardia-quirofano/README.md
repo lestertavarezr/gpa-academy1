@@ -211,3 +211,39 @@ que no quede oculto detrás de ellos.
   alumno pasa por delante o por detrás de cada uno según dónde pise.
 - El cartel de pausa y evento se movió debajo de la mesa para no tapar al
   equipo.
+
+## Modo Asistente observador (versión 1.7)
+
+Para cuando el asistente quirúrgico no participa en el procedimiento y solo
+observa (`src/observer.js`, contenido en `src/observer-data.js`). Se abre
+desde la tarjeta «Asistente observador» del menú principal.
+
+- **Sala propia** con el equipo operando (paciente, cirujano y ayudante de la
+  versión 1.6) y una **circulante** con pijama granate.
+- **Zonas en el suelo:** el alumno está en la zona de observación verde y
+  puede moverse dentro de ella. Si toca la zona estéril roja, la zona se
+  enciende y pierde 10 puntos.
+- **Incidencias que hay que detectar:** guante que toca la mascarilla, gasa
+  que cae al suelo, circulante que pasa entre la mesa y la Mesa de Mayo,
+  manos del ayudante bajo la cintura y desaturación en el monitor. También
+  hay **sucesos normales** (el ayudante toma instrumental, la circulante
+  camina junto a la pared): reportarlos es una falsa alarma (−8).
+- **Botón REPORTAR** (o tecla R): la cirugía se pausa, el alumno elige qué
+  vio y cómo comunicarlo. Cada incidencia vale lo mismo: 60 % detectarla
+  (completo si es en la primera mitad de su ventana, 70 % si es tarde) y
+  40 % comunicarla bien.
+- **4 misiones:** primera observación, laparotomía, evento crítico y doble
+  incidencia, con ventanas de detección cada vez más cortas.
+- **Bitácora** durante la cirugía y **resumen final** con cada incidencia:
+  cuándo se detectó, cómo se comunicó y por qué importa.
+- Se guarda el récord y las estrellas de cada misión (también en la LMS,
+  dentro del progreso), dos medallas nuevas («Ojos en la sala» y «Ojo
+  clínico»; ahora son 20), cada incidencia como interacción SCORM y, en el
+  panel docente, una columna «Observador» y la lista de incidencias que más
+  se escapan a la clase.
+- En la demo de la landing se juega la primera observación; las otras tres
+  invitan a inscribirse.
+
+Pendiente de los docentes: validar las incidencias, las respuestas de
+comunicación y a quién debe dirigirse el observador según el protocolo de
+GPA Academy.

@@ -4,6 +4,7 @@
 import "./style.css";
 import "./docente.css";
 import { INSTRUMENTS } from "./instruments.js";
+import { INCIDENTS, OBS_MISSIONS } from "./observer-data.js";
 
 const $ = (s) => document.querySelector(s);
 const TOTAL_MISSIONS = 20;
@@ -92,6 +93,26 @@ function sanitize(r) {
           t: Number(p?.t) || 0,
         })),
     },
+    observer: {
+      missions: Object.fromEntries(
+        OBS_MISSIONS.map((_, i) => [i, r.observer?.missions?.[i]])
+          .filter(([, m]) => m)
+          .map(([i, m]) => [
+            i,
+            { score: int(m.score, 100), stars: int(m.stars, 3) },
+          ]),
+      ),
+      reports: (Array.isArray(r.observer?.reports) ? r.observer.reports : [])
+        .slice(0, 2000)
+        .map((o) => ({
+          mission: int(o?.mission, OBS_MISSIONS.length - 1),
+          kind: String(o?.kind || "").slice(0, 40),
+          detected: !!o?.detected,
+          ok: !!o?.ok,
+          ms: int(o?.ms, 1e6),
+          t: Number(o?.t) || 0,
+        })),
+    },
     medals: (Array.isArray(r.medals) ? r.medals : []).slice(0, 50).map(String),
   };
 }
@@ -119,7 +140,9 @@ function summary(r) {
     0,
     ...dec.map((d) => d.t || 0),
     ...(r.mayo?.picks || []).map((p) => p.t || 0),
+    ...(r.observer?.reports || []).map((o) => o.t || 0),
   );
+  const obs = Object.values(r.observer?.missions || {});
   return {
     name: r.student.name,
     done: played.length,
@@ -135,6 +158,10 @@ function summary(r) {
     decisions: dec.length,
     medals: (r.medals || []).length,
     mayoBest: r.mayo?.best || 0,
+    obsDone: obs.length,
+    obsAvg: obs.length
+      ? Math.round(obs.reduce((a, m) => a + m.score, 0) / obs.length)
+      : 0,
     last: last ? new Date(last) : new Date(r.exportedAt),
   };
 }
@@ -188,6 +215,27 @@ function mayoRanking() {
     .filter((g) => g.fails)
     .sort((a, b) => b.fails - a.fails)
     .slice(0, 8);
+}
+
+// Modo observador: qué incidencias se escapan o se comunican mal.
+function observerRanking() {
+  const groups = new Map();
+  for (const { report } of students)
+    for (const o of report.observer?.reports || []) {
+      if (!INCIDENTS[o.kind]) continue;
+      const g = groups.get(o.kind) || {
+        kind: o.kind,
+        n: 0,
+        missed: 0,
+        comm: 0,
+      };
+      g.n++;
+      o.detected ? o.ok || g.comm++ : g.missed++;
+      groups.set(o.kind, g);
+    }
+  return [...groups.values()]
+    .filter((g) => g.missed + g.comm)
+    .sort((a, b) => b.missed + b.comm - (a.missed + a.comm));
 }
 
 const top = (map) => [...map.entries()].sort((a, b) => b[1] - a[1])[0];
@@ -280,6 +328,11 @@ function render() {
     ["Guardia", (r) => r.guardia],
     ["Medallas", (r) => r.medals],
     ["Mesa de Mayo", (r) => r.mayoBest || "—"],
+    [
+      "Observador",
+      (r) =>
+        r.obsDone ? `${r.obsDone}/${OBS_MISSIONS.length} · ${r.obsAvg}` : "—",
+    ],
     ["Última actividad", (r) => r.last.toLocaleDateString("es")],
   ];
   const thead = el("thead"),
@@ -363,6 +416,30 @@ function render() {
         })
       : [el("li", "t-empty", "Sin partidas de Mesa de Mayo en los informes.")]),
   );
+
+  // Asistente observador
+  const obs = observerRanking(),
+    omax = Math.max(1, ...obs.map((o) => o.missed + o.comm));
+  $("#observer").replaceChildren(
+    ...(obs.length
+      ? obs.map((o) =>
+          rankRow({
+            title: INCIDENTS[o.kind].label,
+            detail: `No detectada: ${o.missed} · Detectada pero mal comunicada: ${o.comm}`,
+            value: o.missed + o.comm,
+            max: omax,
+            label: `${o.missed + o.comm} de ${o.n} · ${pct(o.missed + o.comm, o.n)} %`,
+            tip: `${o.n} veces en las observaciones de la clase`,
+          }),
+        )
+      : [
+          el(
+            "li",
+            "t-empty",
+            "Sin observaciones con incidencias perdidas en los informes.",
+          ),
+        ]),
+  );
 }
 
 function csv() {
@@ -377,6 +454,8 @@ function csv() {
     "Misiones en Guardia",
     "Medallas",
     "Récord Mesa de Mayo",
+    "Observaciones completadas",
+    "Nota media observador",
     "Última actividad",
   ];
   // Comillas dobles escapadas y fórmulas neutralizadas (=, +, -, @) para Excel.
@@ -397,6 +476,8 @@ function csv() {
         r.guardia,
         r.medals,
         r.mayoBest,
+        r.obsDone,
+        r.obsAvg,
         r.last.toISOString().slice(0, 10),
       ]
         .map(esc)
@@ -587,6 +668,33 @@ function demoReports() {
       missions,
       decisions,
       mayo: { best: Math.round(1200 + skill * 1800), picks },
+      observer: {
+        missions: Object.fromEntries(
+          Array.from({ length: 1 + Math.floor(skill * 3.5) }, (_, i) => {
+            const score = Math.round(40 + skill * 55 - i * 4);
+            return [
+              i,
+              {
+                score,
+                stars: score >= 90 ? 3 : score >= 70 ? 2 : score >= 50 ? 1 : 0,
+              },
+            ];
+          }),
+        ),
+        reports: Object.keys(INCIDENTS).flatMap((kind) =>
+          Array.from({ length: 2 }, () => {
+            const detected = rnd() < skill + 0.15;
+            return {
+              mission: 0,
+              kind,
+              detected,
+              ok: detected && rnd() < skill + 0.1,
+              ms: Math.round(1500 + rnd() * 4000),
+              t: now - rnd() * 6e8,
+            };
+          }),
+        ),
+      },
       medals: Array.from({ length: Math.round(skill * 12) }, (_, i) => `m${i}`),
       streak: Math.round(skill * 6),
     };

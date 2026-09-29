@@ -7,7 +7,14 @@ import actorBodyUrl from "./assets/actor/body.svg";
 import actorArmUrl from "./assets/actor/arm.svg";
 import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
-import { TEAM, TEAM_SVGS, teamUrl, drawPatient, makeMember } from "./surgeons.js";
+import {
+  TEAM,
+  TEAM_SVGS,
+  teamUrl,
+  drawPatient,
+  makeMember,
+  poseTeam,
+} from "./surgeons.js";
 import photoFicha from "./assets/estaciones/ficha.webp";
 import photoMaterial from "./assets/estaciones/material.webp";
 import photoMonitor from "./assets/estaciones/monitor.webp";
@@ -31,6 +38,7 @@ import { DISTRACTORS } from "./distractors.js";
 import { EVENTS } from "./events.js";
 import { Progress, MEDALS } from "./progress.js";
 import { createMayo } from "./mayo.js";
+import { createObserver, OBS_MISSIONS } from "./observer.js";
 import { CONFIG, DEMO_MISSIONS } from "./config.js";
 import { Report } from "./report.js";
 import { aiAvailable, mountCoach } from "./ai.js";
@@ -1658,99 +1666,11 @@ class Xi extends Ut.Scene {
       c.arms.setDepth(t + 0.3),
       h.body.setDepth(behindHelper ? Math.max(t + 0.5, 20.5) : t + 0.5));
   }
-  // Postura del equipo. Las misiones ocurren antes de la incisión, así que el
-  // equipo espera en posición estéril («ready»: manos juntas a la altura del
-  // pecho) y mira el monitor en los eventos («event»). Solo al completar la
-  // misión, con la pausa hecha, empieza la cirugía («work»).
+  // Postura del equipo (surgeons.js). Las misiones ocurren antes de la
+  // incisión: el equipo espera en posición estéril y solo opera al completar
+  // la misión, con la pausa hecha.
   teamPose(pose) {
-    if (!this.team || pose === this.teamPoseNow) return;
-    this.teamPoseNow = pose;
-    const { cirujano: c, ayudante: h } = this.team;
-    (this.teamTweens.forEach((tw) => tw.stop()),
-      (this.teamTweens = []),
-      this.teamAsk?.remove(),
-      (this.teamAsk = null));
-    const set = {
-        work: [-9, 13, -20, 20],
-        event: [-58, 58, -34, 34],
-        ready: [-58, 58, -34, 34],
-      }[pose],
-      move = (target, angle, extra = {}) =>
-        this.teamTweens.push(
-          this.tweens.add({
-            targets: target,
-            angle,
-            duration: this.reduced ? 0 : 450,
-            ease: "Sine.easeInOut",
-            ...extra,
-          }),
-        );
-    (c.torso.setTexture(pose === "event" ? "team-front-left" : "team-front"),
-      move(c.leftArm, set[0]),
-      move(c.rightArm, set[1]),
-      move(h.leftArm, set[2]),
-      move(h.rightArm, set[3]),
-      c.rightArm.setY(-77),
-      this.patient.incision.setVisible(pose === "work"));
-    if (this.reduced) return;
-    if (pose !== "work") {
-      // En espera: respiran y el ayudante acomoda las manos.
-      const idle = (target, props, duration, delay = 0) =>
-        this.teamTweens.push(
-          this.tweens.add({
-            targets: target,
-            ...props,
-            duration,
-            delay,
-            yoyo: !0,
-            repeat: -1,
-            ease: "Sine.easeInOut",
-          }),
-        );
-      return (
-        idle(c.torso, { scaleY: 0.508 }, 1500),
-        idle(h.torso, { scaleY: 0.507 }, 1600, 300),
-        pose === "ready" &&
-          idle(h.leftArm, { angle: set[2] + 5 }, 2100, 600)
-      );
-    }
-    // Trabajo continuo: el cirujano sutura, el ayudante sostiene y ajusta, y
-    // de vez en cuando pide instrumental hacia la Mesa de Mayo.
-    this.time.delayedCall(460, () => {
-      if (this.teamPoseNow !== "work") return;
-      const loop = (target, props, duration, delay = 0) =>
-        this.teamTweens.push(
-          this.tweens.add({
-            targets: target,
-            ...props,
-            duration,
-            delay,
-            yoyo: !0,
-            repeat: -1,
-            ease: "Sine.easeInOut",
-          }),
-        );
-      (loop(c.rightArm, { angle: 24, y: -73 }, 620),
-        loop(c.leftArm, { angle: -4 }, 1700, 200),
-        loop(c.torso, { scaleY: 0.508 }, 1500),
-        loop(h.leftArm, { angle: -15 }, 1300),
-        loop(h.torso, { scaleY: 0.507 }, 1600, 300));
-      const ask = () => {
-        if (this.teamPoseNow !== "work") return;
-        this.teamTweens.push(
-          this.tweens.add({
-            targets: h.rightArm,
-            angle: -72,
-            duration: 380,
-            hold: 1100,
-            yoyo: !0,
-            ease: "Sine.easeInOut",
-          }),
-        );
-        this.teamAsk = this.time.delayedCall(9000, ask);
-      };
-      this.teamAsk = this.time.delayedCall(4000, ask);
-    });
+    poseTeam(this, pose);
   }
   makeActor() {
     const shadow = (this.shadow = this.add.ellipse(
@@ -2246,6 +2166,9 @@ function Ce() {
     (lt("#game-view").hidden = !0),
     (lt("#mayo-view").hidden = !0),
     mayo.stop(),
+    (lt("#observer-view").hidden = !0),
+    observer.stop(),
+    RoomAwake(),
     Sound.stopAmbient());
   const p = ye(kt);
   ((lt("#resume-mission").hidden = !xe(p)),
@@ -3497,13 +3420,18 @@ function Hub() {
       CONFIG.demo
         ? Mode === "guardia"
           ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse."
-          : "Versión demo: juega la misión 1 completa y la Mesa de Mayo. Sin registro."
+          : "Versión demo: juega la misión 1 completa, la Mesa de Mayo y la primera observación de cirugía. Sin registro."
         : Mode === "guardia"
           ? "Modo Guardia: tiempo límite por decisión y el paciente puede desestabilizarse. Progreso guardado en este navegador."
           : "Modo Aprendizaje: sin cronómetro, a tu ritmo. Las 20 misiones pueden jugarse en cualquier orden. Progreso guardado en este navegador.",
     ));
   const best = Progress.mayoBest();
   ht("#mayo-best-label", best ? `Tu récord: ${best} pts` : "");
+  const obs = Object.keys(Progress.observer()).length;
+  ht(
+    "#observer-best-label",
+    obs ? `${obs} de ${OBS_MISSIONS.length} misiones completadas` : "",
+  );
 }
 document
   .querySelectorAll(".mode-switch [data-mode]")
@@ -3535,6 +3463,40 @@ const mayo = createMayo({
       ),
       box.append(cta));
   },
+});
+// Asistente observador (observer.js): tiene su propia sala; mientras se juega,
+// la sala de las misiones se duerme para no gastar batería.
+let roomAsleep = !1;
+function RoomAwake() {
+  roomAsleep && (Et?.loop.wake(), (roomAsleep = !1));
+}
+const observer = createObserver({
+  root: lt("#observer-view"),
+  onExit: () => ((lt("#observer-view").hidden = !0), Ce()),
+  isLocked: (i) => CONFIG.demo && i > 0,
+  onLocked: () =>
+    Cta("El curso completo incluye las 4 misiones del modo observador."),
+  onFinish: (box, result) => {
+    if ((Track("observer_complete", result), !CONFIG.demo)) return;
+    const cta = document.createElement("button");
+    ((cta.type = "button"),
+      (cta.className = "demo-ribbon demo-ribbon-inline"),
+      (cta.innerHTML =
+        '<span class="daily-tag">CURSO COMPLETO</span><strong>4 observaciones, 20 misiones y seguimiento docente</strong><span class="daily-go" aria-hidden="true">→</span>'),
+      cta.addEventListener("click", () =>
+        Cta("¿Te gustó observar la cirugía? Hay mucho más."),
+      ),
+      box.append(cta));
+  },
+});
+lt("#open-observer").addEventListener("click", () => {
+  (Et?.loop.running && (Et.loop.sleep(), (roomAsleep = !0)),
+    (lt("#welcome").hidden = !0),
+    (lt("#game-view").hidden = !0),
+    (lt("#mayo-view").hidden = !0),
+    (lt("#observer-view").hidden = !1),
+    window.scrollTo({ top: 0 }),
+    observer.start());
 });
 lt("#open-mayo").addEventListener("click", () => {
   ((lt("#welcome").hidden = !0),
@@ -3921,4 +3883,5 @@ import.meta.env.DEV &&
     event: () => CurrentEvent(),
     closure: () => Hi[ft().module - 1],
     scene: () => Et?.scene.getScene("RoomScene"),
+    observer: () => observer.debug(),
   });
