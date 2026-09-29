@@ -5,6 +5,13 @@
 // distinga a simple vista quién está dentro del campo y quién no.
 // Coordenadas en el lienzo de 1200×675.
 
+import frontUrl from "./assets/equipo/front.svg";
+import frontLeftUrl from "./assets/equipo/front-left.svg";
+import backUrl from "./assets/equipo/back.svg";
+import armUrl from "./assets/equipo/arm.svg";
+import legUrl from "./assets/equipo/leg.svg";
+import { svgUrl } from "./stage.js";
+
 // Esquinas del tablero de la mesa quirúrgica (cabecera → pies).
 const A = [478, 272], // cabecera, lado lejano
   B = [748, 362], // pies, lado lejano
@@ -24,92 +31,21 @@ export const TEAM = {
 };
 
 // --- Dibujos -----------------------------------------------------------------------
+// Archivos SVG en assets/equipo, con las mismas proporciones que el personaje
+// del alumno: bata estéril de frente (mirando al frente o hacia el monitor) y de
+// espaldas, brazo con manga de bata y guante estéril color crema (el del alumno
+// es de nitrilo) y piernas con calzas.
 
-const GOWN = `<linearGradient id="gw" x1="0" x2="1"><stop offset="0" stop-color="#5f9fd6"/><stop offset=".5" stop-color="#86bde9"/><stop offset="1" stop-color="#4b86bf"/></linearGradient>`;
-const SKIN = `<radialGradient id="sk" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#e2ab85"/><stop offset="1" stop-color="#b98160"/></radialGradient>`;
-const CAP = `<linearGradient id="cp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fb0a6"/><stop offset="1" stop-color="#23827b"/></linearGradient>`;
-
-const svg = (w, h, defs, body) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}" viewBox="0 0 ${w} ${h}"><defs>${defs}</defs>${body}</svg>`;
-
-// Bata estéril vista de frente; la cabeza mira al frente o hacia el monitor.
-function front(gaze) {
-  const ex = gaze === "izquierda" ? -1.3 : 0;
-  return svg(
-    60,
-    104,
-    GOWN + SKIN + CAP,
-    `<path d="M7 60 Q9 53 22 51 L38 51 Q51 53 53 60 L52 104 L8 104 Z" fill="url(#gw)" stroke="#2f5f8f" stroke-width="1.2"/>
-    <path d="M22 51 Q30 57 38 51" fill="none" stroke="#2f5f8f" stroke-width="1.4"/>
-    <path d="M18 70 L20 104 M42 70 L40 104 M30 60 L30 104" stroke="#3f77ad" stroke-width=".9" opacity=".55"/>
-    <path d="M8 84 L52 84" stroke="#2f5f8f" stroke-width="1.6" opacity=".45"/>
-    <rect x="25" y="42" width="10" height="11" rx="3" fill="#b27a58"/>
-    <ellipse cx="12.5" cy="31" rx="3" ry="4.2" fill="#b98160"/><ellipse cx="47.5" cy="31" rx="3" ry="4.2" fill="#b98160"/>
-    <circle cx="30" cy="29" r="17" fill="url(#sk)"/>
-    <path d="M20 26 Q23.5 24 27 25.5 M33 25.5 Q36.5 24 40 26" stroke="#3b2418" stroke-width="1.3" fill="none" stroke-linecap="round"/>
-    <ellipse cx="23.6" cy="30" rx="2.1" ry="2.4" fill="#fff"/><ellipse cx="36.4" cy="30" rx="2.1" ry="2.4" fill="#fff"/>
-    <circle cx="${24 + ex}" cy="30.4" r="1.45" fill="#2a1a12"/><circle cx="${36.8 + ex}" cy="30.4" r="1.45" fill="#2a1a12"/>
-    <rect x="18.5" y="26.5" width="10" height="7.5" rx="2.5" fill="#dff4ff" fill-opacity=".25" stroke="#9fb9c9" stroke-width=".8"/>
-    <rect x="31.5" y="26.5" width="10" height="7.5" rx="2.5" fill="#dff4ff" fill-opacity=".25" stroke="#9fb9c9" stroke-width=".8"/>
-    <path d="M28.5 29 L31.5 29" stroke="#9fb9c9" stroke-width=".8"/>
-    <path d="M15 34 Q30 31 45 34 L44 44 Q30 50 16 44 Z" fill="#e8f5fb" stroke="#9cc3d6" stroke-width=".7"/>
-    <path d="M17 37.5 Q30 35.5 43 37.5 M17.5 40.5 Q30 39 42.5 40.5" stroke="#9cc3d6" stroke-width=".6" fill="none"/>
-    <path d="M10.5 24 Q9 6 30 4 Q51 6 49.5 24 Q40 20 30 20.5 Q20 20 10.5 24 Z" fill="url(#cp)" stroke="#1d6a64" stroke-width="1"/>
-    <path d="M12 21 Q30 14 48 21" stroke="#1d6a64" stroke-width=".7" fill="none" opacity=".6"/>`,
-  );
-}
-
-// Bata vista de espaldas: cintas de la bata cruzada y gorro por detrás.
-const back = svg(
-  60,
-  104,
-  GOWN + SKIN + CAP,
-  `<path d="M7 60 Q9 53 22 51 L38 51 Q51 53 53 60 L52 104 L8 104 Z" fill="url(#gw)" stroke="#2f5f8f" stroke-width="1.2"/>
-  <path d="M30 54 L30 104" stroke="#2f5f8f" stroke-width="1.1" opacity=".6"/>
-  <path d="M34 54 Q44 70 42 104" stroke="#3f77ad" stroke-width="1" fill="none" opacity=".6"/>
-  <path d="M8 82 L52 82" stroke="#2f5f8f" stroke-width="2.2" opacity=".55"/>
-  <path d="M30 82 L25 90 M30 82 L35 91" stroke="#2f5f8f" stroke-width="1.4" opacity=".7"/>
-  <rect x="25" y="42" width="10" height="11" rx="3" fill="#b27a58"/>
-  <ellipse cx="12.5" cy="31" rx="3" ry="4.2" fill="#b98160"/><ellipse cx="47.5" cy="31" rx="3" ry="4.2" fill="#b98160"/>
-  <circle cx="30" cy="29" r="17" fill="url(#sk)"/>
-  <path d="M12 36 Q30 41 48 36" stroke="#e8f5fb" stroke-width="1.2" fill="none"/>
-  <path d="M28 38 L25 45 M32 38 L35 45" stroke="#e8f5fb" stroke-width="1"/>
-  <path d="M11 30 Q9 6 30 4 Q51 6 49 30 Q40 35 30 35 Q20 35 11 30 Z" fill="url(#cp)" stroke="#1d6a64" stroke-width="1"/>
-  <path d="M16 14 Q30 22 44 14 M13 24 Q30 31 47 24" stroke="#1d6a64" stroke-width=".7" fill="none" opacity=".55"/>`,
-);
-
-// Brazo con manga de bata y guante estéril (color crema: el del alumno es de nitrilo).
-const arm = svg(
-  14,
-  46,
-  `<linearGradient id="s" x1="0" x2="1"><stop offset="0" stop-color="#77b1e2"/><stop offset="1" stop-color="#4b86bf"/></linearGradient>
-  <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#f6ecd9"/><stop offset="1" stop-color="#d9c7a6"/></linearGradient>`,
-  `<path d="M1 5 Q1 1 7 1 Q13 1 13 5 L12 33 L2 33 Z" fill="url(#s)" stroke="#2f5f8f" stroke-width=".8"/>
-  <rect x="2" y="29" width="10" height="3.5" rx="1.2" fill="#e9dcc2" stroke="#b9a37f" stroke-width=".5"/>
-  <path d="M2.4 32 L11.6 32 L11.9 40 Q11.9 45 7 45 Q2.1 45 2.1 40 Z" fill="url(#g)" stroke="#b9a37f" stroke-width=".6"/>`,
-);
-
-// Piernas: pantalón de pijama bajo la bata y calzas.
-const leg = svg(
-  18,
-  40,
-  `<linearGradient id="p" x1="0" x2="1"><stop offset="0" stop-color="#4b86bf"/><stop offset="1" stop-color="#2f5f8f"/></linearGradient>`,
-  `<path d="M2 0 L16 0 L15 31 L3 31 Z" fill="url(#p)" stroke="#2f5f8f" stroke-width=".8"/>
-  <path d="M2 30 Q2 27.5 5 27.5 L13 27.5 Q16 27.5 16.5 31 L17.5 36 Q17.5 39.5 14 39.5 L4 39.5 Q0.8 39.5 1 36 Z" fill="#cfe7f3" stroke="#8fb6cc" stroke-width=".7"/>`,
-);
-
-export const TEAM_SVGS = {
-  "team-front": front("frente"),
-  "team-front-left": front("izquierda"),
-  "team-back": back,
-  "team-arm": arm,
-  "team-leg": leg,
+export const TEAM_TEXTURES = {
+  "team-front": frontUrl,
+  "team-front-left": frontLeftUrl,
+  "team-back": backUrl,
+  "team-arm": armUrl,
+  "team-leg": legUrl,
 };
 
 export function teamUrl(key) {
-  return URL.createObjectURL(
-    new Blob([TEAM_SVGS[key]], { type: "image/svg+xml" }),
-  );
+  return svgUrl(TEAM_TEXTURES[key]);
 }
 
 // --- Paciente ----------------------------------------------------------------------

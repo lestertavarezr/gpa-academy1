@@ -9,7 +9,7 @@ import actorLegUrl from "./assets/actor/leg.svg";
 import { Sound } from "./audio.js";
 import {
   TEAM,
-  TEAM_SVGS,
+  TEAM_TEXTURES,
   teamUrl,
   drawPatient,
   makeMember,
@@ -1252,7 +1252,7 @@ class Xi extends Ut.Scene {
       Object.keys(STATION_ICONS).forEach((id) =>
         this.load.svg(`icon-${id}`, iconUrl(id)),
       ),
-      Object.keys(TEAM_SVGS).forEach((key) =>
+      Object.keys(TEAM_TEXTURES).forEach((key) =>
         this.load.svg(key, teamUrl(key), { scale: 2 }),
       ));
   }

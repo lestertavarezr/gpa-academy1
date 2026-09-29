@@ -8,13 +8,17 @@
 
 import Phaser from "phaser";
 import roomUrl from "./assets/quirofano-isometrico.webp";
-import bodySvg from "./assets/actor/body.svg?raw";
-import armSvg from "./assets/actor/arm.svg?raw";
-import legSvg from "./assets/actor/leg.svg?raw";
-import { buildOccluders, footprintY } from "./stage.js";
+import bodyUrl from "./assets/actor/body.svg";
+import armUrl from "./assets/actor/arm.svg";
+import legUrl from "./assets/actor/leg.svg";
+// La circulante: el mismo personaje con pijama granate y gorro liso.
+import circBodyUrl from "./assets/actor/circulante-body.svg";
+import circArmUrl from "./assets/actor/circulante-arm.svg";
+import circLegUrl from "./assets/actor/circulante-leg.svg";
+import { buildOccluders, footprintY, svgUrl } from "./stage.js";
 import {
   TEAM,
-  TEAM_SVGS,
+  TEAM_TEXTURES,
   teamUrl,
   drawPatient,
   makeMember,
@@ -42,40 +46,24 @@ const STERILE = { x: 615, y: 405, rx: 185, ry: 92 },
   WATCH = { x: 360, y: 548, rx: 64, ry: 24 },
   inside = (z, x, y) => ((x - z.x) / z.rx) ** 2 + ((y - z.y) / z.ry) ** 2 <= 1;
 
-// Recolorea el personaje del alumno para la circulante (pijama granate).
-const recolor = (svg, map) =>
-  Object.entries(map).reduce((s, [a, b]) => s.split(a).join(b), svg);
-const WINE = {
-  "#244f93": "#6d2446",
-  "#3a70c2": "#9a3a64",
-  "#1f447f": "#561a36",
-  "#2a5aa3": "#7f2b52",
-  "#1b3c70": "#4f1832",
-  "#16335f": "#3d1027",
-  "#2c5ea8": "#86305a",
-  "#1a3d73": "#4f1832",
-  "#7447b0": "#2f8f9d",
-  "#5c3596": "#237079",
-  "#4e2c80": "#1d5f66",
-};
-const blobUrl = (svg) =>
-  URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
-
 class ObserverScene extends Phaser.Scene {
   constructor() {
     super("Observer");
   }
   preload() {
     this.load.image("room", roomUrl);
-    Object.keys(TEAM_SVGS).forEach((key) =>
+    Object.keys(TEAM_TEXTURES).forEach((key) =>
       this.load.svg(key, teamUrl(key), { scale: 2 }),
     );
-    this.load.svg("me-body", blobUrl(bodySvg), { scale: 2 });
-    this.load.svg("me-arm", blobUrl(armSvg), { scale: 2 });
-    this.load.svg("me-leg", blobUrl(legSvg), { scale: 2 });
-    this.load.svg("circ-body", blobUrl(recolor(bodySvg, WINE)), { scale: 2 });
-    this.load.svg("circ-arm", blobUrl(recolor(armSvg, WINE)), { scale: 2 });
-    this.load.svg("circ-leg", blobUrl(recolor(legSvg, WINE)), { scale: 2 });
+    for (const [key, url] of Object.entries({
+      "me-body": bodyUrl,
+      "me-arm": armUrl,
+      "me-leg": legUrl,
+      "circ-body": circBodyUrl,
+      "circ-arm": circArmUrl,
+      "circ-leg": circLegUrl,
+    }))
+      this.load.svg(key, svgUrl(url), { scale: 2 });
   }
   create() {
     const hooks = this.game.registry.get("hooks");

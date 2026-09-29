@@ -224,39 +224,37 @@ export function makeStageTextures(scene) {
 }
 
 // --- Iconos de estación (sustituyen a las letras ID, ST, MN…) ------------------------
+// Archivos SVG en assets/iconos (expediente, paquete estéril, monitor, frasco de
+// aspiración, gasas con verificación y equipo). Se cargan como archivos, no como
+// URL blob: la página publicada no permite imágenes blob.
 
-const svg = (body) =>
-  `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 48 48" fill="none" stroke="#f2fffb" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+import fichaIcon from "./assets/iconos/ficha.svg";
+import materialIcon from "./assets/iconos/material.svg";
+import monitorIcon from "./assets/iconos/monitor.svg";
+import aspiracionIcon from "./assets/iconos/aspiracion.svg";
+import conteoIcon from "./assets/iconos/conteo.svg";
+import equipoIcon from "./assets/iconos/equipo.svg";
 
 export const STATION_ICONS = {
-  // Expediente: tablilla con hoja y pulsera.
-  ficha: svg(
-    `<rect x="11" y="9" width="24" height="31" rx="3"/><path d="M18 9v-2h10v2"/><path d="M16 19h14M16 25h14M16 31h8"/><circle cx="35" cy="35" r="6" fill="#1aa58f" stroke="#f2fffb"/>`,
-  ),
-  // Material: paquete estéril con cinta indicadora.
-  material: svg(
-    `<path d="M8 17l16-8 16 8v16l-16 8-16-8z"/><path d="M8 17l16 8 16-8M24 25v16"/><path d="M13 20l16-8" stroke="#8df1de" stroke-dasharray="3 2"/>`,
-  ),
-  // Monitor: pantalla con trazo de ECG.
-  monitor: svg(
-    `<rect x="7" y="10" width="34" height="23" rx="3"/><path d="M11 23h7l2-6 4 11 3-8 2 3h8" stroke="#57f29a"/><path d="M19 39h10M24 33v6"/>`,
-  ),
-  // Aspiración: frasco recolector con tubo.
-  aspiracion: svg(
-    `<path d="M15 14h16v24a4 4 0 0 1-4 4h-8a4 4 0 0 1-4-4z"/><path d="M15 29h16" stroke="#8df1de"/><path d="M19 14V9h8v5"/><path d="M27 9c8 0 12 4 12 10v5"/>`,
-  ),
-  // Conteo: gasas apiladas con marca de verificación.
-  conteo: svg(
-    `<rect x="8" y="22" width="22" height="16" rx="2"/><path d="M12 18h22v16"/><path d="M16 14h22v16"/><path d="M13 30l4 4 8-8" stroke="#57f29a"/>`,
-  ),
-  // Equipo: dos personas con gorro quirúrgico.
-  equipo: svg(
-    `<circle cx="17" cy="19" r="6"/><path d="M11 15q6-6 12 0"/><path d="M6 38c0-7 5-11 11-11s11 4 11 11"/><circle cx="33" cy="21" r="5"/><path d="M28 37c1-6 4-9 9-9 4 0 7 3 7 8"/>`,
-  ),
+  ficha: fichaIcon,
+  material: materialIcon,
+  monitor: monitorIcon,
+  aspiracion: aspiracionIcon,
+  conteo: conteoIcon,
+  equipo: equipoIcon,
 };
 
+/**
+ * En el archivo único de la demo los SVG llegan incrustados como
+ * «data:image/svg+xml,…» sin base64, que el cargador de Phaser no sabe leer:
+ * se convierten en una URL blob equivalente. En el resto de builds son archivos.
+ */
+export function svgUrl(url) {
+  if (!url.startsWith("data:image/svg+xml,")) return url;
+  const svg = decodeURIComponent(url.slice(url.indexOf(",") + 1));
+  return URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+}
+
 export function iconUrl(id) {
-  return URL.createObjectURL(
-    new Blob([STATION_ICONS[id]], { type: "image/svg+xml" }),
-  );
+  return svgUrl(STATION_ICONS[id]);
 }
