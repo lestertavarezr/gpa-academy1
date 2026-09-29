@@ -10,6 +10,7 @@ import { Sound } from "./audio.js";
 import photoFicha from "./assets/estaciones/ficha.webp";
 import photoMaterial from "./assets/estaciones/material.webp";
 import photoMonitor from "./assets/estaciones/monitor.webp";
+import photoPausa from "./assets/estaciones/pausa.webp";
 import photoAspiracion from "./assets/estaciones/aspiracion.webp";
 import photoConteo from "./assets/estaciones/conteo.webp";
 import photoEquipo from "./assets/estaciones/equipo.webp";
@@ -3404,7 +3405,7 @@ lt("#open-mayo").addEventListener("click", () => {
 });
 
 // Foto de la estación: al inspeccionarla, el panel muestra lo que el alumno
-// está revisando. La estación «equipo» aún no tiene foto.
+// está revisando. En la pausa de seguridad se ve el campo ya preparado.
 const STATION_PHOTOS = {
   ficha: [photoFicha, "Expediente clínico con la pulsera de identificación"],
   material: [
@@ -3413,11 +3414,15 @@ const STATION_PHOTOS = {
   ],
   monitor: [
     photoMonitor,
-    "Monitor de constantes: ECG, SpO₂ y frecuencia respiratoria",
+    "Monitor y máquina de anestesia: ECG, SpO₂ y presión arterial",
   ],
   aspiracion: [photoAspiracion, "Aspirador con frasco recolector y cánula"],
   conteo: [photoConteo, "Estación de conteo de gasas con registro inicial"],
   equipo: [photoEquipo, "El equipo quirúrgico reunido en la estación"],
+  pausa: [
+    photoPausa,
+    "Campo estéril preparado: la pausa se hace antes de la incisión",
+  ],
 };
 // Retratos: el cirujano (comunicación, Mesa de Mayo, cirujano con IA) y el
 // alumno (inspección). Se exponen como variables CSS para los avatares.
@@ -3476,7 +3481,9 @@ function StationPhoto() {
           ? "material"
           : Q.phase === "talk" && Q.inspected
             ? "equipo"
-            : null,
+            : Q.phase === "pause"
+              ? "pausa"
+              : null,
     photo = id && STATION_PHOTOS[id];
   if (!photo) return ((fig.hidden = !0), (fig.dataset.id = ""));
   fig.dataset.id !== id &&

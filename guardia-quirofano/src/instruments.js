@@ -10,6 +10,7 @@ import photoMayoCurva from "./assets/instrumentos/mayo-curva.webp";
 import photoMayoRecta from "./assets/instrumentos/mayo-recta.webp";
 import photoMetzenbaum from "./assets/instrumentos/metzenbaum.webp";
 import photoPortaagujas from "./assets/instrumentos/portaagujas.webp";
+import photoYankauer from "./assets/instrumentos/yankauer.webp";
 
 // Instrumental de la Mesa de Mayo: nombre, función, peticiones del cirujano
 // y un dibujo vectorial esquemático generado por código.
@@ -165,6 +166,7 @@ export const INSTRUMENTS = [
     need: "Necesito aspirar el campo.",
     tier: 1,
     draw: "yankauer",
+    photo: photoYankauer,
   },
   {
     id: "backhaus",

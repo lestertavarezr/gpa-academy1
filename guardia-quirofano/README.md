@@ -188,6 +188,9 @@ que no quede oculto detrás de ellos.
 - **Instrumental real** en el repaso de errores de la Mesa de Mayo: bisturí
   n.º 3 con hoja 15, pinzas Kelly y Kocher, tijeras Mayo recta, Mayo curva y
   Metzenbaum, pinzas de disección con y sin dientes, portaagujas Mayo-Hegar,
-  separadores Farabeuf y Balfour y pinza de campo Backhaus. Pendiente de los docentes: confirmar la identificación de las
+  separadores Farabeuf y Balfour, pinza de campo Backhaus y aspirador
+  Yankauer. Pendiente de los docentes: confirmar la identificación de las
   tijeras. La foto rotulada «Pinza Babcock» no se usa: parece una pinza de
   anillos (Foerster).
+- **Quirófano real:** la estación del monitor muestra la máquina de anestesia
+  en un quirófano, y la pausa de seguridad, el campo estéril ya preparado.
