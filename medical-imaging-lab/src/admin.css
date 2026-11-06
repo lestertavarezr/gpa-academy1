@@ -1,0 +1,90 @@
+.admin-shell {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 30px 22px;
+}
+.admin-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid #2b4764;
+  margin-bottom: 22px;
+  padding-bottom: 22px;
+}
+.admin-header > div {
+  color: #00c2d1;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+}
+.admin-header h1 {
+  font-size: 25px;
+  margin: 0;
+  flex: 1;
+}
+.admin-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.admin-card {
+  background: #0d213a;
+  border: 1px solid #2b4764;
+  border-radius: 12px;
+  padding: 24px;
+  margin: 16px 0;
+}
+.admin-card h1 {
+  font-size: 28px;
+}
+.admin-card h2 {
+  font-size: 20px;
+}
+.admin-card p {
+  color: #b5c8d9;
+}
+.admin-card form {
+  display: grid;
+  gap: 12px;
+}
+.admin-card label {
+  font-size: 12px;
+  color: #b5c8d9;
+  display: grid;
+  gap: 6px;
+}
+.admin-card input {
+  background: #102742;
+  border: 1px solid #35506b;
+  border-radius: 6px;
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+}
+.admin-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #2b4764;
+  padding: 12px 0;
+  font-size: 12px;
+}
+.admin-row button {
+  white-space: nowrap;
+}
+#admin-status {
+  color: #e9c96a;
+  min-height: 1.5em;
+}
+@media (max-width: 760px) {
+  .admin-grid {
+    grid-template-columns: 1fr;
+  }
+  .admin-header {
+    flex-wrap: wrap;
+  }
+  .admin-header h1 {
+    min-width: 100%;
+  }
+}

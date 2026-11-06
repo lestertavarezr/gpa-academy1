@@ -1,0 +1,25 @@
+name = "gpa-imaging-lab"
+main = "worker/index.ts"
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+run_worker_first = true
+
+[[d1_databases]]
+binding = "DB"
+database_name = "gpa-imaging-lab"
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "worker/migrations"
+
+[vars]
+ORTHANC_URL = "http://127.0.0.1:8042"
+LMS_ISSUER = "gpa-academy-os"
+LMS_AUDIENCE = "gpa-imaging-lab"
+DEMO_MODE = "false"
+
+[[ratelimits]]
+name = "RATE_LIMITER"
+namespace_id = "2001"
+simple = { limit = 20, period = 60 }

@@ -1,0 +1,36 @@
+{
+  "name": "gpa-medical-imaging-lab",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && npm run db:migrate:local && wrangler dev --ip 0.0.0.0 --port 8788",
+    "build": "npm run typecheck && vite build",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.worker.json",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "db:migrate:local": "wrangler d1 migrations apply gpa-imaging-lab --local",
+    "seed:dicom": "python3 scripts/import_demo.py",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build",
+    "lint": "eslint src worker tests e2e vite.config.ts playwright.config.ts vitest.config.ts",
+    "format:check": "prettier --check 'src/**/*.{ts,css,html}' 'worker/**/*.ts' 'tests/**/*.ts' 'e2e/**/*.ts' 'scripts/**/*.mjs' 'viewer/**/*.js' '*.{ts,mjs,json}'"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@cloudflare/workers-types": "^5.20261104.1",
+    "@playwright/test": "^1.56.1",
+    "eslint": "^10.14.0",
+    "prettier": "^3.9.10",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0",
+    "wrangler": "^4.158.0"
+  },
+  "overrides": {
+    "minimatch": "^11.0.5"
+  },
+  "engines": {
+    "node": "^22.22.2 || ^24.15.0 || >=26.0.0"
+  }
+}

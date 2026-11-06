@@ -1,0 +1,5 @@
+SESSION_SECRET=replace-with-at-least-32-random-characters
+LMS_SHARED_SECRET=replace-with-independent-32-character-secret
+DEMO_ACCESS_KEY=local-demo-only-secret
+ADMIN_KEY=local-admin-only-secret
+DEMO_MODE=true
