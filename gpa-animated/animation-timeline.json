@@ -1,0 +1,643 @@
+{
+ "meta": {
+  "project": "GPA Academy — animaciones cinematográficas",
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 518,
+  "durationSeconds": 20.72,
+  "source": "public/original.mp4",
+  "personMatte": "public/person.webm",
+  "brand": {
+   "navy": "#0B1E3D",
+   "cyan": "#00C2D1",
+   "gold": "#C9A227",
+   "white": "#FFFFFF"
+  },
+  "safeAreaReels": {
+   "top": 250,
+   "bottom": 340,
+   "left": 60,
+   "right": 100
+  },
+  "howToEdit": "Cambia 'start'/'end' (segundos), 'position' (px en 1080x1920), 'props' o 'enabled' y recarga Remotion Studio."
+ },
+ "animations": [
+  {
+   "id": "hud-frame",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.15,
+   "end": 20.72,
+   "narration": "(toda la narración)",
+   "trigger": "identidad visual continua",
+   "layer": "front",
+   "position": {
+    "x": 0,
+    "y": 0,
+    "w": 1080,
+    "h": 1920
+   },
+   "transition": {
+    "in": 0.8,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "frame",
+    "tag": "GPA ACADEMY"
+   }
+  },
+  {
+   "id": "halo",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.0,
+   "end": 20.72,
+   "narration": "(toda la narración)",
+   "trigger": "atmósfera holográfica 3D detrás del presentador",
+   "layer": "behind",
+   "position": {
+    "x": 90,
+    "y": -60,
+    "w": 900,
+    "h": 900
+   },
+   "transition": {
+    "in": 1.0,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "halo"
+   }
+  },
+  {
+   "id": "presenter-card",
+   "component": "PresenterCard",
+   "enabled": true,
+   "start": 0.95,
+   "end": 6.05,
+   "narration": "Hola, soy el doctor Lester Tavares, cirujano general y laparoscopista y director académico",
+   "trigger": "doctor Lester Tavares (1.04s)",
+   "layer": "front",
+   "position": {
+    "x": 150,
+    "y": 790,
+    "w": 780,
+    "h": 300
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "name": "Dr. Lester Tavares",
+    "roles": [
+     {
+      "text": "Cirujano general",
+      "at": 2.64
+     },
+     {
+      "text": "Laparoscopista",
+      "at": 3.7
+     },
+     {
+      "text": "Director académico",
+      "at": 5.0
+     }
+    ],
+    "nameAt": 1.04
+   }
+  },
+  {
+   "id": "instruments-left",
+   "component": "SurgicalInstruments",
+   "enabled": true,
+   "start": 2.55,
+   "end": 5.3,
+   "narration": "cirujano general",
+   "trigger": "cirujano (2.64s) → visualización quirúrgica",
+   "layer": "behind",
+   "position": {
+    "x": 0,
+    "y": 330,
+    "w": 340,
+    "h": 380
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-left"
+   },
+   "props": {
+    "variant": "pair",
+    "items": [
+     "scalpel",
+     "forceps"
+    ]
+   }
+  },
+  {
+   "id": "anatomy-right",
+   "component": "AnatomyVisualization",
+   "enabled": true,
+   "start": 3.6,
+   "end": 6.2,
+   "narration": "laparoscopista",
+   "trigger": "laparoscopista (3.70s) → torso con puertos laparoscópicos",
+   "layer": "behind",
+   "position": {
+    "x": 790,
+    "y": 200,
+    "w": 270,
+    "h": 370
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-right"
+   },
+   "props": {
+    "variant": "torso-ports"
+   }
+  },
+  {
+   "id": "brand-reveal",
+   "component": "BrandReveal",
+   "enabled": true,
+   "start": 6.05,
+   "end": 8.15,
+   "narration": "de GPA Academy.",
+   "trigger": "GPA (6.16s) → identidad institucional",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.5,
+    "out": 0.45,
+    "style": "scale"
+   },
+   "props": {
+    "title": "GPA",
+    "subtitle": "ACADEMY",
+    "at": 6.16
+   }
+  },
+  {
+   "id": "audience-chips",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 8.3,
+   "end": 13.45,
+   "narration": "Si eres estudiante de medicina, médico, enfermero o instrumentista quirúrgico",
+   "trigger": "cada rol aparece cuando se pronuncia",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "variant": "chips",
+    "prefix": {
+     "text": "Si eres",
+     "at": 8.38
+    },
+    "items": [
+     {
+      "text": "Estudiante de medicina",
+      "at": 8.7,
+      "icon": "cap"
+     },
+     {
+      "text": "Médico",
+      "at": 10.2,
+      "icon": "steth"
+     },
+     {
+      "text": "Enfermero",
+      "at": 11.02,
+      "icon": "nurse"
+     },
+     {
+      "text": "Instrumentista quirúrgico",
+      "at": 11.84,
+      "icon": "scalpel"
+     }
+    ]
+   }
+  },
+  {
+   "id": "interest",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 13.5,
+   "end": 15.15,
+   "narration": "esto te interesa.",
+   "trigger": "esto te interesa (13.62s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Esto",
+      "at": 13.62
+     },
+     {
+      "text": "te",
+      "at": 13.86
+     },
+     {
+      "text": "interesa",
+      "at": 14.04
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "lamp-right",
+   "component": "SurgicalInstruments",
+   "enabled": true,
+   "start": 15.9,
+   "end": 17.75,
+   "narration": "Hoy el quirófano exige",
+   "trigger": "quirófano (16.0s) → lámpara quirúrgica",
+   "layer": "behind",
+   "position": {
+    "x": 770,
+    "y": 175,
+    "w": 280,
+    "h": 420
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-right"
+   },
+   "props": {
+    "variant": "lamp"
+   }
+  },
+  {
+   "id": "kw-quirofano",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 15.95,
+   "end": 16.95,
+   "narration": "quirófano",
+   "trigger": "quirófano (16.0s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Quirófano",
+      "at": 16.0
+     }
+    ],
+    "accent": "cyan"
+   }
+  },
+  {
+   "id": "kw-profesionales",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 16.75,
+   "end": 17.65,
+   "narration": "exige profesionales",
+   "trigger": "profesionales (16.78s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Profesionales",
+      "at": 16.78
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "kw-preparados",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 17.6,
+   "end": 19.3,
+   "narration": "que lleguen preparados",
+   "trigger": "lleguen preparados (17.68s / 18.04s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.3,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Lleguen",
+      "at": 17.68
+     },
+     {
+      "text": "preparados",
+      "at": 18.04
+     }
+    ],
+    "accent": "gold",
+    "progress": {
+     "from": 18.04,
+     "to": 18.9
+    }
+   }
+  },
+  {
+   "id": "instrumental-tray",
+   "component": "SurgicalInstruments",
+   "enabled": true,
+   "start": 19.3,
+   "end": 20.72,
+   "narration": "que conozcan el instrumental",
+   "trigger": "conozcan el instrumental (19.42s – 19.98s)",
+   "layer": "front",
+   "position": {
+    "x": 90,
+    "y": 780,
+    "w": 900,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.4,
+    "out": 0.0,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "tray",
+    "items": [
+     "scalpel",
+     "forceps",
+     "scissors",
+     "needleholder"
+    ],
+    "heading": [
+     {
+      "text": "Conozcan",
+      "at": 19.42
+     },
+     {
+      "text": "el instrumental",
+      "at": 19.84
+     }
+    ]
+   }
+  },
+  {
+   "id": "captions",
+   "component": "Captions",
+   "enabled": true,
+   "start": 0.0,
+   "end": 20.72,
+   "narration": "(subtítulos dinámicos palabra por palabra)",
+   "trigger": "transcripción Whisper",
+   "layer": "front",
+   "position": {
+    "x": 50,
+    "y": 1395,
+    "w": 980,
+    "h": 175
+   },
+   "transition": {
+    "in": 0.0,
+    "out": 0.0,
+    "style": "none"
+   },
+   "props": {
+    "groups": [
+     {
+      "words": [
+       0,
+       5
+      ],
+      "start": 0.0,
+      "end": 2.38,
+      "text": "Hola, soy el doctor Lester Tavares,"
+     },
+     {
+      "words": [
+       6,
+       9
+      ],
+      "start": 2.64,
+      "end": 4.54,
+      "text": "cirujano general y laparoscopista"
+     },
+     {
+      "words": [
+       10,
+       15
+      ],
+      "start": 4.54,
+      "end": 7.32,
+      "text": "y director académico de GPA Academy."
+     },
+     {
+      "words": [
+       16,
+       20
+      ],
+      "start": 8.38,
+      "end": 10.0,
+      "text": "Si eres estudiante de medicina,"
+     },
+     {
+      "words": [
+       21,
+       22
+      ],
+      "start": 10.2,
+      "end": 11.7,
+      "text": "médico, enfermero"
+     },
+     {
+      "words": [
+       23,
+       25
+      ],
+      "start": 11.7,
+      "end": 13.16,
+      "text": "o instrumentista quirúrgico,"
+     },
+     {
+      "words": [
+       26,
+       28
+      ],
+      "start": 13.62,
+      "end": 14.56,
+      "text": "esto te interesa."
+     },
+     {
+      "words": [
+       29,
+       32
+      ],
+      "start": 15.5,
+      "end": 16.78,
+      "text": "Hoy el quirófano exige"
+     },
+     {
+      "words": [
+       33,
+       36
+      ],
+      "start": 16.78,
+      "end": 18.88,
+      "text": "profesionales que lleguen preparados,"
+     },
+     {
+      "words": [
+       37,
+       40
+      ],
+      "start": 19.24,
+      "end": 20.28,
+      "text": "que conozcan el instrumental"
+     }
+    ]
+   }
+  },
+  {
+   "id": "course-card",
+   "component": "CourseInfoCard",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "title": "Programa académico",
+    "lines": [
+     "Edita este texto"
+    ],
+    "badge": "GPA Academy"
+   },
+   "note": "Disponible. Desactivado: la narración no menciona programas ni cursos."
+  },
+  {
+   "id": "simulation-preview",
+   "component": "SimulationPreview",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "behind",
+   "position": {
+    "x": 760,
+    "y": 185,
+    "w": 300,
+    "h": 300
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "label": "SIMULACIÓN"
+   },
+   "note": "Disponible. Desactivado: la narración no menciona simulación."
+  },
+  {
+   "id": "call-to-action",
+   "component": "CallToAction",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "headline": "Inscríbete",
+    "sub": "GPA Academy",
+    "at": 0
+   },
+   "note": "Disponible. Desactivado: en este clip el presentador no invita a inscribirse; activar solo si la narración lo dice."
+  }
+ ]
+}

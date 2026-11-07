@@ -1,0 +1,11 @@
+1
+00:00:00,000 --> 00:00:07,320
+Hola, soy el doctor Lester Tavares, cirujano general y laparoscopista y director académico de GPA Academy.
+
+2
+00:00:08,380 --> 00:00:14,560
+Si eres estudiante de medicina, médico, enfermero o instrumentista quirúrgico, esto te interesa.
+
+3
+00:00:15,500 --> 00:00:20,280
+Hoy el quirófano exige profesionales que lleguen preparados, que conozcan el instrumental
