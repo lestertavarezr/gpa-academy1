@@ -2,11 +2,10 @@
   "name": "gpa-academy-animated",
   "version": "1.0.0",
   "private": true,
-  "description": "GPA Academy – animaciones cinematográficas sincronizadas con la narración (Remotion)",
+  "description": "GPA Academy \u2013 animaciones cinematogr\u00e1ficas sincronizadas con la narraci\u00f3n (Remotion)",
   "scripts": {
     "studio": "remotion studio src/index.ts",
-    "render": "remotion render src/index.ts GPAAcademy out/gpa-academy-animated.mp4 --codec=h264 --crf=16 --pixel-format=yuv420p",
-    "still": "remotion still src/index.ts GPAAcademy",
+    "render": "./scripts/render.sh",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

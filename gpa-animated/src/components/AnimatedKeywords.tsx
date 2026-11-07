@@ -61,7 +61,7 @@ const Chip: React.FC<{item: Item; nextAt?: number}> = ({item, nextAt}) => {
   );
 };
 
-const Chips: React.FC<{items: Item[]; prefix?: {text: string; at: number}}> = ({items, prefix}) => {
+const Chips: React.FC<{items: Item[]; prefix?: {text: string; at: number; ellipsis?: boolean}}> = ({items, prefix}) => {
   const pre = useSpringAt(prefix?.at ?? 0, snappy);
   return (
     <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 11}}>
@@ -80,7 +80,7 @@ const Chips: React.FC<{items: Item[]; prefix?: {text: string; at: number}}> = ({
             marginBottom: 2,
           }}
         >
-          {prefix.text}…
+          {prefix.text}{prefix.ellipsis === false ? '' : '…'}
         </div>
       )}
       {items.map((it, i) => (
@@ -122,7 +122,8 @@ const Headline: React.FC<{
 }> = ({items, accent, progress}) => {
   const ac = accentColor(accent);
   const longest = Math.max(...items.map((i) => i.text.length));
-  const size = Math.min(108, Math.floor(820 / (longest * 0.8)));
+  const total = items.reduce((n, i) => n + i.text.length + 1, 0) - 1;
+  const size = Math.min(total > 18 ? 78 : 108, Math.floor(820 / (longest * 0.8)));
   const first = items[0].at;
   const bar = useRange(first, first + 0.5);
   const prog = progress ? useRange(progress.from, progress.to) : 0;
@@ -152,7 +153,7 @@ const Headline: React.FC<{
 export const AnimatedKeywords: React.FC<{
   variant: 'chips' | 'headline';
   items: Item[];
-  prefix?: {text: string; at: number};
+  prefix?: {text: string; at: number; ellipsis?: boolean};
   accent?: string;
   progress?: {from: number; to: number};
   box: {w: number; h: number};

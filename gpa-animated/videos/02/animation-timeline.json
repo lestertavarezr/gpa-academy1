@@ -1,0 +1,666 @@
+{
+ "meta": {
+  "project": "GPA Academy — animaciones cinematográficas (video 02)",
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 516,
+  "durationSeconds": 20.64,
+  "source": "public/02/original.mp4",
+  "personMatte": "public/02/person.webm",
+  "brand": {
+   "navy": "#0B1E3D",
+   "cyan": "#00C2D1",
+   "gold": "#C9A227",
+   "white": "#FFFFFF"
+  },
+  "safeAreaReels": {
+   "top": 250,
+   "bottom": 340,
+   "left": 60,
+   "right": 100
+  },
+  "howToEdit": "Cambia 'start'/'end' (segundos), 'position' (px en 1080x1920), 'props' o 'enabled' y recarga Remotion Studio."
+ },
+ "animations": [
+  {
+   "id": "hud-frame",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.15,
+   "end": 20.64,
+   "narration": "(toda la narración)",
+   "trigger": "identidad visual continua",
+   "layer": "front",
+   "position": {
+    "x": 0,
+    "y": 0,
+    "w": 1080,
+    "h": 1920
+   },
+   "transition": {
+    "in": 0.8,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "frame",
+    "tag": "GPA ACADEMY"
+   }
+  },
+  {
+   "id": "halo",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.0,
+   "end": 20.64,
+   "narration": "(toda la narración)",
+   "trigger": "atmósfera holográfica 3D detrás del presentador",
+   "layer": "behind",
+   "position": {
+    "x": 90,
+    "y": -60,
+    "w": 900,
+    "h": 900
+   },
+   "transition": {
+    "in": 1.0,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "halo"
+   }
+  },
+  {
+   "id": "kw-dominen",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 0.85,
+   "end": 2.15,
+   "narration": "dominen los tiempos",
+   "trigger": "dominen (0.90s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Dominen",
+      "at": 0.9
+     },
+     {
+      "text": "los",
+      "at": 1.34
+     },
+     {
+      "text": "tiempos",
+      "at": 1.52
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "instruments-left",
+   "component": "SurgicalInstruments",
+   "enabled": true,
+   "start": 2.0,
+   "end": 4.4,
+   "narration": "de la cirugía",
+   "trigger": "cirugía (2.14s) → visualización quirúrgica",
+   "layer": "behind",
+   "position": {
+    "x": 0,
+    "y": 330,
+    "w": 340,
+    "h": 380
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-left"
+   },
+   "props": {
+    "variant": "pair",
+    "items": [
+     "scalpel",
+     "forceps"
+    ]
+   }
+  },
+  {
+   "id": "kw-cirugia",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 2.1,
+   "end": 3.1,
+   "narration": "de la cirugía",
+   "trigger": "cirugía (2.14s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Cirugía",
+      "at": 2.14
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "kw-seguridad",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 3.3,
+   "end": 4.5,
+   "narration": "sepan actuar con seguridad",
+   "trigger": "actuar con seguridad (3.40s – 3.90s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Actuar",
+      "at": 3.4
+     },
+     {
+      "text": "con",
+      "at": 3.76
+     },
+     {
+      "text": "seguridad",
+      "at": 3.9
+     }
+    ],
+    "accent": "cyan"
+   }
+  },
+  {
+   "id": "shield-right",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 3.75,
+   "end": 6.1,
+   "narration": "con seguridad",
+   "trigger": "seguridad (3.90s) → escudo de seguridad",
+   "layer": "behind",
+   "position": {
+    "x": 770,
+    "y": 200,
+    "w": 280,
+    "h": 320
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-right"
+   },
+   "props": {
+    "variant": "shield"
+   }
+  },
+  {
+   "id": "kw-primer-dia",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 4.4,
+   "end": 6.1,
+   "narration": "desde el primer día",
+   "trigger": "desde el primer día (4.44s – 5.34s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Desde",
+      "at": 4.44
+     },
+     {
+      "text": "el",
+      "at": 4.78
+     },
+     {
+      "text": "primer",
+      "at": 5.04
+     },
+     {
+      "text": "día",
+      "at": 5.34
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "kw-preparacion",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 6.4,
+   "end": 7.85,
+   "narration": "esa preparación",
+   "trigger": "preparación (6.58s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Preparación",
+      "at": 6.58
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "kw-formacion",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 7.8,
+   "end": 9.15,
+   "narration": "con formación",
+   "trigger": "formación (7.98s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Formación",
+      "at": 7.98
+     }
+    ],
+    "accent": "cyan"
+   }
+  },
+  {
+   "id": "certificate",
+   "component": "CertificateCard",
+   "enabled": true,
+   "start": 9.0,
+   "end": 10.6,
+   "narration": "y con certificación",
+   "trigger": "certificación (9.18s) → certificado estilizado (sin avales)",
+   "layer": "front",
+   "position": {
+    "x": 190,
+    "y": 765,
+    "w": 700,
+    "h": 360
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "scale"
+   },
+   "props": {
+    "title": "Certificación",
+    "at": 9.18
+   }
+  },
+  {
+   "id": "brand-reveal",
+   "component": "BrandReveal",
+   "enabled": true,
+   "start": 10.8,
+   "end": 12.55,
+   "narration": "En GPA Academy",
+   "trigger": "GPA Academy (10.94s) → identidad institucional",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.5,
+    "out": 0.4,
+    "style": "scale"
+   },
+   "props": {
+    "title": "GPA",
+    "subtitle": "ACADEMY",
+    "at": 10.94
+   }
+  },
+  {
+   "id": "course-card",
+   "component": "CourseInfoCard",
+   "enabled": true,
+   "start": 12.5,
+   "end": 19.45,
+   "narration": "programas online en asistencia quirúrgica, instrumentación laparoscópica, manejo de heridas y taller de sutura",
+   "trigger": "cada programa aparece cuando se nombra",
+   "layer": "front",
+   "position": {
+    "x": 150,
+    "y": 765,
+    "w": 780,
+    "h": 385
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "badge": {
+     "text": "Programas",
+     "at": 12.58,
+     "highlight": {
+      "text": "online",
+      "at": 13.18
+     }
+    },
+    "items": [
+     {
+      "text": "Asistencia quirúrgica",
+      "at": 13.94,
+      "icon": "assist"
+     },
+     {
+      "text": "Instrumentación laparoscópica",
+      "at": 15.4,
+      "icon": "laparo"
+     },
+     {
+      "text": "Manejo de heridas",
+      "at": 17.24,
+      "icon": "wound"
+     },
+     {
+      "text": "Taller de sutura",
+      "at": 18.4,
+      "icon": "suture"
+     }
+    ]
+   }
+  },
+  {
+   "id": "kw-aprenderas",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 19.85,
+   "end": 20.64,
+   "narration": "Aprenderás con...",
+   "trigger": "aprenderás con (19.94s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Aprenderás",
+      "at": 19.94
+     },
+     {
+      "text": "con…",
+      "at": 20.54
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "captions",
+   "component": "Captions",
+   "enabled": true,
+   "start": 0.0,
+   "end": 20.64,
+   "narration": "(subtítulos dinámicos palabra por palabra)",
+   "trigger": "transcripción Whisper",
+   "layer": "front",
+   "position": {
+    "x": 50,
+    "y": 1395,
+    "w": 980,
+    "h": 175
+   },
+   "transition": {
+    "in": 0.0,
+    "out": 0.0,
+    "style": "none"
+   },
+   "props": {
+    "groups": [
+     {
+      "words": [
+       0,
+       3
+      ],
+      "start": 0.0,
+      "end": 1.98,
+      "text": "instrumental, dominen los tiempos"
+     },
+     {
+      "words": [
+       4,
+       6
+      ],
+      "start": 1.98,
+      "end": 2.68,
+      "text": "de la cirugía"
+     },
+     {
+      "words": [
+       7,
+       11
+      ],
+      "start": 2.68,
+      "end": 4.44,
+      "text": "y sepan actuar con seguridad"
+     },
+     {
+      "words": [
+       12,
+       15
+      ],
+      "start": 4.44,
+      "end": 5.74,
+      "text": "desde el primer día."
+     },
+     {
+      "words": [
+       16,
+       20
+      ],
+      "start": 6.3,
+      "end": 7.82,
+      "text": "Y esa preparación se demuestra"
+     },
+     {
+      "words": [
+       21,
+       25
+      ],
+      "start": 7.82,
+      "end": 9.98,
+      "text": "con formación y con certificación."
+     },
+     {
+      "words": [
+       26,
+       30
+      ],
+      "start": 10.66,
+      "end": 12.58,
+      "text": "En GPA Academy te ofrecemos"
+     },
+     {
+      "words": [
+       31,
+       35
+      ],
+      "start": 12.58,
+      "end": 15.12,
+      "text": "programas online en asistencia quirúrgica,"
+     },
+     {
+      "words": [
+       36,
+       37
+      ],
+      "start": 15.4,
+      "end": 16.92,
+      "text": "instrumentación laparoscópica,"
+     },
+     {
+      "words": [
+       38,
+       40
+      ],
+      "start": 17.24,
+      "end": 18.16,
+      "text": "manejo de heridas"
+     },
+     {
+      "words": [
+       41,
+       44
+      ],
+      "start": 18.16,
+      "end": 19.38,
+      "text": "y taller de sutura."
+     },
+     {
+      "words": [
+       45,
+       46
+      ],
+      "start": 19.94,
+      "end": 20.62,
+      "text": "Aprenderás con..."
+     }
+    ]
+   }
+  },
+  {
+   "id": "simulation-preview",
+   "component": "SimulationPreview",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "behind",
+   "position": {
+    "x": 760,
+    "y": 185,
+    "w": 300,
+    "h": 300
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "label": "SIMULACIÓN"
+   },
+   "note": "Disponible. Desactivado: la narración no menciona simulación."
+  },
+  {
+   "id": "call-to-action",
+   "component": "CallToAction",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "headline": "Inscríbete",
+    "sub": "GPA Academy",
+    "at": 0
+   },
+   "note": "Disponible. Desactivado: el clip termina en «Aprenderás con…» sin invitar a inscribirse."
+  }
+ ]
+}

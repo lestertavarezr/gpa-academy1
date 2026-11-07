@@ -76,9 +76,9 @@ export const InstrumentGlyph: React.FC<{
   );
 };
 
-const Lamp: React.FC<{w: number; h: number}> = ({w, h}) => {
+const Lamp: React.FC<{w: number; h: number; startSec: number}> = ({w, h, startSec}) => {
   const t = useAbsSeconds();
-  const on = useRange(16.0, 16.7);
+  const on = useRange(startSec + 0.1, startSec + 0.8);
   const sway = Math.sin(t * 1.4) * 1.2;
   return (
     <svg width={w} height={h} viewBox="0 0 280 420" style={{overflow: 'visible'}}>
@@ -120,19 +120,19 @@ export const SurgicalInstruments: React.FC<{
   heading?: {text: string; at: number}[];
   box: {w: number; h: number};
   startSec?: number;
-}> = ({variant, items = [], heading = [], box}) => {
+}> = ({variant, items = [], heading = [], box, startSec = 0}) => {
   const {fps} = useVideoConfig();
   const t = useAbsSeconds();
   // Barrido de escáner holográfico
   const sweep = (t * 0.55) % 1;
 
-  if (variant === 'lamp') return <Lamp w={box.w} h={box.h} />;
+  if (variant === 'lamp') return <Lamp w={box.w} h={box.h} startSec={startSec} />;
 
   if (variant === 'pair') {
     return (
       <div style={{position: 'relative', width: box.w, height: box.h}}>
         {items.map((name, i) => {
-          const dr = useRangeAt(2.64 + i * 0.35, 2.64 + i * 0.35 + 0.9);
+          const dr = useRangeAt(startSec + 0.09 + i * 0.35, startSec + 0.99 + i * 0.35);
           const float = Math.sin(t * 1.6 + i) * 6;
           return (
             <div
@@ -166,7 +166,7 @@ export const SurgicalInstruments: React.FC<{
   }
 
   // tray
-  const panel = useSpringAt(19.3, smooth);
+  const panel = useSpringAt(startSec, smooth);
   return (
     <GlassPanel style={{width: box.w, height: box.h, padding: '26px 40px', opacity: panel}} glow={0.3}>
       <div style={{display: 'flex', gap: 22, alignItems: 'baseline', marginBottom: 10, height: 56}}>
@@ -196,7 +196,7 @@ export const SurgicalInstruments: React.FC<{
       </div>
       <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', columnGap: 36, rowGap: 6, position: 'relative'}}>
         {items.map((name, i) => {
-          const dr = useRangeAt(19.45 + i * 0.16, 19.45 + i * 0.16 + 0.75);
+          const dr = useRangeAt(startSec + 0.15 + i * 0.16, startSec + 0.9 + i * 0.16);
           return (
             <div key={name} style={{height: 84, display: 'flex', alignItems: 'center'}}>
               <InstrumentGlyph name={name} draw={dr} width={330} />

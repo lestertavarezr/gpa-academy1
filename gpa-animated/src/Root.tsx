@@ -1,15 +1,21 @@
 import React from 'react';
 import {Composition} from 'remotion';
 import {GPAAcademy} from './Composition';
-import {timeline} from './lib/timeline';
+import {VIDEOS} from './lib/timeline';
 
 export const RemotionRoot: React.FC = () => (
-  <Composition
-    id="GPAAcademy"
-    component={GPAAcademy}
-    durationInFrames={timeline.meta.durationInFrames}
-    fps={timeline.meta.fps}
-    width={timeline.meta.width}
-    height={timeline.meta.height}
-  />
+  <>
+    {Object.entries(VIDEOS).map(([id, v]) => (
+      <Composition
+        key={id}
+        id={`Video${id}`}
+        component={GPAAcademy}
+        defaultProps={{videoId: id}}
+        durationInFrames={v.timeline.meta.durationInFrames}
+        fps={v.timeline.meta.fps}
+        width={v.timeline.meta.width}
+        height={v.timeline.meta.height}
+      />
+    ))}
+  </>
 );

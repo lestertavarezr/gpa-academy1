@@ -138,17 +138,46 @@ const Ring: React.FC<{box: {w: number; h: number}; from?: number; to?: number}> 
   );
 };
 
+/* ───────────────────────── escudo de seguridad ───────────────────────── */
+const Shield: React.FC<{box: {w: number; h: number}; at: number}> = ({box, at}) => {
+  const t = useAbsSeconds();
+  const d = useRange(at, at + 0.9);
+  const ck = useRange(at + 0.6, at + 1.1);
+  const pulse = 1 + 0.03 * Math.sin((t - at) * 4);
+  const path = 'M150 20 L260 60 V150 C260 230 210 290 150 320 C90 290 40 230 40 150 V60 Z';
+  return (
+    <svg width={box.w} height={box.h} viewBox="0 0 300 340" style={{overflow: 'visible', transform: `scale(${pulse})`}}>
+      <defs>
+        <filter id="sh-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+        <linearGradient id="sh-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stopColor={BRAND.cyan} stopOpacity="0.28" /><stop offset="1" stopColor={BRAND.navy} stopOpacity="0.1" />
+        </linearGradient>
+      </defs>
+      <g filter="url(#sh-glow)" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path d={path} stroke={BRAND.cyan} strokeWidth={3} fill="url(#sh-fill)" fillOpacity={d} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - d} />
+        <path d={path} stroke={BRAND.gold} strokeWidth={1.5} strokeOpacity={0.7 * d} transform="translate(150 170) scale(0.84) translate(-150 -170)" />
+        <path d="M100 172 L136 208 L206 130" stroke={BRAND.white} strokeWidth={14} pathLength={1} strokeDasharray={1} strokeDashoffset={1 - ck} />
+      </g>
+    </svg>
+  );
+};
+
 export const MedicalHUD: React.FC<{
-  variant: 'frame' | 'halo' | 'ring';
+  variant: 'frame' | 'halo' | 'ring' | 'shield';
+  startSec?: number;
   tag?: string;
   from?: number;
   to?: number;
   box: {w: number; h: number};
-}> = ({variant, tag, box, from, to}) => {
+}> = ({variant, tag, box, from, to, startSec = 0}) => {
   const {width, height} = useVideoConfig();
   void width;
   void height;
   if (variant === 'frame') return <HudFrame tag={tag} />;
   if (variant === 'halo') return <Halo box={box} />;
+  if (variant === 'shield') return <Shield box={box} at={startSec + 0.1} />;
   return <Ring box={box} from={from} to={to} />;
 };

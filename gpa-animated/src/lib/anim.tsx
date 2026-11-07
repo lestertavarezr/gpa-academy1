@@ -3,7 +3,7 @@ import {Easing, interpolate, spring, useCurrentFrame, useVideoConfig} from 'remo
 import type {Transition} from './timeline';
 
 /** Frame absoluto del video = frame local de la <Sequence> + offset. */
-export const AnimContext = createContext<{offset: number}>({offset: 0});
+export const AnimContext = createContext<{offset: number; videoId: string}>({offset: 0, videoId: '01'});
 export const useAbsFrame = () => {
   const f = useCurrentFrame();
   const {offset} = useContext(AnimContext);

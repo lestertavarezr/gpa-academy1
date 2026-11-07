@@ -1,16 +1,17 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {interpolate} from 'remotion';
-import transcript from '../../transcript/transcript.json';
+import {VIDEOS} from '../lib/timeline';
 import {BRAND, FONT} from '../lib/brand';
-import {useAbsSeconds} from '../lib/anim';
+import {AnimContext, useAbsSeconds} from '../lib/anim';
 
 type Group = {words: [number, number]; start: number; end: number; text: string};
-const WORDS = transcript.words as {i: number; text: string; start: number; end: number}[];
 
 /** Subtítulos dinámicos: la palabra activa se resalta en cian y escala ligeramente. */
 export const Captions: React.FC<{groups: Group[]; box: {w: number; h: number}}> = ({groups, box}) => {
   const t = useAbsSeconds();
-  const g = groups.find((x) => t >= x.start - 0.08 && t <= x.end + 0.4);
+  const {videoId} = useContext(AnimContext);
+  const WORDS = VIDEOS[videoId].words;
+  const g = [...groups].reverse().find((x) => t >= x.start - 0.08 && t <= x.end + 0.4); // el grupo más reciente gana
   if (!g) return null;
   const words = WORDS.slice(g.words[0], g.words[1] + 1);
   const inP = interpolate(t, [g.start - 0.08, g.start + 0.14], [0, 1], {extrapolateLeft: 'clamp', extrapolateRight: 'clamp'});

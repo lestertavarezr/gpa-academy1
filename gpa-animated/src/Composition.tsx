@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {AbsoluteFill, OffthreadVideo, Sequence, continueRender, delayRender, staticFile, useVideoConfig} from 'remotion';
+import {AbsoluteFill, Audio, OffthreadVideo, Sequence, continueRender, delayRender, staticFile, useVideoConfig} from 'remotion';
 import {AnimContext, useLayerTransition} from './lib/anim';
-import {AnimationDef, timeline} from './lib/timeline';
+import {AnimationDef, VIDEOS} from './lib/timeline';
 import {BRAND} from './lib/brand';
 import {AnimatedKeywords} from './components/AnimatedKeywords';
 import {MedicalHUD} from './components/MedicalHUD';
 import {SurgicalInstruments} from './components/SurgicalInstruments';
 import {AnatomyVisualization} from './components/AnatomyVisualization';
-import {CourseInfoCard} from './components/CourseInfoCard';
+import {CourseInfoCard, CertificateCard} from './components/CourseInfoCard';
 import {SimulationPreview} from './components/SimulationPreview';
 import {CallToAction} from './components/CallToAction';
 import {PresenterCard} from './components/PresenterCard';
@@ -21,6 +21,7 @@ const REGISTRY: Record<string, React.ComponentType<any>> = {
   SurgicalInstruments,
   AnatomyVisualization,
   CourseInfoCard,
+  CertificateCard,
   SimulationPreview,
   CallToAction,
   PresenterCard,
@@ -63,29 +64,30 @@ const Layer: React.FC<{def: AnimationDef; durationFrames: number}> = ({def, dura
   );
 };
 
-const renderLayers = (defs: AnimationDef[], fps: number) =>
+const renderLayers = (defs: AnimationDef[], fps: number, videoId: string) =>
   defs.map((def) => {
     const from = Math.round(def.start * fps);
     const dur = Math.max(1, Math.round((def.end - def.start) * fps));
     return (
       <Sequence key={def.id} from={from} durationInFrames={dur} layout="none" name={`${def.component} · ${def.id}`}>
-        <AnimContext.Provider value={{offset: from}}>
+        <AnimContext.Provider value={{offset: from, videoId}}>
           <Layer def={def} durationFrames={dur} />
         </AnimContext.Provider>
       </Sequence>
     );
   });
 
-export const GPAAcademy: React.FC = () => {
+export const GPAAcademy: React.FC<{videoId: string}> = ({videoId}) => {
   useFonts();
   const {fps} = useVideoConfig();
-  const active = timeline.animations.filter((a) => a.enabled && a.end > a.start);
+  const active = VIDEOS[videoId].timeline.animations.filter((a) => a.enabled && a.end > a.start);
   const behind = active.filter((a) => a.layer === 'behind');
   const front = active.filter((a) => a.layer === 'front');
   return (
     <AbsoluteFill style={{backgroundColor: BRAND.navyDeep}}>
       {/* 1 · Video original (audio intacto) */}
-      <OffthreadVideo src={staticFile('original.mp4')} />
+      <OffthreadVideo src={staticFile(`${videoId}/original.mp4`)} muted />
+      <Audio src={staticFile(`${videoId}/audio.m4a`)} />
       {/* 2 · Tinte navy suave: da contraste a los hologramas del fondo */}
       <AbsoluteFill
         style={{
@@ -94,11 +96,11 @@ export const GPAAcademy: React.FC = () => {
         }}
       />
       {/* 3 · Capas detrás del presentador */}
-      {renderLayers(behind, fps)}
+      {renderLayers(behind, fps, videoId)}
       {/* 4 · Presentador recortado (WebM con alfa, sin audio) */}
-      <OffthreadVideo src={staticFile('person.webm')} transparent muted />
+      <OffthreadVideo src={staticFile(`${videoId}/person.webm`)} transparent muted />
       {/* 5 · Capas frente */}
-      {renderLayers(front, fps)}
+      {renderLayers(front, fps, videoId)}
     </AbsoluteFill>
   );
 };

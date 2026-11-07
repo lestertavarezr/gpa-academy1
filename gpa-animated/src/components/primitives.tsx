@@ -51,6 +51,33 @@ export const ICONS: Record<string, React.ReactNode> = {
       <path d="M27 21 C30 12 38 6 44 5 C43 12 37 20 29 23 Z" />
     </g>
   ),
+  laparo: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 40 L30 14" strokeWidth="4" />
+      <rect x="28" y="6" width="14" height="12" rx="3" transform="rotate(45 35 12)" />
+      <circle cx="38" cy="10" r="2" />
+    </g>
+  ),
+  wound: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="4" y="16" width="40" height="16" rx="8" transform="rotate(-35 24 24)" />
+      <path d="M19 19 L29 29 M29 19 L19 29" strokeWidth="2" transform="rotate(0)" />
+    </g>
+  ),
+  suture: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 40 C2 24 14 6 34 8" />
+      <path d="M34 8 L42 12 L36 18 Z" />
+      <path d="M10 40 C16 46 28 40 30 32 C32 26 40 28 44 34" strokeDasharray="2 4" />
+    </g>
+  ),
+  assist: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 26 L18 14 C21 11 25 12 26 16 L28 22" />
+      <path d="M40 26 L30 14 C27 11 23 12 22 16" />
+      <path d="M8 26 C8 38 16 44 24 44 C32 44 40 38 40 26" />
+    </g>
+  ),
   check: (
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 25 L20 35 L39 13" />
