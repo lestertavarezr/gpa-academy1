@@ -110,6 +110,22 @@ export const ICONS: Record<string, React.ReactNode> = {
       <path d="M16 18 L20 22 L27 14 M16 32 H32" />
     </g>
   ),
+  hospital: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M7 42 V14 H41 V42 Z M4 42 H44" />
+      <path d="M24 19 V31 M18 25 H30" />
+      <path d="M20 42 V36 H28 V42" />
+    </g>
+  ),
+  team: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="24" cy="15" r="6" />
+      <circle cx="9" cy="21" r="4.5" />
+      <circle cx="39" cy="21" r="4.5" />
+      <path d="M12 42 V35 C12 29 36 29 36 35 V42 Z" />
+      <path d="M2 38 V33 C2 29 8 28 11 30 M46 38 V33 C46 29 40 28 37 30" />
+    </g>
+  ),
   check: (
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 25 L20 35 L39 13" />

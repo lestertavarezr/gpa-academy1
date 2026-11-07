@@ -1,0 +1,568 @@
+{
+ "meta": {
+  "project": "GPA Academy — animaciones cinematográficas (video 04)",
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 384,
+  "durationSeconds": 15.36,
+  "source": "public/04/original.mp4",
+  "personMatte": "public/04/person.webm",
+  "brand": {
+   "navy": "#0B1E3D",
+   "cyan": "#00C2D1",
+   "gold": "#C9A227",
+   "white": "#FFFFFF"
+  },
+  "safeAreaReels": {
+   "top": 250,
+   "bottom": 340,
+   "left": 60,
+   "right": 100
+  },
+  "howToEdit": "Cambia 'start'/'end' (segundos), 'position' (px en 1080x1920), 'props' o 'enabled' y recarga Remotion Studio."
+ },
+ "animations": [
+  {
+   "id": "hud-frame",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.15,
+   "end": 15.36,
+   "narration": "(toda la narración)",
+   "trigger": "identidad visual continua",
+   "layer": "front",
+   "position": {
+    "x": 0,
+    "y": 0,
+    "w": 1080,
+    "h": 1920
+   },
+   "transition": {
+    "in": 0.8,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "frame",
+    "tag": "GPA ACADEMY"
+   }
+  },
+  {
+   "id": "halo",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.0,
+   "end": 15.36,
+   "narration": "(toda la narración)",
+   "trigger": "atmósfera holográfica 3D detrás del presentador",
+   "layer": "behind",
+   "position": {
+    "x": 90,
+    "y": -60,
+    "w": 900,
+    "h": 900
+   },
+   "transition": {
+    "in": 1.0,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "halo"
+   }
+  },
+  {
+   "id": "kw-compruebes",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 0.0,
+   "end": 1.25,
+   "narration": "y compruebes",
+   "trigger": "compruebes (0.26s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Compruebes",
+      "at": 0.26
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "kw-dominas",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 1.15,
+   "end": 2.9,
+   "narration": "lo que realmente dominas",
+   "trigger": "realmente dominas (1.22s – 1.72s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Realmente",
+      "at": 1.22
+     },
+     {
+      "text": "dominas",
+      "at": 1.72
+     }
+    ],
+    "accent": "gold",
+    "progress": {
+     "from": 1.72,
+     "to": 2.45
+    }
+   }
+  },
+  {
+   "id": "kw-completar",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 3.05,
+   "end": 4.95,
+   "narration": "Al completar tu formación",
+   "trigger": "completar tu formación (3.60s – 4.16s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Completar",
+      "at": 3.6
+     },
+     {
+      "text": "tu",
+      "at": 4.08
+     },
+     {
+      "text": "formación",
+      "at": 4.16
+     }
+    ],
+    "accent": "cyan"
+   }
+  },
+  {
+   "id": "certificate",
+   "component": "CertificateCard",
+   "enabled": true,
+   "start": 4.95,
+   "end": 7.0,
+   "narration": "obtienes una certificación",
+   "trigger": "certificación (5.46s) → certificado estilizado (sin avales)",
+   "layer": "front",
+   "position": {
+    "x": 190,
+    "y": 735,
+    "w": 700,
+    "h": 340
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "scale"
+   },
+   "props": {
+    "title": "Certificación",
+    "at": 5.46
+   }
+  },
+  {
+   "id": "kw-competencias",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 7.0,
+   "end": 8.15,
+   "narration": "que respalda tus competencias",
+   "trigger": "competencias (7.10s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Competencias",
+      "at": 7.1
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "ring-right",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 8.1,
+   "end": 10.1,
+   "narration": "fortalece tu perfil profesional",
+   "trigger": "fortalece (8.18s) → anillo de progreso",
+   "layer": "behind",
+   "position": {
+    "x": 800,
+    "y": 220,
+    "w": 230,
+    "h": 230
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-right"
+   },
+   "props": {
+    "variant": "ring",
+    "from": 8.2,
+    "to": 9.5
+   }
+  },
+  {
+   "id": "kw-perfil",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 8.1,
+   "end": 10.1,
+   "narration": "y fortalece tu perfil profesional",
+   "trigger": "fortalece tu perfil profesional (8.18s – 9.28s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Fortalece",
+      "at": 8.18
+     },
+     {
+      "text": "tu",
+      "at": 8.72
+     },
+     {
+      "text": "perfil",
+      "at": 8.88
+     },
+     {
+      "text": "profesional",
+      "at": 9.28
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "kw-presentes",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 10.15,
+   "end": 11.2,
+   "narration": "para que te presentes",
+   "trigger": "presentes (10.68s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Presentes",
+      "at": 10.68
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "kw-confianza",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 11.1,
+   "end": 12.4,
+   "narration": "con más confianza",
+   "trigger": "con más confianza (11.18s – 11.60s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "con",
+      "at": 11.18
+     },
+     {
+      "text": "más",
+      "at": 11.34
+     },
+     {
+      "text": "confianza",
+      "at": 11.6
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "audience-places",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 12.25,
+   "end": 15.36,
+   "narration": "ante hospitales, clínicas y equipos quirúrgicos",
+   "trigger": "cada destino aparece cuando se nombra",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.4,
+    "out": 0.0,
+    "style": "rise"
+   },
+   "props": {
+    "variant": "chips",
+    "prefix": {
+     "text": "Ante",
+     "at": 12.28,
+     "ellipsis": true
+    },
+    "items": [
+     {
+      "text": "Hospitales",
+      "at": 12.5,
+      "icon": "hospital"
+     },
+     {
+      "text": "Clínicas",
+      "at": 13.34,
+      "icon": "steth"
+     },
+     {
+      "text": "Equipos quirúrgicos",
+      "at": 14.18,
+      "icon": "team"
+     }
+    ]
+   }
+  },
+  {
+   "id": "captions",
+   "component": "Captions",
+   "enabled": true,
+   "start": 0.0,
+   "end": 15.36,
+   "narration": "(subtítulos dinámicos palabra por palabra)",
+   "trigger": "transcripción Whisper",
+   "layer": "front",
+   "position": {
+    "x": 50,
+    "y": 1395,
+    "w": 980,
+    "h": 175
+   },
+   "transition": {
+    "in": 0.0,
+    "out": 0.0,
+    "style": "none"
+   },
+   "props": {
+    "groups": [
+     {
+      "words": [
+       0,
+       3
+      ],
+      "start": 0.0,
+      "end": 1.22,
+      "text": "y compruebes lo que"
+     },
+     {
+      "words": [
+       4,
+       5
+      ],
+      "start": 1.22,
+      "end": 2.66,
+      "text": "realmente dominas."
+     },
+     {
+      "words": [
+       6,
+       9
+      ],
+      "start": 3.12,
+      "end": 4.8,
+      "text": "Al completar tu formación,"
+     },
+     {
+      "words": [
+       10,
+       12
+      ],
+      "start": 4.98,
+      "end": 6.24,
+      "text": "obtienes una certificación"
+     },
+     {
+      "words": [
+       13,
+       16
+      ],
+      "start": 6.24,
+      "end": 7.84,
+      "text": "que respalda tus competencias"
+     },
+     {
+      "words": [
+       17,
+       21
+      ],
+      "start": 7.84,
+      "end": 9.88,
+      "text": "y fortalece tu perfil profesional,"
+     },
+     {
+      "words": [
+       22,
+       25
+      ],
+      "start": 10.18,
+      "end": 11.18,
+      "text": "para que te presentes"
+     },
+     {
+      "words": [
+       26,
+       28
+      ],
+      "start": 11.18,
+      "end": 12.28,
+      "text": "con más confianza"
+     },
+     {
+      "words": [
+       29,
+       31
+      ],
+      "start": 12.28,
+      "end": 13.92,
+      "text": "ante hospitales, clínicas"
+     },
+     {
+      "words": [
+       32,
+       34
+      ],
+      "start": 13.92,
+      "end": 15.22,
+      "text": "y equipos quirúrgicos."
+     }
+    ]
+   }
+  },
+  {
+   "id": "call-to-action",
+   "component": "CallToAction",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 730,
+    "w": 820,
+    "h": 290
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "headline": "Inscríbete",
+    "sub": "GPA Academy",
+    "at": 0
+   },
+   "note": "Disponible. Desactivado: el clip no invita a inscribirse."
+  }
+ ]
+}

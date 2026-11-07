@@ -1,0 +1,274 @@
+{
+ "language": "es",
+ "engine": "faster-whisper (Whisper small, int8)",
+ "duration": 15.4,
+ "segments": [
+  {
+   "start": 0.0,
+   "end": 2.66,
+   "text": "y compruebes lo que realmente dominas."
+  },
+  {
+   "start": 3.12,
+   "end": 7.84,
+   "text": "Al completar tu formación, obtienes una certificación que respalda tus competencias"
+  },
+  {
+   "start": 7.84,
+   "end": 9.88,
+   "text": "y fortalece tu perfil profesional,"
+  },
+  {
+   "start": 10.18,
+   "end": 15.22,
+   "text": "para que te presentes con más confianza ante hospitales, clínicas y equipos quirúrgicos."
+  }
+ ],
+ "words": [
+  {
+   "i": 0,
+   "text": "y",
+   "start": 0.0,
+   "end": 0.26,
+   "segment": 0
+  },
+  {
+   "i": 1,
+   "text": "compruebes",
+   "start": 0.26,
+   "end": 0.9,
+   "segment": 0
+  },
+  {
+   "i": 2,
+   "text": "lo",
+   "start": 0.9,
+   "end": 1.04,
+   "segment": 0
+  },
+  {
+   "i": 3,
+   "text": "que",
+   "start": 1.04,
+   "end": 1.22,
+   "segment": 0
+  },
+  {
+   "i": 4,
+   "text": "realmente",
+   "start": 1.22,
+   "end": 1.72,
+   "segment": 0
+  },
+  {
+   "i": 5,
+   "text": "dominas.",
+   "start": 1.72,
+   "end": 2.66,
+   "segment": 0
+  },
+  {
+   "i": 6,
+   "text": "Al",
+   "start": 3.12,
+   "end": 3.6,
+   "segment": 1
+  },
+  {
+   "i": 7,
+   "text": "completar",
+   "start": 3.6,
+   "end": 4.08,
+   "segment": 1
+  },
+  {
+   "i": 8,
+   "text": "tu",
+   "start": 4.08,
+   "end": 4.16,
+   "segment": 1
+  },
+  {
+   "i": 9,
+   "text": "formación,",
+   "start": 4.16,
+   "end": 4.8,
+   "segment": 1
+  },
+  {
+   "i": 10,
+   "text": "obtienes",
+   "start": 4.98,
+   "end": 5.34,
+   "segment": 1
+  },
+  {
+   "i": 11,
+   "text": "una",
+   "start": 5.34,
+   "end": 5.46,
+   "segment": 1
+  },
+  {
+   "i": 12,
+   "text": "certificación",
+   "start": 5.46,
+   "end": 6.24,
+   "segment": 1
+  },
+  {
+   "i": 13,
+   "text": "que",
+   "start": 6.24,
+   "end": 6.38,
+   "segment": 1
+  },
+  {
+   "i": 14,
+   "text": "respalda",
+   "start": 6.38,
+   "end": 6.94,
+   "segment": 1
+  },
+  {
+   "i": 15,
+   "text": "tus",
+   "start": 6.94,
+   "end": 7.1,
+   "segment": 1
+  },
+  {
+   "i": 16,
+   "text": "competencias",
+   "start": 7.1,
+   "end": 7.84,
+   "segment": 1
+  },
+  {
+   "i": 17,
+   "text": "y",
+   "start": 7.84,
+   "end": 8.18,
+   "segment": 2
+  },
+  {
+   "i": 18,
+   "text": "fortalece",
+   "start": 8.18,
+   "end": 8.72,
+   "segment": 2
+  },
+  {
+   "i": 19,
+   "text": "tu",
+   "start": 8.72,
+   "end": 8.88,
+   "segment": 2
+  },
+  {
+   "i": 20,
+   "text": "perfil",
+   "start": 8.88,
+   "end": 9.28,
+   "segment": 2
+  },
+  {
+   "i": 21,
+   "text": "profesional,",
+   "start": 9.28,
+   "end": 9.88,
+   "segment": 2
+  },
+  {
+   "i": 22,
+   "text": "para",
+   "start": 10.18,
+   "end": 10.44,
+   "segment": 3
+  },
+  {
+   "i": 23,
+   "text": "que",
+   "start": 10.44,
+   "end": 10.58,
+   "segment": 3
+  },
+  {
+   "i": 24,
+   "text": "te",
+   "start": 10.58,
+   "end": 10.68,
+   "segment": 3
+  },
+  {
+   "i": 25,
+   "text": "presentes",
+   "start": 10.68,
+   "end": 11.18,
+   "segment": 3
+  },
+  {
+   "i": 26,
+   "text": "con",
+   "start": 11.18,
+   "end": 11.34,
+   "segment": 3
+  },
+  {
+   "i": 27,
+   "text": "más",
+   "start": 11.34,
+   "end": 11.6,
+   "segment": 3
+  },
+  {
+   "i": 28,
+   "text": "confianza",
+   "start": 11.6,
+   "end": 12.28,
+   "segment": 3
+  },
+  {
+   "i": 29,
+   "text": "ante",
+   "start": 12.28,
+   "end": 12.5,
+   "segment": 3
+  },
+  {
+   "i": 30,
+   "text": "hospitales,",
+   "start": 12.5,
+   "end": 13.2,
+   "segment": 3
+  },
+  {
+   "i": 31,
+   "text": "clínicas",
+   "start": 13.34,
+   "end": 13.92,
+   "segment": 3
+  },
+  {
+   "i": 32,
+   "text": "y",
+   "start": 13.92,
+   "end": 14.18,
+   "segment": 3
+  },
+  {
+   "i": 33,
+   "text": "equipos",
+   "start": 14.18,
+   "end": 14.62,
+   "segment": 3
+  },
+  {
+   "i": 34,
+   "text": "quirúrgicos.",
+   "start": 14.62,
+   "end": 15.22,
+   "segment": 3
+  }
+ ]
+}
