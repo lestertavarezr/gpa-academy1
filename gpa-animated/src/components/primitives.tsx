@@ -78,6 +78,38 @@ export const ICONS: Record<string, React.ReactNode> = {
       <path d="M8 26 C8 38 16 44 24 44 C32 44 40 38 40 26" />
     </g>
   ),
+  play: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="9" width="38" height="30" rx="6" />
+      <path d="M20 17 L32 24 L20 31 Z" />
+    </g>
+  ),
+  slides: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="5" y="8" width="38" height="25" rx="3" />
+      <path d="M24 33 V42 M15 42 H33" />
+      <path d="M12 26 L19 19 L25 24 L31 15 L37 22" />
+    </g>
+  ),
+  mic: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="17" y="5" width="14" height="23" rx="7" />
+      <path d="M10 22 C10 33 38 33 38 22 M24 33 V43 M16 43 H32" />
+    </g>
+  ),
+  sim: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="24" cy="22" r="16" />
+      <path d="M12 38 L22 24 M36 38 L26 24" strokeWidth="3.5" />
+      <path d="M12 44 H36" />
+    </g>
+  ),
+  exam: (
+    <g fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="9" y="6" width="30" height="38" rx="4" />
+      <path d="M16 18 L20 22 L27 14 M16 32 H32" />
+    </g>
+  ),
   check: (
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       <path d="M9 25 L20 35 L39 13" />

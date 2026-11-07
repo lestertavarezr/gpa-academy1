@@ -1,0 +1,403 @@
+{
+ "meta": {
+  "project": "GPA Academy — animaciones cinematográficas (video 03)",
+  "fps": 25,
+  "width": 1080,
+  "height": 1920,
+  "durationInFrames": 280,
+  "durationSeconds": 11.2,
+  "source": "public/03/original.mp4",
+  "personMatte": "public/03/person.webm",
+  "brand": {
+   "navy": "#0B1E3D",
+   "cyan": "#00C2D1",
+   "gold": "#C9A227",
+   "white": "#FFFFFF"
+  },
+  "safeAreaReels": {
+   "top": 250,
+   "bottom": 340,
+   "left": 60,
+   "right": 100
+  },
+  "howToEdit": "Cambia 'start'/'end' (segundos), 'position' (px en 1080x1920), 'props' o 'enabled' y recarga Remotion Studio."
+ },
+ "animations": [
+  {
+   "id": "hud-frame",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.15,
+   "end": 11.2,
+   "narration": "(toda la narración)",
+   "trigger": "identidad visual continua",
+   "layer": "front",
+   "position": {
+    "x": 0,
+    "y": 0,
+    "w": 1080,
+    "h": 1920
+   },
+   "transition": {
+    "in": 0.8,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "frame",
+    "tag": "GPA ACADEMY"
+   }
+  },
+  {
+   "id": "halo",
+   "component": "MedicalHUD",
+   "enabled": true,
+   "start": 0.0,
+   "end": 11.2,
+   "narration": "(toda la narración)",
+   "trigger": "atmósfera holográfica 3D detrás del presentador",
+   "layer": "behind",
+   "position": {
+    "x": 90,
+    "y": -60,
+    "w": 900,
+    "h": 900
+   },
+   "transition": {
+    "in": 1.0,
+    "out": 0.0,
+    "style": "fade"
+   },
+   "props": {
+    "variant": "halo"
+   }
+  },
+  {
+   "id": "learning-methods",
+   "component": "CourseInfoCard",
+   "enabled": true,
+   "start": 0.0,
+   "end": 6.7,
+   "narration": "Aprenderás con vídeos, presentaciones, podcast, simuladores virtuales y evaluaciones por tema",
+   "trigger": "cada modalidad aparece cuando se nombra",
+   "layer": "front",
+   "position": {
+    "x": 150,
+    "y": 770,
+    "w": 780,
+    "h": 372
+   },
+   "transition": {
+    "in": 0.3,
+    "out": 0.4,
+    "style": "rise"
+   },
+   "props": {
+    "rowH": 52,
+    "badge": {
+     "text": "Aprenderás con",
+     "at": 0.0
+    },
+    "items": [
+     {
+      "text": "Vídeos",
+      "at": 1.3,
+      "icon": "play"
+     },
+     {
+      "text": "Presentaciones",
+      "at": 2.08,
+      "icon": "slides"
+     },
+     {
+      "text": "Podcast",
+      "at": 3.18,
+      "icon": "mic"
+     },
+     {
+      "text": "Simuladores virtuales",
+      "at": 4.0,
+      "icon": "sim"
+     },
+     {
+      "text": "Evaluaciones por tema",
+      "at": 5.34,
+      "icon": "exam"
+     }
+    ]
+   }
+  },
+  {
+   "id": "simulator-right",
+   "component": "SimulationPreview",
+   "enabled": true,
+   "start": 3.9,
+   "end": 6.6,
+   "narration": "simuladores virtuales",
+   "trigger": "simuladores virtuales (4.00s) → vista de simulación",
+   "layer": "behind",
+   "position": {
+    "x": 760,
+    "y": 190,
+    "w": 300,
+    "h": 300
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "slide-right"
+   },
+   "props": {
+    "label": "SIMULADOR VIRTUAL"
+   }
+  },
+  {
+   "id": "kw-paso",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 7.0,
+   "end": 8.95,
+   "narration": "para que avances paso a paso",
+   "trigger": "paso a paso (7.48s – 8.16s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Paso",
+      "at": 7.48
+     },
+     {
+      "text": "a",
+      "at": 7.98
+     },
+     {
+      "text": "paso",
+      "at": 8.16
+     }
+    ],
+    "accent": "cyan",
+    "progress": {
+     "from": 7.48,
+     "to": 8.55
+    }
+   }
+  },
+  {
+   "id": "kw-practiques",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 8.9,
+   "end": 10.3,
+   "narration": "practiques antes",
+   "trigger": "practiques antes (8.96s – 9.40s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.25,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Practiques",
+      "at": 8.96
+     },
+     {
+      "text": "antes",
+      "at": 9.4
+     }
+    ],
+    "accent": "white"
+   }
+  },
+  {
+   "id": "lamp-right",
+   "component": "SurgicalInstruments",
+   "enabled": true,
+   "start": 10.28,
+   "end": 11.2,
+   "narration": "entrar al quirófano",
+   "trigger": "quirófano (10.38s) → lámpara quirúrgica",
+   "layer": "behind",
+   "position": {
+    "x": 770,
+    "y": 175,
+    "w": 280,
+    "h": 420
+   },
+   "transition": {
+    "in": 0.4,
+    "out": 0.0,
+    "style": "slide-right"
+   },
+   "props": {
+    "variant": "lamp"
+   }
+  },
+  {
+   "id": "kw-quirofano",
+   "component": "AnimatedKeywords",
+   "enabled": true,
+   "start": 10.3,
+   "end": 11.2,
+   "narration": "al quirófano",
+   "trigger": "quirófano (10.38s)",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.35,
+    "out": 0.0,
+    "style": "scale"
+   },
+   "props": {
+    "variant": "headline",
+    "items": [
+     {
+      "text": "Quirófano",
+      "at": 10.38
+     }
+    ],
+    "accent": "gold"
+   }
+  },
+  {
+   "id": "captions",
+   "component": "Captions",
+   "enabled": true,
+   "start": 0.0,
+   "end": 11.2,
+   "narration": "(subtítulos dinámicos palabra por palabra)",
+   "trigger": "transcripción Whisper",
+   "layer": "front",
+   "position": {
+    "x": 50,
+    "y": 1395,
+    "w": 980,
+    "h": 175
+   },
+   "transition": {
+    "in": 0.0,
+    "out": 0.0,
+    "style": "none"
+   },
+   "props": {
+    "groups": [
+     {
+      "words": [
+       0,
+       2
+      ],
+      "start": 0.0,
+      "end": 1.74,
+      "text": "Aprenderás con vídeos,"
+     },
+     {
+      "words": [
+       3,
+       4
+      ],
+      "start": 2.08,
+      "end": 3.56,
+      "text": "presentaciones, podcast,"
+     },
+     {
+      "words": [
+       5,
+       7
+      ],
+      "start": 4.0,
+      "end": 5.34,
+      "text": "simuladores virtuales y"
+     },
+     {
+      "words": [
+       8,
+       10
+      ],
+      "start": 5.34,
+      "end": 6.5,
+      "text": "evaluaciones por tema"
+     },
+     {
+      "words": [
+       11,
+       16
+      ],
+      "start": 6.5,
+      "end": 8.52,
+      "text": "para que avances paso a paso,"
+     },
+     {
+      "words": [
+       17,
+       20
+      ],
+      "start": 8.96,
+      "end": 10.2,
+      "text": "practiques antes de entrar"
+     },
+     {
+      "words": [
+       21,
+       23
+      ],
+      "start": 10.2,
+      "end": 11.18,
+      "text": "al quirófano y..."
+     }
+    ]
+   }
+  },
+  {
+   "id": "call-to-action",
+   "component": "CallToAction",
+   "enabled": false,
+   "start": 0,
+   "end": 0,
+   "narration": "(no mencionado)",
+   "trigger": "—",
+   "layer": "front",
+   "position": {
+    "x": 130,
+    "y": 780,
+    "w": 820,
+    "h": 330
+   },
+   "transition": {
+    "in": 0.45,
+    "out": 0.35,
+    "style": "rise"
+   },
+   "props": {
+    "headline": "Inscríbete",
+    "sub": "GPA Academy",
+    "at": 0
+   },
+   "note": "Disponible. Desactivado: el clip termina en «…quirófano y…» sin invitar a inscribirse."
+  }
+ ]
+}

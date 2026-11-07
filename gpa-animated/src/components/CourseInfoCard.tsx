@@ -15,9 +15,10 @@ export const CourseInfoCard: React.FC<{
   /** Compatibilidad con el formato simple */
   title?: string;
   lines?: string[];
+  rowH?: number;
   box: {w: number; h: number};
   startSec?: number;
-}> = ({badge, items = [], title, lines = [], box, startSec = 0}) => {
+}> = ({badge, items = [], title, lines = [], rowH = 58, box, startSec = 0}) => {
   const t = useAbsSeconds();
   const panel = useSpringAt(startSec, smooth);
   const list: Item[] = items.length ? items : lines.map((text, i) => ({text, at: startSec + 0.3 + i * 0.2, icon: 'check'}));
@@ -47,7 +48,7 @@ export const CourseInfoCard: React.FC<{
                 display: 'flex',
                 alignItems: 'center',
                 gap: 18,
-                height: 58,
+                height: rowH,
                 padding: '0 18px 0 10px',
                 borderRadius: 16,
                 background: active ? 'linear-gradient(90deg, rgba(0,194,209,0.26), rgba(0,194,209,0.02))' : 'rgba(255,255,255,0.04)',

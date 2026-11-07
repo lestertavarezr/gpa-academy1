@@ -3,9 +3,9 @@ import {BRAND, FONT} from '../lib/brand';
 import {useAbsSeconds, useSpringAt, smooth} from '../lib/anim';
 
 /** Vista previa de simulación quirúrgica (campo laparoscópico esquemático con instrumentos). */
-export const SimulationPreview: React.FC<{label?: string; at?: number; box: {w: number; h: number}}> = ({label = 'SIMULACIÓN', at = 0, box}) => {
+export const SimulationPreview: React.FC<{label?: string; at?: number; startSec?: number; box: {w: number; h: number}}> = ({label = 'SIMULACIÓN', at, startSec = 0, box}) => {
   const t = useAbsSeconds();
-  const p = useSpringAt(at, smooth);
+  const p = useSpringAt(at ?? startSec, smooth);
   const s = Math.min(box.w, box.h);
   const a = Math.sin(t * 1.3) * 18;
   const b = Math.cos(t * 1.1) * 14;
@@ -26,7 +26,7 @@ export const SimulationPreview: React.FC<{label?: string; at?: number; box: {w: 
           <path d={`M260 ${240 - b} L${160 - a} ${170}`} />
         </g>
         <circle cx={155} cy={165} r={8} fill="none" stroke={BRAND.gold} strokeWidth="2" />
-        <text x="150" y="292" textAnchor="middle" fontFamily={FONT.display} fontWeight={700} fontSize="16" letterSpacing="6" fill={BRAND.cyan}>{label}</text>
+        <text x="150" y="292" textAnchor="middle" fontFamily={FONT.display} fontWeight={700} fontSize="15" letterSpacing="4" fill={BRAND.cyan}>{label}</text>
       </svg>
     </div>
   );
