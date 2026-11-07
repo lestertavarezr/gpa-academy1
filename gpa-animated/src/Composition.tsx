@@ -12,6 +12,7 @@ import {SimulationPreview} from './components/SimulationPreview';
 import {CallToAction} from './components/CallToAction';
 import {PresenterCard} from './components/PresenterCard';
 import {BrandReveal} from './components/BrandReveal';
+import {PortalDoors, AscendingSteps} from './components/Metaphors';
 import {Captions} from './components/Captions';
 
 /** Registro: nombre en animation-timeline.json → componente React. */
@@ -27,6 +28,8 @@ const REGISTRY: Record<string, React.ComponentType<any>> = {
   PresenterCard,
   BrandReveal,
   Captions,
+  PortalDoors,
+  AscendingSteps,
 };
 
 const FONTS: [string, string, number][] = [

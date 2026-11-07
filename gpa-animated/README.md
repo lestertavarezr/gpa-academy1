@@ -15,7 +15,7 @@ src/components/                     ← AnimatedKeywords, MedicalHUD, SurgicalIn
 scripts/                            ← stills.sh (capturas) · render.sh (render + audio original)
 out/                                ← renders finales y capturas
 ```
-Videos incluidos: **01** (presentación del Dr. Tavares), **02** (formación, certificación y programas online), **03** (modalidades de aprendizaje, simulador y práctica antes del quirófano) y **04** (certificación, perfil profesional y destinos).
+Videos incluidos: **01** (presentación del Dr. Tavares), **02** (formación, certificación y programas online), **03** (modalidades de aprendizaje, simulador y práctica antes del quirófano) **04** (certificación, perfil profesional y destinos) y **05** (cierre: «Elige tu programa… ¡Te esperamos!»).
 Capas (de abajo a arriba): video → tinte navy → capas `behind` → presentador (alfa) → capas `front`.
 
 ## Comandos

@@ -3,7 +3,7 @@ import {BRAND, FONT} from '../lib/brand';
 import {useAbsSeconds, useSpringAt, snappy} from '../lib/anim';
 
 /** Cierre animado de invitación. Úsalo solo si la narración invita a inscribirse. */
-export const CallToAction: React.FC<{headline: string; sub?: string; at?: number; box: {w: number; h: number}}> = ({headline, sub, at = 0, box}) => {
+export const CallToAction: React.FC<{headline: string; sub?: string; at?: number; size?: number; box: {w: number; h: number}}> = ({headline, sub, at = 0, size = 76, box}) => {
   const t = useAbsSeconds();
   const p = useSpringAt(at, snappy);
   const pulse = 1 + 0.04 * Math.sin((t - at) * 5);
@@ -13,7 +13,7 @@ export const CallToAction: React.FC<{headline: string; sub?: string; at?: number
         style={{
           fontFamily: FONT.display,
           fontWeight: 800,
-          fontSize: 76,
+          fontSize: size,
           letterSpacing: 3,
           textTransform: 'uppercase',
           color: BRAND.navy,
